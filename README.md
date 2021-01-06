@@ -2,10 +2,10 @@
 
 ## Co-op Changes
 The source code here has the same requirements as the original repo in order for it to work. Only the code and my changes have been included. Also, the string compression scripts are by Homunculus: https://marketplace.yoyogames.com/assets/4560/strict .
-
+Currently syncs all items, metroids, events, and power-ups.
 Currently, pressing F1 will make an attempt to connect to the server. F2 will disconnect from the server. DO NOT try to connect on the menu because the game will crash as the script that shows the connect/disconnect prompt can not run until you are in-game.
 Put the ip of the server you want to connect to into the ipaddress.txt. The server operates on port 64198 and cannot be changed at the moment.
-The server can be found here: 
+The server can be found here: https://github.com/lassiterm/AM2R-Server
 
 ## What is this?
 The source code for the AM2R Community Updates 1.5.x branch, free of copyrighted assets and trademarks.
