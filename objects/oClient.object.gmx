@@ -247,6 +247,7 @@ if(keyboard_check_pressed(vk_f2)){
     instance_destroy();
 }
 
+/*
 if(keyboard_check_pressed(vk_f3)){
     var f = 0;
     repeat(41){
@@ -254,6 +255,7 @@ if(keyboard_check_pressed(vk_f3)){
         f++;
     }
 }
+*/
 </string>
           </argument>
         </arguments>
