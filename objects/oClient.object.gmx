@@ -25,8 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>strict_init("dictionary.json");
+            <string>network_set_config(network_config_connect_timeout, 5000);
+strict_init("dictionary.json");
 canSend = false;
+connected = false;
 alarm[1] = 300;
 var type;
 type = network_socket_tcp;
@@ -85,6 +87,9 @@ alarm[0] = 5;
 buffer_delete(buffer);
 ds_grid_destroy(global.onlineList);
 ds_grid_destroy(global.onlineSend);
+if(connected){
+    display_itemmsg("Disconnected", "", "", "");
+}
 </string>
           </argument>
         </arguments>
@@ -228,7 +233,17 @@ if(!canSend){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(keyboard_check_pressed(vk_f2)){
+            <string>if(!connected){
+    if(isConnected &gt;= 0){
+        connected = true;
+        display_itemmsg("Connected", "", "", "");
+    } else {
+        instance_destroy();
+        display_itemmsg("Failed to connect", "Please try again", "", "");
+    }
+}
+
+if(keyboard_check_pressed(vk_f2)){
     instance_destroy();
 }
 
@@ -313,6 +328,9 @@ switch(type_event){
 buffer_delete(buffer);
 ds_grid_destroy(global.onlineList);
 ds_grid_destroy(global.onlineSend);
+if(connected){
+    display_itemmsg("Disconnected", "", "", "");
+}
 </string>
           </argument>
         </arguments>

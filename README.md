@@ -1,7 +1,7 @@
 # AM2R-Community-Updates
 
 ## Co-op Changes
-The source code here has the same requirements as the original repo in order for it to work. Only the code and my changes have been included. Also, the string compression scripts are by Homunculus: https://marketplace.yoyogames.com/assets/4560/strict .
+The source code here has the same requirements as the original repo in order for it to work. Only the code and my changes have been included. Also, the string compression scripts are by Homunculus: https://marketplace.yoyogames.com/assets/4560/strict 
 
 Currently syncs all items, metroids, events, and power-ups.
 
