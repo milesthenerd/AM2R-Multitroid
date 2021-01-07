@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>alarm[0] = 30;
+alarm[1] = 20;
 image_speed = 0.2;
 active = 0;
 btn1_name = "";
@@ -34,6 +35,37 @@ itemtype = 0;
 itemid = 0;
 text1 = "";
 text2 = "";
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/*
+if(instance_exists(oClient)){
+    itemIndex = findIndex(global.itemlist, self.itemid);
+    if(itemIndex == -1){
+        instance_destroy();
+    }
+}
+alarm[1] = 20;
+*/
 </string>
           </argument>
         </arguments>
@@ -152,6 +184,12 @@ instance_destroy();
           <argument>
             <kind>1</kind>
             <string>
+/*
+if(global.item[itemid] == 1){
+    instance_destroy();
+}
+*/
+
 if (global.item[itemid])
 {        
     myposx = floor(x / 320);

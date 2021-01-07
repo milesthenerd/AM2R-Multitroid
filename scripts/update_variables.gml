@@ -212,8 +212,23 @@ switch(argument0){
         break;
     case "disablesame":
         for(var i=0; i<ds_grid_height(global.onlineSend); i++){
-            if(global.onlineSend[# 2, i] != 0){
+            if(global.onlineSend[# 2, i] != -1 && i != 0 && i != 1 && i != 3){
                 global.onlineList[# 1, i] = global.onlineSend[# 1, i];
+            }
+            
+            if((i == 0 || i == 1 || i == 3) && (is_array(global.onlineSend[# 1, i]))){
+                var arrList = global.onlineList[# 1, i];
+                var arrSend = global.onlineSend[# 1, i];
+                show_debug_message(arrList);
+                show_debug_message(arrSend);
+                for(var f=0; f<array_length_1d(arrList); f++){
+                    for(var v=0; v<array_height_2d(arrList); v++){
+                        if(f == arrSend[v, 1]){
+                            arrList[f] = arrSend[v, 0];
+                        }
+                    }
+                }
+                global.onlineList[# 1, i] = arrList;
             }
         }
         break;

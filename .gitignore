@@ -8,6 +8,8 @@ scripts/pal_swap_*
 *.wav
 *.shader
 \#backups
+exports
+datafiles
 help.rtf
 extensions
 AM2R.exe
