@@ -50,14 +50,21 @@ for(i=0; i&lt;350; i++){
     global.itemlist[i] = i;
 }
 
-global.onlineList = ds_grid_create(3, 33);
-global.onlineSend = ds_grid_create(3, 33);
+global.clientID = 0;
+global.packetID = 0;
+global.receivedPacketID = 0;
+global.onlineList = ds_grid_create(3, 34);
+global.onlineSend = ds_grid_create(3, 34);
+global.onlineResend = ds_grid_create(3, 34);
+global.storedBuffers = ds_grid_create(2, 1);
+global.receivedPacketIDs = ds_list_create();
 ds_grid_clear(global.onlineSend, -1);
+ds_grid_clear(global.onlineResend, -1);
 for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
     ds_grid_set(global.onlineList, 2, i, i);
 }
 
-update_variables("prev");
+update_variables("initprev");
 
 update_variables("onlinevars");
 
@@ -88,6 +95,9 @@ alarm[0] = 5;
 buffer_delete(buffer);
 ds_grid_destroy(global.onlineList);
 ds_grid_destroy(global.onlineSend);
+ds_grid_destroy(global.onlineResend);
+ds_grid_destroy(global.storedBuffers);
+ds_list_destroy(global.receivedPacketIDs);
 if(connected){
     popup_text("Disconnected");
 }
@@ -155,8 +165,10 @@ for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
 
     if(i == 0){
         var v = 0;
-        for(var f=0; f&lt;array_length_1d(global.item); f++){
-            if(global.itemPrev[f] != global.item[f]){
+        var itemPrev = global.onlineList[# 0, 0]
+        var item = global.onlineList[# 1, 0]
+        for(var f=0; f&lt;array_length_1d(item); f++){
+            if(itemPrev[f] != item[f]){
                 global.itemChanges[v, 0] = global.item[f];
                 global.itemChanges[v, 1] = f;
                 global.onlineSend[# 1, 0] = global.itemChanges;
@@ -172,8 +184,10 @@ for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
     
     if(i == 1){
         var v = 0;
-        for(var f=0; f&lt;array_length_1d(global.metdead); f++){
-            if(global.metdeadPrev[f] != global.metdead[f]){
+        var metdeadPrev = global.onlineList[# 0, 1]
+        var metdead = global.onlineList[# 1, 1]
+        for(var f=0; f&lt;array_length_1d(metdead); f++){
+            if(metdeadPrev[f] != metdead[f]){
                 global.metdeadChanges[v, 0] = global.metdead[f];
                 global.metdeadChanges[v, 1] = f;
                 global.onlineSend[# 1, 1] = global.metdeadChanges;
@@ -189,8 +203,10 @@ for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
     
     if(i == 3){
         var v = 0;
-        for(var f=0; f&lt;array_length_1d(global.event); f++){
-            if(global.eventPrev[f] != global.event[f]){
+        var eventPrev = global.onlineList[# 0, 3]
+        var event = global.onlineList[# 1, 3]
+        for(var f=0; f&lt;array_length_1d(event); f++){
+            if(eventPrev[f] != event[f]){
                 global.eventChanges[v, 0] = global.event[f];
                 global.eventChanges[v, 1] = f;
                 global.onlineSend[# 1, 3] = global.eventChanges;
@@ -216,14 +232,24 @@ if(canSend){
     alignment = 1;
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 0);
     buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineSend)));
+    buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u32, global.packetID);
+    global.storedBuffers[# 0, global.packetID] = global.onlineSend;
+    global.storedBuffers[# 1, global.packetID] = global.clientID;
+    show_debug_message("packetID = " + string(global.packetID));
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
     canSend = false;
+    global.packetID++;
+    ds_grid_resize(global.storedBuffers, 2, global.packetID + 1);
 }
 
 if(!canSend){
     alarm[0] = 30;
 }
+
+check_areaclear();
 </string>
           </argument>
         </arguments>
@@ -299,24 +325,29 @@ switch(type_event){
         var _buffer = ds_map_find_value(async_load, "buffer");
         show_debug_message(buffer_get_size(_buffer));
         buffer_seek(_buffer, buffer_seek_start, 0);
-        ds_grid_read(global.onlineSend, strict_decompress(buffer_read(_buffer, buffer_string)));
-        update_variables("disablesame");
-        update_variables("replaceglobalvars");
-        update_variables("prev");
-        global.itemChanges = 0;
-        global.metdeadChanges = 0;
-        global.eventChanges = 0;
-        alarm[0] = 30;
-        ds_grid_clear(global.onlineSend, -1);
-        /*
-        for(var i=0; i&lt;array_length_1d(vars); i++){
-            if(global.onlineVars[i, 1] != vars[i, 1]){
-                global.onlineVars[i, 1] = vars[i, 1];
-                global.onlineVars[i, 0] = global.onlineVars[i, 1];
-            }
+        msgid = buffer_read(_buffer, buffer_u8);
+        switch(msgid){
+            case 0:
+                global.clientID = buffer_read(_buffer, buffer_u8);
+                break;
+            case 1:
+                ds_grid_read(global.onlineSend, strict_decompress(buffer_read(_buffer, buffer_string)));
+                global.receivedClientID = buffer_read(_buffer, buffer_u8);
+                if(global.receivedClientID == global.clientID){
+                    global.receivedPacketIDs[| ds_list_size(global.receivedPacketIDs)] = buffer_read(_buffer, buffer_u32);
+                }
+                update_variables("disablesame");
+                update_variables("replaceglobalvars");
+                update_variables("updateprev");
+                update_variables("resendpacket");
+                global.itemChanges = 0;
+                global.metdeadChanges = 0;
+                global.eventChanges = 0;
+                alarm[0] = 30;
+                ds_grid_clear(global.onlineSend, -1);
+                show_debug_message(string(global.receivedClientID));
+                break;
         }
-        */
-        break;
 }
 
 
@@ -346,6 +377,9 @@ switch(type_event){
 buffer_delete(buffer);
 ds_grid_destroy(global.onlineList);
 ds_grid_destroy(global.onlineSend);
+ds_grid_destroy(global.onlineResend);
+ds_grid_destroy(global.storedBuffers);
+ds_list_destroy(global.receivedPacketIDs);
 </string>
           </argument>
         </arguments>
