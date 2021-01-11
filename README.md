@@ -14,11 +14,9 @@ The server can be found here: https://github.com/lassiterm/AM2R-Server
 The adjusted patcher for the AM2R mod can be found here: https://github.com/lassiterm/AM2R-Autopatcher
 
 ## To-do List
- - Handle item and metroid updates if players are in the same room
- - Sync player deaths
  - Save syncing
  - Message that tells you what power-up has been obtained
- - More definitive player data tracking by the server
+ - More definitive player data tracking by the server - kinda done but not quite
  - Other things I haven't thought of yet, so if you have any ideas or suggestions, let me know in the AM2R Discord Server
 
 ## What is this?
