@@ -209,6 +209,75 @@ if (open == 0) {
         if (hlalpha &gt; 1) hlalpha = 1;
     }
 }
+
+if(room == rm_a7b05){
+    if(global.metdead[46] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+    if(oControl.mod_monstersextreme == 1 &amp;&amp; global.metdead[67] == 1 &amp;&amp; global.metdead[68] == 1 &amp;&amp; global.metdead[81] == 1 &amp;&amp; global.metdead[82] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+    if(oControl.mod_monstersextreme == 1 &amp;&amp; oControl.mod_fusion == 1 &amp;&amp; global.metdead[62] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+}
+
+if(room == rm_a7b06){
+    if(global.metdead[47] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+    if(oControl.mod_monstersextreme == 1 &amp;&amp; global.metdead[69] == 1 &amp;&amp; global.metdead[83] == 1 &amp;&amp; global.metdead[70] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+    if((oControl.difficulty &gt;= 2 || oControl.mod_fusion == 1 || oControl.mod_monstersextreme == 1) &amp;&amp; global.metdead[54] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+}
+
+if(room == rm_a7b07){
+    if(global.metdead[48] == 1 &amp;&amp; global.metdead[49] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+}
+
+if(room == rm_a7b08){
+    if(global.metdead[50] == 1 &amp;&amp; global.metdead[51] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+}
+
+if(room == rm_a7b08A){
+    if(global.metdead[52] == 1 &amp;&amp; global.metdead[53] == 1){
+        if(lock == 4){
+            lock = 0;
+            open = 1;
+        }
+    }
+}
 </string>
           </argument>
         </arguments>

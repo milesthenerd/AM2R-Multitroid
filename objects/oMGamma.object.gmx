@@ -331,7 +331,10 @@ if (state == 5 || dodging) alarm[2] = 3;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (active == 1) {
+            <string>if(global.metdead[myid] == 1){
+    instance_destroy();
+}
+if (active == 1) {
     if (state == 1) {
         xVel = 0;
         yVel = 0;

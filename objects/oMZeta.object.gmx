@@ -412,7 +412,10 @@ if (instance_exists(mask_obj)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var msl, fr_speed;
+            <string>if(global.metdead[myid] == 1){
+    instance_destroy();
+}
+var msl, fr_speed;
 if (target_mode == 0) {
     targetx = oCharacter.x;
     targety = oCharacter.y;

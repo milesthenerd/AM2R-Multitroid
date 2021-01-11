@@ -223,7 +223,10 @@ if (instance_exists(spark3)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var tgty;
+            <string>if(global.metdead[myid] == 1){
+    instance_destroy();
+}
+var tgty;
 if (state == 0) {
     scale = 0.5;
     image_blend = c_black;
