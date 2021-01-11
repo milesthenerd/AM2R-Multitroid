@@ -31,6 +31,8 @@ canSend = false;
 connected = false;
 queenHealthWait = false;
 queenDead = false;
+seedSent = false;
+seedReceived = false;
 var type;
 type = network_socket_tcp;
 var file = file_text_open_read(working_directory + "\ipaddress.txt");
@@ -281,7 +283,6 @@ if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
     }
 }
-
 </string>
           </argument>
         </arguments>
@@ -363,32 +364,20 @@ if(!is_undefined(oQueen.phase)){
     }
 }
 
-/*
-if(room == rm_a7b11 &amp;&amp; !queenHealthSet){
-    queenHealthSet = true;
-    global.queenhealthPrev = oQueenHead.myhealth;
-    global.queenphasePrev = oQueen.phase;
-    show_debug_message("queen health initialized");
-} else if(room == rm_a7c01){
-    queenHealthSet = false;
+if(oControl.seed != 0 &amp;&amp; !is_undefined(oControl.seed) &amp;&amp; !seedSent){
+    seedSent = true;
+    buffer_delete(buffer);
+    var size, type, alignment;
+    size = 1024;
+    type = buffer_grow;
+    alignment = 1;
+    buffer = buffer_create(size, type, alignment);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 3);
+    buffer_write(buffer, buffer_f64, oControl.seed);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    popup_text("Seed sent");
 }
-
-if(queenHealthSet){
-    if(room != rm_a7b11){
-        queenHealthWait = true;
-        global.queenphasePrev = oQueen.phase;
-    } else if(room == rm_a7b11 &amp;&amp; (room_last == rm_subscreen || room_last == maproom || room_last == subscreenroom)){
-        if(queenHealthWait){
-            queenHealthWait = false;
-            oQueen.phase = global.queenphasePrev;
-            global.queenhealthPrev = oQueenHead.myhealth;
-        }
-    }
-    if(room == rm_a7b11 &amp;&amp; phase == oQueen.phase){
-        oQueenHead.myhealth = global.queenhealthPrev;
-    }
-}
-*/
 
 if(keyboard_check_pressed(vk_f2)){
     instance_destroy();
@@ -500,6 +489,18 @@ switch(type_event){
                         
                     }
                 }
+                break;
+            case 4:
+                seed = buffer_read(_buffer, buffer_f64);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID){
+                    if(oControl.seed != seed &amp;&amp; !seedReceived){
+                        oControl.seed = seed;
+                        seedReceived = true;
+                        popup_text("Seed received");
+                    }
+                }
+                break;
         }
 }
 
