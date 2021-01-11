@@ -9,6 +9,10 @@ scripts/pal_swap_*
 *.shader
 \#backups
 help.rtf
+datafiles/lang/*
+datafiles/mods/*
+datafiles/modifiers.ini
+exports
 extensions
 AM2R.exe
 data.win
