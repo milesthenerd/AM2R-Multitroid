@@ -5,7 +5,7 @@ The source code here has the same requirements as the original repo in order for
 
 Currently syncs all items, metroids, events, and power-ups.
 
-Currently, pressing F1 will make an attempt to connect to the server. F2 will disconnect from the server. 
+Currently, pressing F1 will make an attempt to connect to the server. F2 will disconnect from the server. F3 will show the current random seed.
 
 Put the ip of the server you want to connect to into the ipaddress.txt. The server operates on port 64198 and cannot be changed at the moment.
 
