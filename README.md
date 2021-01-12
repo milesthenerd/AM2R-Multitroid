@@ -11,7 +11,6 @@ Put the ip of the server you want to connect to into the ipaddress.txt. The serv
 
 The server can be found here: https://github.com/lassiterm/AM2R-Server
 
-The adjusted patcher for the AM2R mod can be found here: https://github.com/lassiterm/AM2R-Autopatcher
 
 ## To-do List
  - Save syncing
