@@ -29,7 +29,9 @@
 strict_init("dictionary.json");
 canSend = false;
 connected = false;
-alarm[1] = 300;
+queenHealthWait = false;
+queenDead = false;
+seed = undefined;
 var type;
 type = network_socket_tcp;
 var file = file_text_open_read(working_directory + "\ipaddress.txt");
@@ -45,22 +47,26 @@ type = buffer_grow;
 alignment = 1;
 buffer = buffer_create(size, type, alignment);
 
-global.itemlist[0] = 0;
-for(i=0; i&lt;350; i++){
-    global.itemlist[i] = i;
-}
+global.queenhealthPrev = 600;
+global.queenphasePrev = 0;
 
-global.onlineList = ds_grid_create(3, 33);
-global.onlineSend = ds_grid_create(3, 33);
+global.clientID = 0;
+global.packetID = 0;
+global.receivedPacketID = 0;
+global.onlineList = ds_grid_create(3, 35);
+global.onlineSend = ds_grid_create(3, 35);
+global.onlineReceived = ds_grid_create(3, 35);
+global.storedBuffers = ds_grid_create(2, 1);
+global.receivedPacketIDs = ds_list_create();
+ds_grid_clear(global.onlineSend, -1);
+ds_grid_clear(global.onlineReceived, -1);
 for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
     ds_grid_set(global.onlineList, 2, i, i);
 }
 
-update_variables("prev");
+update_variables("initprev");
 
 update_variables("onlinevars");
-
-alarm[0] = 5;
 </string>
           </argument>
         </arguments>
@@ -87,8 +93,11 @@ alarm[0] = 5;
 buffer_delete(buffer);
 ds_grid_destroy(global.onlineList);
 ds_grid_destroy(global.onlineSend);
+ds_grid_destroy(global.onlineReceived);
+ds_grid_destroy(global.storedBuffers);
+ds_list_destroy(global.receivedPacketIDs);
 if(connected){
-    display_itemmsg("Disconnected", "", "", "");
+    popup_text("Disconnected");
 }
 </string>
           </argument>
@@ -112,12 +121,18 @@ if(connected){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*
-if(isConnected &lt; 0){
-    isConnected = network_connect(socket, ipaddress, port);
+            <string>if(queenHealthResetQueued){
+    if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+        oQueenHead.myhealth = queenHealth;
+        oQueen.phase = phase;
+        if(state == 100){
+            oQueen.state = state;
+            oQueen.statetime = 0;
+        }
+        queenHealthResetQueued = false;
+    }
+    alarm[1] = 5;
 }
-alarm[1] = 300;
-*/
 </string>
           </argument>
         </arguments>
@@ -148,54 +163,70 @@ for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
         global.onlineSend[# 0, i] = global.onlineList[# 0, i];
         global.onlineSend[# 1, i] = global.onlineList[# 1, i];
         global.onlineSend[# 2, i] = global.onlineList[# 2, i];
+        show_debug_message(string(global.onlineSend[# 0, i]) + " " + string(global.onlineSend[# 1, i]) + " " + string(global.onlineSend[# 2, i]));
         canSend = true;
         alarm[0] = 600;
     }
 
     if(i == 0){
-        for(var f=0; f&lt;array_length_1d(global.item); f++){
-            if(global.itemPrev[f] != global.item[f]){
-                global.onlineSend[# 0, 0] = global.onlineList[# 0, 0];
-                global.onlineSend[# 1, 0] = global.onlineList[# 1, 0];
+        var v = 0;
+        var itemPrev = global.onlineList[# 0, 0];
+        var item = global.onlineList[# 1, 0];
+        for(var f=0; f&lt;array_length_1d(item); f++){
+            if(itemPrev[f] != item[f]){
+                global.itemChanges[v, 0] = global.item[f];
+                global.itemChanges[v, 1] = f;
+                global.onlineSend[# 1, 0] = global.itemChanges;
                 global.onlineSend[# 2, 0] = global.onlineList[# 2, 0];
                 show_debug_message(string(global.itemPrev[f]) + " " + string(global.item[f]));
                 show_debug_message("item changed");
                 canSend = true;
+                v++;
+                
             }
         }
     }
     
     if(i == 1){
-        for(var f=0; f&lt;array_length_1d(global.metdead); f++){
-            if(global.metdeadPrev[f] != global.metdead[f]){
-                global.onlineSend[# 0, 1] = global.onlineList[# 0, 1];
-                global.onlineSend[# 1, 1] = global.onlineList[# 1, 1];
+        var v = 0;
+        var metdeadPrev = global.onlineList[# 0, 1];
+        var metdead = global.onlineList[# 1, 1];
+        for(var f=0; f&lt;array_length_1d(metdead); f++){
+            if(metdeadPrev[f] != metdead[f]){
+                global.metdeadChanges[v, 0] = global.metdead[f];
+                global.metdeadChanges[v, 1] = f;
+                global.onlineSend[# 1, 1] = global.metdeadChanges;
                 global.onlineSend[# 2, 1] = global.onlineList[# 2, 1];
                 show_debug_message(string(global.metdeadPrev[f]) + " " + string(global.metdead[f]));
                 show_debug_message("metdead changed");
                 canSend = true;
+                v++;
+                
             }
         }
     }
     
     if(i == 3){
-        for(var f=0; f&lt;array_length_1d(global.event); f++){
-            if(global.eventPrev[f] != global.event[f]){
-                global.onlineSend[# 0, 3] = global.onlineList[# 0, 3];
-                global.onlineSend[# 1, 3] = global.onlineList[# 1, 3];
+        var v = 0;
+        var eventPrev = global.onlineList[# 0, 3];
+        var event = global.onlineList[# 1, 3];
+        for(var f=0; f&lt;array_length_1d(eventPrev) - 1; f++){
+            if(eventPrev[f] != event[f]){
+                global.eventChanges[v, 0] = global.event[f];
+                global.eventChanges[v, 1] = f;
+                global.onlineSend[# 1, 3] = global.eventChanges;
                 global.onlineSend[# 2, 3] = global.onlineList[# 2, 3];
                 show_debug_message(string(global.eventPrev[f]) + " " + string(global.event[f]));
                 show_debug_message("event changed");
                 canSend = true;
+                v++;
+                
             }
         }
     }
-    
 }
 
 if(canSend){
-    show_debug_message("missiles");
-    show_debug_message(string(global.missilesPrev) + " " + string(global.missiles));
     buffer_delete(buffer);
     var size, type, alignment;
     size = 1024;
@@ -203,13 +234,53 @@ if(canSend){
     alignment = 1;
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 0);
     buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineSend)));
+    buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u32, global.packetID);
+    global.storedBuffers[# 0, global.packetID] = global.onlineSend;
+    global.storedBuffers[# 1, global.packetID] = global.clientID;
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
-    canSend = false;
+    show_debug_message("packetID = " + string(global.packetID));
+    global.packetID++;
+    ds_grid_resize(global.storedBuffers, 2, global.packetID + 1); 
+    ds_grid_clear(global.onlineSend, -1);
 }
 
 if(!canSend){
     alarm[0] = 30;
+}
+
+if(canSend){
+    canSend = false;
+    alarm[0] = 75;
+}
+
+check_areaclear();
+
+if(global.playerhealth &lt;= 0){
+    if(oCharacter.state != oCharacter.DEFEATED){
+        oCharacter.alarm[0] = 6;
+        oCharacter.state = oCharacter.DEFEATED;
+    }
+}
+
+if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+    if(global.queenhealthPrev != oQueenHead.myhealth){
+        show_debug_message("queen health sent " + string(oQueenHead.myhealth));
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 2);
+        buffer_write(buffer, buffer_s16, oQueenHead.myhealth);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        buffer_write(buffer, buffer_s8, oQueen.phase);
+        buffer_write(buffer, buffer_s8, oQueen.state);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    }
 }
 </string>
           </argument>
@@ -236,10 +307,59 @@ if(!canSend){
             <string>if(!connected){
     if(isConnected &gt;= 0){
         connected = true;
-        display_itemmsg("Connected", "", "", "");
+        popup_text("Connected");
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 1);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        alarm[0] = 5;
     } else {
         instance_destroy();
-        display_itemmsg("Failed to connect", "Please try again", "", "");
+        popup_text("Failed to connect");
+    }
+}
+
+if(!is_undefined(oQueen.phase)){
+    if(oQueen.phase &gt;= 1 &amp;&amp; instance_exists(inst_146524)){
+        event_perform_object(oQueenFireball, ev_other, ev_user1);
+    }
+    if(oQueen.phase &gt;= 2 &amp;&amp; instance_exists(inst_146525) &amp;&amp; instance_exists(inst_146520)){
+        event_perform_object(oQueenFireball, ev_other, ev_user2);
+    }
+    if(oQueen.phase &gt;= 3 &amp;&amp; instance_exists(inst_146526) &amp;&amp; instance_exists(inst_146514)){
+        event_perform_object(oQueenFireball, ev_other, ev_user3);
+    }
+    if((oQueen.phase &gt;= 4 || oQueen.phase == 5) &amp;&amp; instance_exists(inst_146527)){
+        event_perform_object(oQueenFireball, ev_other, ev_user4);
+    }
+    if(global.event[303] &gt; 0 &amp;&amp; !queenDead){
+        with(oQueen){
+            height_target_front = 10;
+            height_target_back = 10;
+            head_obj.push = 0;
+            head_obj.canhit = 0;
+            head_obj.state = 100;
+            head_obj.statetime = 0;
+            leg1f_obj.canhit = 0;
+            leg1b_obj.canhit = 0;
+            head_target_x = x + neck_x + 40;
+            head_target_y = y + neck_y + 5;
+            alarm[9] = 1;
+            alarm[10] = 300;
+            head_obj.alarm[9] = 1;
+            head_obj.alarm[10] = 280;
+            canhit = 0;
+            mus_fadeout(musQueen);
+            mus_fadeout(musQueen3);
+            oMusicV2.bossbgm = sndJump;
+            sfx_play(sndQueenDeath);
+        }
+        queenDead = true;
     }
 }
 
@@ -286,21 +406,86 @@ switch(type_event){
         var _buffer = ds_map_find_value(async_load, "buffer");
         show_debug_message(buffer_get_size(_buffer));
         buffer_seek(_buffer, buffer_seek_start, 0);
-        ds_grid_read(global.onlineSend, strict_decompress(buffer_read(_buffer, buffer_string)));
-        update_variables("disablesame");
-        update_variables("replaceglobalvars");
-        update_variables("prev");
-        alarm[0] = 30;
-        ds_grid_clear(global.onlineSend, 0);
-        /*
-        for(var i=0; i&lt;array_length_1d(vars); i++){
-            if(global.onlineVars[i, 1] != vars[i, 1]){
-                global.onlineVars[i, 1] = vars[i, 1];
-                global.onlineVars[i, 0] = global.onlineVars[i, 1];
-            }
+        msgid = buffer_read(_buffer, buffer_u8);
+        switch(msgid){
+            case 0:
+                global.clientID = buffer_read(_buffer, buffer_u8);
+                break;
+            case 1:
+                ds_grid_read(global.onlineReceived, strict_decompress(buffer_read(_buffer, buffer_string)));
+                global.receivedClientID = buffer_read(_buffer, buffer_u8);
+                if(global.receivedClientID == global.clientID){
+                    global.receivedPacketIDs[| global.receivedPacketID] = buffer_read(_buffer, buffer_u32);
+                }
+                global.receivedPacketID++;
+                if(global.receivedClientID != global.clientID){
+                    update_variables("disablesame");
+                    update_variables("replaceglobalvars");
+                    update_variables("updateprev");
+                    alarm[0] = 30;
+                    ds_grid_clear(global.onlineReceived, -1);
+                } 
+                break;
+            case 2:
+                ds_grid_read(global.onlineReceived, strict_decompress(buffer_read(_buffer, buffer_string)));
+                global.receivedClientID = buffer_read(_buffer, buffer_u8);
+                update_variables("disablesame");
+                update_variables("updateprev");
+                global.itemChanges = 0;
+                global.metdeadChanges = 0;
+                global.eventChanges = 0;
+                alarm[0] = 30;
+                ds_grid_clear(global.onlineReceived, -1);
+                break;
+            case 3:
+                queenHealth = buffer_read(_buffer, buffer_s16);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                phase = buffer_read(_buffer, buffer_s8);
+                state = buffer_read(_buffer, buffer_s8);
+                if(clientID != global.clientID){
+                    if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+                        if(oQueen.phase == phase){
+                            if(global.queenhealthPrev != queenHealth){
+                                global.queenhealthPrev = queenHealth;
+                                oQueenHead.myhealth = queenHealth;
+                            }
+                        }
+                        
+                        if(global.queenphasePrev != phase){
+                            global.queenphasePrev = phase;
+                        }
+                    } else if(is_undefined(oQueenHead.myhealth) &amp;&amp; is_undefined(oQueen.phase)){
+                            queenHealthResetQueued = true;
+                            alarm[1] = 5;
+                        }
+                } else {
+                    if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+                        if(oQueen.phase == phase){
+                            if(global.queenhealthPrev != queenHealth){
+                                global.queenhealthPrev = queenHealth;
+                                oQueenHead.myhealth = queenHealth;
+                            }
+                        }
+                        
+                        if(global.queenphasePrev != phase){
+                            global.queenphasePrev = phase;
+                        }
+                        
+                    }
+                }
+                break;
+            case 4:
+                var _seed = buffer_read(_buffer, buffer_f64);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID){
+                    if(seed != _seed){
+                        seed = _seed;
+                        show_debug_message("seed received");
+                        popup_text("Seed received");
+                    }
+                }
+                break;
         }
-        */
-        break;
 }
 
 
@@ -330,9 +515,9 @@ switch(type_event){
 buffer_delete(buffer);
 ds_grid_destroy(global.onlineList);
 ds_grid_destroy(global.onlineSend);
-if(connected){
-    display_itemmsg("Disconnected", "", "", "");
-}
+ds_grid_destroy(global.onlineReceived);
+ds_grid_destroy(global.storedBuffers);
+ds_list_destroy(global.receivedPacketIDs);
 </string>
           </argument>
         </arguments>

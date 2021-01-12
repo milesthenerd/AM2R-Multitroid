@@ -5,7 +5,7 @@ The source code here has the same requirements as the original repo in order for
 
 Currently syncs all items, metroids, events, and power-ups.
 
-Currently, pressing F1 will make an attempt to connect to the server. F2 will disconnect from the server. DO NOT try to connect on the menu because the game will crash as the script that shows the connect/disconnect prompt can not run until you are in-game.
+Currently, pressing F1 will make an attempt to connect to the server. F2 will disconnect from the server. 
 
 Put the ip of the server you want to connect to into the ipaddress.txt. The server operates on port 64198 and cannot be changed at the moment.
 
@@ -16,7 +16,7 @@ The adjusted patcher for the AM2R mod can be found here: https://github.com/lass
 ## To-do List
  - Save syncing
  - Message that tells you what power-up has been obtained
- - More definitive player data tracking by the server
+ - More definitive player data tracking by the server - kinda done but not quite
  - Other things I haven't thought of yet, so if you have any ideas or suggestions, let me know in the AM2R Discord Server
 
 ## What is this?
