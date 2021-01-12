@@ -116,6 +116,7 @@ targety = 0;
 alarm[3] = 1;
 alarm[9] = 1;
 scan_log(14, get_text("ScanEvents", "ScanBioform"), 180, 0);
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -412,8 +413,31 @@ if (instance_exists(mask_obj)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.metdead[myid] == 1){
-    instance_destroy();
+            <string>if(global.metdead[myid] == 1 &amp;&amp; !dead){
+    dead = true;
+    myhealth = 0;
+    if (myhealth &lt;= 0) {
+        state = 100;
+        statetime = 0;
+        alarm[10] = 1;
+        alarm[11] = 160;
+        flashtime = 180;
+        turndelay = 180;
+        PlaySoundMono(deathsound);
+        global.metdead[myid] = 1;
+        global.monstersleft -= 1;
+        global.monstersarea -= 1;
+        check_areaclear();
+        global.monstersalive -= 1;
+        if (global.monstersalive == 0) {
+            mus_fadeout(musGammaFight);
+            oMusicV2.bossbgm = sndJump;
+        }
+        if (instance_exists(grabber)) with (grabber) instance_destroy();
+        if (instance_exists(arms)) with (arms) instance_destroy();
+        global.dmap[mapposx, mapposy] = 11;
+        with (oControl) event_user(2);
+    }
 }
 var msl, fr_speed;
 if (target_mode == 0) {

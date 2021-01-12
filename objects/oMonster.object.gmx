@@ -72,6 +72,8 @@ spark3 = -4;
 
 //1.4.4? Movement fixes
 outside = 0;
+
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -223,8 +225,9 @@ if (instance_exists(spark3)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.metdead[myid] == 1){
-    instance_destroy();
+            <string>if(global.metdead[myid] == 1 &amp;&amp; !dead){
+    hp = 0;
+    event_user(0);
 }
 var tgty;
 if (state == 0) {

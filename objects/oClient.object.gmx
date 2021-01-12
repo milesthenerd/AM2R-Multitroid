@@ -324,6 +324,10 @@ if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
     }
 }
 
+if(oQueen.phase != phase){
+    oQueen.phase = phase;
+}
+
 if(!is_undefined(oQueen.phase)){
     if(oQueen.phase &gt;= 1 &amp;&amp; instance_exists(inst_146524)){
         event_perform_object(oQueenFireball, ev_other, ev_user1);
