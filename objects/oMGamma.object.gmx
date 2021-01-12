@@ -343,9 +343,6 @@ if (state == 5 || dodging) alarm[2] = 3;
         flashtime = 180;
         turndelay = 180;
         PlaySoundMono(deathsound);
-        global.metdead[myid] = 1;
-        global.monstersleft -= 1;
-        global.monstersarea -= 1;
         check_areaclear();
         global.monstersalive -= 1;
         if (global.monstersalive == 0) {

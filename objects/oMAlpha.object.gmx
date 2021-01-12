@@ -282,17 +282,13 @@ if (state == 5 || dodging) alarm[2] = 3;
         flashtime = 180;
         turndelay = 180;
         PlaySoundMono(deathsound);
-        global.metdead[myid] = 1;
-        global.monstersleft -= 1;
-        global.monstersarea -= 1;
         check_areaclear();
         global.monstersalive -= 1;
         if (global.monstersalive == 0) {
-            mus_fadeout(musGammaFight);
+            mus_fadeout(musAlphaFight);
             oMusicV2.bossbgm = sndJump;
         }
-        if (instance_exists(grabber)) with (grabber) instance_destroy();
-        if (instance_exists(arms)) with (arms) instance_destroy();
+        with (oMAlpha) event_user(2);
         global.dmap[mapposx, mapposy] = 11;
         with (oControl) event_user(2);
     }

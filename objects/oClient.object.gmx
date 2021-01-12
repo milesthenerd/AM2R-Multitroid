@@ -31,6 +31,7 @@ canSend = false;
 connected = false;
 queenHealthWait = false;
 queenDead = false;
+phase = 0;
 seed = undefined;
 var type;
 type = network_socket_tcp;
@@ -265,7 +266,7 @@ if(global.playerhealth &lt;= 0){
     }
 }
 
-if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
     if(global.queenhealthPrev != oQueenHead.myhealth){
         show_debug_message("queen health sent " + string(oQueenHead.myhealth));
         var size, type, alignment;
@@ -324,21 +325,25 @@ if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
     }
 }
 
-if(oQueen.phase != phase){
-    oQueen.phase = phase;
+if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
+    if(oQueen.phase &lt; phase){
+        oQueen.phase = phase;
+    } else if(oQueen.phase &gt; phase){
+        phase = oQueen.phase;
+    }
 }
 
-if(!is_undefined(oQueen.phase)){
-    if(oQueen.phase &gt;= 1 &amp;&amp; instance_exists(inst_146524)){
+if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
+    if(phase &gt;= 1 &amp;&amp; instance_exists(inst_146524)){
         event_perform_object(oQueenFireball, ev_other, ev_user1);
     }
-    if(oQueen.phase &gt;= 2 &amp;&amp; instance_exists(inst_146525) &amp;&amp; instance_exists(inst_146520)){
+    if(phase &gt;= 2 &amp;&amp; instance_exists(inst_146525) &amp;&amp; instance_exists(inst_146520)){
         event_perform_object(oQueenFireball, ev_other, ev_user2);
     }
-    if(oQueen.phase &gt;= 3 &amp;&amp; instance_exists(inst_146526) &amp;&amp; instance_exists(inst_146514)){
+    if(phase &gt;= 3 &amp;&amp; instance_exists(inst_146526) &amp;&amp; instance_exists(inst_146514)){
         event_perform_object(oQueenFireball, ev_other, ev_user3);
     }
-    if((oQueen.phase &gt;= 4 || oQueen.phase == 5) &amp;&amp; instance_exists(inst_146527)){
+    if(phase &gt;= 4 &amp;&amp; instance_exists(inst_146527)){
         event_perform_object(oQueenFireball, ev_other, ev_user4);
     }
     if(global.event[303] &gt; 0 &amp;&amp; !queenDead){

@@ -421,20 +421,12 @@ if (instance_exists(mask_obj)) {
         statetime = 0;
         alarm[10] = 1;
         alarm[11] = 160;
-        flashtime = 180;
-        turndelay = 180;
-        PlaySoundMono(deathsound);
-        global.metdead[myid] = 1;
-        global.monstersleft -= 1;
-        global.monstersarea -= 1;
+        with (body_obj) instance_destroy();
+        with (head_obj) instance_destroy();
+        with (mask_obj) instance_destroy();
+        mus_fadeout(musZetaFight);
+        oMusicV2.bossbgm = sndJump;
         check_areaclear();
-        global.monstersalive -= 1;
-        if (global.monstersalive == 0) {
-            mus_fadeout(musGammaFight);
-            oMusicV2.bossbgm = sndJump;
-        }
-        if (instance_exists(grabber)) with (grabber) instance_destroy();
-        if (instance_exists(arms)) with (arms) instance_destroy();
         global.dmap[mapposx, mapposy] = 11;
         with (oControl) event_user(2);
     }
