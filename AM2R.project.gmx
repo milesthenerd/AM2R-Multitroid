@@ -4374,6 +4374,7 @@
       <script>scripts\strict_encode_verb.gml</script>
       <script>scripts\create_buffer.gml</script>
       <script>scripts\send_seed.gml</script>
+      <script>scripts\popup_text_ext.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
