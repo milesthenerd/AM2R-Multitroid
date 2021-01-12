@@ -4373,6 +4373,7 @@
       <script>scripts\strict_decompress.gml</script>
       <script>scripts\strict_encode_verb.gml</script>
       <script>scripts\create_buffer.gml</script>
+      <script>scripts\send_seed.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
