@@ -116,8 +116,6 @@ switch(argument0){
                     if(global.morphballPrev != global.morphball){
                         global.morphballPrev = global.morphball;
                     }
-                } else if(global.onlineReceived[# 2, i] == 10 && global.receivedClientID == global.clientID){
-                    global.morphballPrev = global.morphball;
                 }
                 
                 if(global.onlineReceived[# 2, i] == 11 && global.receivedClientID != global.clientID){
@@ -125,117 +123,91 @@ switch(argument0){
                     if(global.jumpballPrev != global.jumpball){
                         global.jumpballPrev = global.jumpball;
                     }
-                } else if(global.onlineReceived[# 2, i] == 11 && global.receivedClientID == global.clientID){
-                    global.jumpballPrev = global.jumpball;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 12 && global.receivedClientID != global.clientID){
                     global.powergrip = global.onlineReceived[# 1, i];
                     if(global.powergripPrev != global.powergrip){
                         global.powergripPrev = global.powergrip;
                     }
-                } else if(global.onlineReceived[# 2, i] == 12 && global.receivedClientID == global.clientID){
-                    global.powergripPrev = global.powergrip;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 13 && global.receivedClientID != global.clientID){
                     global.spacejump = global.onlineReceived[# 1, i];
                     if(global.spacejumpPrev != global.spacejump){
                         global.spacejumpPrev = global.spacejump;
                     }
-                } else if(global.onlineReceived[# 2, i] == 13 && global.receivedClientID == global.clientID){
-                    global.spacejumpPrev = global.spacejump;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 14 && global.receivedClientID != global.clientID){
                     global.screwattack = global.onlineReceived[# 1, i];
                     if(global.screwattackPrev != global.screwattack){
                         global.screwattackPrev = global.screwattack;
                     }
-                } else if(global.onlineReceived[# 2, i] == 14 && global.receivedClientID == global.clientID){
-                    global.screwattackPrev = global.screwattack;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 15 && global.receivedClientID != global.clientID){
                     global.hijump = global.onlineReceived[# 1, i];
                     if(global.hijumpPrev != global.hijump){
                         global.hijumpPrev = global.hijump;
                     }
-                } else if(global.onlineReceived[# 2, i] == 15 && global.receivedClientID == global.clientID){
-                    global.hijumpPrev = global.hijump;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 16 && global.receivedClientID != global.clientID){
                     global.spiderball = global.onlineReceived[# 1, i];
                     if(global.spiderballPrev != global.spiderball){
                         global.spiderballPrev = global.spiderball;
                     }
-                } else if(global.onlineReceived[# 2, i] == 16 && global.receivedClientID == global.clientID){
-                    global.spiderballPrev = global.spiderball;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 17 && global.receivedClientID != global.clientID){
                     global.speedbooster = global.onlineReceived[# 1, i];
                     if(global.speedboosterPrev != global.speedbooster){
                         global.speedboosterPrev = global.speedbooster;
                     }
-                } else if(global.onlineReceived[# 2, i] == 17 && global.receivedClientID == global.clientID){
-                    global.speedboosterPrev = global.speedbooster;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID != global.clientID){
                     global.bomb = global.onlineReceived[# 1, i];
                     if(global.bombPrev != global.bomb){
                         global.bombPrev = global.bomb;
                     }
-                } else if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID == global.clientID){
-                    global.bombPrev = global.bomb;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 19 && global.receivedClientID != global.clientID){
                     global.ibeam = global.onlineReceived[# 1, i];
                     if(global.ibeamPrev != global.ibeam){
                         global.ibeamPrev = global.ibeam;
                     }
-                } else if(global.onlineReceived[# 2, i] == 19 && global.receivedClientID == global.clientID){
-                    global.ibeamPrev = global.ibeam;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 20 && global.receivedClientID != global.clientID){
                     global.wbeam = global.onlineReceived[# 1, i];
                     if(global.wbeamPrev != global.wbeam){
                         global.wbeamPrev = global.wbeam;
                     }
-                } else if(global.onlineReceived[# 2, i] == 20 && global.receivedClientID == global.clientID){
-                    global.wbeamPrev = global.wbeam;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 21 && global.receivedClientID != global.clientID){
                     global.pbeam = global.onlineReceived[# 1, i];
                     if(global.pbeamPrev != global.pbeam){
                         global.pbeamPrev = global.pbeam;
                     }
-                } else if(global.onlineReceived[# 2, i] == 21 && global.receivedClientID == global.clientID){
-                    global.pbeamPrev = global.pbeam;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 22 && global.receivedClientID != global.clientID){
                     global.sbeam = global.onlineReceived[# 1, i];
                     if(global.sbeamPrev != global.sbeam){
                         global.sbeamPrev = global.sbeam;
                     }
-                } else if(global.onlineReceived[# 2, i] == 22 && global.receivedClientID == global.clientID){
-                    global.sbeamPrev = global.sbeam;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 23 && global.receivedClientID != global.clientID){
                     global.cbeam = global.onlineReceived[# 1, i];
                     if(global.cbeamPrev != global.cbeam){
                         global.cbeamPrev = global.cbeam;
                     }
-                } else if(global.onlineReceived[# 2, i] == 23 && global.receivedClientID == global.clientID){
-                    global.cbeamPrev = global.cbeam;
-                }
+                } 
                 
                 if(global.onlineReceived[# 2, i] == 26 && global.receivedClientID != global.clientID){
                     global.pbombs = global.onlineReceived[# 1, i];
@@ -437,19 +409,6 @@ switch(argument0){
                         }
                     }
                 }
-                /*
-                switch(i){
-                    case 0:
-                        global.onlineList[# 0, 0] = global.itemPrev;
-                        break;
-                    case 1:
-                        global.onlineList[# 0, 1] = global.metdeadPrev;
-                        break;
-                    case 3:
-                        global.onlineList[# 0, 3] = global.eventPrev;
-                        break;
-                }
-                */
             }
             if(i == 4){
                 if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID != global.clientID){
@@ -457,9 +416,7 @@ switch(argument0){
                     if(global.monstersleftPrev != global.monstersleft){
                         global.monstersleftPrev = global.monstersleft;
                     }
-                } else if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID == global.clientID){
-                    global.monstersleftPrev = global.monstersleft;
-                }
+                } 
             }
             if(i == 32){
                 if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID != global.clientID){
@@ -467,9 +424,7 @@ switch(argument0){
                     if(global.monstersareaPrev != global.monstersarea){
                         global.monstersareaPrev = global.monstersarea;
                     }
-                } else if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID == global.clientID){
-                    global.monstersareaPrev = global.monstersarea;
-                }
+                } 
             }
             if(i == 33){
                 if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID != global.clientID){
@@ -477,9 +432,7 @@ switch(argument0){
                     if(global.lavastatePrev != global.lavastate){
                         global.lavastatePrev = global.lavastate;
                     }
-                } else if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID == global.clientID){
-                    global.lavastatePrev = global.lavastate;
-                }
+                } 
             }
         }
         break;

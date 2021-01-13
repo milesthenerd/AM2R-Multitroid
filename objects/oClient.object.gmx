@@ -267,7 +267,7 @@ if(global.playerhealth &lt;= 0){
 }
 
 if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
-    if(global.queenhealthPrev != oQueenHead.myhealth){
+    if(global.queenhealthPrev != oQueenHead.myhealth || oQueen.phase != phase){
         show_debug_message("queen health sent " + string(oQueenHead.myhealth));
         var size, type, alignment;
         size = 1024;
@@ -328,9 +328,13 @@ if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &am
 if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
     if(oQueen.phase &lt; phase){
         oQueen.phase = phase;
-    } else if(oQueen.phase &gt; phase){
+    } else if(oQueen.phase &gt; phase &amp;&amp; global.event[303] == 0){
         phase = oQueen.phase;
     }
+}
+
+if(global.event[303] &gt; 0){
+    phase = 0;
 }
 
 if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){

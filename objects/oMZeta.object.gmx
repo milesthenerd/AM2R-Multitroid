@@ -413,25 +413,7 @@ if (instance_exists(mask_obj)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.metdead[myid] == 1 &amp;&amp; !dead){
-    dead = true;
-    myhealth = 0;
-    if (myhealth &lt;= 0) {
-        state = 100;
-        statetime = 0;
-        alarm[10] = 1;
-        alarm[11] = 160;
-        with (body_obj) instance_destroy();
-        with (head_obj) instance_destroy();
-        with (mask_obj) instance_destroy();
-        mus_fadeout(musZetaFight);
-        oMusicV2.bossbgm = sndJump;
-        check_areaclear();
-        global.dmap[mapposx, mapposy] = 11;
-        with (oControl) event_user(2);
-    }
-}
-var msl, fr_speed;
+            <string>var msl, fr_speed;
 if (target_mode == 0) {
     targetx = oCharacter.x;
     targety = oCharacter.y;

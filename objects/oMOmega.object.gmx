@@ -380,23 +380,7 @@ if (instance_exists(grab_obj)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.metdead[myid] == 1 &amp;&amp; !dead){
-    dead = true;
-    myhealth = 0;
-    if (myhealth &lt;= 0) {
-        state = 100;
-        statetime = 0;
-        alarm[10] = 1;
-        alarm[11] = 160;
-        event_user(2);
-        mus_fadeout(musOmegaFight);
-        oMusicV2.bossbgm = sndJump;
-        check_areaclear();
-        global.dmap[mapposx, mapposy] = 11;
-        with (oControl) event_user(2);
-    }
-}
-var slash_dist, msl, tl;
+            <string>var slash_dist, msl, tl;
 slash_dist = 130;
 // Target set
 if (target_mode == 0) {
