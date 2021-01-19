@@ -3,8 +3,8 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="296" name="datafiles">
-    <datafiles number="296" name="lang">
+  <datafiles number="297" name="datafiles">
+    <datafiles number="297" name="lang">
       <datafile>
         <name>czech.ini</name>
         <exists>-1</exists>
@@ -158,7 +158,7 @@
         </ConfigOptions>
         <filename>languages.txt</filename>
       </datafile>
-      <datafiles number="296" name="headers">
+      <datafiles number="297" name="headers">
         <datafile>
           <name>castellano_a1_f24_b0_c3_d19_e21.png</name>
           <exists>-1</exists>
@@ -857,7 +857,7 @@
           <filename>russian_a8_f19_b0_c3_d14_e16.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="296" name="fonts">
+      <datafiles number="297" name="fonts">
         <datafile>
           <name>04b09.ttf</name>
           <exists>-1</exists>
@@ -1014,23 +1014,6 @@
       <filename>modifiers.ini</filename>
     </datafile>
     <datafile>
-      <name>ipaddress.txt</name>
-      <exists>-1</exists>
-      <size>0</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>ipaddress.txt</filename>
-    </datafile>
-    <datafile>
       <name>readme.txt</name>
       <exists>-1</exists>
       <size>2802</size>
@@ -1046,6 +1029,23 @@
         </Config>
       </ConfigOptions>
       <filename>readme.txt</filename>
+    </datafile>
+    <datafile>
+      <name>mod settings.ini</name>
+      <exists>-1</exists>
+      <size>67</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>mod settings.ini</filename>
     </datafile>
     <datafile>
       <name>dictionary.json</name>
@@ -1064,8 +1064,8 @@
       </ConfigOptions>
       <filename>dictionary.json</filename>
     </datafile>
-    <datafiles number="296" name="mods">
-      <datafiles number="296" name="titles">
+    <datafiles number="297" name="mods">
+      <datafiles number="297" name="titles">
         <datafile>
           <name>config.ini</name>
           <exists>-1</exists>
@@ -1101,8 +1101,8 @@
           <filename>titlebackground.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="296" name="palettes">
-        <datafiles number="296" name="metroids">
+      <datafiles number="297" name="palettes">
+        <datafiles number="297" name="monsters">
           <datafile>
             <name>alpha.png</name>
             <exists>-1</exists>
@@ -1274,7 +1274,7 @@
             <filename>zeta_blur.png</filename>
           </datafile>
         </datafiles>
-        <datafiles number="296" name="suits">
+        <datafiles number="297" name="suits">
           <datafile>
             <name>fusion_gravity.png</name>
             <exists>-1</exists>
@@ -1377,7 +1377,7 @@
             </ConfigOptions>
             <filename>varia.png</filename>
           </datafile>
-          <datafiles number="296" name="MorphTrailColors">
+          <datafiles number="297" name="MorphTrailColors">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1481,7 +1481,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="296" name="SpaceJumpTrails">
+          <datafiles number="297" name="SpaceJumpTrails">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1585,7 +1585,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="296" name="SpiderBallGlow">
+          <datafiles number="297" name="SpiderBallGlow">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -5078,7 +5078,12 @@
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shGameBoy.shader</shader>
-    <shader type="GLSLES">shaders\shPaletteSwap.shader</shader>
+    <shader type="GLSLES">shaders\shd_grayscale.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper_html_sprite.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper_html_surface.shader</shader>
+    <shader type="GLSLES">shaders\shd_sepia.shader</shader>
+    <shader type="GLSLES">shaders\shd_thermal.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\font0</font>

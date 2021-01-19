@@ -365,7 +365,7 @@ seed = 0;
 mod_IGT = 0;
 
 // Really?
-pal_swap_init_system(shPaletteSwap);
+pal_swap_init_system(shd_pal_swapper);
 
 // 1.5.1
 // This does nothing now, I just didn't want to change all instances of this back to 0.
@@ -859,7 +859,7 @@ seed = 0;
 mod_IGT = 0;
 
 // Really?
-pal_swap_init_system(shPaletteSwap);
+pal_swap_init_system(shd_pal_swapper);
 
 // 1.5.1
 // This does nothing now, I just didn't want to change all instances of this back to 0.
@@ -1735,7 +1735,7 @@ if (!file_exists("save1") &amp;&amp; !file_exists("save2") &amp;&amp; !file_exis
 
 global.shaders_compiled = false;
 if (shaders_are_supported()) {
-    if (shader_is_compiled(shGameBoy) &amp;&amp; shader_is_compiled(shPaletteSwap)) {
+    if (shader_is_compiled(shGameBoy) &amp;&amp; shader_is_compiled(shd_pal_swapper)) {
       global.shaders_compiled = true;
     }
 }

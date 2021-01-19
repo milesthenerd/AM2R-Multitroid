@@ -8,3 +8,4 @@ if (global.event[176] == 1 || global.metdead[23] == 1 || global.metdead[24] == 1
 
 if (file_exists(working_directory + "\swap.ini")) file_delete(working_directory + "\swap.ini");
 
+
