@@ -112,7 +112,8 @@ alarm[0] = 5 + random(3);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (stun &gt; 0) stun -= 1;
+            <string>if (global.event[101] &gt;= eventno) instance_destroy();
+if (stun &gt; 0) stun -= 1;
 if (flashing &gt; 0) flashing -= 1;
 if (fxtimer &lt; 5) {
     fxtimer += 1;

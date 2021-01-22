@@ -4122,6 +4122,12 @@
       </sprites>
       <sprite>sprites\sShipGlow</sprite>
     </sprites>
+    <sprites name="Multitroid Assets">
+      <sprite>sprites\sMultitroidIcon</sprite>
+      <sprite>sprites\sPalMultitroidNew</sprite>
+      <sprite>sprites\sDarkMultitroidPlayer</sprite>
+      <sprite>sprites\sPalMultitroidFusion</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bgScreenGuide</background>
@@ -5074,6 +5080,7 @@
       <script>scripts\create_buffer.gml</script>
       <script>scripts\send_seed.gml</script>
       <script>scripts\popup_text_ext.gml</script>
+      <script>scripts\draw_character_ext.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -5094,6 +5101,7 @@
     <font>fonts\fontMenuTinyDefault</font>
     <font>fonts\fontMenuSmall2Default</font>
     <font>fonts\fontSubScrDefault</font>
+    <font>fonts\font_displayname</font>
   </fonts>
   <objects name="objects">
     <objects name="Test">

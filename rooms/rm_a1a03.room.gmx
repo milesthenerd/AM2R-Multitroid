@@ -65,7 +65,7 @@ mus_change(musArea1A);</code>
     <instance objName="oGotoRoom" x="640" y="160" name="inst_108213" locked="0" code="&#xA;targetroom = rm_a1a02;&#xA;targetx = 16;&#xA;targety = 640;&#xA;height = 80;&#xA;direction = 0;&#xA;camstartx = 16;&#xA;camstarty = 640;&#xA;transitionx = 4;&#xA;transitiony = 160;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oFadeTiles" x="128" y="192" name="inst_108214" locked="0" code="&#xA;areax = 560;&#xA;areay = 32;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oGotoRoom" x="0" y="160" name="inst_108215" locked="0" code="&#xA;targetroom = rm_a1a04;&#xA;targetx = 304;&#xA;targety = 160;&#xA;height = 80;&#xA;direction = 180;&#xA;camstartx = 304;&#xA;camstarty = 160;&#xA;transitionx = 316;&#xA;transitiony = 160;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oDoor" x="24" y="96" name="inst_108216" locked="0" code="&#xA;lock = 1;&#xA;event = 52;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oDoor" x="24" y="96" name="inst_108216" locked="0" code="lock = 1;&#xA;event = 52;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="0" y="16" name="inst_108217" locked="0" code="" scaleX="3" scaleY="5" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="48" y="16" name="inst_108218" locked="0" code="" scaleX="36" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="592" y="32" name="inst_108219" locked="0" code="" scaleX="3" scaleY="4" colour="4294967295" rotation="0"/>

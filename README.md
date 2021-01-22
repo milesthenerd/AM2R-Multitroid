@@ -15,7 +15,6 @@ The adjusted patcher for the AM2R mod can be found here: https://github.com/lass
 
 ## To-do List
  - Save syncing
- - Message that tells you what power-up has been obtained
  - More definitive player data tracking by the server - kinda done but not quite
  - Other things I haven't thought of yet, so if you have any ideas or suggestions, let me know in the AM2R Discord Server
 
