@@ -103,6 +103,8 @@ if(shader_is_compiled(shd_pal_swapper)){
 
 posX = 3;
 posY = 3;
+
+time = 60;
 </string>
           </argument>
         </arguments>
@@ -192,7 +194,11 @@ buffer_write(buffer, buffer_s16, room);
 buffer_write(buffer, buffer_s16, posX);
 buffer_write(buffer, buffer_s16, posY);
 var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+
+if(ds_list_size(posData)){
     
+}
+
 alarm[11] = 20;
 </string>
           </argument>
@@ -287,18 +293,20 @@ alarm[10] = 3;
           <argument>
             <kind>1</kind>
             <string>var v = 0;
-for(var i=0; i&lt;array_height_2d(global.dmap); i++){
-    for(var f=0; f&lt;array_length_2d(global.dmap, i); f++){
-        if(global.dmapPrev[i, f] != global.dmap[i, f]){
-            global.dmapChanges[v, 0] = global.dmap[i, f];
-            global.dmapChanges[v, 1] = i;
-            global.dmapChanges[v, 2] = f;
-            global.onlineMap[# 0, 0] = global.dmapChanges;
-            mapChanged = true;
-            if(v == 30){
-                break;
+if(global.ingame){
+    for(var i=0; i&lt;array_height_2d(global.dmap); i++){
+        for(var f=0; f&lt;array_length_2d(global.dmap, i); f++){
+            if(global.dmapPrev[i, f] != global.dmap[i, f]){
+                global.dmapChanges[v, 0] = global.dmap[i, f];
+                global.dmapChanges[v, 1] = i;
+                global.dmapChanges[v, 2] = f;
+                global.onlineMap[# 0, 0] = global.dmapChanges;
+                mapChanged = true;
+                if(v == 30){
+                    break;
+                }
+                v++;
             }
-            v++;
         }
     }
 }
@@ -712,12 +720,13 @@ if(canSend){
     alarm[0] = 75;
 }
 
-check_areaclear();
-
-if(global.playerhealth &lt;= 0){
-    if(oCharacter.state != oCharacter.DEFEATED){
-        oCharacter.alarm[0] = 6;
-        oCharacter.state = oCharacter.DEFEATED;
+if(instance_exists(oCharacter)){
+    check_areaclear();
+    if(global.playerhealth &lt;= 0){
+        if(oCharacter.state != oCharacter.DEFEATED){
+            oCharacter.alarm[0] = 6;
+            oCharacter.state = oCharacter.DEFEATED;
+        }
     }
 }
 
@@ -736,6 +745,14 @@ if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &am
         buffer_write(buffer, buffer_s8, oQueen.phase);
         buffer_write(buffer, buffer_s8, oQueen.state);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    }
+}
+
+if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
+    if(oQueen.phase &lt; phase){
+        oQueen.phase = phase;
+    } else if(oQueen.phase &gt; phase &amp;&amp; global.event[303] == 0){
+        phase = oQueen.phase;
     }
 }
 </string>
@@ -773,34 +790,20 @@ if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &am
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_u8, 1);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
-        alarm[0] = 5;
-        alarm[2] = 5;
-        alarm[3] = 5;
-        alarm[4] = 5;
-        alarm[5] = 5;
-        alarm[6] = 5;
-        alarm[10] = 3;
-        alarm[11] = 20;
     } else {
         instance_destroy();
         popup_text("Failed to connect");
     }
 }
 
-if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
-    if(oQueen.phase &lt; phase){
-        oQueen.phase = phase;
-    } else if(oQueen.phase &gt; phase &amp;&amp; global.event[303] == 0){
-        phase = oQueen.phase;
+if(instance_exists(oCharacter)){
+    if(global.event[303] &gt; 0){
+        phase = 0;
     }
-}
-
-if(global.event[303] &gt; 0){
-    phase = 0;
-}
-
-if(global.event[203] &lt; 9){
-    global.event[203] = 9;
+    
+    if(global.event[203] &lt; 9){
+        global.event[203] = 9;
+    }
 }
 
 if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
@@ -850,6 +853,14 @@ if(keyboard_check_pressed(vk_f3)){
     popup_text_ext(string(oControl.seed), 300);
 }
 
+/*
+if(keyboard_check_pressed(vk_f4)){
+    for(var i=0; i&lt;array_length_1d(global.item); i++){
+        global.item[i] = 1;
+    }
+}
+*/
+
 if(instance_exists(oCharacter)){
     posX = global.mapposx;
     posY = global.mapposy;
@@ -857,6 +868,41 @@ if(instance_exists(oCharacter)){
     posX = posX;
     posY = posY;
 }
+
+if(time == 0){
+    if(ds_list_size(global.idList) &gt; 0){
+        checkListID = ds_list_create();
+        for(var i=0; i&lt;ds_list_size(global.idList); i++){
+            var arr = global.idList[| i];
+            ds_list_add(checkListID, arr[0, 0]);
+        }
+        for(var i=0; i&lt;ds_list_size(roomList); i++){
+            var ID = roomList[| i];
+            var findID = ds_list_find_index(checkListID, ID);
+            if(findID &lt; 0){
+                ds_list_delete(roomList, i);
+            }
+        }
+        for(var i=0; i&lt;ds_list_size(roomListData); i++){
+            var arr = roomListData[| i];
+            var findID = ds_list_find_index(checkListID, arr[0]);
+            if(findID &lt; 0){
+                ds_list_delete(roomListData, i);
+            }
+        }
+        for(var i=0; i&lt;ds_list_size(posData); i++){
+            var arr = posData[| i];
+            var findID = ds_list_find_index(checkListID, arr[0]);
+            if(findID &lt; 0){
+                ds_list_delete(posData, i);
+            }
+        }
+        ds_list_destroy(checkListID);
+    }
+    time = 60;
+}
+
+time--;
 </string>
           </argument>
         </arguments>
@@ -895,12 +941,12 @@ switch(type_event){
                     var findsocket = ds_list_find_index(roomList, clientID);
                     if(findsocket &gt;= 0){
                         ds_list_delete(roomList, findsocket);
-                        for(var i=0; i&lt;ds_list_size(roomListData); i++){
-                            var arrList = roomListData[| i];
-                            if(arrList[0] == clientID){
-                                ds_list_delete(roomListData, i);
-                            }
-                        }
+                    }
+                }
+                for(var i=0; i&lt;ds_list_size(roomListData); i++){
+                    var arrList = roomListData[| i];
+                    if(arrList[0] == clientID){
+                        ds_list_delete(roomListData, i);
                     }
                 }
                 for(var f=0; f&lt;ds_list_size(global.idList); f++){
@@ -1065,6 +1111,14 @@ switch(type_event){
                 break;
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
+                alarm[0] = 5;
+                alarm[2] = 5;
+                alarm[3] = 5;
+                alarm[4] = 5;
+                alarm[5] = 5;
+                alarm[6] = 5;
+                alarm[10] = 3;
+                alarm[11] = 20;
                 break;
             case 1:
                 ds_grid_read(global.onlineReceived, strict_decompress(buffer_read(_buffer, buffer_string)));

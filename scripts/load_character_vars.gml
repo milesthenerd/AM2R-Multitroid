@@ -60,3 +60,4 @@ repeat (350) {
 global.item[1] = 1;
 reset_logs_list();
 reset_hints();
+global.dmapPrev = array_clone(global.dmap);
