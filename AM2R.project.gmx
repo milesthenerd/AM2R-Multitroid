@@ -4127,6 +4127,7 @@
       <sprite>sprites\sPalMultitroidNew</sprite>
       <sprite>sprites\sDarkMultitroidPlayer</sprite>
       <sprite>sprites\sPalMultitroidFusion</sprite>
+      <sprite>sprites\sPalSpiderball</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">

@@ -28,6 +28,7 @@
             <string>network_set_config(network_config_connect_timeout, 5000);
 strict_init("dictionary.json");
 canSend = false;
+showName = true;
 metroidCountChanged = false;
 itemChanged = false;
 metdeadChanged = false;
@@ -38,6 +39,7 @@ queenHealthWait = false;
 queenDead = false;
 sameRoom = false;
 phase = 0;
+state = undefined;
 seed = undefined;
 var type;
 type = network_socket_tcp;
@@ -265,6 +267,7 @@ alarm[11] = 20;
             buffer_write(buffer, buffer_s16, room);
             buffer_write(buffer, buffer_string, name);
             buffer_write(buffer, buffer_s16, oCharacter.image_blend);
+            buffer_write(buffer, buffer_s8, oCharacter.fxtimer);
             var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         }
     }
@@ -809,17 +812,48 @@ if(instance_exists(oCharacter)){
 if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
     if(phase &gt;= 1 &amp;&amp; instance_exists(inst_146524)){
         event_perform_object(oQueenFireball, ev_other, ev_user1);
+        oQueen.state = 7;
+        oQueen.statetime = 0;
+        with(oQueen){
+            head_target_snap = 1;
+            head_target_x = x + neck_x + 30;
+            head_target_y = y + neck_y;
+        }
     }
     if(phase &gt;= 2 &amp;&amp; instance_exists(inst_146525) &amp;&amp; instance_exists(inst_146520)){
         event_perform_object(oQueenFireball, ev_other, ev_user2);
+        oQueen.state = 7;
+        oQueen.statetime = 0;
+        with(oQueen){
+            head_target_snap = 1;
+            head_target_x = x + neck_x + 30;
+            head_target_y = y + neck_y;
+        }
     }
     if(phase &gt;= 3 &amp;&amp; instance_exists(inst_146526) &amp;&amp; instance_exists(inst_146514)){
         event_perform_object(oQueenFireball, ev_other, ev_user3);
+        oQueen.state = 7;
+        oQueen.statetime = 0;
+        with(oQueen){
+            head_target_snap = 1;
+            head_target_x = x + neck_x + 30;
+            head_target_y = y + neck_y;
+        }
     }
     if(phase &gt;= 4 &amp;&amp; instance_exists(inst_146527)){
         event_perform_object(oQueenFireball, ev_other, ev_user4);
+        oQueen.state = 7;
+        oQueen.statetime = 0;
+        with(oQueen){
+            head_target_snap = 1;
+            head_target_x = x + neck_x + 30;
+            head_target_y = y + neck_y;
+        }
     }
     if(global.event[303] &gt; 0 &amp;&amp; !queenDead){
+        oQueen.state = 100;
+        oQueen.statetime = 0;
+        /*
         with(oQueen){
             height_target_front = 10;
             height_target_back = 10;
@@ -841,6 +875,7 @@ if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
             oMusicV2.bossbgm = sndJump;
             sfx_play(sndQueenDeath);
         }
+        */
         queenDead = true;
     }
 }
@@ -853,13 +888,16 @@ if(keyboard_check_pressed(vk_f3)){
     popup_text_ext(string(oControl.seed), 300);
 }
 
-/*
+
 if(keyboard_check_pressed(vk_f4)){
-    for(var i=0; i&lt;array_length_1d(global.item); i++){
-        global.item[i] = 1;
+    showName = -showName;
+    if(showName){
+        popup_text("Nametags enabled");
+    } else {
+        popup_text("Nametags disabled");
     }
 }
-*/
+
 
 if(instance_exists(oCharacter)){
     posX = global.mapposx;
@@ -980,6 +1018,7 @@ switch(type_event){
                 var clientRoom = buffer_read(_buffer, buffer_s16);
                 var clientName = buffer_read(_buffer, buffer_string);
                 var clientBlend = buffer_read(_buffer, buffer_s16);
+                var clientFXTimer = buffer_read(_buffer, buffer_s8);
                 var findsocket = ds_list_find_index(roomList, clientID);
                 if(global.clientID != clientID){
                     if(findsocket &lt; 0){
@@ -1003,6 +1042,7 @@ switch(type_event){
                             arr[14] = clientRoom;
                             arr[15] = clientName;
                             arr[16] = clientBlend;
+                            arr[17] = clientFXTimer;
                             ds_list_add(roomListData, arr);
                         }
                     } else {
@@ -1024,6 +1064,7 @@ switch(type_event){
                         arr[14] = clientRoom;
                         arr[15] = clientName;
                         arr[16] = clientBlend;
+                        arr[17] = clientFXTimer;
                         var indexValue = ds_list_find_value(roomList, findsocket);
                         for(var i=0; i&lt;ds_list_size(roomListData); i++){
                                 var arrList = roomListData[| i];
@@ -1411,13 +1452,25 @@ ds_list_destroy(posData);
         var arrRoom = arrDraw[14];
         var arrName = arrDraw[15];
         var arrBlend = arrDraw[16];
-        if(arrRoom == room &amp;&amp; instance_exists(oCharacter)){
+        var arrFXTimer = arrDraw[17];
+        if(arrRoom == room &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
+            if(arrSprite == sSpiderMorphBall || arrSprite == sGSpiderMorphBall || arrSprite == sVSpiderMorphBall || arrSprite == sSpiderMorphBall_fusion || arrSprite == sSpiderMorphBall_fusion_gravity || arrSprite == sSpiderMorphBall_fusion_varia){
+                draw_set_blend_mode(bm_add);
+                draw_set_alpha(arrFXTimer * 0.1);
+                pal_swap_set(sPalSpiderball, arrID, false);
+                draw_sprite_ext(sSpiderballFX, -1, arrX, arrY, 1, 1, 0, -1, 0.2 + arrFXTimer * 0.1);
+                pal_swap_reset();
+                shader_reset();
+                draw_set_alpha(1);
+                draw_set_blend_mode(bm_normal);
+            }
             draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
-            draw_set_font(font_displayname);
-            draw_set_halign(fa_center);
-            draw_cool_text(arrX, arrY - 52, arrName, c_black, c_white, c_white, 1);
+            if(showName){
+                draw_set_font(font_displayname);
+                draw_set_halign(fa_center);
+                draw_cool_text(arrX, arrY - 52, arrName, c_black, c_white, c_white, 1);
+            }
         }
-        
     }
 }
 
