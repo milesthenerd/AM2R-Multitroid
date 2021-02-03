@@ -14,7 +14,11 @@
     view_enabled = true;
     view_visible[0] = true;   
 }
-Mute_Loops();</code>
+Mute_Loops();
+
+if(instance_exists(oClient)){
+    oClient.phase = 0;
+}</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>0</clearDisplayBuffer>

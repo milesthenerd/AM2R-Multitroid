@@ -892,7 +892,11 @@ if (state == SAVINGSHIP) {
             statetime = 0;
         }
     } else {
+        if (statetime == 5){
+            global.event[308] = 1;
+        }
         if (statetime == 120) {
+            global.event[308] = 2;
             with (oSaveShip) instance_destroy();
             with (oHatchling) instance_destroy();
             instance_create(3296, 1088, oShipOutro);
@@ -903,10 +907,12 @@ if (state == SAVINGSHIP) {
             global.enablecontrol = 0;
         }
         if (statetime == 420) {
+            global.event[308] = 3;
             instance_create(0, 0, oFinalFadeout);
             mus_fadeout(musHatchling);
         }
         if (statetime == 760) {
+            global.event[308] = 4;
             remove_persistent_objects();
             sfx_stop_all();
             global.vibL = 0;

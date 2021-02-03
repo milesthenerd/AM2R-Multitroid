@@ -249,6 +249,25 @@ draw_sprite(sGUIPBomb, 1, xoff + 1, 4);
 } else draw_sprite(sGUIPBomb, 0, xoff + 1, 4);
 }
 }
+
+if(instance_exists(oClient)){
+    if(oClient.connected){
+        if(ds_list_size(global.idList) > 1){
+            for(var f=0; f<ds_list_size(global.idList); f++){
+                var arrList = global.idList[| f];
+                var ID = arrList[0, 0];
+                if(ID == global.clientID){
+                    draw_sprite(sMultitroidIcon, (ID - 1), (240 - (f * 10)) + widescreen_space, 5);
+                } else {
+                    draw_sprite(sDarkMultitroidPlayer, (ID - 1), (240 - (f * 10)) + widescreen_space, 5);
+                }
+            }
+        } else if(ds_list_size(global.idList) == 1 || ds_list_size(global.idList) == 0){
+            draw_sprite(sMultitroidIcon, 0, 240 + widescreen_space, 5);
+        }
+    }
+}
+
 if (global.ophudshowmap && global.ophudshowmetrcount) {
 draw_background(bgGUIMap, 250 + widescreen_space, 0);
 xoff = 250;
@@ -268,7 +287,19 @@ draw_background(bgGUIMetCountBG2, xoff + 4 + widescreen_space, 4);
 draw_text(xoff + 6 + widescreen_space, 21, to_string_lz(global.monstersleft));
 }
 }
-if (global.ophudshowmap) draw_gui_map(276 + widescreen_space, 0);
+if (global.ophudshowmap){ 
+    draw_gui_map(276 + widescreen_space, 0);
+    if(instance_exists(oClient)){
+        for(var i=0; i<ds_list_size(oClient.posData); i++){
+            var arrData = oClient.posData[| i];
+            var xDiff = oClient.posX - arrData[1];
+            var yDiff = oClient.posY - arrData[2];
+            if(abs(xDiff) <= 2 && abs(yDiff) <= 1){
+                draw_sprite_ext(sMultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
+            }
+        }
+    }
+}
 } // if (global.classicmode == 0 && global.opshowhud)
 
 

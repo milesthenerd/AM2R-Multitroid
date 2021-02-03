@@ -1,22 +1,26 @@
 # AM2R-Community-Updates
 
 ## Co-op Changes
-The source code here has the same requirements as the original repo in order for it to work. Only the code and my changes have been included. Also, the string compression scripts are by Homunculus: https://marketplace.yoyogames.com/assets/4560/strict 
+String compression scripts are by Homunculus: https://marketplace.yoyogames.com/assets/4560/strict
 
-Currently syncs all items, metroids, events, and power-ups.
+m5x7 font by Daniel Linssen: https://managore.itch.io/m5x7
 
-Currently, pressing F1 will make an attempt to connect to the server. F2 will disconnect from the server. F3 will show the current random seed.
+Special thanks to Lojical/Lojemiru and ShirtyScarab for help with programming and art.
 
-Put the ip of the server you want to connect to into the ipaddress.txt. The server operates on port 64198 and cannot be changed at the moment.
+The source code here has the same requirements as the original repo in order for it to work. Only the code and my changes have been included.
+
+Currently syncs all health, items, metroids, events, and power-ups. The Queen fight is synced, the reactor explosion sequence is synced, the transition to the credits at the end is synced, and death is synced. (There may be more things synced that I've forgotten about.)
+
+If players die, progress will be kept for a better user experience.
+
+Currently, pressing F1 will make an attempt to connect to the server. F2 will disconnect from the server. F3 will show the current random seed. F4 will toggle nametags.
+
+Put the ip and port of the server you want to connect to into the mod settings.ini. 
 
 The server can be found here: https://github.com/lassiterm/AM2R-Server
 
-
 ## To-do List
- - Save syncing
- - Message that tells you what power-up has been obtained
- - More definitive player data tracking by the server - kinda done but not quite
- - Other things I haven't thought of yet, so if you have any ideas or suggestions, let me know in the AM2R Discord Server
+ - I've covered most of what I wanted to add, but if you have any suggestions, feel free to @milesthenerd in the AM2R Discord Server.
 
 ## What is this?
 The source code for the AM2R Community Updates 1.5.x branch, free of copyrighted assets and trademarks.

@@ -72,6 +72,8 @@ spark3 = -4;
 
 //1.4.4? Movement fixes
 outside = 0;
+
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -223,9 +225,54 @@ if (instance_exists(spark3)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.metdead[myid] == 1){
-    instance_destroy();
+            <string>if(global.metdead[myid] == 1 &amp;&amp; !dead){
+    dead = true;
+    hp = 0;
+    var pickup;
+    
+    if (hp &lt;= 0) {
+        repeat (10) {
+            expl = instance_create(x - 16 + random(32), y - 16 + random(32), oFXAnimSpark);
+            expl.image_speed = 0.5 + random(0.5);
+            expl.additive = 0;
+            expl.sprite_index = sExpl1;
+            expl.direction = random(360);
+            expl.speed = 2 + random(1);
+        }
+        repeat (20) deb = instance_create(x, y - 8, oIceShard);
+        make_explosion4(x, y);
+        instance_create(x, y, oScreenFlash);
+        sfx_play(sndMissileExpl);
+        PlaySoundMono(sndIceShatter);
+        sfx_play(sndMonsterDeath);
+        if (global.monstersarea &lt; 1) global.monstersarea = 1;
+        if (global.monstersleft &lt; 1) global.monstersleft = 1;
+        pickup = choose(0, 1);
+        if (pickup == 0) {
+            if (global.missiles &lt; global.maxmissiles &amp;&amp; global.maxmissiles &gt; 0) {
+                repeat (3) instance_create(x + random_range(-15, 15), y + random_range(-15, 15), oMPickup);
+            } else pickup = 1;
+        }
+        if (pickup == 1) {
+            if (global.smissiles &lt; global.maxsmissiles &amp;&amp; global.maxsmissiles &gt; 0) instance_create(x, y, oSMPickup);
+        }
+        if (global.playerhealth &lt; global.maxhealth &amp;&amp; (oControl.mod_insanitymode == 0 || (global.difficulty &lt; 2 &amp;&amp; oControl.mod_insanitymode == 1))) {
+            repeat (3) instance_create(x + random_range(-15, 15), y + random_range(-15, 15), oHPickupBig);
+        }
+        
+        //if (room == rm_a7b08A &amp;&amp; global.metdead[52] &gt; 0 &amp;&amp; global.metdead[53] &gt; 0 &amp;&amp; global.metdead[54] &gt; 0 &amp;&amp; global.metdead[55] &gt; 0 &amp;&amp; global.metdead[56] &gt; 0 &amp;&amp; global.metdead[57] &gt; 0 &amp;&amp; global.metdead[58] &gt; 0 &amp;&amp; global.metdead[74] &gt; 0)
+        
+        if (room == rm_a7b08A &amp;&amp; instance_number(oMonster) == 1) //oMonster must == 1 here, since oMonster is checking for oMonsters!!!
+        {
+            if (global.monstersleft != 1) { global.monstersleft = 1; }
+            if (global.monstersarea != 1) { global.monstersarea = 1; }
+            instance_create(0,0,oBigQuakeQueen);
+        }
+        
+        instance_destroy();
+    }
 }
+
 var tgty;
 if (state == 0) {
     scale = 0.5;

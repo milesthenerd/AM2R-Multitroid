@@ -3,9 +3,19 @@
 scr_default_global_items();
 
 var header;
-load_character_vars();
-reset_map();
-init_map();
+
+if(!instance_exists(oClient)){
+    load_character_vars();
+    reset_map();
+    init_map();
+} else if(instance_exists(oClient) && global.lastroom == gameoverroom){
+    //don't reset values
+} else if(instance_exists(oClient) && global.lastroom != gameoverroom){
+    load_character_vars();
+    reset_map();
+    init_map();
+}
+
 filename = argument0;
 if (os_is_native) {
     file_copy(filename, filename + "d");
@@ -68,7 +78,6 @@ if (header != "[AM2R SaveData V7.0]") {
     global.newgame = 0;
     //room_change(global.start_room, 3);
     room_change(global.start_room, 1);
-    
     
     
 } // if (header != "[AM2R SaveData V7.0]") else

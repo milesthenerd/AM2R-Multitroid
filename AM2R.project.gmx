@@ -3,8 +3,8 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="245" name="datafiles">
-    <datafiles number="245" name="lang">
+  <datafiles number="297" name="datafiles">
+    <datafiles number="297" name="lang">
       <datafile>
         <name>czech.ini</name>
         <exists>-1</exists>
@@ -158,7 +158,706 @@
         </ConfigOptions>
         <filename>languages.txt</filename>
       </datafile>
-      <datafiles number="245" name="fonts">
+      <datafiles number="297" name="headers">
+        <datafile>
+          <name>castellano_a1_f24_b0_c3_d19_e21.png</name>
+          <exists>-1</exists>
+          <size>1668</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a1_f24_b0_c3_d19_e21.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a2_f31_b0_c3_d26_e28.png</name>
+          <exists>-1</exists>
+          <size>2607</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a2_f31_b0_c3_d26_e28.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a3_f30_b0_c3_d25_e27.png</name>
+          <exists>-1</exists>
+          <size>2266</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a3_f30_b0_c3_d25_e27.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a4_f19_b0_c3_d14_e16.png</name>
+          <exists>-1</exists>
+          <size>1080</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a4_f19_b0_c3_d14_e16.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a5_f32_b0_c3_d27_e29.png</name>
+          <exists>-1</exists>
+          <size>2767</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a5_f32_b0_c3_d27_e29.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1129</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a8_f20_b0_c7_d15_e17.png</name>
+          <exists>-1</exists>
+          <size>811</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a8_f20_b0_c7_d15_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a1_f26_b0_c3_d21_e23.png</name>
+          <exists>-1</exists>
+          <size>1838</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a1_f26_b0_c3_d21_e23.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a2_f22_b0_c3_d17_e19.png</name>
+          <exists>-1</exists>
+          <size>1337</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a2_f22_b0_c3_d17_e19.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a3_f28_b0_c3_d23_e25.png</name>
+          <exists>-1</exists>
+          <size>2056</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a3_f28_b0_c3_d23_e25.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a4_f19_b0_c3_d14_e16.png</name>
+          <exists>-1</exists>
+          <size>1075</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a4_f19_b0_c3_d14_e16.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a5_f28_b0_c3_d23_e25.png</name>
+          <exists>-1</exists>
+          <size>1990</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a5_f28_b0_c3_d23_e25.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1445</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a1_f22_b0_c3_d17_e19.png</name>
+          <exists>-1</exists>
+          <size>1519</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a1_f22_b0_c3_d17_e19.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a2_f25_b0_c3_d20_e22.png</name>
+          <exists>-1</exists>
+          <size>1705</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a2_f25_b0_c3_d20_e22.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a3_f30_b0_c3_d25_e27.png</name>
+          <exists>-1</exists>
+          <size>2311</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a3_f30_b0_c3_d25_e27.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a4_f18_b0_c3_d13_e15.png</name>
+          <exists>-1</exists>
+          <size>986</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a4_f18_b0_c3_d13_e15.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a5_f32_b0_c3_d27_e29.png</name>
+          <exists>-1</exists>
+          <size>2461</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a5_f32_b0_c3_d27_e29.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1160</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a8_f20_b0_c7_d15_e17.png</name>
+          <exists>-1</exists>
+          <size>907</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a8_f20_b0_c7_d15_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a1_f26_b0_c3_d21_e23.png</name>
+          <exists>-1</exists>
+          <size>1950</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a1_f26_b0_c3_d21_e23.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a2_f26_b0_c3_d21_e23.png</name>
+          <exists>-1</exists>
+          <size>1817</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a2_f26_b0_c3_d21_e23.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a3_f32_b0_c3_d27_e29.png</name>
+          <exists>-1</exists>
+          <size>2458</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a3_f32_b0_c3_d27_e29.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a4_f19_b0_c3_d14_e16.png</name>
+          <exists>-1</exists>
+          <size>1080</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a4_f19_b0_c3_d14_e16.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a5_f33_b0_c3_d28_e30.png</name>
+          <exists>-1</exists>
+          <size>2736</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a5_f33_b0_c3_d28_e30.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1167</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a8_f20_b0_c7_d15_e17.png</name>
+          <exists>-1</exists>
+          <size>858</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a8_f20_b0_c7_d15_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a1_f16_b0_c3_d11_e13.png</name>
+          <exists>-1</exists>
+          <size>2444</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a1_f16_b0_c3_d11_e13.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a2_f16_b0_c3_d11_e13.png</name>
+          <exists>-1</exists>
+          <size>2673</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a2_f16_b0_c3_d11_e13.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a3_f16_b0_c3_d11_e13.png</name>
+          <exists>-1</exists>
+          <size>2722</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a3_f16_b0_c3_d11_e13.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a4_f15_b0_c3_d10_e12.png</name>
+          <exists>-1</exists>
+          <size>1822</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a4_f15_b0_c3_d10_e12.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a5_f18_b0_c3_d13_e15.png</name>
+          <exists>-1</exists>
+          <size>4153</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a5_f18_b0_c3_d13_e15.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>2232</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a8_f20_b0_c3_d15_e17.png</name>
+          <exists>-1</exists>
+          <size>4048</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a8_f20_b0_c3_d15_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a1_f23_b0_c3_d18_e20.png</name>
+          <exists>-1</exists>
+          <size>1730</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a1_f23_b0_c3_d18_e20.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a2_f24_b0_c3_d19_e21.png</name>
+          <exists>-1</exists>
+          <size>1585</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a2_f24_b0_c3_d19_e21.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a3_f22_b0_c3_d17_e19.png</name>
+          <exists>-1</exists>
+          <size>1440</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a3_f22_b0_c3_d17_e19.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a4_f17_b0_c3_d12_e14.png</name>
+          <exists>-1</exists>
+          <size>882</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a4_f17_b0_c3_d12_e14.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a5_f30_b0_c3_d25_e27.png</name>
+          <exists>-1</exists>
+          <size>2524</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a5_f30_b0_c3_d25_e27.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1401</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a8_f19_b0_c3_d14_e16.png</name>
+          <exists>-1</exists>
+          <size>873</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a8_f19_b0_c3_d14_e16.png</filename>
+        </datafile>
+      </datafiles>
+      <datafiles number="297" name="fonts">
         <datafile>
           <name>04b09.ttf</name>
           <exists>-1</exists>
@@ -315,23 +1014,6 @@
       <filename>modifiers.ini</filename>
     </datafile>
     <datafile>
-      <name>ipaddress.txt</name>
-      <exists>-1</exists>
-      <size>0</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>ipaddress.txt</filename>
-    </datafile>
-    <datafile>
       <name>readme.txt</name>
       <exists>-1</exists>
       <size>2802</size>
@@ -347,6 +1029,23 @@
         </Config>
       </ConfigOptions>
       <filename>readme.txt</filename>
+    </datafile>
+    <datafile>
+      <name>mod settings.ini</name>
+      <exists>-1</exists>
+      <size>67</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>mod settings.ini</filename>
     </datafile>
     <datafile>
       <name>dictionary.json</name>
@@ -365,8 +1064,8 @@
       </ConfigOptions>
       <filename>dictionary.json</filename>
     </datafile>
-    <datafiles number="245" name="mods">
-      <datafiles number="245" name="titles">
+    <datafiles number="297" name="mods">
+      <datafiles number="297" name="titles">
         <datafile>
           <name>config.ini</name>
           <exists>-1</exists>
@@ -402,8 +1101,8 @@
           <filename>titlebackground.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="245" name="palettes">
-        <datafiles number="245" name="monsters">
+      <datafiles number="297" name="palettes">
+        <datafiles number="297" name="monsters">
           <datafile>
             <name>alpha.png</name>
             <exists>-1</exists>
@@ -424,7 +1123,7 @@
           <datafile>
             <name>config.ini</name>
             <exists>-1</exists>
-            <size>138</size>
+            <size>135</size>
             <exportAction>2</exportAction>
             <exportDir></exportDir>
             <overwrite>0</overwrite>
@@ -575,7 +1274,7 @@
             <filename>zeta_blur.png</filename>
           </datafile>
         </datafiles>
-        <datafiles number="245" name="suits">
+        <datafiles number="297" name="suits">
           <datafile>
             <name>fusion_gravity.png</name>
             <exists>-1</exists>
@@ -678,7 +1377,7 @@
             </ConfigOptions>
             <filename>varia.png</filename>
           </datafile>
-          <datafiles number="245" name="MorphTrailColors">
+          <datafiles number="297" name="MorphTrailColors">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -782,7 +1481,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="245" name="SpaceJumpTrails">
+          <datafiles number="297" name="SpaceJumpTrails">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -886,7 +1585,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="245" name="SpiderBallGlow">
+          <datafiles number="297" name="SpiderBallGlow">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -3423,6 +4122,15 @@
       </sprites>
       <sprite>sprites\sShipGlow</sprite>
     </sprites>
+    <sprites name="Multitroid Assets">
+      <sprite>sprites\sMultitroidIcon</sprite>
+      <sprite>sprites\sPalMultitroidNew</sprite>
+      <sprite>sprites\sDarkMultitroidPlayer</sprite>
+      <sprite>sprites\sPalMultitroidFusion</sprite>
+      <sprite>sprites\sPalSpiderball</sprite>
+      <sprite>sprites\sPalMultitroidBaby</sprite>
+      <sprite>sprites\sMultitroidMapIcon</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bgScreenGuide</background>
@@ -4357,29 +5065,37 @@
       <script>scripts\set_widescreen.gml</script>
     </scripts>
     <scripts name="Nerd">
-      <script>scripts\wrap.gml</script>
+      <script>scripts\update_variables.gml</script>
+      <script>scripts\create_buffer.gml</script>
+      <script>scripts\send_seed.gml</script>
+      <script>scripts\popup_text_ext.gml</script>
+      <script>scripts\draw_character_ext.gml</script>
+    </scripts>
+    <scripts name="Misc">
       <script>scripts\pal_swap_get_color_count.gml</script>
       <script>scripts\pal_swap_set_depth.gml</script>
+      <script>scripts\wrap.gml</script>
       <script>scripts\pal_swap_get_pal_count.gml</script>
       <script>scripts\pal_swap_reset.gml</script>
-      <script>scripts\pal_swap_init_system.gml</script>
-      <script>scripts\pal_swap_set.gml</script>
-      <script>scripts\pal_swap_draw_palette.gml</script>
       <script>scripts\findIndex.gml</script>
-      <script>scripts\update_variables.gml</script>
+      <script>scripts\pal_swap_set.gml</script>
+      <script>scripts\pal_swap_init_system.gml</script>
       <script>scripts\array_clone.gml</script>
       <script>scripts\strict_init.gml</script>
       <script>scripts\strict_compress.gml</script>
       <script>scripts\strict_decompress.gml</script>
       <script>scripts\strict_encode_verb.gml</script>
-      <script>scripts\create_buffer.gml</script>
-      <script>scripts\send_seed.gml</script>
-      <script>scripts\popup_text_ext.gml</script>
+      <script>scripts\pal_swap_draw_palette.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shGameBoy.shader</shader>
-    <shader type="GLSLES">shaders\shPaletteSwap.shader</shader>
+    <shader type="GLSLES">shaders\shd_grayscale.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper_html_sprite.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper_html_surface.shader</shader>
+    <shader type="GLSLES">shaders\shd_sepia.shader</shader>
+    <shader type="GLSLES">shaders\shd_thermal.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -4390,6 +5106,7 @@
     <font>fonts\fontMenuTinyDefault</font>
     <font>fonts\fontMenuSmall2Default</font>
     <font>fonts\fontSubScrDefault</font>
+    <font>fonts\font_displayname</font>
   </fonts>
   <objects name="objects">
     <objects name="Test">
@@ -5420,6 +6137,7 @@
       <object>objects\oA3_Missiles_Glow</object>
     </objects>
     <object>objects\oClient</object>
+    <object>objects\oNametag</object>
   </objects>
   <timelines name="timelines">
     <timeline>timelines\timelineCrystal</timeline>

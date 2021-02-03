@@ -90,6 +90,7 @@ inwater = 0;
 speedmulti = 1;
 targetx = x;
 targety = y;
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -331,10 +332,7 @@ if (state == 5 || dodging) alarm[2] = 3;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.metdead[myid] == 1){
-    instance_destroy();
-}
-if (active == 1) {
+            <string>if (active == 1) {
     if (state == 1) {
         xVel = 0;
         yVel = 0;
@@ -714,6 +712,34 @@ if (instance_exists(grabber)) {
     grabber.x = x + legba1x + legba2x;
     grabber.y = y + legba1y + legba2y;
     if (state != 5) with (grabber) instance_destroy();
+}
+
+if(global.metdead[myid] == 1 &amp;&amp; !dead){
+    myhealth = 0;
+    state = 100;
+    statetime = 0;
+    alarm[10] = 1;
+    alarm[11] = 160;
+    flashtime = 180;
+    turndelay = 180;
+    PlaySoundMono(deathsound);
+    check_areaclear();
+    global.monstersalive -= 1;
+    if(global.monstersalive &lt; 0){
+        global.monstersalive = 0;
+    }
+    if (global.monstersalive == 0) {
+        mus_fadeout(musGammaFight);
+        oMusicV2.bossbgm = sndJump;
+    }
+    if (instance_exists(grabber)) with (grabber) instance_destroy();
+    if (instance_exists(arms)) with (arms) instance_destroy();
+    if (instance_exists(shell)) with (shell) instance_destroy();
+    global.dmap[mapposx, mapposy] = 11;
+    with (oControl) event_user(2);
+    dead = true;
+    xVel = 0;
+    yVel = 0;
 }
 </string>
           </argument>
@@ -1126,6 +1152,7 @@ if (myhealth &lt;= 0) {
     if (instance_exists(arms)) with (arms) instance_destroy();
     global.dmap[mapposx, mapposy] = 11;
     with (oControl) event_user(2);
+    dead = true;
 }
 flashing = 1;
 canbehit = 0;
