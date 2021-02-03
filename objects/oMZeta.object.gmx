@@ -1364,6 +1364,23 @@ if (fxtimer &lt; 5) {
 if (noswipe &gt; 0) noswipe -= 1;
 if (roaring &gt; 0) roaring -= 1;
 moveTo(xVel, yVel);
+
+if(global.metdead[myid] == 1 &amp;&amp; !dead){
+    myhealth = 0;
+    state = 100;
+    statetime = 0;
+    alarm[10] = 1;
+    alarm[11] = 160;
+    with (body_obj) instance_destroy();
+    with (head_obj) instance_destroy();
+    with (mask_obj) instance_destroy();
+    mus_fadeout(musZetaFight);
+    oMusicV2.bossbgm = sndJump;
+    check_areaclear();
+    global.dmap[mapposx, mapposy] = 11;
+    with (oControl) event_user(2);
+    dead = true;
+}
 </string>
           </argument>
         </arguments>
@@ -1551,6 +1568,7 @@ if (myhealth &lt;= 0) {
     check_areaclear();
     global.dmap[mapposx, mapposy] = 11;
     with (oControl) event_user(2);
+    dead = true;
 }
 if (myhealth &gt; 0) {
     PlaySoundMono(sndMZetaHit);

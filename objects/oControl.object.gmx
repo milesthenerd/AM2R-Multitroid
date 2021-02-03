@@ -36,6 +36,7 @@ targetx = 48;
 targety = 432;
 targetroom = rm_a5h01;
 screen_surface = -1;
+global.lastroom = room;
 global.targetroom = initroom;
 black = 0;
 global.classicmode = 0;
@@ -321,7 +322,7 @@ ini_close();
 // NOT Dymanic Version Number
 global.fontVersion = font_add_sprite_ext(sVersionFont, "V.0123456789", true, 1);
 
-global.am2r_version = "V1.5.2 Co-op"; // no longer dynamic, not worth the effort to maintain - mostly because of Android oddities.
+global.am2r_version = "V1.5.2"; // no longer dynamic, not worth the effort to maintain - mostly because of Android oddities.
 
 // Android
 global.gamestarted = 0;
@@ -841,7 +842,7 @@ ini_close();
 // NOT Dymanic Version Number
 global.fontVersion = font_add_sprite_ext(sVersionFont, "V.0123456789", true, 1);
 
-global.am2r_version = "V1.5.2 Co-op"; // no longer dynamic, not worth the effort to maintain - mostly because of Android oddities.
+global.am2r_version = "V1.5.2"; // no longer dynamic, not worth the effort to maintain - mostly because of Android oddities.
 
 // Android
 global.gamestarted = 0;
@@ -1616,6 +1617,7 @@ room_goto(rm_death);
             <string>writelog("UnLoading Room " + string(room));
 global.roomtime = 0;
 fadedone = 0;
+global.lastroom = room;
 </string>
           </argument>
         </arguments>

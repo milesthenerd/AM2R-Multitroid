@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>network_set_config(network_config_connect_timeout, 5000);
 strict_init("dictionary.json");
+queenHealthResetQueued = false;
 canSend = false;
 showName = true;
 metroidCountChanged = false;
@@ -34,11 +35,28 @@ itemChanged = false;
 metdeadChanged = false;
 eventChanged = false;
 mapChanged = false;
+itemstakenChanged = false;
+maxmissilesChanged = false;
+maxsmissilesChanged = false;
+maxpbombsChanged = false;
+maxhealthChanged = false;
+etanksChanged = false;
+mtanksChanged = false;
+stanksChanged = false;
+ptanksChanged = false;
 connected = false;
 queenHealthWait = false;
 queenDead = false;
 sameRoom = false;
+queenHealth = 600;
 phase = 0;
+maxpbombsTimer = 10;
+maxhealthTimer = 10;
+etanksTimer = 10;
+mtanksTimer = 10;
+stanksTimer = 10;
+ptanksTimer = 10;
+teleport = false;
 state = undefined;
 seed = undefined;
 var type;
@@ -46,10 +64,42 @@ type = network_socket_tcp;
 ini_open(working_directory + "\mod settings.ini");
 ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
 name = ini_read_string("ModSettings", "displayname", "name");
+port = ini_read_real("ModSettings", "port", 64198);
+reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
+preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
 ini_close();
-port = 64198;
 socket = network_create_socket(type);
 isConnected = network_connect(socket, ipaddress, port);
+
+switch(preferredcolor){
+    case "green":
+        preferredcolor = 1;
+        break;
+    case "red":
+        preferredcolor = 2;
+        break;
+    case "blue":
+        preferredcolor = 3;
+        break;
+    case "yellow":
+        preferredcolor = 4;
+        break;
+    case "orange":
+        preferredcolor = 5;
+        break;
+    case "purple":
+        preferredcolor = 6;
+        break;
+    case "pink":
+        preferredcolor = 7;
+        break;
+    case "white":
+        preferredcolor = 8;
+        break;
+    case "random":
+        preferredcolor = 9;
+        break;
+}
 
 var size, type, alignment;
 size = 1024;
@@ -84,6 +134,7 @@ roomList = ds_list_create();
 roomListData = ds_list_create();
 global.idList = ds_list_create();
 posData = ds_list_create();
+global.hatchlingList = ds_list_create();
 ds_grid_clear(global.onlineSend, -1);
 ds_grid_clear(global.onlineItem, -1);
 ds_grid_clear(global.onlineMetdead, -1);
@@ -107,6 +158,8 @@ posX = 3;
 posY = 3;
 
 time = 60;
+
+trail = 0;
 </string>
           </argument>
         </arguments>
@@ -158,6 +211,7 @@ ds_list_destroy(roomList);
 ds_list_destroy(roomListData);
 ds_list_destroy(global.idList);
 ds_list_destroy(posData);
+ds_list_destroy(global.hatchlingList);
 
 global.canConnect = false;
 oControl.alarm[10] = 90;
@@ -233,9 +287,6 @@ alarm[11] = 20;
             if(global.prevY != oCharacter.y){
                 global.prevY = oCharacter.y;
             }
-            if(global.roomPrev != room){
-                global.roomPrev = room;
-            }
             if(global.prevSprite != oCharacter.sprite_index){
                 global.prevSprite = oCharacter.sprite_index;
             }
@@ -268,11 +319,150 @@ alarm[11] = 20;
             buffer_write(buffer, buffer_string, name);
             buffer_write(buffer, buffer_s16, oCharacter.image_blend);
             buffer_write(buffer, buffer_s8, oCharacter.fxtimer);
+            buffer_write(buffer, buffer_s16, global.roomPrev);
             var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+            if(global.roomPrev != room){
+                global.roomPrev = room;
+            }
         }
     }
 }
 alarm[10] = 3;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="9">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(global.maxsmissilesPrev != global.maxsmissiles){
+    buffer_delete(buffer);
+    var size, type, alignment;
+    size = 1024;
+    type = buffer_grow;
+    alignment = 1;
+    buffer = buffer_create(size, type, alignment);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 12);
+    buffer_write(buffer, buffer_u8, global.maxsmissiles);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    maxsmissilesChanged = true;
+}
+
+if(!maxsmissilesChanged){
+    alarm[9] = 10;
+}
+
+if(maxsmissilesChanged){
+    maxsmissilesChanged = false;
+    alarm[9]= 75;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="8">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(global.maxmissilesPrev != global.maxmissiles){
+    buffer_delete(buffer);
+    var size, type, alignment;
+    size = 1024;
+    type = buffer_grow;
+    alignment = 1;
+    buffer = buffer_create(size, type, alignment);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 11);
+    buffer_write(buffer, buffer_u16, global.maxmissiles);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    maxmissilesChanged = true;
+}
+
+if(!maxmissilesChanged){
+    alarm[8] = 10;
+}
+
+if(maxmissilesChanged){
+    maxmissilesChanged = false;
+    alarm[8]= 75;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="7">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(global.itemstakenPrev != global.itemstaken){
+    buffer_delete(buffer);
+    var size, type, alignment;
+    size = 1024;
+    type = buffer_grow;
+    alignment = 1;
+    buffer = buffer_create(size, type, alignment);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 10);
+    buffer_write(buffer, buffer_u8, global.itemstaken);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    itemstakenChanged = true;
+}
+
+if(!itemstakenChanged){
+    alarm[7] = 10;
+}
+
+if(itemstakenChanged){
+    itemstakenChanged = false;
+    alarm[7] = 75;
+}
 </string>
           </argument>
         </arguments>
@@ -329,12 +519,12 @@ if(mapChanged){
 }
 
 if(!mapChanged){
-    alarm[6] = 30;
+    alarm[6] = 10;
 }
 
 if(mapChanged){
     mapChanged = false;
-    alarm[6]= 75;
+    alarm[6] = 75;
 }
 </string>
           </argument>
@@ -387,7 +577,7 @@ if(eventChanged){
 }
 
 if(!eventChanged){
-    alarm[5] = 30;
+    alarm[5] = 10;
 }
 
 if(eventChanged){
@@ -442,7 +632,7 @@ if(metdeadChanged){
 }
 
 if(!metdeadChanged){
-    alarm[4] = 30;
+    alarm[4] = 10;
 }
 
 if(metdeadChanged){
@@ -497,7 +687,7 @@ if(itemChanged){
 }
 
 if(!itemChanged){
-    alarm[3] = 30;
+    alarm[3] = 10;
 }
 
 if(itemChanged){
@@ -557,7 +747,7 @@ if(global.monstersareaPrev != global.monstersarea){
 }
 
 if(!metroidCountChanged){
-    alarm[2] = 30;
+    alarm[2] = 10;
 }
 
 if(metroidCountChanged){
@@ -588,13 +778,77 @@ if(metroidCountChanged){
             <kind>1</kind>
             <string>if(queenHealthResetQueued){
     if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+        if(global.queenhealthPrev != queenHealth){
+            if(queenHealth == 999999){
+                queenHealth = 0;
+                oQueenHead.myhealth = queenHealth;
+                with(oQueenHead){
+                    if (myhealth &lt;= 0 &amp;&amp; state != 100 &amp;&amp; state != 50) {
+                        if (oQueen.phase &lt; 3) head_damage = 1;
+                        if (oQueen.phase == 3) head_damage = 2;
+                        if (oQueen.phase &lt; 5) {
+                            state = 50;
+                            statetime = 0;
+                            myhealth = 999999;
+                            with (oQueen) {
+                                state = 6;
+                                statetime = 0;
+                            }
+                        }
+                        if (oQueen.phase == 5) {
+                            with (oQueen) {
+                                state = 100;
+                                statetime = 0;
+                            }
+                            state = 100;
+                        }
+                    }
+                }
+            }
+        }
         oQueenHead.myhealth = queenHealth;
         oQueen.phase = phase;
-        if(state == 100){
-            oQueen.state = state;
-            oQueen.statetime = 0;
-        }
         queenHealthResetQueued = false;
+        if(phase &gt;= 1 &amp;&amp; instance_exists(inst_146524)){
+            event_perform_object(oQueenFireball, ev_other, ev_user1);
+            oQueen.state = 7;
+            oQueen.statetime = 0;
+            with(oQueen){
+                head_target_snap = 1;
+                head_target_x = x + neck_x + 10;
+                head_target_y = y + neck_y;
+            }
+        }
+        if(phase &gt;= 2 &amp;&amp; instance_exists(inst_146525) &amp;&amp; instance_exists(inst_146520)){
+            event_perform_object(oQueenFireball, ev_other, ev_user2);
+            oQueen.state = 7;
+            oQueen.statetime = 0;
+            with(oQueen){
+                head_target_snap = 1;
+                head_target_x = x + neck_x + 10;
+                head_target_y = y + neck_y;
+            }
+        }
+        if(phase &gt;= 3 &amp;&amp; instance_exists(inst_146526) &amp;&amp; instance_exists(inst_146514)){
+            event_perform_object(oQueenFireball, ev_other, ev_user3);
+            oQueen.state = 7;
+            oQueen.statetime = 0;
+            with(oQueen){
+                head_target_snap = 1;
+                head_target_x = x + neck_x + 10;
+                head_target_y = y + neck_y;
+            }
+        }
+        if(phase &gt;= 4 &amp;&amp; instance_exists(inst_146527)){
+            event_perform_object(oQueenFireball, ev_other, ev_user4);
+            oQueen.state = 7;
+            oQueen.statetime = 0;
+            with(oQueen){
+                head_target_snap = 1;
+                head_target_x = x + neck_x + 10;
+                head_target_y = y + neck_y;
+            }
+        }
     }
     alarm[1] = 5;
 }
@@ -715,7 +969,7 @@ if(canSend){
 }
 
 if(!canSend){
-    alarm[0] = 30;
+    alarm[0] = 10;
 }
 
 if(canSend){
@@ -729,6 +983,8 @@ if(instance_exists(oCharacter)){
         if(oCharacter.state != oCharacter.DEFEATED){
             oCharacter.alarm[0] = 6;
             oCharacter.state = oCharacter.DEFEATED;
+            mus_current_fadeout();
+            sfx_stop_all();
         }
     }
 }
@@ -743,7 +999,7 @@ if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &am
         buffer = buffer_create(size, type, alignment);
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_u8, 2);
-        buffer_write(buffer, buffer_s16, oQueenHead.myhealth);
+        buffer_write(buffer, buffer_s32, oQueenHead.myhealth);
         buffer_write(buffer, buffer_u8, global.clientID);
         buffer_write(buffer, buffer_s8, oQueen.phase);
         buffer_write(buffer, buffer_s8, oQueen.state);
@@ -751,6 +1007,7 @@ if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &am
     }
 }
 
+/*
 if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
     if(oQueen.phase &lt; phase){
         oQueen.phase = phase;
@@ -758,6 +1015,7 @@ if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
         phase = oQueen.phase;
     }
 }
+*/
 </string>
           </argument>
         </arguments>
@@ -793,89 +1051,57 @@ if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_u8, 1);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        instance_create(x, y, oNametag);
     } else {
         instance_destroy();
         popup_text("Failed to connect");
     }
 }
 
+
 if(instance_exists(oCharacter)){
-    if(global.event[303] &gt; 0){
-        phase = 0;
-    }
-    
-    if(global.event[203] &lt; 9){
+    if(global.event[203] &lt; 9 &amp;&amp; string_lower(reactorsequence) == "disabled"){
         global.event[203] = 9;
     }
 }
 
+if(global.event[303] &gt; 0){
+    phase = 0;
+}
+
+if(room == rm_death){
+    phase = 0;
+    queenHealth = 600;
+}
+
+if((room == rm_a4b02 || room == rm_a4b03 || room == rm_a4b04 || room == rm_a4b05 || room == rm_a4b06 || room == rm_a4b07 || room == rm_a4b08 || room == rm_a4b09 || room == rm_a4b10 || room == rm_a4b11 || room == rm_a4b12 || room == rm_a4b13 || room == rm_a4b14 || room == rm_a4b15 || room == rm_a4b16 || room == rm_a4b17 || room == rm_a4b18 || room == rm_a4b19) &amp;&amp; global.event[203] &gt; 0 &amp;&amp; global.event[203] &lt; 9 &amp;&amp; !instance_exists(oA4EscapeControl)){
+    instance_create(x, y, oA4EscapeControl);
+}
+
+if(room == rm_a4b01 &amp;&amp; global.event[203] == 9 &amp;&amp; instance_exists(oA4EscapeControl)){
+    with(oA4EscapeControl){
+        event_user(0);
+    }
+}
+
+if(is_undefined(oQueenHead.myhealth) &amp;&amp; is_undefined(oQueen.phase)){
+    if(!queenHealthResetQueued){
+        queenHealthResetQueued = true;
+        alarm[1] = 5;
+    }
+}
+
 if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
-    if(phase &gt;= 1 &amp;&amp; instance_exists(inst_146524)){
-        event_perform_object(oQueenFireball, ev_other, ev_user1);
-        oQueen.state = 7;
-        oQueen.statetime = 0;
-        with(oQueen){
-            head_target_snap = 1;
-            head_target_x = x + neck_x + 30;
-            head_target_y = y + neck_y;
-        }
-    }
-    if(phase &gt;= 2 &amp;&amp; instance_exists(inst_146525) &amp;&amp; instance_exists(inst_146520)){
-        event_perform_object(oQueenFireball, ev_other, ev_user2);
-        oQueen.state = 7;
-        oQueen.statetime = 0;
-        with(oQueen){
-            head_target_snap = 1;
-            head_target_x = x + neck_x + 30;
-            head_target_y = y + neck_y;
-        }
-    }
-    if(phase &gt;= 3 &amp;&amp; instance_exists(inst_146526) &amp;&amp; instance_exists(inst_146514)){
-        event_perform_object(oQueenFireball, ev_other, ev_user3);
-        oQueen.state = 7;
-        oQueen.statetime = 0;
-        with(oQueen){
-            head_target_snap = 1;
-            head_target_x = x + neck_x + 30;
-            head_target_y = y + neck_y;
-        }
-    }
-    if(phase &gt;= 4 &amp;&amp; instance_exists(inst_146527)){
-        event_perform_object(oQueenFireball, ev_other, ev_user4);
-        oQueen.state = 7;
-        oQueen.statetime = 0;
-        with(oQueen){
-            head_target_snap = 1;
-            head_target_x = x + neck_x + 30;
-            head_target_y = y + neck_y;
-        }
-    }
     if(global.event[303] &gt; 0 &amp;&amp; !queenDead){
-        oQueen.state = 100;
-        oQueen.statetime = 0;
-        /*
         with(oQueen){
-            height_target_front = 10;
-            height_target_back = 10;
-            head_obj.push = 0;
-            head_obj.canhit = 0;
-            head_obj.state = 100;
-            head_obj.statetime = 0;
-            leg1f_obj.canhit = 0;
-            leg1b_obj.canhit = 0;
-            head_target_x = x + neck_x + 40;
-            head_target_y = y + neck_y + 5;
-            alarm[9] = 1;
-            alarm[10] = 300;
-            head_obj.alarm[9] = 1;
-            head_obj.alarm[10] = 280;
-            canhit = 0;
+            state = 100;
+            statetime = 0;
             mus_fadeout(musQueen);
+            mus_fadeout(musQueen2);
             mus_fadeout(musQueen3);
-            oMusicV2.bossbgm = sndJump;
-            sfx_play(sndQueenDeath);
+            mus_fadeout(musQueenBreak);
+            mus_fadeout(musQueenIntro);
         }
-        */
         queenDead = true;
     }
 }
@@ -888,7 +1114,6 @@ if(keyboard_check_pressed(vk_f3)){
     popup_text_ext(string(oControl.seed), 300);
 }
 
-
 if(keyboard_check_pressed(vk_f4)){
     showName = -showName;
     if(showName){
@@ -898,7 +1123,6 @@ if(keyboard_check_pressed(vk_f4)){
     }
 }
 
-
 if(instance_exists(oCharacter)){
     posX = global.mapposx;
     posY = global.mapposy;
@@ -907,7 +1131,7 @@ if(instance_exists(oCharacter)){
     posY = posY;
 }
 
-if(time == 0){
+if(time == 0 &amp;&amp; connected){
     if(ds_list_size(global.idList) &gt; 0){
         checkListID = ds_list_create();
         for(var i=0; i&lt;ds_list_size(global.idList); i++){
@@ -940,7 +1164,201 @@ if(time == 0){
     time = 60;
 }
 
+if(maxpbombsTimer == 0 &amp;&amp; connected){
+    if(global.maxpbombsPrev != global.maxpbombs){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 13);
+        buffer_write(buffer, buffer_u8, global.maxpbombs);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        maxpbombsChanged = true;
+    }
+    
+    if(!maxpbombsChanged){
+        maxpbombsTimer = 10;
+    }
+    
+    if(maxpbombsChanged){
+        maxpbombsChanged = false;
+        maxpbombsTimer = 75;
+    }
+}
+
+if(maxhealthTimer == 0 &amp;&amp; connected){
+    if(global.maxhealthPrev != global.maxhealth){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 14);
+        buffer_write(buffer, buffer_u16, global.maxhealth);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        maxhealthChanged = true;
+    }
+    
+    if(!maxhealthChanged){
+        maxhealthTimer = 10;
+    }
+    
+    if(maxhealthChanged){
+        maxhealthChanged = false;
+        maxhealthTimer = 75;
+    }
+}
+
+if(etanksTimer == 0 &amp;&amp; connected){
+    if(global.etanksPrev != global.etanks){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 15);
+        buffer_write(buffer, buffer_u8, global.etanks);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        etanksChanged = true;
+    }
+    
+    if(!etanksChanged){
+        etanksTimer = 10;
+    }
+    
+    if(etanksChanged){
+        etanksChanged = false;
+        etanksTimer = 75;
+    }
+}
+
+if(mtanksTimer == 0 &amp;&amp; connected){
+    if(global.mtanksPrev != global.mtanks){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 16);
+        buffer_write(buffer, buffer_u8, global.mtanks);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        mtanksChanged = true;
+    }
+    
+    if(!mtanksChanged){
+        mtanksTimer = 10;
+    }
+    
+    if(mtanksChanged){
+        mtanksChanged = false;
+        mtanksTimer = 75;
+    }
+}
+
+if(stanksTimer == 0 &amp;&amp; connected){
+    if(global.stanksPrev != global.stanks){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 17);
+        buffer_write(buffer, buffer_u8, global.stanks);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        stanksChanged = true;
+    }
+    
+    if(!stanksChanged){
+        stanksTimer = 10;
+    }
+    
+    if(stanksChanged){
+        stanksChanged = false;
+        stanksTimer = 75;
+    }
+}
+
+if(ptanksTimer == 0 &amp;&amp; connected){
+    if(global.ptanksPrev != global.ptanks){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 18);
+        buffer_write(buffer, buffer_u8, global.ptanks);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        ptanksChanged = true;
+    }
+    
+    if(!ptanksChanged){
+        ptanksTimer = 10;
+    }
+    
+    if(ptanksChanged){
+        ptanksChanged = false;
+        ptanksTimer = 75;
+    }
+}
+
 time--;
+maxpbombsTimer--;
+maxhealthTimer--;
+etanksTimer--;
+mtanksTimer--;
+stanksTimer--;
+ptanksTimer--;
+
+if(instance_exists(self)){
+    if(ds_list_size(roomListData) &gt; 0){
+        for(var h=0; h&lt;ds_list_size(roomListData); h++){
+            var arrList = roomListData[| h];
+            var arrID = arrList[0];
+            var arrX = arrList[1];
+            var arrY = arrList[2];
+            var findHatchlingID = ds_list_find_index(global.hatchlingList, arrID);
+            if(instance_exists(oHatchling)){
+                if(findHatchlingID == -1){
+                    ds_list_add(global.hatchlingList, arrID);
+                    var hatchling = instance_create(arrX, arrY, oHatchling);
+                    with(hatchling){
+                        targetx = arrX;
+                        targety = arrY;
+                        myid = arrID;
+                    }
+                }
+            } else {
+                if(findHatchlingID &gt;= 0){
+                    ds_list_delete(global.hatchlingList, findHatchlingID);
+                }
+            }
+        }
+    } else {
+        if(ds_list_size(global.hatchlingList) &gt; 0){
+            ds_list_clear(global.hatchlingList);
+        }
+    }
+}
+
 </string>
           </argument>
         </arguments>
@@ -999,6 +1417,16 @@ switch(type_event){
                         ds_list_delete(posData, v);
                     }
                 }
+                if(instance_exists(oHatchling)){
+                    with(oHatchling){
+                        if(myid != 0){
+                            instance_destroy();
+                        }
+                    }
+                }
+                break;
+            case 200:
+                global.clientID = preferredcolor;
                 break;
             case 100:
                 var clientID = buffer_read(_buffer, buffer_u8);
@@ -1019,10 +1447,11 @@ switch(type_event){
                 var clientName = buffer_read(_buffer, buffer_string);
                 var clientBlend = buffer_read(_buffer, buffer_s16);
                 var clientFXTimer = buffer_read(_buffer, buffer_s8);
+                var clientRoomPrev = buffer_read(_buffer, buffer_s16);
                 var findsocket = ds_list_find_index(roomList, clientID);
                 if(global.clientID != clientID){
                     if(findsocket &lt; 0){
-                        if(clientRoom == room){
+                        if(clientRoom == room || clientRoom == rm_options || clientRoom == itemroom || clientRoom == subscreenroom || clientRoom == maproom || clientRoom == rm_subscreen){
                             ds_list_add(roomList, clientID);
                             var arr;
                             arr[0] = clientID;
@@ -1043,6 +1472,7 @@ switch(type_event){
                             arr[15] = clientName;
                             arr[16] = clientBlend;
                             arr[17] = clientFXTimer;
+                            arr[18] = clientRoomPrev;
                             ds_list_add(roomListData, arr);
                         }
                     } else {
@@ -1065,6 +1495,7 @@ switch(type_event){
                         arr[15] = clientName;
                         arr[16] = clientBlend;
                         arr[17] = clientFXTimer;
+                        arr[18] = clientRoomPrev;
                         var indexValue = ds_list_find_value(roomList, findsocket);
                         for(var i=0; i&lt;ds_list_size(roomListData); i++){
                                 var arrList = roomListData[| i];
@@ -1072,7 +1503,7 @@ switch(type_event){
                                     roomListData[| i] = arr;
                                 }
                             }
-                        if(clientRoom != room){
+                        if(clientRoom != room &amp;&amp; (clientRoom != rm_options &amp;&amp; clientRoom != itemroom &amp;&amp; clientRoom != subscreenroom &amp;&amp; clientRoom != maproom &amp;&amp; clientRoom != rm_subscreen)){
                             sameRoom = false;
                             var indexValue = ds_list_find_value(roomList, findsocket);
                             ds_list_delete(roomList, findsocket);
@@ -1094,16 +1525,28 @@ switch(type_event){
                 var findsocket = ds_list_find_index(roomList, clientID);
                 if(clientRoom == room &amp;&amp; global.clientID != clientID){
                     sameRoom = true;
-                } else if(clientRoom != room &amp;&amp; global.clientID != clientID){
+                } else if(clientRoom != room &amp;&amp; global.clientID != clientID &amp;&amp; (clientRoom != rm_options &amp;&amp; clientRoom != itemroom &amp;&amp; clientRoom != subscreenroom &amp;&amp; clientRoom != maproom &amp;&amp; clientRoom != rm_subscreen)){
                     if(ds_list_size(roomList) &gt; 0 &amp;&amp; findsocket &gt;= 0){
                         sameRoom = false;
                         var indexValue = ds_list_find_value(roomList, findsocket);
                         ds_list_delete(roomList, findsocket);
                         for(var i=0; i&lt;ds_list_size(roomListData); i++){
                             var arrList = roomListData[| i];
-                            if(arrList[0] == indexValue){
+                            if(arrList[0] == clientID){
                                 ds_list_delete(roomListData, i);
                             }
+                        }
+                    }
+                }
+                
+                var findsocket = ds_list_find_index(roomList, clientID);
+                
+                if(ds_list_size(roomList) &gt; 0 &amp;&amp; findsocket &gt;= 0){
+                    for(var i=0; i&lt;ds_list_size(roomListData); i++){
+                        var arrList = roomListData[| i];
+                        if(arrList[0] == clientID){
+                            arrList[14] = clientRoom;
+                            roomListData[| i] = arrList;
                         }
                     }
                 }
@@ -1146,6 +1589,16 @@ switch(type_event){
                     }
                 }
                 ds_list_destroy(checkList);
+                
+                if(clientRoom == rm_a4b01 &amp;&amp; room != rm_a4b01 &amp;&amp; global.event[203] &gt; 0 &amp;&amp; global.event[203] &lt; 9 &amp;&amp; !teleport &amp;&amp; string_lower(reactorsequence) == "synced"){
+                    if(room == rm_a4b02 || room == rm_a4b03 || room == rm_a4b04 || room == rm_a4b05 || room == rm_a4b06 || room == rm_a4b07 || room == rm_a4b08 || room == rm_a4b09 || room == rm_a4b10 || room == rm_a4b11 || room == rm_a4b12 || room == rm_a4b13 || room == rm_a4b14 || room == rm_a4b15 || room == rm_a4b16 || room == rm_a4b17 || room == rm_a4b18 || room == rm_a4b19){
+                        teleport = true;
+                        global.targetx = 624;
+                        global.targety = 144;
+                        room_change(rm_a4b01, 1);
+                    }
+                }
+                
                 break;
             case 102:
                 ds_list_read(global.idList, strict_decompress(buffer_read(_buffer, buffer_string)));
@@ -1158,8 +1611,22 @@ switch(type_event){
                 alarm[4] = 5;
                 alarm[5] = 5;
                 alarm[6] = 5;
+                alarm[7] = 5;
+                alarm[8] = 5;
+                alarm[9] = 5;
                 alarm[10] = 3;
                 alarm[11] = 20;
+                buffer_delete(buffer);
+                var size, type, alignment;
+                size = 1024;
+                type = buffer_grow;
+                alignment = 1;
+                buffer = buffer_create(size, type, alignment);
+                buffer_seek(buffer, buffer_seek_start, 0);
+                buffer_write(buffer, buffer_u8, 200);
+                buffer_write(buffer, buffer_u8, global.clientID);
+                buffer_write(buffer, buffer_u8, preferredcolor);
+                var result = network_send_packet(socket, buffer, buffer_tell(buffer));
                 break;
             case 1:
                 ds_grid_read(global.onlineReceived, strict_decompress(buffer_read(_buffer, buffer_string)));
@@ -1172,7 +1639,7 @@ switch(type_event){
                     update_variables("disablesame");
                     update_variables("replaceglobalvars");
                     update_variables("updateprev");
-                    alarm[0] = 30;
+                    alarm[0] = 10;
                     ds_grid_clear(global.onlineReceived, -1);
                 } 
                 break;
@@ -1184,11 +1651,11 @@ switch(type_event){
                 //global.itemChanges = 0;
                 //global.metdeadChanges = 0;
                 //global.eventChanges = 0;
-                alarm[0] = 30;
+                alarm[0] = 10;
                 ds_grid_clear(global.onlineReceived, -1);
                 break;
             case 3:
-                queenHealth = buffer_read(_buffer, buffer_s16);
+                queenHealth = buffer_read(_buffer, buffer_s32);
                 var clientID = buffer_read(_buffer, buffer_u8);
                 phase = buffer_read(_buffer, buffer_s8);
                 state = buffer_read(_buffer, buffer_s8);
@@ -1196,6 +1663,32 @@ switch(type_event){
                     if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
                         if(oQueen.phase == phase){
                             if(global.queenhealthPrev != queenHealth){
+                                if(queenHealth == 999999){
+                                    queenHealth = 0;
+                                    oQueenHead.myhealth = queenHealth;
+                                    with(oQueenHead){
+                                        if (myhealth &lt;= 0 &amp;&amp; state != 100 &amp;&amp; state != 50) {
+                                            if (oQueen.phase &lt; 3) head_damage = 1;
+                                            if (oQueen.phase == 3) head_damage = 2;
+                                            if (oQueen.phase &lt; 5) {
+                                                state = 50;
+                                                statetime = 0;
+                                                myhealth = 999999;
+                                                with (oQueen) {
+                                                    state = 6;
+                                                    statetime = 0;
+                                                }
+                                            }
+                                            if (oQueen.phase == 5) {
+                                                with (oQueen) {
+                                                    state = 100;
+                                                    statetime = 0;
+                                                }
+                                                state = 100;
+                                            }
+                                        }
+                                    }
+                                }
                                 global.queenhealthPrev = queenHealth;
                                 oQueenHead.myhealth = queenHealth;
                             }
@@ -1204,12 +1697,10 @@ switch(type_event){
                         if(global.queenphasePrev != phase){
                             global.queenphasePrev = phase;
                         }
-                    } else if(is_undefined(oQueenHead.myhealth) &amp;&amp; is_undefined(oQueen.phase)){
-                            queenHealthResetQueued = true;
-                            alarm[1] = 5;
-                        }
+                    }
                 } else {
                     if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+                        /*
                         if(oQueen.phase == phase){
                             if(global.queenhealthPrev != queenHealth){
                                 global.queenhealthPrev = queenHealth;
@@ -1220,7 +1711,9 @@ switch(type_event){
                         if(global.queenphasePrev != phase){
                             global.queenphasePrev = phase;
                         }
-                        
+                        */
+                        global.queenhealthPrev = oQueenHead.myhealth;
+                        global.queenphasePrev = oQueen.phase;
                     }
                 }
                 break;
@@ -1244,7 +1737,7 @@ switch(type_event){
                 } else if(global.clientID == clientID){
                     global.monstersleftPrev = global.monstersleft;
                 }
-                alarm[2] = 30;
+                alarm[2] = 10;
                 break;
             case 6:
                 var monstersArea = buffer_read(_buffer, buffer_s8);
@@ -1255,7 +1748,7 @@ switch(type_event){
                 } else if(global.clientID == clientID){
                     global.monstersareaPrev = global.monstersarea;
                 }
-                alarm[2] = 30;
+                alarm[2] = 10;
                 break;
             case 7:
                 var item = ds_grid_create(1, 1);
@@ -1274,7 +1767,7 @@ switch(type_event){
                         }
                     }
                 }
-                alarm[3] = 30;
+                alarm[3] = 10;
                 if(global.clientID == clientID){
                     ds_grid_clear(global.onlineItem, -1);
                     global.itemChanges = 0;
@@ -1298,7 +1791,7 @@ switch(type_event){
                         }
                     }
                 }
-                alarm[4] = 30;
+                alarm[4] = 10;
                 if(global.clientID == clientID){
                     ds_grid_clear(global.onlineMetdead, -1);
                     global.metdeadChanges = 0;
@@ -1318,11 +1811,47 @@ switch(type_event){
                                 if(global.event[i] != eventArr[f, 0]){
                                     global.event[i] = eventArr[f, 0];
                                 }
+                                if(eventArr[f, 1] == 308){
+                                    if(eventArr[f, 0] == 1 &amp;&amp; clientID != global.clientID){
+                                        if(instance_exists(oCharacter)){
+                                            with(oCharacter){
+                                                facing = 0;
+                                                if (global.currentsuit == 0) sprite_index = scr_suit_sprites(sFront,sFront_fusion);
+                                                if (global.currentsuit == 1) sprite_index = scr_suit_sprites(sVFront,sFront_fusion);
+                                                if (global.currentsuit == 2) sprite_index = scr_suit_sprites(sGFront,sFront_fusion);
+                                                global.enablecontrol = 0;
+                                            }
+                                        }
+                                        popup_text_ext("Ship reached", 120);
+                                    }
+                                    if(eventArr[f, 0] == 2 &amp;&amp; clientID != global.clientID){
+                                        oControl.displaygui = 0;
+                                    }
+                                    if(eventArr[f, 0] == 3 &amp;&amp; clientID != global.clientID){
+                                        instance_create(0, 0, oFinalFadeout);
+                                        mus_fadeout(musHatchling);
+                                    }
+                                    if(eventArr[f, 0] == 4 &amp;&amp; clientID != global.clientID){
+                                        remove_persistent_objects();
+                                        sfx_stop_all();
+                                        global.vibL = 0;
+                                        global.vibR = 0;
+                                        global.ingame = 0;
+                                        global.darkness = 0;
+                                        global.gotolog = -1;
+                                        global.enablecontrol = 1;
+                                        global.transitiontype = 0;
+                                        oControl.displaygui = 1;
+                                        room_goto(rm_credits);
+                                        mus_stop_all();
+                                        mus_play_once(musCredits);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-                alarm[5] = 30;
+                alarm[5] = 10;
                 if(global.clientID == clientID){
                     ds_grid_clear(global.onlineEvent, -1);
                     global.eventChanges = 0;
@@ -1351,12 +1880,111 @@ switch(type_event){
                         }
                     }
                 }
-                alarm[6] = 30;
+                alarm[6] = 10;
                 if(global.clientID == clientID){
                     ds_grid_clear(global.onlineMap, -1);
                     global.dmapChanges = 0;
                 }
                 ds_grid_destroy(dmap);
+                break;
+            case 11:
+                var itemstaken = buffer_read(_buffer, buffer_u8);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; itemstaken != global.itemstaken){
+                    global.itemstakenPrev = itemstaken;
+                    global.itemstaken = itemstaken;
+                } else if(clientID == global.clientID){
+                    global.itemstakenPrev = global.itemstaken;
+                }
+                alarm[7] = 1;
+                break;
+            case 12:
+                var maxmissiles = buffer_read(_buffer, buffer_u16);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; maxmissiles != global.maxmissiles){
+                    global.maxmissilesPrev = maxmissiles;
+                    global.maxmissiles = maxmissiles;
+                } else if(clientID == global.clientID){
+                    global.maxmissilesPrev = global.maxmissiles;
+                }
+                alarm[8] = 1;
+                break;
+            case 13:
+                var maxsmissiles = buffer_read(_buffer, buffer_u8);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; maxsmissiles != global.maxsmissiles){
+                    global.maxsmissilesPrev = maxsmissiles;
+                    global.maxsmissiles = maxsmissiles;
+                } else if(clientID == global.clientID){
+                    global.maxsmissilesPrev = global.maxsmissiles;
+                }
+                alarm[9] = 1;
+                break;
+            case 14:
+                var maxpbombs = buffer_read(_buffer, buffer_u8);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; maxpbombs != global.maxpbombs){
+                    global.maxpbombsPrev = maxpbombs;
+                    global.maxpbombs = maxpbombs;
+                } else if(clientID == global.clientID){
+                    global.maxpbombsPrev = global.maxpbombs;
+                }
+                maxpbombsTimer = 1;
+                break;
+            case 15:
+                var maxhealth = buffer_read(_buffer, buffer_u16);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; maxhealth != global.maxhealth){
+                    global.maxhealthPrev = maxhealth;
+                    global.maxhealth = maxhealth;
+                } else if(clientID == global.clientID){
+                    global.maxhealthPrev = global.maxhealth;
+                }
+                maxhealthTimer = 1;
+                break;
+            case 16:
+                var etanks = buffer_read(_buffer, buffer_u8);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; etanks != global.etanks){
+                    global.etanksPrev = etanks;
+                    global.etanks = etanks;
+                } else if(clientID == global.clientID){
+                    global.etanksPrev = global.etanks;
+                }
+                etanksTimer = 1;
+                break;
+            case 17:
+                var mtanks = buffer_read(_buffer, buffer_u8);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; mtanks != global.mtanks){
+                    global.mtanksPrev = mtanks;
+                    global.mtanks = mtanks;
+                } else if(clientID == global.clientID){
+                    global.mtanksPrev = global.mtanks;
+                }
+                mtanksTimer = 1;
+                break;
+            case 18:
+                var stanks = buffer_read(_buffer, buffer_u8);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; stanks != global.stanks){
+                    global.stanksPrev = stanks;
+                    global.stanks = stanks;
+                } else if(clientID == global.clientID){
+                    global.stanksPrev = global.stanks;
+                }
+                stanksTimer = 1;
+                break;
+            case 19:
+                var ptanks = buffer_read(_buffer, buffer_u8);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; ptanks != global.ptanks){
+                    global.ptanksPrev = ptanks;
+                    global.ptanks = ptanks;
+                } else if(clientID == global.clientID){
+                    global.ptanksPrev = global.ptanks;
+                }
+                ptanksTimer = 1;
                 break;
         }
 }
@@ -1410,6 +2038,7 @@ ds_list_destroy(roomList);
 ds_list_destroy(roomListData);
 ds_list_destroy(global.idList);
 ds_list_destroy(posData);
+ds_list_destroy(global.hatchlingList);
 </string>
           </argument>
         </arguments>
@@ -1453,7 +2082,8 @@ ds_list_destroy(posData);
         var arrName = arrDraw[15];
         var arrBlend = arrDraw[16];
         var arrFXTimer = arrDraw[17];
-        if(arrRoom == room &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
+        var arrRoomPrev = arrDraw[18];
+        if((arrRoom == room || arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen) &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
             if(arrSprite == sSpiderMorphBall || arrSprite == sGSpiderMorphBall || arrSprite == sVSpiderMorphBall || arrSprite == sSpiderMorphBall_fusion || arrSprite == sSpiderMorphBall_fusion_gravity || arrSprite == sSpiderMorphBall_fusion_varia){
                 draw_set_blend_mode(bm_add);
                 draw_set_alpha(arrFXTimer * 0.1);
@@ -1464,11 +2094,12 @@ ds_list_destroy(posData);
                 draw_set_alpha(1);
                 draw_set_blend_mode(bm_normal);
             }
-            draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
-            if(showName){
-                draw_set_font(font_displayname);
-                draw_set_halign(fa_center);
-                draw_cool_text(arrX, arrY - 52, arrName, c_black, c_white, c_white, 1);
+            if(arrRoom != room){
+                if(arrRoomPrev == room){
+                    draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
+                }
+            } else {
+                draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
             }
         }
     }
@@ -1481,7 +2112,7 @@ if(instance_exists(oMapCursor)){
             var arrID = arrMapIcon[0];
             var arrX = arrMapIcon[1];
             var arrY = arrMapIcon[2];
-            draw_sprite(sDarkMultitroidPlayer, (arrID - 1), (arrX * 8), ((arrY * 8) + 32));
+            draw_sprite_ext(sMultitroidMapIcon, (arrID - 1), (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
         }
     }
 }

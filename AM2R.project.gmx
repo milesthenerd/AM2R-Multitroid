@@ -4128,6 +4128,8 @@
       <sprite>sprites\sDarkMultitroidPlayer</sprite>
       <sprite>sprites\sPalMultitroidFusion</sprite>
       <sprite>sprites\sPalSpiderball</sprite>
+      <sprite>sprites\sPalMultitroidBaby</sprite>
+      <sprite>sprites\sMultitroidMapIcon</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -5063,25 +5065,27 @@
       <script>scripts\set_widescreen.gml</script>
     </scripts>
     <scripts name="Nerd">
-      <script>scripts\wrap.gml</script>
+      <script>scripts\update_variables.gml</script>
+      <script>scripts\create_buffer.gml</script>
+      <script>scripts\send_seed.gml</script>
+      <script>scripts\popup_text_ext.gml</script>
+      <script>scripts\draw_character_ext.gml</script>
+    </scripts>
+    <scripts name="Misc">
       <script>scripts\pal_swap_get_color_count.gml</script>
       <script>scripts\pal_swap_set_depth.gml</script>
+      <script>scripts\wrap.gml</script>
       <script>scripts\pal_swap_get_pal_count.gml</script>
       <script>scripts\pal_swap_reset.gml</script>
-      <script>scripts\pal_swap_init_system.gml</script>
-      <script>scripts\pal_swap_set.gml</script>
-      <script>scripts\pal_swap_draw_palette.gml</script>
       <script>scripts\findIndex.gml</script>
-      <script>scripts\update_variables.gml</script>
+      <script>scripts\pal_swap_set.gml</script>
+      <script>scripts\pal_swap_init_system.gml</script>
       <script>scripts\array_clone.gml</script>
       <script>scripts\strict_init.gml</script>
       <script>scripts\strict_compress.gml</script>
       <script>scripts\strict_decompress.gml</script>
       <script>scripts\strict_encode_verb.gml</script>
-      <script>scripts\create_buffer.gml</script>
-      <script>scripts\send_seed.gml</script>
-      <script>scripts\popup_text_ext.gml</script>
-      <script>scripts\draw_character_ext.gml</script>
+      <script>scripts\pal_swap_draw_palette.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -6133,6 +6137,7 @@
       <object>objects\oA3_Missiles_Glow</object>
     </objects>
     <object>objects\oClient</object>
+    <object>objects\oNametag</object>
   </objects>
   <timelines name="timelines">
     <timeline>timelines\timelineCrystal</timeline>

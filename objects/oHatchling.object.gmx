@@ -37,6 +37,7 @@ mealtimer = 0;
 flash = 0;
 chaseX = 0;
 alarm1set = 0;
+myid = 0;
 </string>
           </argument>
         </arguments>
@@ -84,10 +85,11 @@ followplayer = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>sfx_play(choose(sndHatchling,sndHatchling2,sndHatchling3,sndHatchling4));
-alarm[0] = 300 + irandom(320);
-roaring = 60;
-
+            <string>if(myid == 0){
+    sfx_play(choose(sndHatchling,sndHatchling2,sndHatchling3,sndHatchling4));
+    alarm[0] = 300 + irandom(320);
+    roaring = 60;
+}
 /*sfx_play(sndHatchling);
 
 </string>
@@ -112,37 +114,58 @@ roaring = 60;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.event[304] == 1 &amp;&amp; distance_to_object(oA7Crystal1) &lt; 120) {
-    tgtobj = instance_nearest(x, y, oA7Crystal1);
-    if (tgtobj != -4) {
-        targetx = tgtobj.x + 8;
-        targety = tgtobj.y + 8;
-        accel = 0.4;
-        maxspeed = 3.2;
-        if (mealtimer &gt; 600) accel *= 2;
-    }
-    followplayer = 0;
-} 
-else if (distance_to_object(oXPickup) &lt; 150 ) {
-    if (chaseX == 1)
-    {
-        tgtobj = instance_nearest(x, y, oXPickup);
+            <string>if(myid == 0){
+    if (global.event[304] == 1 &amp;&amp; distance_to_object(oA7Crystal1) &lt; 120) {
+        tgtobj = instance_nearest(x, y, oA7Crystal1);
         if (tgtobj != -4) {
-            targetx = tgtobj.x;
-            targety = tgtobj.y - 11;
+            targetx = tgtobj.x + 8;
+            targety = tgtobj.y + 8;
             accel = 0.4;
             maxspeed = 3.2;
             if (mealtimer &gt; 600) accel *= 2;
         }
         followplayer = 0;
+    } 
+    else if (distance_to_object(oXPickup) &lt; 150 ) {
+        if (chaseX == 1)
+        {
+            tgtobj = instance_nearest(x, y, oXPickup);
+            if (tgtobj != -4) {
+                targetx = tgtobj.x;
+                targety = tgtobj.y - 11;
+                accel = 0.4;
+                maxspeed = 3.2;
+                if (mealtimer &gt; 600) accel *= 2;
+            }
+            followplayer = 0;
+        }
+        else if (alarm1set == 0)
+        {
+            alarm1set = 1;
+            alarm[1] = 45;
+        }
+        
+        
     }
-    else if (alarm1set == 0)
-    {
-        alarm1set = 1;
-        alarm[1] = 45;
+else 
+{
+    followplayer = 1;
+    chaseX = 0;
+    alarm1set = 0;
+}
+} else {
+    if(instance_exists(oClient)){
+        if(ds_list_size(global.hatchlingList) &gt; 0){
+            var findHatchlingID = ds_list_find_index(global.hatchlingList, myid);
+            if(findHatchlingID == -1){
+                instance_destroy();
+            } 
+        } else {
+            instance_destroy();
+        }
+    } else {
+        instance_destroy();
     }
-    
-    
 }
 /*
 else if (distance_to_object(oEnemy) &lt; 120 ) {
@@ -168,14 +191,7 @@ else if (distance_to_object(oEnemy) &lt; 120 ) {
 }
 */
 
-else 
-{
-    followplayer = 1;
-    chaseX = 0;
-    alarm1set = 0;
-}
-
-if (followplayer) {
+if (followplayer &amp;&amp; myid == 0) {
     targetx = oCharacter.x;
     targety = oCharacter.y - 30;
     if (distance_to_point(oCharacter.x, oCharacter.y - 16) &gt; 128) {
@@ -191,6 +207,42 @@ if (followplayer) {
     } else {
         accel = 0.3;
         maxspeed = 2.5;
+    }
+} else if(followplayer &amp;&amp; myid != 0){
+    if(instance_exists(oClient)){
+        if(ds_list_size(global.hatchlingList) &gt; 0){
+            var findHatchlingID = ds_list_find_index(global.hatchlingList, myid);
+            if(findHatchlingID &gt;= 0){
+                if(ds_list_size(oClient.roomListData) &gt; 0){
+                    for(var h=0; h&lt;ds_list_size(oClient.roomListData); h++){
+                        var arrList = oClient.roomListData[| h];
+                        var arrID = arrList[0];
+                        var arrX = arrList[1];
+                        var arrY = arrList[2];
+                        if(arrID == myid){
+                            targetx = arrX;
+                            targety = arrY - 30;
+                            if (distance_to_point(arrX, arrY - 16) &gt; 128) {
+                                accel = 0.8;
+                                maxspeed = 8;
+                            }
+                            if (distance_to_point(arrX, arrY - 16) &gt; 64) {
+                                accel = 0.6;
+                                maxspeed = 6;
+                            } else if (distance_to_point(arrX, arrY - 16) &gt; 32) {
+                                accel = 0.4;
+                                maxspeed = 4;
+                            } else {
+                                accel = 0.3;
+                                maxspeed = 2.5;
+                            }
+                        }
+                    }
+                } else {
+                    instance_destroy();
+                }
+            }
+        } 
     }
 }
 if (roaring &gt; 0) {
@@ -224,10 +276,19 @@ mealtimer += 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
-draw_set_blend_mode(bm_add);
-draw_sprite_ext(sprite_index, -1, x, y, 1, 1, 0, -1, flash);
-draw_set_blend_mode(bm_normal);
+            <string>if(myid == 0){
+    draw_self();
+    draw_set_blend_mode(bm_add);
+    draw_sprite_ext(sprite_index, -1, x, y, 1, 1, 0, -1, flash);
+    draw_set_blend_mode(bm_normal);
+} else {
+    pal_swap_set(sPalMultitroidBaby, myid, false);
+    draw_self();
+    draw_sprite_ext(sprite_index, -1, x, y, 1, 1, 0, -1, flash);
+    pal_swap_reset();
+    shader_reset();
+}
+
 </string>
           </argument>
         </arguments>

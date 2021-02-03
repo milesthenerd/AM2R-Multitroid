@@ -295,7 +295,7 @@ if (global.ophudshowmap){
             var xDiff = oClient.posX - arrData[1];
             var yDiff = oClient.posY - arrData[2];
             if(abs(xDiff) <= 2 && abs(yDiff) <= 1){
-                draw_sprite(sDarkMultitroidPlayer, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)));
+                draw_sprite_ext(sMultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
             }
         }
     }

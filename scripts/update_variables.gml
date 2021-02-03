@@ -57,7 +57,7 @@ switch(argument0){
                 } else if(global.onlineReceived[# 2, i] == 25 && global.receivedClientID == global.clientID){
                     global.smissilesPrev = global.smissiles;
                 }
-                
+                /*
                 if(global.onlineReceived[# 2, i] == 2 && global.receivedClientID != global.clientID){
                     global.itemstaken = global.onlineReceived[# 1, i];
                     if(global.itemstakenPrev != global.itemstaken){
@@ -102,7 +102,7 @@ switch(argument0){
                 } else if(global.onlineReceived[# 2, i] == 8 && global.receivedClientID == global.clientID){
                     global.maxhealthPrev = global.maxhealth;
                 }
-                
+                */
                 if(global.onlineReceived[# 2, i] == 9 && global.receivedClientID != global.clientID){
                     global.playerhealth = global.onlineReceived[# 1, i];
                     if(global.playerhealthPrev != global.playerhealth){
@@ -316,7 +316,7 @@ switch(argument0){
                 } else if(global.onlineReceived[# 2, i] == 26 && global.receivedClientID == global.clientID){
                     global.pbombsPrev = global.pbombs;
                 }
-                
+                /*
                 if(global.onlineReceived[# 2, i] == 27 && global.receivedClientID != global.clientID){
                     global.etanks = global.onlineReceived[# 1, i];
                     if(global.etanksPrev != global.etanks){
@@ -352,7 +352,7 @@ switch(argument0){
                 } else if(global.onlineReceived[# 2, i] == 30 && global.receivedClientID == global.clientID){
                     global.ptanksPrev = global.ptanks;
                 }
-                
+                */
                 if(global.onlineReceived[# 2, i] == 31 && global.receivedClientID != global.clientID){
                     global.currentsuit = global.onlineReceived[# 1, i];
                     if(global.currentsuitPrev != global.currentsuit){
@@ -376,20 +376,20 @@ switch(argument0){
         //ds_grid_set(global.onlineList, 1, 0, global.item);
         //ds_grid_set(global.onlineList, 0, 1, global.metdeadPrev);
         //ds_grid_set(global.onlineList, 1, 1, global.metdead);
-        ds_grid_set(global.onlineList, 0, 2, global.itemstakenPrev);
-        ds_grid_set(global.onlineList, 1, 2, global.itemstaken);
+        //ds_grid_set(global.onlineList, 0, 2, global.itemstakenPrev);
+        //ds_grid_set(global.onlineList, 1, 2, global.itemstaken);
         //ds_grid_set(global.onlineList, 0, 3, global.eventPrev);
         //ds_grid_set(global.onlineList, 1, 3, global.event);
         //ds_grid_set(global.onlineList, 0, 4, global.monstersleftPrev);
         //ds_grid_set(global.onlineList, 1, 4, global.monstersleft);
-        ds_grid_set(global.onlineList, 0, 5, global.maxmissilesPrev);
-        ds_grid_set(global.onlineList, 1, 5, global.maxmissiles);
-        ds_grid_set(global.onlineList, 0, 6, global.maxsmissilesPrev);
-        ds_grid_set(global.onlineList, 1, 6, global.maxsmissiles);
-        ds_grid_set(global.onlineList, 0, 7, global.maxpbombsPrev);
-        ds_grid_set(global.onlineList, 1, 7, global.maxpbombs);
-        ds_grid_set(global.onlineList, 0, 8, global.maxhealthPrev);
-        ds_grid_set(global.onlineList, 1, 8, global.maxhealth);
+        //ds_grid_set(global.onlineList, 0, 5, global.maxmissilesPrev);
+        //ds_grid_set(global.onlineList, 1, 5, global.maxmissiles);
+        //ds_grid_set(global.onlineList, 0, 6, global.maxsmissilesPrev);
+        //ds_grid_set(global.onlineList, 1, 6, global.maxsmissiles);
+        //ds_grid_set(global.onlineList, 0, 7, global.maxpbombsPrev);
+        //ds_grid_set(global.onlineList, 1, 7, global.maxpbombs);
+        //ds_grid_set(global.onlineList, 0, 8, global.maxhealthPrev);
+        //ds_grid_set(global.onlineList, 1, 8, global.maxhealth);
         ds_grid_set(global.onlineList, 0, 9, global.playerhealthPrev);
         ds_grid_set(global.onlineList, 1, 9, global.playerhealth);
         ds_grid_set(global.onlineList, 0, 10, global.morphballPrev);
@@ -426,14 +426,14 @@ switch(argument0){
         ds_grid_set(global.onlineList, 1, 25, global.smissiles);
         ds_grid_set(global.onlineList, 0, 26, global.pbombsPrev);
         ds_grid_set(global.onlineList, 1, 26, global.pbombs);
-        ds_grid_set(global.onlineList, 0, 27, global.etanksPrev);
-        ds_grid_set(global.onlineList, 1, 27, global.etanks);
-        ds_grid_set(global.onlineList, 0, 28, global.mtanksPrev);
-        ds_grid_set(global.onlineList, 1, 28, global.mtanks);
-        ds_grid_set(global.onlineList, 0, 29, global.stanksPrev);
-        ds_grid_set(global.onlineList, 1, 29, global.stanks);
-        ds_grid_set(global.onlineList, 0, 30, global.ptanksPrev);
-        ds_grid_set(global.onlineList, 1, 30, global.ptanks);
+        //ds_grid_set(global.onlineList, 0, 27, global.etanksPrev);
+        //ds_grid_set(global.onlineList, 1, 27, global.etanks);
+        //ds_grid_set(global.onlineList, 0, 28, global.mtanksPrev);
+        //ds_grid_set(global.onlineList, 1, 28, global.mtanks);
+        //ds_grid_set(global.onlineList, 0, 29, global.stanksPrev);
+        //ds_grid_set(global.onlineList, 1, 29, global.stanks);
+        //ds_grid_set(global.onlineList, 0, 30, global.ptanksPrev);
+        //ds_grid_set(global.onlineList, 1, 30, global.ptanks);
         ds_grid_set(global.onlineList, 0, 31, global.currentsuitPrev);
         ds_grid_set(global.onlineList, 1, 31, global.currentsuit);
         //ds_grid_set(global.onlineList, 0, 32, global.monstersareaPrev);
@@ -444,13 +444,13 @@ switch(argument0){
     case "replaceglobalvars":
         //global.item = ds_grid_get(global.onlineList, 1, 0);
         //global.metdead = ds_grid_get(global.onlineList, 1, 1);
-        global.itemstaken = ds_grid_get(global.onlineList, 1, 2);
+        //global.itemstaken = ds_grid_get(global.onlineList, 1, 2);
         //global.event = ds_grid_get(global.onlineList, 1, 3);
         //global.monstersleft = ds_grid_get(global.onlineList, 1, 4);
-        global.maxmissiles = ds_grid_get(global.onlineList, 1, 5);
-        global.maxsmissiles = ds_grid_get(global.onlineList, 1, 6);
-        global.maxpbombs = ds_grid_get(global.onlineList, 1, 7);
-        global.maxhealth = ds_grid_get(global.onlineList, 1, 8);
+        //global.maxmissiles = ds_grid_get(global.onlineList, 1, 5);
+        //global.maxsmissiles = ds_grid_get(global.onlineList, 1, 6);
+        //global.maxpbombs = ds_grid_get(global.onlineList, 1, 7);
+        //global.maxhealth = ds_grid_get(global.onlineList, 1, 8);
         global.playerhealth = ds_grid_get(global.onlineList, 1, 9);
         global.morphball = ds_grid_get(global.onlineList, 1, 10);
         global.jumpball = ds_grid_get(global.onlineList, 1, 11);
@@ -469,10 +469,10 @@ switch(argument0){
         global.missiles = ds_grid_get(global.onlineList, 1, 24);
         global.smissiles = ds_grid_get(global.onlineList, 1, 25);
         global.pbombs = ds_grid_get(global.onlineList, 1, 26);
-        global.etanks = ds_grid_get(global.onlineList, 1, 27);
-        global.mtanks = ds_grid_get(global.onlineList, 1, 28);
-        global.stanks = ds_grid_get(global.onlineList, 1, 29);
-        global.ptanks = ds_grid_get(global.onlineList, 1, 30);
+        //global.etanks = ds_grid_get(global.onlineList, 1, 27);
+        //global.mtanks = ds_grid_get(global.onlineList, 1, 28);
+        //global.stanks = ds_grid_get(global.onlineList, 1, 29);
+        //global.ptanks = ds_grid_get(global.onlineList, 1, 30);
         global.currentsuit = ds_grid_get(global.onlineList, 1, 31);
         //global.monstersarea = ds_grid_get(global.onlineList, 1, 32);
         global.lavastate = ds_grid_get(global.onlineList, 1, 33);
