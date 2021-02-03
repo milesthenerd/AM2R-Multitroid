@@ -1523,6 +1523,17 @@ switch(type_event){
                 var clientMapX = buffer_read(_buffer, buffer_s16);
                 var clientMapY = buffer_read(_buffer, buffer_s16);
                 var findsocket = ds_list_find_index(roomList, clientID);
+                if(instance_exists(oCharacter)){
+                    if(clientRoom == rm_death){
+                        if(oCharacter.state != oCharacter.DEFEATED){
+                            oCharacter.alarm[0] = 6;
+                            oCharacter.state = oCharacter.DEFEATED;
+                            mus_current_fadeout();
+                            sfx_stop_all();
+                        }
+                    }
+                }
+                                
                 if(clientRoom == room &amp;&amp; global.clientID != clientID){
                     sameRoom = true;
                 } else if(clientRoom != room &amp;&amp; global.clientID != clientID &amp;&amp; (clientRoom != rm_options &amp;&amp; clientRoom != itemroom &amp;&amp; clientRoom != subscreenroom &amp;&amp; clientRoom != maproom &amp;&amp; clientRoom != rm_subscreen)){

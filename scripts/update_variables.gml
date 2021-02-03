@@ -156,6 +156,22 @@ switch(argument0){
                 
                 if(global.onlineReceived[# 2, i] == 13 && global.receivedClientID != global.clientID){
                     global.spacejump = global.onlineReceived[# 1, i];
+                    if(sfx_isplaying(sndSpinJump)){
+                        sfx_stop(sndSpinJump);
+                    }
+                    
+                    if(sfx_isplaying(sndSpaceJump)){
+                        sfx_stop(sndSpaceJump);
+                    }
+                    
+                    if(sfx_isplaying(sndScrewAttack)){
+                        sfx_stop(sndScrewAttack);
+                    }
+                    
+                    if(sfx_isplaying(sndSpaceScrewAttack)){
+                        sfx_stop(sndSpaceScrewAttack);
+                    }
+                    
                     if(global.spacejumpPrev != global.spacejump){
                         global.spacejumpPrev = global.spacejump;
                     }
@@ -170,6 +186,22 @@ switch(argument0){
                 
                 if(global.onlineReceived[# 2, i] == 14 && global.receivedClientID != global.clientID){
                     global.screwattack = global.onlineReceived[# 1, i];
+                    if(sfx_isplaying(sndSpinJump)){
+                        sfx_stop(sndSpinJump);
+                    }
+                    
+                    if(sfx_isplaying(sndSpaceJump)){
+                        sfx_stop(sndSpaceJump);
+                    }
+                    
+                    if(sfx_isplaying(sndScrewAttack)){
+                        sfx_stop(sndScrewAttack);
+                    }
+                    
+                    if(sfx_isplaying(sndSpaceScrewAttack)){
+                        sfx_stop(sndSpaceScrewAttack);
+                    }
+                    
                     if(global.screwattackPrev != global.screwattack){
                         global.screwattackPrev = global.screwattack;
                     }
