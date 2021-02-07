@@ -40,7 +40,7 @@ switch(argument0){
     case "updateprev":
         for(var i=0; i<ds_grid_height(global.onlineReceived); i++){
             if(global.onlineReceived[# 2, i] != -1){
-                if(global.onlineReceived[# 2, i] == 24 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 15 && global.receivedClientID != global.clientID){
                     if(instance_exists(oCharacter)){
                         if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
                             global.missiles = global.onlineReceived[# 1, i];
@@ -51,11 +51,11 @@ switch(argument0){
                     if(global.missilesPrev != global.missiles){
                         global.missilesPrev = global.missiles;
                     }
-                } else if(global.onlineReceived[# 2, i] == 24 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 15 && global.receivedClientID == global.clientID){
                     global.missilesPrev = global.missiles;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 25 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 16 && global.receivedClientID != global.clientID){
                     if(instance_exists(oCharacter)){
                         if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
                             global.smissiles = global.onlineReceived[# 1, i];
@@ -66,7 +66,7 @@ switch(argument0){
                     if(global.smissilesPrev != global.smissiles){
                         global.smissilesPrev = global.smissiles;
                     }
-                } else if(global.onlineReceived[# 2, i] == 25 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 16 && global.receivedClientID == global.clientID){
                     global.smissilesPrev = global.smissiles;
                 }
                 /*
@@ -115,7 +115,7 @@ switch(argument0){
                     global.maxhealthPrev = global.maxhealth;
                 }
                 */
-                if(global.onlineReceived[# 2, i] == 9 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 0 && global.receivedClientID != global.clientID){
                     if(instance_exists(oCharacter)){
                         if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
                             global.playerhealth = global.onlineReceived[# 1, i];
@@ -126,11 +126,11 @@ switch(argument0){
                     if(global.playerhealthPrev != global.playerhealth){
                         global.playerhealthPrev = global.playerhealth;
                     }
-                } else if(global.onlineReceived[# 2, i] == 9 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 0 && global.receivedClientID == global.clientID){
                     global.playerhealthPrev = global.playerhealth;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 10 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 1 && global.receivedClientID != global.clientID){
                     global.morphball = global.onlineReceived[# 1, i];
                     if(global.morphballPrev != global.morphball){
                         global.morphballPrev = global.morphball;
@@ -140,11 +140,11 @@ switch(argument0){
                     } else {
                         popup_text("Morph disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 10 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 1 && global.receivedClientID == global.clientID){
                     global.morphballPrev = global.morphball;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 11 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 2 && global.receivedClientID != global.clientID){
                     global.jumpball = global.onlineReceived[# 1, i];
                     if(global.jumpballPrev != global.jumpball){
                         global.jumpballPrev = global.jumpball;
@@ -154,11 +154,11 @@ switch(argument0){
                     } else {
                         popup_text("Springball disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 11 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 2 && global.receivedClientID == global.clientID){
                     global.jumpballPrev = global.jumpball;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 12 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 3 && global.receivedClientID != global.clientID){
                     global.powergrip = global.onlineReceived[# 1, i];
                     if(global.powergripPrev != global.powergrip){
                         global.powergripPrev = global.powergrip;
@@ -168,11 +168,11 @@ switch(argument0){
                     } else {
                         popup_text("Powergrip disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 12 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 3 && global.receivedClientID == global.clientID){
                     global.powergripPrev = global.powergrip;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 13 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 4 && global.receivedClientID != global.clientID){
                     global.spacejump = global.onlineReceived[# 1, i];
                     if(sfx_isplaying(sndSpinJump)){
                         sfx_stop(sndSpinJump);
@@ -198,11 +198,11 @@ switch(argument0){
                     } else {
                         popup_text("Spacejump disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 13 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 4 && global.receivedClientID == global.clientID){
                     global.spacejumpPrev = global.spacejump;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 14 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 5 && global.receivedClientID != global.clientID){
                     global.screwattack = global.onlineReceived[# 1, i];
                     if(sfx_isplaying(sndSpinJump)){
                         sfx_stop(sndSpinJump);
@@ -228,11 +228,11 @@ switch(argument0){
                     } else {
                         popup_text("Screwattack disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 14 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 5 && global.receivedClientID == global.clientID){
                     global.screwattackPrev = global.screwattack;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 15 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 6 && global.receivedClientID != global.clientID){
                     global.hijump = global.onlineReceived[# 1, i];
                     if(global.hijumpPrev != global.hijump){
                         global.hijumpPrev = global.hijump;
@@ -242,11 +242,11 @@ switch(argument0){
                     } else {
                         popup_text("Hi jump disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 15 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 6 && global.receivedClientID == global.clientID){
                     global.hijumpPrev = global.hijump;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 16 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 7 && global.receivedClientID != global.clientID){
                     global.spiderball = global.onlineReceived[# 1, i];
                     if(global.spiderballPrev != global.spiderball){
                         global.spiderballPrev = global.spiderball;
@@ -256,11 +256,11 @@ switch(argument0){
                     } else {
                         popup_text("Spiderball disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 16 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 7 && global.receivedClientID == global.clientID){
                     global.spiderballPrev = global.spiderball;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 17 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 8 && global.receivedClientID != global.clientID){
                     global.speedbooster = global.onlineReceived[# 1, i];
                     if(global.speedboosterPrev != global.speedbooster){
                         global.speedboosterPrev = global.speedbooster;
@@ -270,11 +270,11 @@ switch(argument0){
                     } else {
                         popup_text("Speedbooster disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 17 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 8 && global.receivedClientID == global.clientID){
                     global.speedboosterPrev = global.speedbooster;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 9 && global.receivedClientID != global.clientID){
                     global.bomb = global.onlineReceived[# 1, i];
                     if(global.bombPrev != global.bomb){
                         global.bombPrev = global.bomb;
@@ -284,11 +284,11 @@ switch(argument0){
                     } else {
                         popup_text("Bombs disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 9 && global.receivedClientID == global.clientID){
                     global.bombPrev = global.bomb;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 19 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 10 && global.receivedClientID != global.clientID){
                     global.ibeam = global.onlineReceived[# 1, i];
                     if(global.ibeamPrev != global.ibeam){
                         global.ibeamPrev = global.ibeam;
@@ -298,11 +298,11 @@ switch(argument0){
                     } else {
                         popup_text("Ice beam disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 19 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 10 && global.receivedClientID == global.clientID){
                     global.ibeamPrev = global.ibeam;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 20 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 11 && global.receivedClientID != global.clientID){
                     global.wbeam = global.onlineReceived[# 1, i];
                     if(global.wbeamPrev != global.wbeam){
                         global.wbeamPrev = global.wbeam;
@@ -312,11 +312,11 @@ switch(argument0){
                     } else {
                         popup_text("Wave beam disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 20 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 11 && global.receivedClientID == global.clientID){
                     global.wbeamPrev = global.wbeam;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 21 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 12 && global.receivedClientID != global.clientID){
                     global.pbeam = global.onlineReceived[# 1, i];
                     if(global.pbeamPrev != global.pbeam){
                         global.pbeamPrev = global.pbeam;
@@ -326,11 +326,11 @@ switch(argument0){
                     } else {
                         popup_text("Plasma beam disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 21 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 12 && global.receivedClientID == global.clientID){
                     global.pbeamPrev = global.pbeam;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 22 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 13 && global.receivedClientID != global.clientID){
                     global.sbeam = global.onlineReceived[# 1, i];
                     if(global.sbeamPrev != global.sbeam){
                         global.sbeamPrev = global.sbeam;
@@ -340,11 +340,11 @@ switch(argument0){
                     } else {
                         popup_text("Spazer beam disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 22 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 13 && global.receivedClientID == global.clientID){
                     global.sbeamPrev = global.sbeam;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 23 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 14 && global.receivedClientID != global.clientID){
                     global.cbeam = global.onlineReceived[# 1, i];
                     if(global.cbeamPrev != global.cbeam){
                         global.cbeamPrev = global.cbeam;
@@ -354,11 +354,11 @@ switch(argument0){
                     } else {
                         popup_text("Charge beam disabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 23 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 14 && global.receivedClientID == global.clientID){
                     global.cbeamPrev = global.cbeam;
                 }
                 
-                if(global.onlineReceived[# 2, i] == 26 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 17 && global.receivedClientID != global.clientID){
                     if(instance_exists(oCharacter)){
                         if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
                             global.pbombs = global.onlineReceived[# 1, i];
@@ -369,7 +369,7 @@ switch(argument0){
                     if(global.pbombsPrev != global.pbombs){
                         global.pbombsPrev = global.pbombs;
                     }
-                } else if(global.onlineReceived[# 2, i] == 26 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 17 && global.receivedClientID == global.clientID){
                     global.pbombsPrev = global.pbombs;
                 }
                 /*
@@ -409,7 +409,7 @@ switch(argument0){
                     global.ptanksPrev = global.ptanks;
                 }
                 */
-                if(global.onlineReceived[# 2, i] == 31 && global.receivedClientID != global.clientID){
+                if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID != global.clientID){
                     global.currentsuit = global.onlineReceived[# 1, i];
                     if(global.currentsuitPrev != global.currentsuit){
                         global.currentsuitPrev = global.currentsuit;
@@ -421,7 +421,7 @@ switch(argument0){
                     } else if(global.currentsuit == 0){
                         popup_text("Power suit enabled");
                     }
-                } else if(global.onlineReceived[# 2, i] == 31 && global.receivedClientID == global.clientID){
+                } else if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID == global.clientID){
                     global.currentsuitPrev = global.currentsuit;
                 }
             }
@@ -446,42 +446,42 @@ switch(argument0){
         //ds_grid_set(global.onlineList, 1, 7, global.maxpbombs);
         //ds_grid_set(global.onlineList, 0, 8, global.maxhealthPrev);
         //ds_grid_set(global.onlineList, 1, 8, global.maxhealth);
-        ds_grid_set(global.onlineList, 0, 9, global.playerhealthPrev);
-        ds_grid_set(global.onlineList, 1, 9, global.playerhealth);
-        ds_grid_set(global.onlineList, 0, 10, global.morphballPrev);
-        ds_grid_set(global.onlineList, 1, 10, global.morphball);
-        ds_grid_set(global.onlineList, 0, 11, global.jumpballPrev);
-        ds_grid_set(global.onlineList, 1, 11, global.jumpball);
-        ds_grid_set(global.onlineList, 0, 12, global.powergripPrev);
-        ds_grid_set(global.onlineList, 1, 12, global.powergrip);
-        ds_grid_set(global.onlineList, 0, 13, global.spacejumpPrev);
-        ds_grid_set(global.onlineList, 1, 13, global.spacejump);
-        ds_grid_set(global.onlineList, 0, 14, global.screwattackPrev);
-        ds_grid_set(global.onlineList, 1, 14, global.screwattack);
-        ds_grid_set(global.onlineList, 0, 15, global.hijumpPrev);
-        ds_grid_set(global.onlineList, 1, 15, global.hijump);
-        ds_grid_set(global.onlineList, 0, 16, global.spiderballPrev);
-        ds_grid_set(global.onlineList, 1, 16, global.spiderball);
-        ds_grid_set(global.onlineList, 0, 17, global.speedboosterPrev);
-        ds_grid_set(global.onlineList, 1, 17, global.speedbooster);
-        ds_grid_set(global.onlineList, 0, 18, global.bombPrev);
-        ds_grid_set(global.onlineList, 1, 18, global.bomb);
-        ds_grid_set(global.onlineList, 0, 19, global.ibeamPrev);
-        ds_grid_set(global.onlineList, 1, 19, global.ibeam);
-        ds_grid_set(global.onlineList, 0, 20, global.wbeamPrev);
-        ds_grid_set(global.onlineList, 1, 20, global.wbeam);
-        ds_grid_set(global.onlineList, 0, 21, global.pbeamPrev);
-        ds_grid_set(global.onlineList, 1, 21, global.pbeam);
-        ds_grid_set(global.onlineList, 0, 22, global.sbeamPrev);
-        ds_grid_set(global.onlineList, 1, 22, global.sbeam);
-        ds_grid_set(global.onlineList, 0, 23, global.cbeamPrev);
-        ds_grid_set(global.onlineList, 1, 23, global.cbeam);
-        ds_grid_set(global.onlineList, 0, 24, global.missilesPrev);
-        ds_grid_set(global.onlineList, 1, 24, global.missiles);
-        ds_grid_set(global.onlineList, 0, 25, global.smissilesPrev);
-        ds_grid_set(global.onlineList, 1, 25, global.smissiles);
-        ds_grid_set(global.onlineList, 0, 26, global.pbombsPrev);
-        ds_grid_set(global.onlineList, 1, 26, global.pbombs);
+        ds_grid_set(global.onlineList, 0, 0, global.playerhealthPrev);
+        ds_grid_set(global.onlineList, 1, 0, global.playerhealth);
+        ds_grid_set(global.onlineList, 0, 1, global.morphballPrev);
+        ds_grid_set(global.onlineList, 1, 1, global.morphball);
+        ds_grid_set(global.onlineList, 0, 2, global.jumpballPrev);
+        ds_grid_set(global.onlineList, 1, 2, global.jumpball);
+        ds_grid_set(global.onlineList, 0, 3, global.powergripPrev);
+        ds_grid_set(global.onlineList, 1, 3, global.powergrip);
+        ds_grid_set(global.onlineList, 0, 4, global.spacejumpPrev);
+        ds_grid_set(global.onlineList, 1, 4, global.spacejump);
+        ds_grid_set(global.onlineList, 0, 5, global.screwattackPrev);
+        ds_grid_set(global.onlineList, 1, 5, global.screwattack);
+        ds_grid_set(global.onlineList, 0, 6, global.hijumpPrev);
+        ds_grid_set(global.onlineList, 1, 6, global.hijump);
+        ds_grid_set(global.onlineList, 0, 7, global.spiderballPrev);
+        ds_grid_set(global.onlineList, 1, 7, global.spiderball);
+        ds_grid_set(global.onlineList, 0, 8, global.speedboosterPrev);
+        ds_grid_set(global.onlineList, 1, 8, global.speedbooster);
+        ds_grid_set(global.onlineList, 0, 9, global.bombPrev);
+        ds_grid_set(global.onlineList, 1, 9, global.bomb);
+        ds_grid_set(global.onlineList, 0, 10, global.ibeamPrev);
+        ds_grid_set(global.onlineList, 1, 10, global.ibeam);
+        ds_grid_set(global.onlineList, 0, 11, global.wbeamPrev);
+        ds_grid_set(global.onlineList, 1, 11, global.wbeam);
+        ds_grid_set(global.onlineList, 0, 12, global.pbeamPrev);
+        ds_grid_set(global.onlineList, 1, 12, global.pbeam);
+        ds_grid_set(global.onlineList, 0, 13, global.sbeamPrev);
+        ds_grid_set(global.onlineList, 1, 13, global.sbeam);
+        ds_grid_set(global.onlineList, 0, 14, global.cbeamPrev);
+        ds_grid_set(global.onlineList, 1, 14, global.cbeam);
+        ds_grid_set(global.onlineList, 0, 15, global.missilesPrev);
+        ds_grid_set(global.onlineList, 1, 15, global.missiles);
+        ds_grid_set(global.onlineList, 0, 16, global.smissilesPrev);
+        ds_grid_set(global.onlineList, 1, 16, global.smissiles);
+        ds_grid_set(global.onlineList, 0, 17, global.pbombsPrev);
+        ds_grid_set(global.onlineList, 1, 17, global.pbombs);
         //ds_grid_set(global.onlineList, 0, 27, global.etanksPrev);
         //ds_grid_set(global.onlineList, 1, 27, global.etanks);
         //ds_grid_set(global.onlineList, 0, 28, global.mtanksPrev);
@@ -490,12 +490,12 @@ switch(argument0){
         //ds_grid_set(global.onlineList, 1, 29, global.stanks);
         //ds_grid_set(global.onlineList, 0, 30, global.ptanksPrev);
         //ds_grid_set(global.onlineList, 1, 30, global.ptanks);
-        ds_grid_set(global.onlineList, 0, 31, global.currentsuitPrev);
-        ds_grid_set(global.onlineList, 1, 31, global.currentsuit);
+        ds_grid_set(global.onlineList, 0, 18, global.currentsuitPrev);
+        ds_grid_set(global.onlineList, 1, 18, global.currentsuit);
         //ds_grid_set(global.onlineList, 0, 32, global.monstersareaPrev);
         //ds_grid_set(global.onlineList, 1, 32, global.monstersarea);
-        ds_grid_set(global.onlineList, 0, 33, global.lavastatePrev);
-        ds_grid_set(global.onlineList, 1, 33, global.lavastate);
+        ds_grid_set(global.onlineList, 0, 19, global.lavastatePrev);
+        ds_grid_set(global.onlineList, 1, 19, global.lavastate);
         break;
     case "replaceglobalvars":
         //global.item = ds_grid_get(global.onlineList, 1, 0);
@@ -507,39 +507,39 @@ switch(argument0){
         //global.maxsmissiles = ds_grid_get(global.onlineList, 1, 6);
         //global.maxpbombs = ds_grid_get(global.onlineList, 1, 7);
         //global.maxhealth = ds_grid_get(global.onlineList, 1, 8);
-        global.playerhealth = ds_grid_get(global.onlineList, 1, 9);
-        global.morphball = ds_grid_get(global.onlineList, 1, 10);
-        global.jumpball = ds_grid_get(global.onlineList, 1, 11);
-        global.powergrip = ds_grid_get(global.onlineList, 1, 12);
-        global.spacejump = ds_grid_get(global.onlineList, 1, 13);
-        global.screwattack = ds_grid_get(global.onlineList, 1, 14);
-        global.hijump = ds_grid_get(global.onlineList, 1, 15);
-        global.spiderball = ds_grid_get(global.onlineList, 1, 16);
-        global.speedbooster = ds_grid_get(global.onlineList, 1, 17);
-        global.bomb = ds_grid_get(global.onlineList, 1, 18);
-        global.ibeam = ds_grid_get(global.onlineList, 1, 19);
-        global.wbeam = ds_grid_get(global.onlineList, 1, 20);
-        global.pbeam = ds_grid_get(global.onlineList, 1, 21);
-        global.sbeam = ds_grid_get(global.onlineList, 1, 22);
-        global.cbeam = ds_grid_get(global.onlineList, 1, 23);
-        global.missiles = ds_grid_get(global.onlineList, 1, 24);
-        global.smissiles = ds_grid_get(global.onlineList, 1, 25);
-        global.pbombs = ds_grid_get(global.onlineList, 1, 26);
+        global.playerhealth = ds_grid_get(global.onlineList, 1, 0);
+        global.morphball = ds_grid_get(global.onlineList, 1, 1);
+        global.jumpball = ds_grid_get(global.onlineList, 1, 2);
+        global.powergrip = ds_grid_get(global.onlineList, 1, 3);
+        global.spacejump = ds_grid_get(global.onlineList, 1, 4);
+        global.screwattack = ds_grid_get(global.onlineList, 1, 5);
+        global.hijump = ds_grid_get(global.onlineList, 1, 6);
+        global.spiderball = ds_grid_get(global.onlineList, 1, 7);
+        global.speedbooster = ds_grid_get(global.onlineList, 1, 8);
+        global.bomb = ds_grid_get(global.onlineList, 1, 9);
+        global.ibeam = ds_grid_get(global.onlineList, 1, 10);
+        global.wbeam = ds_grid_get(global.onlineList, 1, 11);
+        global.pbeam = ds_grid_get(global.onlineList, 1, 12);
+        global.sbeam = ds_grid_get(global.onlineList, 1, 13);
+        global.cbeam = ds_grid_get(global.onlineList, 1, 14);
+        global.missiles = ds_grid_get(global.onlineList, 1, 15);
+        global.smissiles = ds_grid_get(global.onlineList, 1, 16);
+        global.pbombs = ds_grid_get(global.onlineList, 1, 17);
         //global.etanks = ds_grid_get(global.onlineList, 1, 27);
         //global.mtanks = ds_grid_get(global.onlineList, 1, 28);
         //global.stanks = ds_grid_get(global.onlineList, 1, 29);
         //global.ptanks = ds_grid_get(global.onlineList, 1, 30);
-        global.currentsuit = ds_grid_get(global.onlineList, 1, 31);
+        global.currentsuit = ds_grid_get(global.onlineList, 1, 18);
         //global.monstersarea = ds_grid_get(global.onlineList, 1, 32);
-        global.lavastate = ds_grid_get(global.onlineList, 1, 33);
+        global.lavastate = ds_grid_get(global.onlineList, 1, 19);
         break;
     case "disablesame":
         for(var i=0; i<ds_grid_height(global.onlineReceived); i++){
-            if(global.onlineReceived[# 2, i] != -1 && i != 0 && i != 1 && i != 3 && i != 9 && i != 24 && i != 25 && i != 26){
+            if(global.onlineReceived[# 2, i] != -1 && i != 0 && i != 15 && i != 16 && i != 17){
                 global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
             }
             
-            if(global.onlineReceived[# 2, i] != -1 && (i == 9 || i == 24 || i == 25 || i == 26)){
+            if(global.onlineReceived[# 2, i] != -1 && (i == 0 || i == 15 || i == 16 || i == 17)){
                 if(instance_exists(oCharacter)){
                     if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
                         global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
@@ -580,9 +580,9 @@ switch(argument0){
                 }
             }
             
-            if(i == 33){
+            if(i == 19){
                 if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID != global.clientID){
-                    global.lavastate = global.onlineReceived[# 1, 33];
+                    global.lavastate = global.onlineReceived[# 1, i];
                     if(global.lavastatePrev != global.lavastate){
                         global.lavastatePrev = global.lavastate;
                     }

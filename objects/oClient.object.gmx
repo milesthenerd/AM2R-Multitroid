@@ -123,24 +123,19 @@ global.roomPrev = room;
 global.clientID = 0;
 global.packetID = 0;
 global.receivedPacketID = 0;
-global.onlineList = ds_grid_create(3, 35);
-global.onlineSend = ds_grid_create(3, 35);
-global.onlineItem = ds_grid_create(1, 1);
-global.onlineMetdead = ds_grid_create(1, 1);
-global.onlineEvent = ds_grid_create(1, 1);
-global.onlineMap = ds_grid_create(1, 1);
-global.onlineReceived = ds_grid_create(3, 35);
-//global.storedBuffers = ds_grid_create(2, 1);
+global.onlineList = ds_grid_create(3, 20);
+global.onlineSend = ds_grid_create(3, 20);
+global.onlineItem = ds_list_create();
+global.onlineMetdead = ds_list_create();
+global.onlineEvent = ds_list_create();
+global.onlineMap = ds_list_create();
+global.onlineReceived = ds_grid_create(3, 20);
 global.receivedPacketIDs = ds_list_create();
 roomList = ds_list_create();
 roomListData = ds_list_create();
 global.idList = ds_list_create();
 posData = ds_list_create();
 global.hatchlingList = ds_list_create();
-ds_grid_clear(global.onlineSend, -1);
-ds_grid_clear(global.onlineItem, -1);
-ds_grid_clear(global.onlineMetdead, -1);
-ds_grid_clear(global.onlineEvent, -1);
 ds_grid_clear(global.onlineReceived, -1);
 for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
     ds_grid_set(global.onlineList, 2, i, i);
@@ -207,11 +202,10 @@ buffer_delete(buffer);
 ds_grid_destroy(global.onlineList);
 ds_grid_destroy(global.onlineSend);
 ds_grid_destroy(global.onlineReceived);
-//ds_grid_destroy(global.storedBuffers);
-ds_grid_destroy(global.onlineItem);
-ds_grid_destroy(global.onlineMetdead);
-ds_grid_destroy(global.onlineEvent);
-ds_grid_destroy(global.onlineMap);
+ds_list_destroy(global.onlineItem);
+ds_list_destroy(global.onlineMetdead);
+ds_list_destroy(global.onlineEvent);
+ds_list_destroy(global.onlineMap);
 ds_list_destroy(global.receivedPacketIDs);
 ds_list_destroy(roomList);
 ds_list_destroy(roomListData);
@@ -499,7 +493,7 @@ if(global.ingame){
                 global.dmapChanges[v, 0] = global.dmap[i, f];
                 global.dmapChanges[v, 1] = i;
                 global.dmapChanges[v, 2] = f;
-                global.onlineMap[# 0, 0] = global.dmapChanges;
+                global.onlineMap[| 0] = global.dmapChanges;
                 mapChanged = true;
                 if(v == 30){
                     break;
@@ -519,7 +513,7 @@ if(mapChanged){
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 9);
-    buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineMap)));
+    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMap)));
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
@@ -562,7 +556,7 @@ for(var f=0; f&lt;array_length_1d(global.event); f++){
     if(global.eventPrev[f] != global.event[f]){
         global.eventChanges[v, 0] = global.event[f];
         global.eventChanges[v, 1] = f;
-        global.onlineEvent[# 0, 0] = global.eventChanges;
+        global.onlineEvent[| 0] = global.eventChanges;
         eventChanged = true;
         v++;
     }
@@ -577,7 +571,7 @@ if(eventChanged){
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 8);
-    buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineEvent)));
+    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineEvent)));
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
@@ -617,7 +611,7 @@ for(var f=0; f&lt;array_length_1d(global.metdead); f++){
     if(global.metdeadPrev[f] != global.metdead[f]){
         global.metdeadChanges[v, 0] = global.metdead[f];
         global.metdeadChanges[v, 1] = f;
-        global.onlineMetdead[# 0, 0] = global.metdeadChanges;
+        global.onlineMetdead[| 0] = global.metdeadChanges;
         metdeadChanged = true;
         v++;
     }
@@ -632,7 +626,7 @@ if(metdeadChanged){
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 7);
-    buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineMetdead)));
+    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMetdead)));
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
@@ -672,7 +666,7 @@ for(var f=0; f&lt;array_length_1d(global.item); f++){
     if(global.itemPrev[f] != global.item[f]){
         global.itemChanges[v, 0] = global.item[f];
         global.itemChanges[v, 1] = f;
-        global.onlineItem[# 0, 0] = global.itemChanges;
+        global.onlineItem[| 0] = global.itemChanges;
         itemChanged = true;
         v++;
     }
@@ -687,7 +681,7 @@ if(itemChanged){
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 6);
-    buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineItem)));
+    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineItem)));
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
@@ -783,7 +777,7 @@ if(metroidCountChanged){
           <argument>
             <kind>1</kind>
             <string>if(queenHealthResetQueued){
-    if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+    if(instance_exists(oQueen) &amp;&amp; instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
         if(global.queenhealthPrev != queenHealth){
             if(queenHealth == 999999){
                 queenHealth = 0;
@@ -887,7 +881,7 @@ if(metroidCountChanged){
 update_variables("onlinevars");
 
 for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
-    if(global.onlineList[# 0, i] != global.onlineList[# 1, i] &amp;&amp; i != 0 &amp;&amp; i != 1 &amp;&amp; i != 3 &amp;&amp; i != 2 &amp;&amp; i != 4 &amp;&amp; i != 5 &amp;&amp; i != 6 &amp;&amp; i != 7 &amp;&amp; i != 8 &amp;&amp; i != 27 &amp;&amp; i != 28 &amp;&amp; i != 29 &amp;&amp; i != 30 &amp;&amp; i != 32){
+    if(global.onlineList[# 0, i] != global.onlineList[# 1, i]){
         global.onlineSend[# 0, i] = global.onlineList[# 0, i];
         global.onlineSend[# 1, i] = global.onlineList[# 1, i];
         global.onlineSend[# 2, i] = global.onlineList[# 2, i];
@@ -968,12 +962,9 @@ if(canSend){
     buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineSend)));
     buffer_write(buffer, buffer_u8, global.clientID);
     buffer_write(buffer, buffer_u32, global.packetID);
-    //global.storedBuffers[# 0, global.packetID] = global.onlineSend;
-    //global.storedBuffers[# 1, global.packetID] = global.clientID;
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
     show_debug_message("packetID = " + string(global.packetID));
     global.packetID++;
-    //ds_grid_resize(global.storedBuffers, 2, global.packetID + 1); 
     ds_grid_clear(global.onlineSend, -1);
 }
 
@@ -998,7 +989,7 @@ if(instance_exists(oCharacter)){
     }
 }
 
-if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+if(instance_exists(oQueen) &amp;&amp; instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
     if(global.queenhealthPrev != oQueenHead.myhealth || oQueen.phase != phase){
         show_debug_message("queen health sent " + string(oQueenHead.myhealth));
         var size, type, alignment;
@@ -1115,12 +1106,13 @@ if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
         }
         queenDead = true;
     }
-    
-    with(oQueenHead){
-        if(oQueen.phase &gt; 3 &amp;&amp; instance_exists(inst_146527)){
-            oQueen.phase = 3;
-            if(head_damage == 2){
-                head_damage = 1;
+    if(instance_exists(oQueenHead)){
+        with(oQueenHead){
+            if(oQueen.phase &gt; 3 &amp;&amp; instance_exists(inst_146527)){
+                oQueen.phase = 3;
+                if(head_damage == 2){
+                    head_damage = 1;
+                }
             }
         }
     }
@@ -1726,7 +1718,7 @@ switch(type_event){
                 phase = buffer_read(_buffer, buffer_s8);
                 state = buffer_read(_buffer, buffer_s8);
                 if(clientID != global.clientID){
-                    if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+                    if(instance_exists(oQueen) &amp;&amp; instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
                         if(oQueen.phase == phase){
                             if(global.queenhealthPrev != queenHealth){
                                 if(queenHealth == 999999){
@@ -1768,7 +1760,7 @@ switch(type_event){
                         }
                     }
                 } else {
-                    if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+                    if(instance_exists(oQueen) &amp;&amp; instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
                         /*
                         if(oQueen.phase == phase){
                             if(global.queenhealthPrev != queenHealth){
@@ -1820,10 +1812,10 @@ switch(type_event){
                 alarm[2] = 10;
                 break;
             case 7:
-                var item = ds_grid_create(1, 1);
-                ds_grid_read(item, strict_decompress(buffer_read(_buffer, buffer_string)));
+                var item = ds_list_create();
+                ds_list_read(item, strict_decompress(buffer_read(_buffer, buffer_string)));
                 var clientID = buffer_read(_buffer, buffer_u8);
-                var itemArr = item[# 0, 0];
+                var itemArr = item[| 0];
                 if(is_array(itemArr)){
                     for(var i=0; i&lt;array_length_1d(global.item); i++){
                         for(var f=0; f&lt;array_height_2d(itemArr); f++){
@@ -1838,16 +1830,16 @@ switch(type_event){
                 }
                 alarm[3] = 10;
                 if(global.clientID == clientID){
-                    ds_grid_clear(global.onlineItem, -1);
+                    ds_list_clear(global.onlineItem);
                     global.itemChanges = 0;
                 }
-                ds_grid_destroy(item);
+                ds_list_destroy(item);
                 break;
             case 8:
-                var metdead = ds_grid_create(1, 1);
-                ds_grid_read(metdead, strict_decompress(buffer_read(_buffer, buffer_string)));
+                var metdead = ds_list_create();
+                ds_list_read(metdead, strict_decompress(buffer_read(_buffer, buffer_string)));
                 var clientID = buffer_read(_buffer, buffer_u8);
-                var metdeadArr = metdead[# 0, 0];
+                var metdeadArr = metdead[| 0];
                 if(is_array(metdeadArr)){
                     for(var i=0; i&lt;array_length_1d(global.metdead); i++){
                         for(var f=0; f&lt;array_height_2d(metdeadArr); f++){
@@ -1862,16 +1854,16 @@ switch(type_event){
                 }
                 alarm[4] = 10;
                 if(global.clientID == clientID){
-                    ds_grid_clear(global.onlineMetdead, -1);
+                    ds_list_clear(global.onlineMetdead);
                     global.metdeadChanges = 0;
                 }
-                ds_grid_destroy(metdead);
+                ds_list_destroy(metdead);
                 break;
             case 9:
-                var event = ds_grid_create(1, 1);
-                ds_grid_read(event, strict_decompress(buffer_read(_buffer, buffer_string)));
+                var event = ds_list_create();
+                ds_list_read(event, strict_decompress(buffer_read(_buffer, buffer_string)));
                 var clientID = buffer_read(_buffer, buffer_u8);
-                var eventArr = event[# 0, 0];
+                var eventArr = event[| 0];
                 if(is_array(eventArr)){
                     for(var i=0; i&lt;array_length_1d(global.event); i++){
                         for(var f=0; f&lt;array_height_2d(eventArr); f++){
@@ -1922,16 +1914,16 @@ switch(type_event){
                 }
                 alarm[5] = 10;
                 if(global.clientID == clientID){
-                    ds_grid_clear(global.onlineEvent, -1);
+                    ds_list_clear(global.onlineEvent);
                     global.eventChanges = 0;
                 }
-                ds_grid_destroy(event);
+                ds_list_destroy(event);
                 break;
             case 10:
-                var dmap = ds_grid_create(1, 1);
-                ds_grid_read(dmap, strict_decompress(buffer_read(_buffer, buffer_string)));
+                var dmap = ds_list_create();
+                ds_list_read(dmap, strict_decompress(buffer_read(_buffer, buffer_string)));
                 var clientID = buffer_read(_buffer, buffer_u8);
-                var dmapArr = dmap[# 0, 0];
+                var dmapArr = dmap[| 0];
                 if(is_array(dmapArr)){
                     for(var i=0; i&lt;array_height_2d(global.dmap); i++){
                         for(var f=0; f&lt;array_length_2d(global.dmap, i); f++){
@@ -1951,10 +1943,10 @@ switch(type_event){
                 }
                 alarm[6] = 10;
                 if(global.clientID == clientID){
-                    ds_grid_clear(global.onlineMap, -1);
+                    ds_list_clear(global.onlineMap);
                     global.dmapChanges = 0;
                 }
-                ds_grid_destroy(dmap);
+                ds_list_destroy(dmap);
                 break;
             case 11:
                 var itemstaken = buffer_read(_buffer, buffer_u8);
@@ -2104,6 +2096,10 @@ switch(type_event){
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
+
+if(room == titleroom){
+    seed = undefined;
+}
 </string>
           </argument>
         </arguments>
@@ -2144,11 +2140,10 @@ buffer_delete(buffer);
 ds_grid_destroy(global.onlineList);
 ds_grid_destroy(global.onlineSend);
 ds_grid_destroy(global.onlineReceived);
-//ds_grid_destroy(global.storedBuffers);
-ds_grid_destroy(global.onlineItem);
-ds_grid_destroy(global.onlineMetdead);
-ds_grid_destroy(global.onlineEvent);
-ds_grid_destroy(global.onlineMap);
+ds_list_destroy(global.onlineItem);
+ds_list_destroy(global.onlineMetdead);
+ds_list_destroy(global.onlineEvent);
+ds_list_destroy(global.onlineMap);
 ds_list_destroy(global.receivedPacketIDs);
 ds_list_destroy(roomList);
 ds_list_destroy(roomListData);
