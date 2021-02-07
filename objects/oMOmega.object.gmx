@@ -165,6 +165,7 @@ dead = false;
             <kind>1</kind>
             <string>event_user(2);
 with (tail) instance_destroy();
+global.dmap[mapposx, mapposy] = 11;
 </string>
           </argument>
         </arguments>

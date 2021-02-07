@@ -11,11 +11,13 @@ if(!instance_exists(oClient)){
     }
 } else if(instance_exists(oClient) && global.lastroom == gameoverroom){
     //don't reset values
-} else if(instance_exists(oClient) && global.lastroom != gameoverroom){
+} else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) == 0){
     repeat (100) {
         global.metdead[j] = readline();
         j += 1;
     }
+} else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) > 0){
+    //don't reset values
 }
 
 ds_list_clear(list);

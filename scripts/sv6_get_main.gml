@@ -19,7 +19,7 @@ if(!instance_exists(oClient)){
     global.mapmarkery = readline();
 } else if(instance_exists(oClient) && global.lastroom == gameoverroom){
     //don't reset values
-} else if(instance_exists(oClient) && global.lastroom != gameoverroom){
+} else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) == 0){
     global.gametime = readline();
     global.itemstaken = readline();
     global.etanks = readline();
@@ -32,6 +32,8 @@ if(!instance_exists(oClient)){
     global.mapmarker = readline();
     global.mapmarkerx = readline();
     global.mapmarkery = readline();
+} else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) > 0){
+    //don't reset values
 }
 
 ds_list_clear(list);

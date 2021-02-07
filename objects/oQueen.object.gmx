@@ -118,6 +118,9 @@
             <kind>1</kind>
             <string>global.monstersleft = 0;
 global.monstersarea = 0;
+mus_stop(musQueen);
+mus_stop(musQueen2);
+mus_stop(musQueen3);
 </string>
           </argument>
         </arguments>

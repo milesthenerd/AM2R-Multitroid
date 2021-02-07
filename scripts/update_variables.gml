@@ -41,7 +41,13 @@ switch(argument0){
         for(var i=0; i<ds_grid_height(global.onlineReceived); i++){
             if(global.onlineReceived[# 2, i] != -1){
                 if(global.onlineReceived[# 2, i] == 24 && global.receivedClientID != global.clientID){
-                    global.missiles = global.onlineReceived[# 1, i];
+                    if(instance_exists(oCharacter)){
+                        if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
+                            global.missiles = global.onlineReceived[# 1, i];
+                        }
+                    } else {
+                        global.missiles = global.onlineReceived[# 1, i];
+                    }
                     if(global.missilesPrev != global.missiles){
                         global.missilesPrev = global.missiles;
                     }
@@ -50,7 +56,13 @@ switch(argument0){
                 }
                 
                 if(global.onlineReceived[# 2, i] == 25 && global.receivedClientID != global.clientID){
-                    global.smissiles = global.onlineReceived[# 1, i];
+                    if(instance_exists(oCharacter)){
+                        if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
+                            global.smissiles = global.onlineReceived[# 1, i];
+                        }
+                    } else {
+                        global.smissiles = global.onlineReceived[# 1, i];
+                    }
                     if(global.smissilesPrev != global.smissiles){
                         global.smissilesPrev = global.smissiles;
                     }
@@ -104,7 +116,13 @@ switch(argument0){
                 }
                 */
                 if(global.onlineReceived[# 2, i] == 9 && global.receivedClientID != global.clientID){
-                    global.playerhealth = global.onlineReceived[# 1, i];
+                    if(instance_exists(oCharacter)){
+                        if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
+                            global.playerhealth = global.onlineReceived[# 1, i];
+                        }
+                    } else {
+                        global.playerhealth = global.onlineReceived[# 1, i];
+                    }
                     if(global.playerhealthPrev != global.playerhealth){
                         global.playerhealthPrev = global.playerhealth;
                     }
@@ -341,7 +359,13 @@ switch(argument0){
                 }
                 
                 if(global.onlineReceived[# 2, i] == 26 && global.receivedClientID != global.clientID){
-                    global.pbombs = global.onlineReceived[# 1, i];
+                    if(instance_exists(oCharacter)){
+                        if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
+                            global.pbombs = global.onlineReceived[# 1, i];
+                        }
+                    } else {
+                        global.pbombs = global.onlineReceived[# 1, i];
+                    }
                     if(global.pbombsPrev != global.pbombs){
                         global.pbombsPrev = global.pbombs;
                     }
@@ -511,68 +535,51 @@ switch(argument0){
         break;
     case "disablesame":
         for(var i=0; i<ds_grid_height(global.onlineReceived); i++){
-            if(global.onlineReceived[# 2, i] != -1 && i != 0 && i != 1 && i != 3){
+            if(global.onlineReceived[# 2, i] != -1 && i != 0 && i != 1 && i != 3 && i != 9 && i != 24 && i != 25 && i != 26){
                 global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
             }
             
-            /*
-            if((i == 0 || i == 1 || i == 3) && (is_array(global.onlineReceived[# 1, i]))){
-                var arrList = global.onlineList[# 1, i];
-                var arrSend = global.onlineReceived[# 1, i];
-                show_debug_message(arrList);
-                show_debug_message(arrSend);
-                for(var f=0; f<array_length_1d(arrList); f++){
-                    for(var v=0; v<array_height_2d(arrSend); v++){
-                        if(f == arrSend[v, 1]){
-                            if(i == 0){
-                                global.itemPrev[f] = arrSend[v, 0];
-                                if(global.item[f] != arrSend[v, 0]){
-                                    global.item[f] = arrSend[v, 0];
-                                }
-                                show_debug_message("item prev index " + string(f) + " changed"); 
-                            }
-                            if(i == 1){
-                                global.metdeadPrev[f] = arrSend[v, 0];
-                                if(global.metdead[f] != arrSend[v, 0]){
-                                    global.metdead[f] = arrSend[v, 0];
-                                }
-                                show_debug_message("metdead prev index " + string(f) + " changed");
-                            }
-                            if(i == 3){
-                                global.eventPrev[f] = arrSend[v, 0];
-                                if(global.event[f] != arrSend[v, 0]){
-                                    global.event[f] = arrSend[v, 0];
-                                }
-                                show_debug_message("event prev index " + string(f) + " changed"); 
-                            }
+            if(global.onlineReceived[# 2, i] != -1 && (i == 9 || i == 24 || i == 25 || i == 26)){
+                if(instance_exists(oCharacter)){
+                    if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
+                        global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
+                    } else if(oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP || oCharacter.state == oCharacter.SAVING){
+                        if(global.playerhealth != global.maxhealth){
+                            global.playerhealthPrev = global.maxhealth;
+                            global.playerhealth = global.maxhealth;
                         }
+                        if(global.missiles != global.maxmissiles){
+                            global.missilesPrev = global.maxmissiles;
+                            global.missiles = global.maxmissiles;
+                        }
+                        if(global.smissiles != global.maxsmissiles){
+                            global.smissilesPrev = global.maxsmissiles;
+                            global.smissiles = global.maxsmissiles;
+                        }
+                        if(global.pbombs != global.maxpbombs){
+                            global.pbombsPrev = global.maxpbombs;
+                            global.pbombs = global.maxpbombs;
+                        }
+                        buffer_delete(buffer);
+                        var size, type, alignment;
+                        size = 1024;
+                        type = buffer_grow;
+                        alignment = 1;
+                        buffer = buffer_create(size, type, alignment);
+                        buffer_seek(buffer, buffer_seek_start, 0);
+                        buffer_write(buffer, buffer_u8, 102);
+                        buffer_write(buffer, buffer_s16, global.playerhealth);
+                        buffer_write(buffer, buffer_s16, global.missiles);
+                        buffer_write(buffer, buffer_u8, global.smissiles);
+                        buffer_write(buffer, buffer_u8, global.pbombs);
+                        buffer_write(buffer, buffer_u8, global.clientID);
+                        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
                     }
+                } else {
+                    global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
                 }
             }
-            */
             
-            /*
-            if(i == 4){
-                if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID != global.clientID){
-                    global.monstersleft = global.onlineReceived[# 1, 4];
-                    if(global.monstersleftPrev != global.monstersleft){
-                        global.monstersleftPrev = global.monstersleft;
-                    }
-                } else if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID == global.clientID){
-                    global.monstersleftPrev = global.monstersleft;
-                }
-            }
-            if(i == 32){
-                if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID != global.clientID){
-                    global.monstersarea = global.onlineReceived[# 1, 32];
-                    if(global.monstersareaPrev != global.monstersarea){
-                        global.monstersareaPrev = global.monstersarea;
-                    }
-                } else if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID == global.clientID){
-                    global.monstersareaPrev = global.monstersarea;
-                }
-            }
-            */
             if(i == 33){
                 if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID != global.clientID){
                     global.lavastate = global.onlineReceived[# 1, 33];

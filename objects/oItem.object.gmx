@@ -26,7 +26,6 @@
           <argument>
             <kind>1</kind>
             <string>alarm[0] = 30;
-alarm[1] = 20;
 image_speed = 0.2;
 active = 0;
 btn1_name = "";
@@ -35,6 +34,7 @@ itemtype = 0;
 itemid = 0;
 text1 = "";
 text2 = "";
+collected = false;
 </string>
           </argument>
         </arguments>
@@ -57,15 +57,7 @@ text2 = "";
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*
-if(instance_exists(oClient)){
-    itemIndex = findIndex(global.itemlist, self.itemid);
-    if(itemIndex == -1){
-        instance_destroy();
-    }
-}
-alarm[1] = 20;
-*/
+            <string>instance_destroy();
 </string>
           </argument>
         </arguments>
@@ -111,8 +103,9 @@ alarm[1] = 20;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.item[itemid] == 1){
-    instance_destroy();
+            <string>if(global.item[itemid] == 1 &amp;&amp; !collected){
+    collected = true;
+    alarm[1] = 1;
 }
 </string>
           </argument>

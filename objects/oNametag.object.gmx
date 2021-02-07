@@ -92,11 +92,13 @@
                             draw_set_font(font_displayname);
                             draw_set_halign(fa_center);
                             draw_cool_text(arrX, arrY - 52, text, c_black, c_white, c_white, 1);
+                            draw_set_halign(fa_left);
                         }
                     } else {
                         draw_set_font(font_displayname);
                         draw_set_halign(fa_center);
                         draw_cool_text(arrX, arrY - 52, text, c_black, c_white, c_white, 1);
+                        draw_set_halign(fa_left);
                     }
                 }
             }

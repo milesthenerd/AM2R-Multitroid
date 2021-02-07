@@ -56,6 +56,8 @@ etanksTimer = 10;
 mtanksTimer = 10;
 stanksTimer = 10;
 ptanksTimer = 10;
+teleportTimer = 180;
+disconnectTimer = 600;
 teleport = false;
 state = undefined;
 seed = undefined;
@@ -110,12 +112,12 @@ buffer = buffer_create(size, type, alignment);
 global.queenhealthPrev = 600;
 global.queenphasePrev = 0;
 
-if(instance_exists(oCharacter)){
-    global.prevX = oCharacter.x;
-    global.prevY = oCharacter.y;
-    global.prevSprite = oCharacter.sprite_index;
-    global.prevIndex = oCharacter.image_index;
-}
+
+global.prevX = 0;
+global.prevY = 0;
+global.prevSprite = 0;
+global.prevIndex = 0;
+
 global.roomPrev = room;
 
 global.clientID = 0;
@@ -183,7 +185,11 @@ trail = 0;
           <argument>
             <kind>1</kind>
             <string>if(connected){
-    popup_text("Disconnected");
+    if(disconnectTimer &gt; 0){
+        popup_text("Disconnected");
+    } else {
+        popup_text("Lost connection to server");
+    }
     buffer_delete(buffer);
     var size, type, alignment;
     size = 1024;
@@ -777,32 +783,35 @@ if(metroidCountChanged){
           <argument>
             <kind>1</kind>
             <string>if(queenHealthResetQueued){
-    if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+    if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
         if(global.queenhealthPrev != queenHealth){
             if(queenHealth == 999999){
                 queenHealth = 0;
                 oQueenHead.myhealth = queenHealth;
-                with(oQueenHead){
-                    if (myhealth &lt;= 0 &amp;&amp; state != 100 &amp;&amp; state != 50) {
-                        if (oQueen.phase &lt; 3) head_damage = 1;
-                        if (oQueen.phase == 3) head_damage = 2;
-                        if (oQueen.phase &lt; 5) {
-                            state = 50;
-                            statetime = 0;
-                            myhealth = 999999;
-                            with (oQueen) {
-                                state = 6;
+                if(queenHealth &lt;= 0){
+                    with(oQueenHead){
+                        if (myhealth &lt;= 0 &amp;&amp; state != 100 &amp;&amp; state != 50) {
+                            if (oQueen.phase &lt; 3) head_damage = 1;
+                            if (oQueen.phase == 3) head_damage = 2;
+                            if (oQueen.phase &lt; 5) {
+                                state = 50;
                                 statetime = 0;
+                                myhealth = 999999;
+                                with (oQueen) {
+                                    state = 6;
+                                    statetime = 0;
+                                }
                             }
-                        }
-                        if (oQueen.phase == 5) {
-                            with (oQueen) {
+                            if (oQueen.phase == 5) {
+                                with (oQueen) {
+                                    state = 100;
+                                    statetime = 0;
+                                }
                                 state = 100;
-                                statetime = 0;
                             }
-                            state = 100;
                         }
                     }
+                    queenHealth = 999999;
                 }
             }
         }
@@ -878,7 +887,7 @@ if(metroidCountChanged){
 update_variables("onlinevars");
 
 for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
-    if(global.onlineList[# 0, i] != global.onlineList[# 1, i] &amp;&amp; i != 0 &amp;&amp; i != 1 &amp;&amp; i != 3){
+    if(global.onlineList[# 0, i] != global.onlineList[# 1, i] &amp;&amp; i != 0 &amp;&amp; i != 1 &amp;&amp; i != 3 &amp;&amp; i != 2 &amp;&amp; i != 4 &amp;&amp; i != 5 &amp;&amp; i != 6 &amp;&amp; i != 7 &amp;&amp; i != 8 &amp;&amp; i != 27 &amp;&amp; i != 28 &amp;&amp; i != 29 &amp;&amp; i != 30 &amp;&amp; i != 32){
         global.onlineSend[# 0, i] = global.onlineList[# 0, i];
         global.onlineSend[# 1, i] = global.onlineList[# 1, i];
         global.onlineSend[# 2, i] = global.onlineList[# 2, i];
@@ -1007,15 +1016,18 @@ if(instance_exists(oQueenHead) &amp;&amp; !is_undefined(oQueenHead.myhealth) &am
     }
 }
 
-/*
-if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
-    if(oQueen.phase &lt; phase){
-        oQueen.phase = phase;
-    } else if(oQueen.phase &gt; phase &amp;&amp; global.event[303] == 0){
-        phase = oQueen.phase;
+var itemCount = 0;
+for(var h=0; h&lt;array_length_1d(global.item); h++){
+    var val = global.item[h];
+    if(val == 1 &amp;&amp; h != 1){
+        itemCount++;
     }
 }
-*/
+
+if(itemCount != global.itemstaken){
+    global.itemstaken = itemCount;
+}
+
 </string>
           </argument>
         </arguments>
@@ -1058,7 +1070,6 @@ if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
     }
 }
 
-
 if(instance_exists(oCharacter)){
     if(global.event[203] &lt; 9 &amp;&amp; string_lower(reactorsequence) == "disabled"){
         global.event[203] = 9;
@@ -1084,7 +1095,7 @@ if(room == rm_a4b01 &amp;&amp; global.event[203] == 9 &amp;&amp; instance_exists
     }
 }
 
-if(is_undefined(oQueenHead.myhealth) &amp;&amp; is_undefined(oQueen.phase)){
+if(!instance_exists(oQueen)){
     if(!queenHealthResetQueued){
         queenHealthResetQueued = true;
         alarm[1] = 5;
@@ -1103,6 +1114,15 @@ if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueen.phase)){
             mus_fadeout(musQueenIntro);
         }
         queenDead = true;
+    }
+    
+    with(oQueenHead){
+        if(oQueen.phase &gt; 3 &amp;&amp; instance_exists(inst_146527)){
+            oQueen.phase = 3;
+            if(head_damage == 2){
+                head_damage = 1;
+            }
+        }
     }
 }
 
@@ -1129,6 +1149,13 @@ if(instance_exists(oCharacter)){
 } else {
     posX = posX;
     posY = posY;
+}
+
+if((room == rm_a4b02 || room == rm_a4b03 || room == rm_a4b04 || room == rm_a4b05 || room == rm_a4b06 || room == rm_a4b07 || room == rm_a4b08 || room == rm_a4b09 || room == rm_a4b10 || room == rm_a4b11 || room == rm_a4b12 || room == rm_a4b13 || room == rm_a4b14 || room == rm_a4b15 || room == rm_a4b16 || room == rm_a4b17 || room == rm_a4b18 || room == rm_a4b19) &amp;&amp; global.event[203] == 9 &amp;&amp; !teleport){
+    teleport = true;
+    global.targetx = 624;
+    global.targety = 144;
+    room_change(rm_a4b01, 1);
 }
 
 if(time == 0 &amp;&amp; connected){
@@ -1320,6 +1347,18 @@ if(ptanksTimer == 0 &amp;&amp; connected){
     }
 }
 
+if(teleport){
+    teleportTimer--;
+    if(teleportTimer &lt;= 0){
+        teleport = false;
+        teleportTimer = 60;
+    }
+}
+
+if(disconnectTimer &lt;= 0){
+    instance_destroy();
+}
+
 time--;
 maxpbombsTimer--;
 maxhealthTimer--;
@@ -1327,6 +1366,7 @@ etanksTimer--;
 mtanksTimer--;
 stanksTimer--;
 ptanksTimer--;
+disconnectTimer--;
 
 if(instance_exists(self)){
     if(ds_list_size(roomListData) &gt; 0){
@@ -1523,6 +1563,7 @@ switch(type_event){
                 var clientMapX = buffer_read(_buffer, buffer_s16);
                 var clientMapY = buffer_read(_buffer, buffer_s16);
                 var findsocket = ds_list_find_index(roomList, clientID);
+                
                 if(instance_exists(oCharacter)){
                     if(clientRoom == rm_death){
                         if(oCharacter.state != oCharacter.DEFEATED){
@@ -1614,6 +1655,20 @@ switch(type_event){
             case 102:
                 ds_list_read(global.idList, strict_decompress(buffer_read(_buffer, buffer_string)));
                 break;
+            case 103:
+                disconnectTimer = 600;
+                break;
+            case 104:
+                var playerHealth = buffer_read(_buffer, buffer_s16);
+                var missiles = buffer_read(_buffer, buffer_s16);
+                var smissiles = buffer_read(_buffer, buffer_u8);
+                var pbombs = buffer_read(_buffer, buffer_u8);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                global.playerhealth = playerHealth;
+                global.missiles = missiles;
+                global.smissiles = smissiles;
+                global.pbombs = pbombs;
+                break;
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
                 alarm[0] = 5;
@@ -1671,33 +1726,36 @@ switch(type_event){
                 phase = buffer_read(_buffer, buffer_s8);
                 state = buffer_read(_buffer, buffer_s8);
                 if(clientID != global.clientID){
-                    if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+                    if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
                         if(oQueen.phase == phase){
                             if(global.queenhealthPrev != queenHealth){
                                 if(queenHealth == 999999){
                                     queenHealth = 0;
                                     oQueenHead.myhealth = queenHealth;
-                                    with(oQueenHead){
-                                        if (myhealth &lt;= 0 &amp;&amp; state != 100 &amp;&amp; state != 50) {
-                                            if (oQueen.phase &lt; 3) head_damage = 1;
-                                            if (oQueen.phase == 3) head_damage = 2;
-                                            if (oQueen.phase &lt; 5) {
-                                                state = 50;
-                                                statetime = 0;
-                                                myhealth = 999999;
-                                                with (oQueen) {
-                                                    state = 6;
+                                    if(queenHealth &lt;= 0){
+                                        with(oQueenHead){
+                                            if (myhealth &lt;= 0 &amp;&amp; state != 100 &amp;&amp; state != 50) {
+                                                if (oQueen.phase &lt; 3) head_damage = 1;
+                                                if (oQueen.phase == 3) head_damage = 2;
+                                                if (oQueen.phase &lt; 5) {
+                                                    state = 50;
                                                     statetime = 0;
+                                                    myhealth = 999999;
+                                                    with (oQueen) {
+                                                        state = 6;
+                                                        statetime = 0;
+                                                    }
                                                 }
-                                            }
-                                            if (oQueen.phase == 5) {
-                                                with (oQueen) {
+                                                if (oQueen.phase == 5) {
+                                                    with (oQueen) {
+                                                        state = 100;
+                                                        statetime = 0;
+                                                    }
                                                     state = 100;
-                                                    statetime = 0;
                                                 }
-                                                state = 100;
                                             }
                                         }
+                                        queenHealth = 999999;
                                     }
                                 }
                                 global.queenhealthPrev = queenHealth;
@@ -1710,7 +1768,7 @@ switch(type_event){
                         }
                     }
                 } else {
-                    if(!is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
+                    if(instance_exists(oQueen) &amp;&amp; !is_undefined(oQueenHead.myhealth) &amp;&amp; !is_undefined(oQueen.phase)){
                         /*
                         if(oQueen.phase == phase){
                             if(global.queenhealthPrev != queenHealth){
@@ -1918,6 +1976,8 @@ switch(type_event){
                 } else if(clientID == global.clientID){
                     global.maxmissilesPrev = global.maxmissiles;
                 }
+                global.missilesPrev = maxmissiles;
+                global.missiles = maxmissiles;
                 alarm[8] = 1;
                 break;
             case 13:
@@ -1929,6 +1989,8 @@ switch(type_event){
                 } else if(clientID == global.clientID){
                     global.maxsmissilesPrev = global.maxsmissiles;
                 }
+                global.smissilesPrev = maxsmissiles;
+                global.smissiles = maxsmissiles;
                 alarm[9] = 1;
                 break;
             case 14:
@@ -1940,6 +2002,8 @@ switch(type_event){
                 } else if(clientID == global.clientID){
                     global.maxpbombsPrev = global.maxpbombs;
                 }
+                global.pbombsPrev = maxpbombs;
+                global.pbombs = maxpbombs;
                 maxpbombsTimer = 1;
                 break;
             case 15:
@@ -1951,6 +2015,8 @@ switch(type_event){
                 } else if(clientID == global.clientID){
                     global.maxhealthPrev = global.maxhealth;
                 }
+                global.playerhealthPrev = maxhealth;
+                global.playerhealth = maxhealth;
                 maxhealthTimer = 1;
                 break;
             case 16:
@@ -1997,7 +2063,46 @@ switch(type_event){
                 }
                 ptanksTimer = 1;
                 break;
+            case 20:
+                var time = buffer_read(_buffer, buffer_s32);
+                global.gametime = time;
+                break;
         }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(room == rm_credits){
+    buffer_delete(buffer);
+    var size, type, alignment;
+    size = 1024;
+    type = buffer_grow;
+    alignment = 1;
+    buffer = buffer_create(size, type, alignment);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 19);
+    buffer_write(buffer, buffer_s32, global.gametime);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 </string>
           </argument>

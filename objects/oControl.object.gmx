@@ -25,10 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.ipaddress = undefined;
-global.canSet = false;
-
-global.monsterStr = "Monster";
+            <string>global.monsterStr = "Monster";
 
 randomize();
 
@@ -396,6 +393,7 @@ ds_map_read(room_width_map, "920100007501000000000000000000000090704000000000000
 
 global.canConnect = true;
 
+reset_map();
 load_character_vars();
 </string>
           </argument>
@@ -1677,6 +1675,12 @@ if (room == rm_transition) fadedone = 1;
 if (room == titleroom &amp;&amp; instance_exists(oPressStart)) {
     global.gamestarted = 0;
     if (os_type == os_android) os_powersave_enable(true);
+}
+
+if(room == titleroom){
+    global.mapmarker = 0;
+    global.mapmarkerx = 0;
+    global.mapmarkery = 0;
 }
 </string>
           </argument>

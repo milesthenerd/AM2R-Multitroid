@@ -21,7 +21,7 @@ if(!instance_exists(oClient)){
     global.bomb = readline();
 } else if(instance_exists(oClient) && global.lastroom == gameoverroom){
     //don't reset values
-} else if(instance_exists(oClient) && global.lastroom != gameoverroom){
+} else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) == 0){
     global.currentsuit = readline();
     global.cbeam = readline();
     global.ibeam = readline();
@@ -37,6 +37,8 @@ if(!instance_exists(oClient)){
     global.spiderball = readline();
     global.speedbooster = readline();
     global.bomb = readline();
+} else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) > 0){
+    //don't reset values
 }
 
 ds_list_clear(list);
