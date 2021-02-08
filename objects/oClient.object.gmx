@@ -58,6 +58,7 @@ stanksTimer = 10;
 ptanksTimer = 10;
 teleportTimer = 180;
 disconnectTimer = 600;
+pingTimer = 90;
 teleport = false;
 state = undefined;
 seed = undefined;
@@ -120,6 +121,7 @@ global.prevIndex = 0;
 
 global.roomPrev = room;
 
+global.ping = 0;
 global.clientID = 0;
 global.packetID = 0;
 global.receivedPacketID = 0;
@@ -136,6 +138,7 @@ roomListData = ds_list_create();
 global.idList = ds_list_create();
 posData = ds_list_create();
 global.hatchlingList = ds_list_create();
+ds_grid_clear(global.onlineSend, -1);
 ds_grid_clear(global.onlineReceived, -1);
 for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
     ds_grid_set(global.onlineList, 2, i, i);
@@ -885,6 +888,7 @@ for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
         global.onlineSend[# 0, i] = global.onlineList[# 0, i];
         global.onlineSend[# 1, i] = global.onlineList[# 1, i];
         global.onlineSend[# 2, i] = global.onlineList[# 2, i];
+        show_debug_message(string(global.onlineList[# 0, i]) + " " + string(global.onlineList[# 1, i]) + " " + string(global.onlineList[# 2, i]));
         canSend = true;
         alarm[0] = 600;
     }
@@ -1351,6 +1355,20 @@ if(disconnectTimer &lt;= 0){
     instance_destroy();
 }
 
+if(pingTimer &lt;= 0){
+    pingTimer = 90;
+    buffer_delete(buffer);
+    var size, type, alignment;
+    size = 1024;
+    type = buffer_grow;
+    alignment = 1;
+    buffer = buffer_create(size, type, alignment);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 103);
+    buffer_write(buffer, buffer_u32, current_time);
+    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+}
+
 time--;
 maxpbombsTimer--;
 maxhealthTimer--;
@@ -1359,6 +1377,7 @@ mtanksTimer--;
 stanksTimer--;
 ptanksTimer--;
 disconnectTimer--;
+pingTimer--;
 
 if(instance_exists(self)){
     if(ds_list_size(roomListData) &gt; 0){
@@ -1420,8 +1439,8 @@ switch(type_event){
     case network_type_data:
         var _buffer = ds_map_find_value(async_load, "buffer");
         buffer_seek(_buffer, buffer_seek_start, 0);
-        show_debug_message(string(buffer_get_size(_buffer)));
         msgid = buffer_read(_buffer, buffer_u8);
+        show_debug_message(string(buffer_get_size(_buffer)));
         switch(msgid){
             case 254:
                 var clientID = buffer_read(_buffer, buffer_u8);
@@ -1660,6 +1679,10 @@ switch(type_event){
                 global.missiles = missiles;
                 global.smissiles = smissiles;
                 global.pbombs = pbombs;
+                break;
+            case 105:
+                var ping = buffer_read(_buffer, buffer_u32);
+                global.ping = current_time - ping;
                 break;
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);

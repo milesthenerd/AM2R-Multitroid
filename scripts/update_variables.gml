@@ -424,6 +424,15 @@ switch(argument0){
                 } else if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID == global.clientID){
                     global.currentsuitPrev = global.currentsuit;
                 }
+                
+                if(global.onlineReceived[# 2, i] == 19 && global.receivedClientID != global.clientID){
+                    global.lavastate = global.onlineReceived[# 1, i];
+                    if(global.lavastatePrev != global.lavastate){
+                        global.lavastatePrev = global.lavastate;
+                    }
+                } else if(global.onlineReceived[# 2, i] == 19 && global.receivedClientID == global.clientID){
+                    global.lavastatePrev = global.lavastate;
+                }
             }
         }
         break;
@@ -577,17 +586,6 @@ switch(argument0){
                     }
                 } else {
                     global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
-                }
-            }
-            
-            if(i == 19){
-                if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID != global.clientID){
-                    global.lavastate = global.onlineReceived[# 1, i];
-                    if(global.lavastatePrev != global.lavastate){
-                        global.lavastatePrev = global.lavastate;
-                    }
-                } else if(global.onlineReceived[# 2, i] != -1 && global.receivedClientID == global.clientID){
-                    global.lavastatePrev = global.lavastate;
                 }
             }
         }
