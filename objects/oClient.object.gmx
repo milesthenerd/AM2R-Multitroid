@@ -1154,7 +1154,7 @@ if((room == rm_a4b02 || room == rm_a4b03 || room == rm_a4b04 || room == rm_a4b05
     room_change(rm_a4b01, 1);
 }
 
-if(time == 0 &amp;&amp; connected){
+if(time == 0 &amp;&amp; connected &amp;&amp; instance_exists(self)){ //why do i need an instance_exists(self) here to not crash???
     if(ds_list_size(global.idList) &gt; 0){
         checkListID = ds_list_create();
         for(var i=0; i&lt;ds_list_size(global.idList); i++){
