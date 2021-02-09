@@ -142,10 +142,6 @@ flashtime = 0;
 laststate = 0;
 dead = false;
 
-myposx = floor(x / 320);
-myposy = floor((y - 8) / 240);
-mapposx = myposx + global.mapoffsetx;
-mapposy = myposy + global.mapoffsety;
 </string>
           </argument>
         </arguments>
@@ -170,7 +166,6 @@ mapposy = myposy + global.mapoffsety;
             <kind>1</kind>
             <string>event_user(2);
 with (tail) instance_destroy();
-global.dmap[mapposx, mapposy] = 11;
 </string>
           </argument>
         </arguments>
