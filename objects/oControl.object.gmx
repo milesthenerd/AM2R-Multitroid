@@ -395,6 +395,9 @@ global.canConnect = true;
 
 reset_map();
 load_character_vars();
+
+multitroidPalette = -1;
+if (file_exists("mods/palettes/sPalMultitroid.png")) multitroidPalette = sprite_add("mods/palettes/sPalMultitroid.png", 1, false, false, 0, 0);
 </string>
           </argument>
         </arguments>
