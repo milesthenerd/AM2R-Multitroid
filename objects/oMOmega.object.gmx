@@ -141,6 +141,11 @@ dmg = 0;
 flashtime = 0;
 laststate = 0;
 dead = false;
+
+myposx = floor(x / 320);
+myposy = floor((y - 8) / 240);
+mapposx = myposx + global.mapoffsetx;
+mapposy = myposy + global.mapoffsety;
 </string>
           </argument>
         </arguments>

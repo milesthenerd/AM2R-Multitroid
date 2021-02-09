@@ -1681,6 +1681,9 @@ if(room == titleroom){
     global.mapmarker = 0;
     global.mapmarkerx = 0;
     global.mapmarkery = 0;
+    global.mapposx = 3;
+    global.mapposy = 3;
+    reset_map();
 }
 </string>
           </argument>

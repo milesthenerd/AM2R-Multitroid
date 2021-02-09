@@ -64,13 +64,34 @@ state = undefined;
 seed = undefined;
 var type;
 type = network_socket_tcp;
-ini_open(working_directory + "\mod settings.ini");
-ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
-name = ini_read_string("ModSettings", "displayname", "name");
-port = ini_read_real("ModSettings", "port", 64198);
-reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
-preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
-ini_close();
+if(os_type == os_linux){
+    if(!(file_exists(working_directory + "\mod settings.ini"))){
+        //Create new file
+        ini_open(working_directory + "\mod settings.ini");
+        ini_write_string("ModSettings", "ipaddress", "127.0.0.1");
+        ini_write_string("ModSettings", "displayname", "name");
+        ini_write_real("ModSettings", "port", 64198);
+        ini_write_string("ModSettings", "reactorsequence", "synced");
+        ini_write_string("ModSettings", "preferredcolor", "random");
+        ini_close();
+    }
+    //Load vars
+    ini_open(working_directory + "\mod settings.ini");
+    ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
+    name = ini_read_string("ModSettings", "displayname", "name");
+    port = ini_read_real("ModSettings", "port", 64198);
+    reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
+    preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
+    ini_close();
+} else {
+    ini_open(working_directory + "\mod settings.ini");
+    ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
+    name = ini_read_string("ModSettings", "displayname", "name");
+    port = ini_read_real("ModSettings", "port", 64198);
+    reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
+    preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
+    ini_close();
+}
 socket = network_create_socket(type);
 isConnected = network_connect(socket, ipaddress, port);
 
@@ -1014,15 +1035,14 @@ if(instance_exists(oQueen) &amp;&amp; instance_exists(oQueenHead) &amp;&amp; !is
 var itemCount = 0;
 for(var h=0; h&lt;array_length_1d(global.item); h++){
     var val = global.item[h];
-    if(val == 1 &amp;&amp; h != 1){
-        itemCount++;
+        if(val == 1 &amp;&amp; h != 1){
+            itemCount++;
+        }
     }
-}
 
 if(itemCount != global.itemstaken){
     global.itemstaken = itemCount;
 }
-
 </string>
           </argument>
         </arguments>
