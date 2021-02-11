@@ -99,7 +99,9 @@ sfx_stop(sndSJLoop);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.enablecontrol = 1;
+            <string>if(global.event[308] &lt; 1 || !instance_exists(oClient)){
+    global.enablecontrol = 1;
+}
 instance_destroy();
 
 </string>

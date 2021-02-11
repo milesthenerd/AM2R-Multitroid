@@ -411,6 +411,22 @@ switch(argument0){
                 */
                 if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID != global.clientID){
                     global.currentsuit = global.onlineReceived[# 1, i];
+                    if(sfx_isplaying(sndSpinJump)){
+                        sfx_stop(sndSpinJump);
+                    }
+                    
+                    if(sfx_isplaying(sndSpaceJump)){
+                        sfx_stop(sndSpaceJump);
+                    }
+                    
+                    if(sfx_isplaying(sndScrewAttack)){
+                        sfx_stop(sndScrewAttack);
+                    }
+                    
+                    if(sfx_isplaying(sndSpaceScrewAttack)){
+                        sfx_stop(sndSpaceScrewAttack);
+                    }
+                    
                     if(global.currentsuitPrev != global.currentsuit){
                         global.currentsuitPrev = global.currentsuit;
                     }

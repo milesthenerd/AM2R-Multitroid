@@ -1148,6 +1148,9 @@ if(keyboard_check_pressed(vk_f2)){
 
 if(keyboard_check_pressed(vk_f3)){
     popup_text_ext(string(oControl.seed), 300);
+    global.targetx = 864;
+    global.targety = 96;
+    room_change(rm_a7c01, 1);
 }
 
 if(keyboard_check_pressed(vk_f4)){
@@ -1924,16 +1927,19 @@ switch(type_event){
                                                 if (global.currentsuit == 1) sprite_index = scr_suit_sprites(sVFront,sFront_fusion);
                                                 if (global.currentsuit == 2) sprite_index = scr_suit_sprites(sGFront,sFront_fusion);
                                                 global.enablecontrol = 0;
+                                                oControl.displaygui = 0;
                                             }
                                         }
                                         popup_text_ext("Ship reached", 120);
                                     }
                                     if(eventArr[f, 0] == 2 &amp;&amp; clientID != global.clientID){
                                         oControl.displaygui = 0;
+                                        global.enablecontrol = 0;
                                     }
                                     if(eventArr[f, 0] == 3 &amp;&amp; clientID != global.clientID){
                                         instance_create(0, 0, oFinalFadeout);
                                         mus_fadeout(musHatchling);
+                                        global.enablecontrol = 0;
                                     }
                                     if(eventArr[f, 0] == 4 &amp;&amp; clientID != global.clientID){
                                         remove_persistent_objects();
@@ -2101,6 +2107,92 @@ switch(type_event){
             case 20:
                 var time = buffer_read(_buffer, buffer_s32);
                 global.gametime = time;
+                break;
+            case 50:
+                var resend = false;
+                for(var i=0; i&lt;array_length_1d(global.item); i++){
+                    var receivedItem = buffer_read(_buffer, buffer_u8);
+                    if(receivedItem == 1 &amp;&amp; global.item[i] == 0){
+                        global.item[i] = receivedItem;
+                        global.itemPrev[i] = global.item[i];
+                    } else if(receivedItem == 0 &amp;&amp; global.item[i] == 1){
+                        resend = true;
+                    }
+                }
+                
+                var etankCount = 0;
+                for(var i=0; i&lt;array_length_1d(global.item); i++){
+                    if(i == 50 || i == 103 || i == 108 || i == 157 || i == 158 || i == 200 || i == 201 || i == 251 || i == 254 || i == 306){
+                        if(global.item[i] == 1){
+                            etankCount++;
+                        }
+                    }
+                }
+                if(etankCount != global.etanks){
+                    global.etanks = etankCount;
+                    global.maxhealth = ((99 + (100 * global.etanks)) * oControl.mod_etankhealthmult);
+                    global.playerhealth = global.maxhealth;
+                }
+                
+                var stankCount = 0;
+                for(var i=0; i&lt;array_length_1d(global.item); i++){
+                    if(i == 51 || i == 110 || i == 162 || i == 206 || i == 207 || i == 209 || i == 215 || i == 256 || i == 300 || i == 305){
+                        if(global.item[i] == 1){
+                            stankCount++;
+                        }
+                    }
+                }
+                if(stankCount != global.stanks){
+                    global.stanks = stankCount;
+                    if (global.difficulty &lt; 2) global.maxsmissiles = 2 * global.stanks;
+                    if (global.difficulty == 2) global.maxsmissiles = 1 * global.stanks;
+                    global.smissiles = global.maxsmissiles;
+                }
+                
+                var ptankCount = 0;
+                for(var i=0; i&lt;array_length_1d(global.item); i++){
+                    if(i == 58 || i == 59 || i == 112 || i == 160 || i == 212 || i == 213 || i == 253 || i == 258 || i == 301 || i == 302){
+                        if(global.item[i] == 1){
+                            ptankCount++;
+                        }
+                    }
+                }
+                if(ptankCount != global.ptanks){
+                    global.ptanks = ptankCount;
+                    if (global.difficulty &lt; 2) global.maxpbombs = 2 * global.ptanks;
+                    if (global.difficulty == 2) global.maxpbombs = 2 * global.ptanks;
+                    global.pbombs = global.maxpbombs;
+                }
+                
+                var mtankCount = 0;
+                for(var i=0; i&lt;array_length_1d(global.item); i++){
+                    if(i == 52 || i == 53 || i == 54 || i == 55 || i == 56 || i == 57 || i == 60 || i == 100 || i == 101 || i == 102 || i == 104 || i == 105 || i == 106 || i == 107 || i == 109 || i == 111 || i == 150 || i == 151 || i == 152 || i == 153 || i == 154 || i == 155 || i == 156 || i == 159 || i == 161 || i == 163 || i == 202 || i == 203 || i == 204 || i == 205 || i == 208 || i == 210 || i == 211 || i == 214 || i == 250 || i == 252 || i == 255 || i == 257 || i == 259 || i == 303 || i == 304 || i == 307 || i == 308 || i == 309){
+                        if(global.item[i] == 1){
+                            mtankCount++;
+                        }
+                    }
+                }
+                if(mtankCount != global.mtanks){
+                    global.mtanks = mtankCount;
+                    if (global.difficulty &lt; 2) global.maxmissiles = oControl.mod_Mstartingcount + (5 * global.mtanks);
+                    if (global.difficulty == 2) global.maxmissiles = oControl.mod_Mstartingcount + (2 * global.mtanks);
+                    global.missiles = global.maxmissiles;
+                }
+                
+                if(resend){
+                    var size, type, alignment;
+                    size = 1024;
+                    type = buffer_grow;
+                    alignment = 1;
+                    itemBuffer = buffer_create(size, type, alignment);
+                    buffer_seek(itemBuffer, buffer_seek_start, 0);
+                    buffer_write(itemBuffer, buffer_u8, 50);
+                    for(var i=0; i&lt;array_length_1d(global.item); i++){
+                        buffer_write(itemBuffer, buffer_u8, global.item[i]);
+                    }
+                    network_send_packet(socket, itemBuffer, buffer_tell(itemBuffer));
+                    buffer_delete(itemBuffer);
+                }
                 break;
         }
 }
