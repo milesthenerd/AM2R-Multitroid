@@ -465,7 +465,7 @@ switch(sequence){
 ini_open(working_directory + "\mod settings.ini");
 ini_write_string("ModSettings", "ipaddress", ip);
 ini_write_real("ModSettings", "port", real(port));
-ini_write_string("ModSettings", "name", name);
+ini_write_string("ModSettings", "displayname", name);
 ini_write_string("ModSettings", "reactorsequence", _sequence);
 ini_write_string("ModSettings", "preferredcolor", color);
 ini_close();
