@@ -398,6 +398,53 @@ load_character_vars();
 
 multitroidPalette = -1;
 if (file_exists("mods/palettes/sPalMultitroid.png")) multitroidPalette = sprite_add("mods/palettes/sPalMultitroid.png", 1, false, false, 0, 0);
+if(!(file_exists(working_directory + "\mod settings.ini"))){
+    //Create new file
+    ini_open(working_directory + "\mod settings.ini");
+    ini_write_string("ModSettings", "ipaddress", "127.0.0.1");
+    ini_write_string("ModSettings", "displayname", "name");
+    ini_write_real("ModSettings", "port", 64198);
+    ini_write_string("ModSettings", "reactorsequence", "synced");
+    ini_write_string("ModSettings", "preferredcolor", "random");
+    ini_close();
+}
+ini_open(working_directory + "\mod settings.ini");
+ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
+name = ini_read_string("ModSettings", "displayname", "name");
+port = ini_read_real("ModSettings", "port", 64198);
+reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
+preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
+ini_close();
+
+switch(preferredcolor){
+    case "green":
+        preferredcolor = 1;
+        break;
+    case "red":
+        preferredcolor = 2;
+        break;
+    case "blue":
+        preferredcolor = 3;
+        break;
+    case "yellow":
+        preferredcolor = 4;
+        break;
+    case "orange":
+        preferredcolor = 5;
+        break;
+    case "purple":
+        preferredcolor = 6;
+        break;
+    case "pink":
+        preferredcolor = 7;
+        break;
+    case "white":
+        preferredcolor = 8;
+        break;
+    case "random":
+        preferredcolor = 9;
+        break;
+}
 </string>
           </argument>
         </arguments>

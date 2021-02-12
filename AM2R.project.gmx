@@ -5064,7 +5064,7 @@
       <script>scripts\mus_boss_fadein.gml</script>
       <script>scripts\set_widescreen.gml</script>
     </scripts>
-    <scripts name="Nerd">
+    <scripts name="Miles">
       <script>scripts\update_variables.gml</script>
       <script>scripts\create_buffer.gml</script>
       <script>scripts\send_seed.gml</script>
@@ -6137,8 +6137,11 @@
       <object>objects\oAreaIntro</object>
       <object>objects\oA3_Missiles_Glow</object>
     </objects>
-    <object>objects\oClient</object>
-    <object>objects\oNametag</object>
+    <objects name="Miles">
+      <object>objects\oNametag</object>
+      <object>objects\oClient</object>
+      <object>objects\oOptionsMod</object>
+    </objects>
   </objects>
   <timelines name="timelines">
     <timeline>timelines\timelineCrystal</timeline>

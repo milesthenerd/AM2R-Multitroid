@@ -64,34 +64,15 @@ state = undefined;
 seed = undefined;
 var type;
 type = network_socket_tcp;
-if(os_type == os_linux){
-    if(!(file_exists(working_directory + "\mod settings.ini"))){
-        //Create new file
-        ini_open(working_directory + "\mod settings.ini");
-        ini_write_string("ModSettings", "ipaddress", "127.0.0.1");
-        ini_write_string("ModSettings", "displayname", "name");
-        ini_write_real("ModSettings", "port", 64198);
-        ini_write_string("ModSettings", "reactorsequence", "synced");
-        ini_write_string("ModSettings", "preferredcolor", "random");
-        ini_close();
-    }
-    //Load vars
-    ini_open(working_directory + "\mod settings.ini");
-    ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
-    name = ini_read_string("ModSettings", "displayname", "name");
-    port = ini_read_real("ModSettings", "port", 64198);
-    reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
-    preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
-    ini_close();
-} else {
-    ini_open(working_directory + "\mod settings.ini");
-    ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
-    name = ini_read_string("ModSettings", "displayname", "name");
-    port = ini_read_real("ModSettings", "port", 64198);
-    reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
-    preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
-    ini_close();
-}
+
+ini_open(working_directory + "\mod settings.ini");
+ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
+name = ini_read_string("ModSettings", "displayname", "name");
+port = ini_read_real("ModSettings", "port", 64198);
+reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
+preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
+ini_close();
+
 socket = network_create_socket(type);
 isConnected = network_connect(socket, ipaddress, port);
 
@@ -1175,6 +1156,10 @@ if((room == rm_a4b02 || room == rm_a4b03 || room == rm_a4b04 || room == rm_a4b05
     global.targetx = 624;
     global.targety = 144;
     room_change(rm_a4b01, 1);
+}
+
+if(instance_exists(oCharacter) &amp;&amp; (oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP)){
+    refill_heath_ammo();
 }
 
 if(time == 0 &amp;&amp; connected &amp;&amp; instance_exists(self)){ //why do i need an instance_exists(self) here to not crash???

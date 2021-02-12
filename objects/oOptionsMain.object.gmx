@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>global.curropt = 0;
-lastitem = 4;
+lastitem = 5;
 active = 0;
 alarm[0] = 5;
 event_user(0);
@@ -35,7 +35,8 @@ tip[0] = get_text("OptionsMain", "Display_Tip");
 tip[1] = get_text("OptionsMain", "Sound_Tip");
 tip[2] = get_text("OptionsMain", "Control_Tip");
 tip[3] = get_text("ExtrasMenu", "Extras_Tip");
-tip[4] = get_text("GlobalOptions", "Exit_Tip");
+tip[4] = "Configure settings for multitroid connection";
+tip[5] = get_text("GlobalOptions", "Exit_Tip");
 global.tiptext = tip[global.curropt];
 </string>
           </argument>
@@ -139,12 +140,16 @@ global.tiptext = tip[global.curropt];
             instance_destroy();
         }
         if (global.curropt == 4) {
+            instance_create(50, 92 - 24, oOptionsMod);
+            instance_destroy();
+        }
+        if (global.curropt == 5) {
             if (instance_exists(oSS_Control) &gt; false) {
                 instance_create(50, 92, oPauseMenuOptions);
                 instance_destroy();
             } else {
                 save_gameoptions();
-                global.curropt = 4; // used to be 3, menu shifted
+                global.curropt = 5; // used to be 3, menu shifted
                 room_change(titleroom, 0); //room_goto(titleroom);
             }
         }
@@ -177,6 +182,7 @@ if (instance_exists(op2)) with (op2) instance_destroy();
 if (instance_exists(op3)) with (op3) instance_destroy();
 if (instance_exists(op4)) with (op4) instance_destroy();
 if (instance_exists(op5)) with (op5) instance_destroy();
+if (instance_exists(op6)) with (op6) instance_destroy();
 
 </string>
           </argument>
@@ -213,12 +219,15 @@ op3.label = get_text("OptionsMain", "Control");
 op4 = instance_create(x, y + 48, oPauseOption);
 op4.optionid = 3;
 op4.label = get_text("ExtrasMenu", "Extras");
+op5 = instance_create(x, y + 64, oPauseOption);
+op5.optionid = 4;
+op5.label = "Multitroid settings";
 /*if (instance_exists(oSS_Control) &gt; false) {
     op4.enabled = 0;
 }*/
-op5 = instance_create(x, y + 64, oPauseOption);
-op5.optionid = 4;
-op5.label = get_text("GlobalOptions", "Exit");
+op6 = instance_create(x, y + 80, oPauseOption);
+op6.optionid = 5;
+op6.label = get_text("GlobalOptions", "Exit");
 </string>
           </argument>
         </arguments>

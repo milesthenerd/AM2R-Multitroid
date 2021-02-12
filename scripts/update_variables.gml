@@ -570,20 +570,16 @@ switch(argument0){
                         global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
                     } else if(oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP || oCharacter.state == oCharacter.SAVING){
                         if(global.playerhealth != global.maxhealth){
-                            global.playerhealthPrev = global.maxhealth;
-                            global.playerhealth = global.maxhealth;
+                            refill_heath_ammo();
                         }
                         if(global.missiles != global.maxmissiles){
-                            global.missilesPrev = global.maxmissiles;
-                            global.missiles = global.maxmissiles;
+                            refill_heath_ammo();
                         }
                         if(global.smissiles != global.maxsmissiles){
-                            global.smissilesPrev = global.maxsmissiles;
-                            global.smissiles = global.maxsmissiles;
+                            refill_heath_ammo();
                         }
                         if(global.pbombs != global.maxpbombs){
-                            global.pbombsPrev = global.maxpbombs;
-                            global.pbombs = global.maxpbombs;
+                            refill_heath_ammo();
                         }
                         buffer_delete(buffer);
                         var size, type, alignment;

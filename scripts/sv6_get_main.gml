@@ -19,6 +19,7 @@ if(!instance_exists(oClient)){
     global.mapmarkery = readline();
 } else if(instance_exists(oClient) && global.lastroom == gameoverroom){
     //don't reset values
+    refill_heath_ammo();
 } else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) == 0){
     global.gametime = readline();
     global.itemstaken = readline();
@@ -34,6 +35,7 @@ if(!instance_exists(oClient)){
     global.mapmarkery = readline();
 } else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) > 0){
     //don't reset values
+    refill_heath_ammo();
 }
 
 ds_list_clear(list);

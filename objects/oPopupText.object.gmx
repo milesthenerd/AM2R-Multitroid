@@ -104,7 +104,11 @@ y = view_yview[0] + 230;
             <kind>1</kind>
             <string>draw_set_font(fontGUI2);
 draw_set_halign(fa_right);
-draw_cool_text(view_xview[0] + 316 + (53*oControl.widescreen), view_yview[0] + 226, text, c_black, c_white, c_white, image_alpha);
+if(room == rm_controller || room == rm_options){
+    draw_cool_text(view_xview[0] + 316, view_yview[0] + 226, text, c_black, c_white, c_white, image_alpha);
+} else {
+    draw_cool_text(view_xview[0] + 316 + (53*oControl.widescreen), view_yview[0] + 226, text, c_black, c_white, c_white, image_alpha);
+}
 draw_set_halign(fa_left);
 </string>
           </argument>
