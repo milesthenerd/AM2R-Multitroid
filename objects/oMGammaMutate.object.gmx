@@ -130,7 +130,7 @@ statetime += 1;
           <argument>
             <kind>1</kind>
             <string>
-if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
+if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0 &amp;&amp; global.shaders_compiled) {
     pal_swap_set(oControl.GammaPalette, 1, false);
 }
 

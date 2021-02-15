@@ -282,7 +282,9 @@ mealtimer += 1;
     draw_sprite_ext(sprite_index, -1, x, y, 1, 1, 0, -1, flash);
     draw_set_blend_mode(bm_normal);
 } else {
-    pal_swap_set(sPalMultitroidBaby, myid, false);
+    if(global.shaders_compiled){
+        pal_swap_set(sPalMultitroidBaby, myid, false);
+    }
     draw_self();
     draw_sprite_ext(sprite_index, -1, x, y, 1, 1, 0, -1, flash);
     pal_swap_reset();

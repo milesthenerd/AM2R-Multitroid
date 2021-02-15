@@ -167,7 +167,7 @@ update_variables("initprev");
 
 update_variables("onlinevars");
 
-if(shader_is_compiled(shd_pal_swapper)){
+if(global.shaders_compiled){
     alpha = 1
 } else {
     alpha = 0.5
