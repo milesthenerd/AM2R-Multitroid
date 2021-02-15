@@ -174,6 +174,7 @@ if (global.ssmode == 3) {
     with (oOptionsQuit) active = 0;
     with (oOptionsReload) active = 0;
     with (oOptionsExtras) active = 0; // 1.5.1 fix
+    with (oOptionsMod) active = 0;
 }
 if (global.ssmode == 2) with (oLogScreenControl) active = 0;
 if (global.ssmode == 1) with (oSubscreenMenu) active = 0;

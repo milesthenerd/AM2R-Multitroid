@@ -29,7 +29,6 @@
 strict_init("dictionary.json");
 queenHealthResetQueued = false;
 canSend = false;
-showName = true;
 metroidCountChanged = false;
 itemChanged = false;
 metdeadChanged = false;
@@ -71,7 +70,16 @@ name = ini_read_string("ModSettings", "displayname", "name");
 port = ini_read_real("ModSettings", "port", 64198);
 reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
 preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
+showName = string_lower(ini_read_string("ModSettings", "showname", "enabled"));
 ini_close();
+
+var nameLength = string_length(name);
+if(nameLength &gt; 15){
+    name = string_copy(name, 1, 15);
+    ini_open(working_directory + "\mod settings.ini");
+    ini_write_string("ModSettings", "displayname", name);
+    ini_close();
+}
 
 socket = network_create_socket(type);
 isConnected = network_connect(socket, ipaddress, port);
@@ -103,6 +111,15 @@ switch(preferredcolor){
         break;
     case "random":
         preferredcolor = 9;
+        break;
+}
+
+switch(showName){
+    case "disabled":
+        showName = false;
+        break;
+    case "enabled":
+        showName = true;
         break;
 }
 
@@ -1162,6 +1179,16 @@ if(instance_exists(oCharacter) &amp;&amp; (oCharacter.state == oCharacter.SAVING
     refill_heath_ammo();
 }
 
+//Sends event 309 to make sure all players can fight guardian
+if(global.log[21] &gt; 0 &amp;&amp; global.event[309] == 0){
+    global.event[309] = 1;
+}
+
+if(global.event[309] == 1 &amp;&amp; global.log[21] &lt; 1){
+    global.log[21] = 2;
+}
+//End of guardian event check
+
 if(time == 0 &amp;&amp; connected &amp;&amp; instance_exists(self)){ //why do i need an instance_exists(self) here to not crash???
     if(ds_list_size(global.idList) &gt; 0){
         checkListID = ds_list_create();
@@ -2100,6 +2127,13 @@ switch(type_event){
                     if(receivedItem == 1 &amp;&amp; global.item[i] == 0){
                         global.item[i] = receivedItem;
                         global.itemPrev[i] = global.item[i];
+                        
+                        //ADD POWERUP ACTIVATIONS HERE FOR WHEN ITEMS ARE JUST RECEIVED 
+                        if(i == 0){
+                            global.bomb = 1;
+                            global.bombPrev = global.bomb;
+                            popup_text("Bombs enabled");
+                        }
                     } else if(receivedItem == 0 &amp;&amp; global.item[i] == 1){
                         resend = true;
                     }
@@ -2177,6 +2211,216 @@ switch(type_event){
                     }
                     network_send_packet(socket, itemBuffer, buffer_tell(itemBuffer));
                     buffer_delete(itemBuffer);
+                }
+                break;
+            case 51:
+                var resend = false;
+                for(var i=0; i&lt;array_length_1d(global.event); i++){
+                    var receivedEvent = buffer_read(_buffer, buffer_u8);
+                    if(receivedEvent &gt; global.event[i]){
+                        global.event[i] = receivedEvent;
+                        global.eventPrev[i] = global.event[i];
+                    } else if(receivedEvent &lt; global.event[i]){
+                        resend = true;
+                    }
+                }
+                
+                if(resend){
+                    var size, type, alignment;
+                    size = 1024;
+                    type = buffer_grow;
+                    alignment = 1;
+                    eventBuffer = buffer_create(size, type, alignment);
+                    buffer_seek(eventBuffer, buffer_seek_start, 0);
+                    buffer_write(eventBuffer, buffer_u8, 51);
+                    for(var i=0; i&lt;array_length_1d(global.event); i++){
+                        buffer_write(eventBuffer, buffer_u8, global.event[i]);
+                    }
+                    network_send_packet(socket, eventBuffer, buffer_tell(eventBuffer));
+                    buffer_delete(eventBuffer);
+                }
+                break;
+            case 52:
+                var resend = false;
+                for(var i=0; i&lt;array_length_1d(global.metdead); i++){
+                    var receivedMetdead = buffer_read(_buffer, buffer_u8);
+                    if(receivedMetdead == 1 &amp;&amp; global.metdead[i] == 0){
+                        global.metdead[i] = receivedMetdead;
+                        global.metdeadPrev[i] = global.metdead[i];
+                    } else if(receivedMetdead == 0 &amp;&amp; global.metdead[i] == 1){
+                        resend = true;
+                    }
+                }
+                
+                if(global.gamemode == 1){
+                    var countArea = 0;
+                    var countLeft = 0;
+                    for(var i=0; i&lt;array_length_1d(global.metdead); i++){
+                        if(i &lt;= 45){
+                            if(global.metdead[i] == 0){
+                                countLeft++;
+                            }
+                            
+                            if(global.lavastate &gt;= 0 &amp;&amp; global.metdead[i] == 0 &amp;&amp; i == 0){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 1 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 1 || i == 2 || i == 3 || i == 4)){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 2 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 || i == 11 || i == 12)){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 3 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 13 || i == 14 || i == 15 || i == 16 || i == 17 || i == 18 || i == 19 || i == 20 || i == 21 || i == 22)){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 4 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 23 || i == 24)){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 5 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 25 || i == 26)){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 6 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 27 || i == 28 || i == 29 || i == 30 || i == 31 || i == 32)){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 7 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 33 || i == 34 || i == 35 || i == 36 || i == 37 || i == 38 || i == 39 || i == 40)){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 8 &amp;&amp; global.metdead[i] == 0 &amp;&amp; i == 41){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 9 &amp;&amp; global.metdead[i] == 0 &amp;&amp; i == 42){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 10 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 43 || i == 44 || i == 45)){
+                                countArea++;
+                            }
+                        }
+                    }
+                    
+                    if(global.lavastate &lt; 11){
+                        if(global.event[303] == 0){
+                            countLeft++;
+                        }
+                        
+                        if(global.monstersleft != countLeft){
+                            global.monstersleft = countLeft;
+                        }
+                        
+                        if(global.monstersarea != countArea){
+                            global.monstersarea = countArea;
+                        }
+                    }
+                } else if(global.gamemode &gt; 1){
+                    var countArea = 0;
+                    var countLeft = 0;
+                    for(var i=0; i&lt;array_length_1d(global.metdead); i++){
+                        if(i &lt;= 45){
+                            if(global.metdead[i] == 0){
+                                countLeft++;
+                            }
+                            
+                            if(global.metdead[i] == 0 &amp;&amp; i != 11 &amp;&amp; i != 23 &amp;&amp; i != 24 &amp;&amp; i != 41 &amp;&amp; i != 42 &amp;&amp; i != 43 &amp;&amp; i != 44 &amp;&amp; i != 45){
+                                countArea++;
+                            }
+                            
+                            if(global.metdead[i] == 0 &amp;&amp; global.event[109] == 1 &amp;&amp; i == 11){
+                                countArea++;
+                            }
+                            
+                            if(global.metdead[i] == 0 &amp;&amp; global.event[171] == 1 &amp;&amp; (i == 23 || i == 24)){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 8 &amp;&amp; global.metdead[i] == 0 &amp;&amp; i == 41){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 9 &amp;&amp; global.metdead[i] == 0 &amp;&amp; i == 42){
+                                countArea++;
+                            }
+                            
+                            if(global.lavastate &gt;= 10 &amp;&amp; global.metdead[i] == 0 &amp;&amp; (i == 43 || i == 44 || i == 45)){
+                                countArea++;
+                            }
+                        }
+                    }
+                    
+                    if(global.lavastate &lt; 11){
+                        if(global.event[303] == 0){
+                            countLeft++;
+                        }
+                        
+                        if(global.monstersleft != countLeft){
+                            global.monstersleft = countLeft;
+                        }
+                        
+                        if(global.monstersarea != countArea){
+                            global.monstersarea = countArea;
+                        }
+                    }
+                }
+                
+                if(resend){
+                    var size, type, alignment;
+                    size = 1024;
+                    type = buffer_grow;
+                    alignment = 1;
+                    metdeadBuffer = buffer_create(size, type, alignment);
+                    buffer_seek(metdeadBuffer, buffer_seek_start, 0);
+                    buffer_write(metdeadBuffer, buffer_u8, 52);
+                    for(var i=0; i&lt;array_length_1d(global.metdead); i++){
+                        buffer_write(metdeadBuffer, buffer_u8, global.metdead[i]);
+                    }
+                    network_send_packet(socket, metdeadBuffer, buffer_tell(metdeadBuffer));
+                    buffer_delete(metdeadBuffer);
+                }
+                break;
+            case 53:
+                var part = buffer_read(_buffer, buffer_u8);
+                var resend = false;
+                for(var i=0; i&lt;array_height_2d(global.dmap); i++){
+                    for(var j=0; j&lt;array_length_2d(global.dmap, i); j++){
+                        if((part == 1 &amp;&amp; i &lt; 20) || (part == 2 &amp;&amp; i &gt;= 20 &amp;&amp; i &lt; 40) || (part == 3 &amp;&amp; i &gt;= 40 &amp;&amp; i &lt; 60) || (part == 4 &amp;&amp; i &gt;= 60 &amp;&amp; i &lt; 80)){
+                            var receiveddmap = buffer_read(_buffer, buffer_u8);
+                            if(receiveddmap &gt; global.dmap[i, j]){
+                                global.dmap[i, j] = receiveddmap;
+                                global.dmapPrev[i, j] = global.dmap[i, j];
+                            } else if(receiveddmap &lt; global.dmap[i, j]){
+                                resend = true;
+                            }
+                        }
+                    }
+                }
+                
+                if(resend){
+                    var size, type, alignment;
+                    size = 1024;
+                    type = buffer_grow;
+                    alignment = 1;
+                    dmapBuffer = buffer_create(size, type, alignment);
+                    buffer_seek(dmapBuffer, buffer_seek_start, 0);
+                    buffer_write(dmapBuffer, buffer_u8, 53);
+                    for(var i=0; i&lt;array_height_2d(global.dmap); i++){
+                        for(var j=0; j&lt;array_length_2d(global.dmap, i); j++){
+                            buffer_write(dmapBuffer, buffer_u8, global.dmap[i, j]);
+                        }
+                    }
+                    network_send_packet(socket, dmapBuffer, buffer_tell(dmapBuffer));
+                    buffer_delete(dmapBuffer);
+                }
+                
+                if(global.ingame){
+                    with (oControl) event_user(2);
                 }
                 break;
         }

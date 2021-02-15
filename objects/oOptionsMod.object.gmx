@@ -37,13 +37,17 @@ num_port = tempnumcounter++;
 num_name = tempnumcounter++;
 num_sequence = tempnumcounter++;
 num_color = tempnumcounter++;
+num_showname = tempnumcounter++;
 num_connection = tempnumcounter++;
+
 lastitem = tempnumcounter; // This value will be one number higher than the last number in the list above.
 
 ip = oControl.ipaddress;
 name = oControl.name;
 port = string(oControl.port);
+showname = 1;
 sequence = 1;
+
 connectiontxt = "Connect";
 
 if(instance_exists(oClient)){
@@ -58,6 +62,15 @@ switch(oControl.reactorsequence){
         break;
     case "disabled": 
         sequence = 0;
+        break;
+}
+
+switch(oControl.showname){
+    case "enabled":
+        showname = 1;
+        break;
+    case "disabled":
+        showname = 0;
         break;
 }
 
@@ -87,6 +100,7 @@ tip[num_port] = "Set the port of the server";
 tip[num_name] = "Set your display name";
 tip[num_sequence] = "Toggle whether the reactor sequence is synced";
 tip[num_color] = "Pick your preferred player color";
+tip[num_showname] = "Enable/disable showing player names";
 tip[num_connection] = "Connect/disconnect to the server";
 
 
@@ -245,6 +259,7 @@ if (active) {
      
     if (oControl.kLeft &gt; 0 &amp;&amp; oControl.kLeftPushedSteps == 0 || oControl.kRight &gt; 0 &amp;&amp; oControl.kRightPushedSteps == 0 &amp;&amp; global.curropt &lt; lastitem &amp;&amp; oControl.kDown == 0 &amp;&amp; oControl.kUp == 0) {
         if (global.curropt == num_sequence) sequence = !sequence;
+        if (global.curropt == num_showname) showname = !showname;
         //if (global.shaders_compiled) {
             //if (global.curropt == num_MSRfusion) oControl.msr_fusionsuit = !oControl.msr_fusionsuit;
         //}
@@ -307,6 +322,17 @@ if (active) {
         event_user(2);
     } // if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0)
     
+    /*
+    if (oControl.kMenu2 &amp;&amp; oControl.kMenu1PushedSteps == 0) {
+        if(instance_exists(oSS_Control)){
+            if(editing){
+                editing = !editing;
+            }
+            instance_destroy();
+        }
+    }
+    */
+    
     if(editing &amp;&amp; global.curropt == num_ip){
         ip = keyboard_string;
         op[num_ip].optext = ip;
@@ -318,6 +344,10 @@ if (active) {
     }
     
     if(editing &amp;&amp; global.curropt == num_name){
+        var keyboardLength = string_length(keyboard_string);
+        if(keyboardLength &gt; 15){
+            keyboard_string = string_copy(keyboard_string, 1, 15);
+        }
         name = keyboard_string;
         op[num_name].optext = name;
     }
@@ -326,6 +356,14 @@ if (active) {
 if (targety != y) y += (targety - y) / 10;
 timer -= 1;
 if (timer &lt; 0) timer = 8;
+
+if(instance_exists(oClient)){
+    connectiontxt = "Disconnect";
+    op[num_connection].label = connectiontxt;
+} else {
+    connectiontxt = "Connect";
+    op[num_connection].label = connectiontxt;
+}
 </string>
           </argument>
         </arguments>
@@ -350,6 +388,7 @@ if (timer &lt; 0) timer = 8;
             <kind>1</kind>
             <string>var color = "random";
 var _sequence = "synced";
+var _showname = "enabled";
 
 op[num_ip].optext = ip;
 op[num_port].optext = port;
@@ -388,9 +427,22 @@ switch(oControl.preferredcolor){
 switch(sequence){
     case 0:
         op[num_sequence].optext = "disabled";
+        oControl.reactorsequence = "disabled";
         break;
     case 1:
         op[num_sequence].optext = "synced";
+        oControl.reactorsequence = "synced";
+        break;
+}
+
+switch(showname){
+    case 0:
+        op[num_showname].optext = "disabled";
+        oControl.showname = "disabled";
+        break;
+    case 1:
+        op[num_showname].optext = "enabled";
+        oControl.showname = "enabled";
         break;
 }
 
@@ -462,13 +514,27 @@ switch(sequence){
         break;
 }
 
+switch(showname){
+    case 0:
+        _showname = "disabled";
+        break;
+    case 1: 
+        _showname = "enabled";
+        break;
+}
+
 ini_open(working_directory + "\mod settings.ini");
 ini_write_string("ModSettings", "ipaddress", ip);
 ini_write_real("ModSettings", "port", real(port));
 ini_write_string("ModSettings", "displayname", name);
 ini_write_string("ModSettings", "reactorsequence", _sequence);
 ini_write_string("ModSettings", "preferredcolor", color);
+ini_write_string("ModSettings", "showname", _showname);
 ini_close();
+
+oControl.ipaddress = ip;
+oControl.name = name;
+oControl.port = real(port);
 </string>
           </argument>
         </arguments>
@@ -554,6 +620,10 @@ op[num_sequence].optionid = num_sequence;
 op[num_color] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_color].label = "Preferred color";
 op[num_color].optionid = num_color;
+
+op[num_showname] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_showname].label = "Show names";
+op[num_showname].optionid = num_showname;
 
 op[num_connection] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_connection].optionid = num_connection;
