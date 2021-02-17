@@ -256,14 +256,16 @@ if(instance_exists(oClient)){
             for(var f=0; f<ds_list_size(global.idList); f++){
                 var arrList = global.idList[| f];
                 var ID = arrList[0, 0];
+                var _x = 10 * floor(f / 2),
+                var _y = 10 * (f % 2);
                 if(ID == global.clientID){
-                    draw_sprite(sMultitroidIcon, (ID - 1), (240 - (f * 10)) + widescreen_space, 5);
+                    draw_sprite(oControl.MultitroidIcon, (ID - 1), (240 - _x) + widescreen_space, 5 + _y);
                 } else {
-                    draw_sprite(sDarkMultitroidPlayer, (ID - 1), (240 - (f * 10)) + widescreen_space, 5);
+                    draw_sprite(oControl.MultitroidIconDark, (ID - 1), (240 - _x) + widescreen_space, 5 + _y);
                 }
             }
         } else if(ds_list_size(global.idList) == 1 || ds_list_size(global.idList) == 0){
-            draw_sprite(sMultitroidIcon, 0, 240 + widescreen_space, 5);
+            draw_sprite(oControl.MultitroidIcon, clamp(global.clientID - 1, 0, 8), 240 + widescreen_space, 5);
         }
     }
 }
@@ -295,7 +297,7 @@ if (global.ophudshowmap){
             var xDiff = oClient.posX - arrData[1];
             var yDiff = oClient.posY - arrData[2];
             if(abs(xDiff) <= 2 && abs(yDiff) <= 1){
-                draw_sprite_ext(sMultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
+                draw_sprite_ext(oControl.MultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
             }
         }
     }

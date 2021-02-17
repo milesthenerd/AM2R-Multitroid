@@ -47,7 +47,7 @@ connected = false;
 queenHealthWait = false;
 queenDead = false;
 sameRoom = false;
-queenHealth = 600;
+queenHealth = global.mod_queenHstart + (global.mtanks * 10);
 phase = 0;
 maxpbombsTimer = 10;
 maxhealthTimer = 10;
@@ -59,12 +59,13 @@ teleportTimer = 180;
 disconnectTimer = 600;
 pingTimer = 90;
 teleport = false;
+noName = false;
 state = undefined;
 seed = undefined;
 var type;
 type = network_socket_tcp;
 
-ini_open(working_directory + "\mod settings.ini");
+ini_open(working_directory + "\mod_settings.ini");
 ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
 name = ini_read_string("ModSettings", "displayname", "name");
 port = ini_read_real("ModSettings", "port", 64198);
@@ -76,9 +77,15 @@ ini_close();
 var nameLength = string_length(name);
 if(nameLength &gt; 15){
     name = string_copy(name, 1, 15);
-    ini_open(working_directory + "\mod settings.ini");
+    ini_open(working_directory + "\mod_settings.ini");
     ini_write_string("ModSettings", "displayname", name);
     ini_close();
+}
+
+if(string_length(name) == 0){
+    noName = true;
+    popup_text_ext("Set a name before connecting", 180);
+    instance_destroy();
 }
 
 socket = network_create_socket(type);
@@ -129,7 +136,7 @@ type = buffer_grow;
 alignment = 1;
 buffer = buffer_create(size, type, alignment);
 
-global.queenhealthPrev = 600;
+global.queenhealthPrev = global.mod_queenHstart + (global.mtanks * 10);;
 global.queenphasePrev = 0;
 
 
@@ -219,21 +226,23 @@ trail = 0;
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
-network_destroy(socket);
-buffer_delete(buffer);
-ds_grid_destroy(global.onlineList);
-ds_grid_destroy(global.onlineSend);
-ds_grid_destroy(global.onlineReceived);
-ds_list_destroy(global.onlineItem);
-ds_list_destroy(global.onlineMetdead);
-ds_list_destroy(global.onlineEvent);
-ds_list_destroy(global.onlineMap);
-ds_list_destroy(global.receivedPacketIDs);
-ds_list_destroy(roomList);
-ds_list_destroy(roomListData);
-ds_list_destroy(global.idList);
-ds_list_destroy(posData);
-ds_list_destroy(global.hatchlingList);
+if(!noName){
+    network_destroy(socket);
+    buffer_delete(buffer);
+    ds_grid_destroy(global.onlineList);
+    ds_grid_destroy(global.onlineSend);
+    ds_grid_destroy(global.onlineReceived);
+    ds_list_destroy(global.onlineItem);
+    ds_list_destroy(global.onlineMetdead);
+    ds_list_destroy(global.onlineEvent);
+    ds_list_destroy(global.onlineMap);
+    ds_list_destroy(global.receivedPacketIDs);
+    ds_list_destroy(roomList);
+    ds_list_destroy(roomListData);
+    ds_list_destroy(global.idList);
+    ds_list_destroy(posData);
+    ds_list_destroy(global.hatchlingList);
+}
 
 global.canConnect = false;
 oControl.alarm[10] = 90;
@@ -911,66 +920,6 @@ for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
         canSend = true;
         alarm[0] = 600;
     }
-    
-    /*
-    if(i == 0){
-        var v = 0;
-        var itemPrev = global.onlineList[# 0, 0];
-        var item = global.onlineList[# 1, 0];
-        for(var f=0; f&lt;array_length_1d(item); f++){
-            if(itemPrev[f] != item[f]){
-                global.itemChanges[v, 0] = global.item[f];
-                global.itemChanges[v, 1] = f;
-                global.onlineSend[# 1, 0] = global.itemChanges;
-                global.onlineSend[# 2, 0] = global.onlineList[# 2, 0];
-                show_debug_message(string(global.itemPrev[f]) + " " + string(global.item[f]));
-                show_debug_message("item changed");
-                canSend = true;
-                v++;
-                
-            }
-        }
-    }
-    
-    if(i == 1){
-        var v = 0;
-        var metdeadPrev = global.onlineList[# 0, 1];
-        var metdead = global.onlineList[# 1, 1];
-        for(var f=0; f&lt;array_length_1d(metdead); f++){
-            if(metdeadPrev[f] != metdead[f]){
-                global.metdeadChanges[v, 0] = global.metdead[f];
-                global.metdeadChanges[v, 1] = f;
-                global.onlineSend[# 1, 1] = global.metdeadChanges;
-                global.onlineSend[# 2, 1] = global.onlineList[# 2, 1];
-                show_debug_message(string(global.metdeadPrev[f]) + " " + string(global.metdead[f]));
-                show_debug_message("metdead changed");
-                canSend = true;
-                v++;
-                
-            }
-        }
-    }
-    
-    if(i == 3){
-        var v = 0;
-        var eventPrev = global.onlineList[# 0, 3];
-        var event = global.onlineList[# 1, 3];
-        for(var f=0; f&lt;array_length_1d(eventPrev) - 1; f++){
-            if(eventPrev[f] != event[f]){
-                global.eventChanges[v, 0] = global.event[f];
-                global.eventChanges[v, 1] = f;
-                global.onlineSend[# 1, 3] = global.eventChanges;
-                global.onlineSend[# 2, 3] = global.onlineList[# 2, 3];
-                show_debug_message(string(global.eventPrev[f]) + " " + string(global.event[f]));
-                show_debug_message("event changed");
-                canSend = true;
-                v++;
-                
-            }
-        }
-    }
-    */
-    
 }
 
 if(canSend){
@@ -1075,6 +1024,7 @@ if(itemCount != global.itemstaken){
         buffer = buffer_create(size, type, alignment);
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_u8, 1);
+        buffer_write(buffer, buffer_string, name)
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         instance_create(x, y, oNametag);
     } else {
@@ -1095,7 +1045,7 @@ if(global.event[303] &gt; 0){
 
 if(room == rm_death){
     phase = 0;
-    queenHealth = 600;
+    queenHealth = global.mod_queenHstart + (global.mtanks * 10);;
 }
 
 if((room == rm_a4b02 || room == rm_a4b03 || room == rm_a4b04 || room == rm_a4b05 || room == rm_a4b06 || room == rm_a4b07 || room == rm_a4b08 || room == rm_a4b09 || room == rm_a4b10 || room == rm_a4b11 || room == rm_a4b12 || room == rm_a4b13 || room == rm_a4b14 || room == rm_a4b15 || room == rm_a4b16 || room == rm_a4b17 || room == rm_a4b18 || room == rm_a4b19) &amp;&amp; global.event[203] &gt; 0 &amp;&amp; global.event[203] &lt; 9 &amp;&amp; !instance_exists(oA4EscapeControl)){
@@ -1146,9 +1096,6 @@ if(keyboard_check_pressed(vk_f2)){
 
 if(keyboard_check_pressed(vk_f3)){
     popup_text_ext(string(oControl.seed), 300);
-    global.targetx = 864;
-    global.targety = 96;
-    room_change(rm_a7c01, 1);
 }
 
 if(keyboard_check_pressed(vk_f4)){
@@ -1721,6 +1668,7 @@ switch(type_event){
                 break;
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
+                show_debug_message(string(msgid) + " " + string(global.clientID));
                 alarm[0] = 5;
                 alarm[2] = 5;
                 alarm[3] = 5;
@@ -2128,11 +2076,154 @@ switch(type_event){
                         global.item[i] = receivedItem;
                         global.itemPrev[i] = global.item[i];
                         
-                        //ADD POWERUP ACTIVATIONS HERE FOR WHEN ITEMS ARE JUST RECEIVED 
                         if(i == 0){
                             global.bomb = 1;
                             global.bombPrev = global.bomb;
                             popup_text("Bombs enabled");
+                        }
+                        
+                        if(i == 1){
+                            global.powergrip = 1;
+                            global.powergripPrev = global.powergrip;
+                            popup_text("Powergrip enabled");
+                        }
+                        
+                        if(i == 2){
+                            global.spiderball = 1;
+                            global.spiderballPrev = global.spiderball;
+                            popup_text("Spiderball enabled");
+                        }
+                        
+                        if(i == 3){
+                            global.jumpball = 1;
+                            global.jumpballPrev = global.jumpball;
+                            popup_text("Springball enabled");
+                        }
+                        
+                        if(i == 4){
+                            global.hijump = 1;
+                            global.hijumpPrev = global.hijump;
+                            popup_text("Hi jump enabled");
+                        }
+                        
+                        if(i == 5){
+                            global.currentsuit = 1;
+                            global.currentsuitPrev = global.currentsuit;
+                            popup_text("Varia suit enabled");
+                            if(sfx_isplaying(sndSpinJump)){
+                                sfx_stop(sndSpinJump);
+                            }
+                            
+                            if(sfx_isplaying(sndSpaceJump)){
+                                sfx_stop(sndSpaceJump);
+                            }
+                            
+                            if(sfx_isplaying(sndScrewAttack)){
+                                sfx_stop(sndScrewAttack);
+                            }
+                            
+                            if(sfx_isplaying(sndSpaceScrewAttack)){
+                                sfx_stop(sndSpaceScrewAttack);
+                            }
+                        }
+                        
+                        if(i == 6){
+                            global.spacejump = 1;
+                            global.spacejumpPrev = global.spacejump;
+                            popup_text("Spacejump enabled");
+                            if(sfx_isplaying(sndSpinJump)){
+                                sfx_stop(sndSpinJump);
+                            }
+                            
+                            if(sfx_isplaying(sndSpaceJump)){
+                                sfx_stop(sndSpaceJump);
+                            }
+                            
+                            if(sfx_isplaying(sndScrewAttack)){
+                                sfx_stop(sndScrewAttack);
+                            }
+                            
+                            if(sfx_isplaying(sndSpaceScrewAttack)){
+                                sfx_stop(sndSpaceScrewAttack);
+                            }
+                        }
+                        
+                        if(i == 7){
+                            global.speedbooster = 1;
+                            global.speedboosterPrev = global.speedbooster;
+                            popup_text("Speedbooster enabled");
+                        }
+                        
+                        if(i == 8){
+                            global.screwattack = 1;
+                            global.screwattackPrev = global.screwattack;
+                            popup_text("Screwattack enabled");
+                            if(sfx_isplaying(sndSpinJump)){
+                                sfx_stop(sndSpinJump);
+                            }
+                            
+                            if(sfx_isplaying(sndSpaceJump)){
+                                sfx_stop(sndSpaceJump);
+                            }
+                            
+                            if(sfx_isplaying(sndScrewAttack)){
+                                sfx_stop(sndScrewAttack);
+                            }
+                            
+                            if(sfx_isplaying(sndSpaceScrewAttack)){
+                                sfx_stop(sndSpaceScrewAttack);
+                            }
+                        }
+                        
+                        if(i == 9){
+                            global.currentsuit = 2;
+                            global.currentsuitPrev = global.currentsuit;
+                            popup_text("Gravity suit enabled");
+                            if(sfx_isplaying(sndSpinJump)){
+                                sfx_stop(sndSpinJump);
+                            }
+                            
+                            if(sfx_isplaying(sndSpaceJump)){
+                                sfx_stop(sndSpaceJump);
+                            }
+                            
+                            if(sfx_isplaying(sndScrewAttack)){
+                                sfx_stop(sndScrewAttack);
+                            }
+                            
+                            if(sfx_isplaying(sndSpaceScrewAttack)){
+                                sfx_stop(sndSpaceScrewAttack);
+                            }
+                        }
+                        
+                        if(i == 10){
+                            global.cbeam = 1;
+                            global.cbeamPrev = global.cbeam;
+                            popup_text("Charge beam enabled");
+                        }
+                        
+                        if(i == 11){
+                            global.ibeam = 1;
+                            global.ibeamPrev = global.ibeam;
+                            popup_text("Ice beam enabled");
+                        }
+                        
+                        if(i == 12){
+                            global.wbeam = 1;
+                            global.wbeamPrev = global.wbeam;
+                            popup_text("Wave beam enabled");
+                        }
+                        
+                        if(i == 13){
+                            global.sbeam = 1;
+                            global.sbeamPrev = global.sbeam;
+                            popup_text("Spazer beam enabled");
+                        }
+                        
+                        if(i == 14){
+                            global.pbeam = 1;
+                            global.pbeamPrev = global.pbeam;
+                            popup_text("Plasma beam enabled");
                         }
                     } else if(receivedItem == 0 &amp;&amp; global.item[i] == 1){
                         resend = true;
@@ -2216,12 +2307,14 @@ switch(type_event){
             case 51:
                 var resend = false;
                 for(var i=0; i&lt;array_length_1d(global.event); i++){
-                    var receivedEvent = buffer_read(_buffer, buffer_u8);
-                    if(receivedEvent &gt; global.event[i]){
-                        global.event[i] = receivedEvent;
-                        global.eventPrev[i] = global.event[i];
-                    } else if(receivedEvent &lt; global.event[i]){
-                        resend = true;
+                    if(i &lt; 350){
+                        var receivedEvent = buffer_read(_buffer, buffer_u8);
+                        if(receivedEvent &gt; global.event[i]){
+                            global.event[i] = receivedEvent;
+                            global.eventPrev[i] = global.event[i];
+                        } else if(receivedEvent &lt; global.event[i]){
+                            resend = true;
+                        }
                     }
                 }
                 
@@ -2562,10 +2655,14 @@ ds_list_destroy(global.hatchlingList);
             if(arrSprite == sSpiderMorphBall || arrSprite == sGSpiderMorphBall || arrSprite == sVSpiderMorphBall || arrSprite == sSpiderMorphBall_fusion || arrSprite == sSpiderMorphBall_fusion_gravity || arrSprite == sSpiderMorphBall_fusion_varia){
                 draw_set_blend_mode(bm_add);
                 draw_set_alpha(arrFXTimer * 0.1);
-                pal_swap_set(sPalSpiderball, arrID, false);
+                if(global.shaders_compiled){
+                    pal_swap_set(oControl.SpiderballPalette, arrID, false);
+                }
                 draw_sprite_ext(sSpiderballFX, -1, arrX, arrY, 1, 1, 0, -1, 0.2 + arrFXTimer * 0.1);
-                pal_swap_reset();
-                shader_reset();
+                if(global.shaders_compiled){
+                    pal_swap_reset();
+                    shader_reset();
+                }
                 draw_set_alpha(1);
                 draw_set_blend_mode(bm_normal);
             }
@@ -2587,7 +2684,7 @@ if(instance_exists(oMapCursor)){
             var arrID = arrMapIcon[0];
             var arrX = arrMapIcon[1];
             var arrY = arrMapIcon[2];
-            draw_sprite_ext(sMultitroidMapIcon, (arrID - 1), (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
+            draw_sprite_ext(oControl.MultitroidMapIcon, (arrID - 1), (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
         }
     }
 }

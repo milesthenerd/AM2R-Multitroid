@@ -321,6 +321,8 @@ global.fontVersion = font_add_sprite_ext(sVersionFont, "V.0123456789", true, 1);
 
 global.am2r_version = "V1.5.2"; // no longer dynamic, not worth the effort to maintain - mostly because of Android oddities.
 
+global.multitroid_version = "V1.2";
+
 // Android
 global.gamestarted = 0;
 global.wave_height = 1;
@@ -396,11 +398,9 @@ global.canConnect = true;
 reset_map();
 load_character_vars();
 
-multitroidPalette = -1;
-if (file_exists("mods/palettes/sPalMultitroid.png")) multitroidPalette = sprite_add("mods/palettes/sPalMultitroid.png", 1, false, false, 0, 0);
-if(!(file_exists(working_directory + "\mod settings.ini"))){
+if(!(file_exists(working_directory + "\mod_settings.ini"))){
     //Create new file
-    ini_open(working_directory + "\mod settings.ini");
+    ini_open(working_directory + "\mod_settings.ini");
     ini_write_string("ModSettings", "ipaddress", "127.0.0.1");
     ini_write_string("ModSettings", "displayname", "name");
     ini_write_real("ModSettings", "port", 64198);
@@ -409,7 +409,7 @@ if(!(file_exists(working_directory + "\mod settings.ini"))){
     ini_write_string("ModSettings", "showname", "enabled");
     ini_close();
 }
-ini_open(working_directory + "\mod settings.ini");
+ini_open(working_directory + "\mod_settings.ini");
 ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
 name = ini_read_string("ModSettings", "displayname", "name");
 port = ini_read_real("ModSettings", "port", 64198);
@@ -421,7 +421,7 @@ ini_close();
 var nameLength = string_length(name);
 if(nameLength &gt; 15){
     name = string_copy(name, 1, 15);
-    ini_open(working_directory + "\mod settings.ini");
+    ini_open(working_directory + "\mod_settings.ini");
     ini_write_string("ModSettings", "displayname", name);
     ini_close();
 }

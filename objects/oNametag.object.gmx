@@ -76,7 +76,16 @@
             var arrFXTimer = arrDraw[17];
             var arrRoomPrev = arrDraw[18];
             if((arrRoom == room || arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen) &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
-                if(oClient.showName){
+                var showName = true;
+                switch(oControl.showname){
+                    case "disabled":
+                        showName = false;
+                        break;
+                    case "enabled":
+                        showName = true;
+                        break;
+                }
+                if(showName){
                     var text;
                     if(arrRoom == room){
                         text = arrName;
@@ -89,13 +98,13 @@
                     }
                     if(arrRoom != room){
                         if(arrRoomPrev == room){
-                            draw_set_font(font_displayname);
+                            draw_set_font(fontGUI2);
                             draw_set_halign(fa_center);
                             draw_cool_text(arrX, arrY - 52, text, c_black, c_white, c_white, 1);
                             draw_set_halign(fa_left);
                         }
                     } else {
-                        draw_set_font(font_displayname);
+                        draw_set_font(fontGUI2);
                         draw_set_halign(fa_center);
                         draw_cool_text(arrX, arrY - 52, text, c_black, c_white, c_white, 1);
                         draw_set_halign(fa_left);

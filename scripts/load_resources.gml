@@ -279,6 +279,14 @@ oControl.QueenDead = -1;
 oControl.QueenBloodDrop = -1;
 oControl.QueenBloodParticle = -1;
 
+oControl.MultitroidPalette = sPalMultitroidNew;
+oControl.MultitroidPaletteFusion = sPalMultitroidFusion;
+oControl.SpiderballPalette = sPalSpiderball;
+oControl.MultitroidBabyPalette = sPalMultitroidBaby;
+oControl.MultitroidIcon = sMultitroidIcon;
+oControl.MultitroidIconDark = sDarkMultitroidPlayer;
+oControl.MultitroidMapIcon = sMultitroidMapIcon;
+
 if (file_exists("mods/palettes/monsters/alpha.png")) oControl.AlphaPalette = sprite_add("mods/palettes/monsters/alpha.png", 1, false, false, 0, 0);
 if (file_exists("mods/palettes/monsters/gamma.png")) oControl.GammaPalette = sprite_add("mods/palettes/monsters/gamma.png", 1, false, false, 0, 0);
 if (file_exists("mods/palettes/monsters/zeta.png")) oControl.ZetaPalette  = sprite_add("mods/palettes/monsters/zeta.png", 1, false, false, 0, 0);
@@ -288,3 +296,160 @@ if (file_exists("mods/palettes/monsters/zeta_blur.png")) oControl.ZetaBlur = spr
 if (file_exists("mods/palettes/monsters/queen_dead.png")) oControl.QueenDead = background_add("mods/palettes/monsters/queen_dead.png", false, false);
 if (file_exists("mods/palettes/monsters/queen_blood_drop.png")) oControl.QueenBloodDrop = sprite_add("mods/palettes/monsters/queen_blood_drop.png", sprite_get_number(sQueenBloodDrop), false, false, sprite_get_xoffset(sQueenBloodDrop), sprite_get_yoffset(sQueenBloodDrop));
 if (file_exists("mods/palettes/monsters/queen_blood_particle.png")) oControl.QueenBloodParticle = sprite_add("mods/palettes/monsters/queen_blood_particle.png", sprite_get_number(sQueenBloodParticle), false, false, sprite_get_xoffset(sQueenBloodParticle), sprite_get_yoffset(sQueenBloodParticle));
+
+if (file_exists("mods/palettes/multitroid/multitroid.png")) oControl.MultitroidPalette = sprite_add("mods/palettes/multitroid/multitroid.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/multitroid_fusion.png")) oControl.MultitroidPaletteFusion = sprite_add("mods/palettes/multitroid/multitroid_fusion.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/spiderball.png")) oControl.SpiderballPalette = sprite_add("mods/palettes/multitroid/spiderball.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/baby_metroid.png")) oControl.MultitroidBabyPalette = sprite_add("mods/palettes/multitroid/baby_metroid.png", 1, false, false, 0, 0);
+
+var icon_sprite = 0;
+var icon_merge = 1;
+var icon_merge2 = 2;
+var icon_merge3 = 3;
+var icon_merge4 = 4;
+var icon_merge5 = 5;
+var icon_merge6 = 6;
+var icon_merge7 = 7;
+var icon_merge8 = 8;
+var icon_duplicate = 9;
+var icon_duplicate2 = 10;
+var icon_duplicate3 = 11;
+var icon_duplicate4 = 12;
+var icon_duplicate5 = 13;
+var icon_duplicate6 = 14;
+var icon_duplicate7 = 15;
+var icon_duplicate8 = 16;
+var i = 0;
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_0.png")){ icon_merge = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_0.png", 1, false, false, 0, 0); i++;}
+icon_duplicate = sprite_duplicate(icon_merge);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_1.png")){ icon_merge2 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_1.png", 1, false, false, 0, 0); i++;}
+icon_duplicate2 = sprite_duplicate(icon_merge2);
+sprite_merge(icon_duplicate, icon_duplicate2);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_2.png")){ icon_merge3 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_2.png", 1, false, false, 0, 0); i++;}
+icon_duplicate3 = sprite_duplicate(icon_merge3);
+sprite_merge(icon_duplicate, icon_duplicate3);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_3.png")){ icon_merge4 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_3.png", 1, false, false, 0, 0); i++;}
+icon_duplicate4 = sprite_duplicate(icon_merge4);
+sprite_merge(icon_duplicate, icon_duplicate4);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_4.png")){ icon_merge5 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_4.png", 1, false, false, 0, 0); i++;}
+icon_duplicate5 = sprite_duplicate(icon_merge5);
+sprite_merge(icon_duplicate, icon_duplicate5);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_5.png")){ icon_merge6 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_5.png", 1, false, false, 0, 0); i++;}
+icon_duplicate6 = sprite_duplicate(icon_merge6);
+sprite_merge(icon_duplicate, icon_duplicate6);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_6.png")){ icon_merge7 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_6.png", 1, false, false, 0, 0); i++;}
+icon_duplicate7 = sprite_duplicate(icon_merge7); 
+sprite_merge(icon_duplicate, icon_duplicate7);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_7.png")){ icon_merge8 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_7.png", 1, false, false, 0, 0); i++;}
+icon_duplicate8 = sprite_duplicate(icon_merge8);
+sprite_merge(icon_duplicate, icon_duplicate8);
+if(i == 8){
+    oControl.MultitroidIcon = icon_duplicate;
+}
+
+icon_sprite = 1;
+icon_merge = 2;
+icon_merge2 = 3;
+icon_merge3 = 4;
+icon_merge4 = 5;
+icon_merge5 = 6;
+icon_merge6 = 7;
+icon_merge7 = 8;
+icon_merge8 = 8;
+icon_duplicate = 9;
+icon_duplicate2 = 10;
+icon_duplicate3 = 11;
+icon_duplicate4 = 12;
+icon_duplicate5 = 13;
+icon_duplicate6 = 14;
+icon_duplicate7 = 15;
+icon_duplicate8 = 16;
+i = 0;
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_0.png")){ icon_merge = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_0.png", 1, false, false, 0, 0); i++;}
+icon_duplicate = sprite_duplicate(icon_merge);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_1.png")){ icon_merge2 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_1.png", 1, false, false, 0, 0); i++;}
+icon_duplicate2 = sprite_duplicate(icon_merge2);
+sprite_merge(icon_duplicate, icon_duplicate2);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_2.png")){ icon_merge3 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_2.png", 1, false, false, 0, 0); i++;}
+icon_duplicate3 = sprite_duplicate(icon_merge3);
+sprite_merge(icon_duplicate, icon_duplicate3);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_3.png")){ icon_merge4 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_3.png", 1, false, false, 0, 0); i++;}
+icon_duplicate4 = sprite_duplicate(icon_merge4);
+sprite_merge(icon_duplicate, icon_duplicate4);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_4.png")){ icon_merge5 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_4.png", 1, false, false, 0, 0); i++;}
+icon_duplicate5 = sprite_duplicate(icon_merge5);
+sprite_merge(icon_duplicate, icon_duplicate5);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_5.png")){ icon_merge6 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_5.png", 1, false, false, 0, 0); i++;}
+icon_duplicate6 = sprite_duplicate(icon_merge6); 
+sprite_merge(icon_duplicate, icon_duplicate6);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_6.png")){ icon_merge7 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_6.png", 1, false, false, 0, 0); i++;}
+icon_duplicate7 = sprite_duplicate(icon_merge7);
+sprite_merge(icon_duplicate, icon_duplicate7);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_7.png")){ icon_merge8 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_7.png", 1, false, false, 0, 0); i++;}
+icon_duplicate8 = sprite_duplicate(icon_merge8);
+sprite_merge(icon_duplicate, icon_duplicate8);
+if(i == 8){
+    oControl.MultitroidIconDark = icon_duplicate;
+}
+
+icon_sprite = 1;
+icon_merge = 2;
+icon_merge2 = 3;
+icon_merge3 = 4;
+icon_merge4 = 5;
+icon_merge5 = 6;
+icon_merge6 = 7;
+icon_merge7 = 8;
+icon_merge8 = 8;
+icon_duplicate = 9;
+icon_duplicate2 = 10;
+icon_duplicate3 = 11;
+icon_duplicate4 = 12;
+icon_duplicate5 = 13;
+icon_duplicate6 = 14;
+icon_duplicate7 = 15;
+icon_duplicate8 = 16;
+i = 0;
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_0.png")){ icon_merge = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_0.png", 1, false, false, 0, 0); i++;}
+icon_duplicate = sprite_duplicate(icon_merge);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_1.png")){ icon_merge2 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_1.png", 1, false, false, 0, 0); i++;}
+icon_duplicate2 = sprite_duplicate(icon_merge2);
+sprite_merge(icon_duplicate, icon_duplicate2);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_2.png")){ icon_merge3 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_2.png", 1, false, false, 0, 0); i++;}
+icon_duplicate3 = sprite_duplicate(icon_merge3);
+sprite_merge(icon_duplicate, icon_duplicate3);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_3.png")){ icon_merge4 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_3.png", 1, false, false, 0, 0); i++;}
+icon_duplicate4 = sprite_duplicate(icon_merge4);
+sprite_merge(icon_duplicate, icon_duplicate4);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_4.png")){ icon_merge5 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_4.png", 1, false, false, 0, 0); i++;}
+icon_duplicate5 = sprite_duplicate(icon_merge5);
+sprite_merge(icon_duplicate, icon_duplicate5);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_5.png")){ icon_merge6 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_5.png", 1, false, false, 0, 0); i++;}
+icon_duplicate6 = sprite_duplicate(icon_merge6);
+sprite_merge(icon_duplicate, icon_duplicate6);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_6.png")){ icon_merge7 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_6.png", 1, false, false, 0, 0); i++;}
+icon_duplicate7 = sprite_duplicate(icon_merge7);
+sprite_merge(icon_duplicate, icon_duplicate7);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_7.png")){ icon_merge8 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_7.png", 1, false, false, 0, 0); i++;}
+icon_duplicate8 = sprite_duplicate(icon_merge8);
+sprite_merge(icon_duplicate, icon_duplicate8);
+if(i == 8){
+    oControl.MultitroidMapIcon = icon_duplicate;
+}
+
+sprite_delete(icon_merge);
+sprite_delete(icon_merge2);
+sprite_delete(icon_merge3);
+sprite_delete(icon_merge4);
+sprite_delete(icon_merge5);
+sprite_delete(icon_merge6);
+sprite_delete(icon_merge7);
+sprite_delete(icon_merge8);
+sprite_delete(icon_duplicate);
+sprite_delete(icon_duplicate2);
+sprite_delete(icon_duplicate3);
+sprite_delete(icon_duplicate4);
+sprite_delete(icon_duplicate5);
+sprite_delete(icon_duplicate6);
+sprite_delete(icon_duplicate7);
+sprite_delete(icon_duplicate8);

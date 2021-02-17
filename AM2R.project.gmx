@@ -3,8 +3,8 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="297" name="datafiles">
-    <datafiles number="297" name="lang">
+  <datafiles number="325" name="datafiles">
+    <datafiles number="325" name="lang">
       <datafile>
         <name>czech.ini</name>
         <exists>-1</exists>
@@ -158,7 +158,7 @@
         </ConfigOptions>
         <filename>languages.txt</filename>
       </datafile>
-      <datafiles number="297" name="headers">
+      <datafiles number="325" name="headers">
         <datafile>
           <name>castellano_a1_f24_b0_c3_d19_e21.png</name>
           <exists>-1</exists>
@@ -857,7 +857,7 @@
           <filename>russian_a8_f19_b0_c3_d14_e16.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="297" name="fonts">
+      <datafiles number="325" name="fonts">
         <datafile>
           <name>04b09.ttf</name>
           <exists>-1</exists>
@@ -1047,8 +1047,8 @@
       </ConfigOptions>
       <filename>dictionary.json</filename>
     </datafile>
-    <datafiles number="297" name="mods">
-      <datafiles number="297" name="titles">
+    <datafiles number="325" name="mods">
+      <datafiles number="325" name="titles">
         <datafile>
           <name>config.ini</name>
           <exists>-1</exists>
@@ -1084,8 +1084,8 @@
           <filename>titlebackground.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="297" name="palettes">
-        <datafiles number="297" name="monsters">
+      <datafiles number="325" name="palettes">
+        <datafiles number="325" name="monsters">
           <datafile>
             <name>alpha.png</name>
             <exists>-1</exists>
@@ -1257,7 +1257,7 @@
             <filename>zeta_blur.png</filename>
           </datafile>
         </datafiles>
-        <datafiles number="297" name="suits">
+        <datafiles number="325" name="suits">
           <datafile>
             <name>fusion_gravity.png</name>
             <exists>-1</exists>
@@ -1360,7 +1360,7 @@
             </ConfigOptions>
             <filename>varia.png</filename>
           </datafile>
-          <datafiles number="297" name="MorphTrailColors">
+          <datafiles number="325" name="MorphTrailColors">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1464,7 +1464,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="297" name="SpaceJumpTrails">
+          <datafiles number="325" name="SpaceJumpTrails">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1568,7 +1568,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="297" name="SpiderBallGlow">
+          <datafiles number="325" name="SpiderBallGlow">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1670,6 +1670,490 @@
                 </Config>
               </ConfigOptions>
               <filename>varia.png</filename>
+            </datafile>
+          </datafiles>
+        </datafiles>
+        <datafiles number="325" name="multitroid">
+          <datafile>
+            <name>baby_metroid.png</name>
+            <exists>-1</exists>
+            <size>220</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>baby_metroid.png</filename>
+          </datafile>
+          <datafile>
+            <name>multitroid.png</name>
+            <exists>-1</exists>
+            <size>885</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>multitroid.png</filename>
+          </datafile>
+          <datafile>
+            <name>multitroid_fusion.png</name>
+            <exists>-1</exists>
+            <size>830</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>multitroid_fusion.png</filename>
+          </datafile>
+          <datafile>
+            <name>spiderball.png</name>
+            <exists>-1</exists>
+            <size>988</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>spiderball.png</filename>
+          </datafile>
+          <datafiles number="325" name="dark_player_icons">
+            <datafile>
+              <name>sDarkMultitroidPlayer_0.png</name>
+              <exists>-1</exists>
+              <size>159</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_0.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_1.png</name>
+              <exists>-1</exists>
+              <size>156</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_1.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_2.png</name>
+              <exists>-1</exists>
+              <size>160</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_2.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_3.png</name>
+              <exists>-1</exists>
+              <size>159</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_3.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_4.png</name>
+              <exists>-1</exists>
+              <size>160</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_4.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_5.png</name>
+              <exists>-1</exists>
+              <size>159</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_5.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_6.png</name>
+              <exists>-1</exists>
+              <size>160</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_6.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_7.png</name>
+              <exists>-1</exists>
+              <size>157</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_7.png</filename>
+            </datafile>
+          </datafiles>
+          <datafiles number="325" name="player_icons">
+            <datafile>
+              <name>sMultitroidIcon_0.png</name>
+              <exists>-1</exists>
+              <size>163</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidIcon_0.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidIcon_1.png</name>
+              <exists>-1</exists>
+              <size>163</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidIcon_1.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidIcon_2.png</name>
+              <exists>-1</exists>
+              <size>164</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidIcon_2.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidIcon_3.png</name>
+              <exists>-1</exists>
+              <size>164</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidIcon_3.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidIcon_4.png</name>
+              <exists>-1</exists>
+              <size>163</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidIcon_4.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidIcon_5.png</name>
+              <exists>-1</exists>
+              <size>164</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidIcon_5.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidIcon_6.png</name>
+              <exists>-1</exists>
+              <size>164</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidIcon_6.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidIcon_7.png</name>
+              <exists>-1</exists>
+              <size>164</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidIcon_7.png</filename>
+            </datafile>
+          </datafiles>
+          <datafiles number="325" name="map_icons">
+            <datafile>
+              <name>sMultitroidMapIcon_0.png</name>
+              <exists>-1</exists>
+              <size>147</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_0.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_1.png</name>
+              <exists>-1</exists>
+              <size>146</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_1.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_2.png</name>
+              <exists>-1</exists>
+              <size>148</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_2.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_3.png</name>
+              <exists>-1</exists>
+              <size>148</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_3.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_4.png</name>
+              <exists>-1</exists>
+              <size>147</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_4.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_5.png</name>
+              <exists>-1</exists>
+              <size>147</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_5.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_6.png</name>
+              <exists>-1</exists>
+              <size>147</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_6.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_7.png</name>
+              <exists>-1</exists>
+              <size>146</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_7.png</filename>
             </datafile>
           </datafiles>
         </datafiles>
@@ -6124,6 +6608,7 @@
       <object>objects\oClient</object>
       <object>objects\oNametag</object>
       <object>objects\oOptionsMod</object>
+      <object>objects\oOptionLRMod</object>
     </objects>
   </objects>
   <timelines name="timelines">

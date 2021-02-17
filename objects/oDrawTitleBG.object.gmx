@@ -122,6 +122,8 @@ draw_background_ext(bgURL, 198+(oControl.widescreen_space/2), 232, 1, 1, 0, -1, 
 draw_set_font(global.fontVersion);
 draw_background_ext(bgVersion, 0-(oControl.widescreen_space/2), 0, string_width(global.am2r_version) + 1, 1, 0, -1, image_alpha);
 draw_text_colour(1-(oControl.widescreen_space/2), 1, global.am2r_version, -1, -1, -1, -1, image_alpha);
+draw_background_ext(bgVersion, 0-(oControl.widescreen_space/2), 9, string_width(global.multitroid_version) + 1, 1, 0, -1, image_alpha);
+draw_text_colour(1-(oControl.widescreen_space/2), 10, global.multitroid_version, -1, -1, -1, -1, image_alpha);
 </string>
           </argument>
         </arguments>
