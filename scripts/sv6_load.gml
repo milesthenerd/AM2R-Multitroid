@@ -1,8 +1,7 @@
 /// sv6_load()
 
 scr_default_global_items();
-global.acceptPacket = false;
-oControl.alarm[3] = 180;
+
 var header;
 show_debug_message(room_get_name(global.lastroom));
 show_debug_message(room_get_name(room));
