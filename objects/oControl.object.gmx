@@ -455,6 +455,8 @@ switch(preferredcolor){
         preferredcolor = 9;
         break;
 }
+
+global.acceptPacket = true;
 </string>
           </argument>
         </arguments>
@@ -548,6 +550,29 @@ if (!global.opfullscreen) {
     global.opscale = 1;
     alarm[1] = 1;
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.acceptPacket = true;
 </string>
           </argument>
         </arguments>
@@ -1404,7 +1429,23 @@ if(room == titleroom){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>sprite_delete(icon_merge);
+sprite_delete(icon_merge2);
+sprite_delete(icon_merge3);
+sprite_delete(icon_merge4);
+sprite_delete(icon_merge5);
+sprite_delete(icon_merge6);
+sprite_delete(icon_merge7);
+sprite_delete(icon_merge8);
+sprite_delete(icon_duplicate);
+sprite_delete(icon_duplicate2);
+sprite_delete(icon_duplicate3);
+sprite_delete(icon_duplicate4);
+sprite_delete(icon_duplicate5);
+sprite_delete(icon_duplicate6);
+sprite_delete(icon_duplicate7);
+sprite_delete(icon_duplicate8);
+</string>
           </argument>
         </arguments>
       </action>

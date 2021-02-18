@@ -892,7 +892,9 @@ if (state == SAVINGSHIP) {
             statetime = 0;
         }
     } else {
+        global.enablecontrol = 0;
         if (statetime == 5){
+            global.enablecontrol = 0;
             global.event[308] = 1;
         }
         if (statetime == 120) {

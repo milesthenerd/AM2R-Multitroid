@@ -1,7 +1,8 @@
 /// sv6_load()
 
 scr_default_global_items();
-
+global.acceptPacket = false;
+oControl.alarm[3] = 180;
 var header;
 show_debug_message(room_get_name(global.lastroom));
 show_debug_message(room_get_name(room));
@@ -12,17 +13,17 @@ if(!instance_exists(oClient)){
 } else if(instance_exists(oClient) && global.lastroom == gameoverroom){
     //don't reset values
     oClient.phase = 0;
-    oClient.queenHealth = 600;
+    oClient.queenHealth = global.mod_queenHstart + (global.mtanks * 10);
 } else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) == 0){
     load_character_vars();
     reset_map();
     init_map();
     oClient.phase = 0;
-    oClient.queenHealth = 600;
+    oClient.queenHealth = global.mod_queenHstart + (global.mtanks * 10);
 } else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) > 0){
     //don't reset values
     oClient.phase = 0;
-    oClient.queenHealth = 600;
+    oClient.queenHealth = global.mod_queenHstart + (global.mtanks * 10);
 }
 
 filename = argument0;

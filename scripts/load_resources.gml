@@ -302,24 +302,24 @@ if (file_exists("mods/palettes/multitroid/multitroid_fusion.png")) oControl.Mult
 if (file_exists("mods/palettes/multitroid/spiderball.png")) oControl.SpiderballPalette = sprite_add("mods/palettes/multitroid/spiderball.png", 1, false, false, 0, 0);
 if (file_exists("mods/palettes/multitroid/baby_metroid.png")) oControl.MultitroidBabyPalette = sprite_add("mods/palettes/multitroid/baby_metroid.png", 1, false, false, 0, 0);
 
-var icon_sprite = 0;
-var icon_merge = 1;
-var icon_merge2 = 2;
-var icon_merge3 = 3;
-var icon_merge4 = 4;
-var icon_merge5 = 5;
-var icon_merge6 = 6;
-var icon_merge7 = 7;
-var icon_merge8 = 8;
-var icon_duplicate = 9;
-var icon_duplicate2 = 10;
-var icon_duplicate3 = 11;
-var icon_duplicate4 = 12;
-var icon_duplicate5 = 13;
-var icon_duplicate6 = 14;
-var icon_duplicate7 = 15;
-var icon_duplicate8 = 16;
-var i = 0;
+icon_sprite = 0;
+icon_merge = 1;
+icon_merge2 = 2;
+icon_merge3 = 3;
+icon_merge4 = 4;
+icon_merge5 = 5;
+icon_merge6 = 6;
+icon_merge7 = 7;
+icon_merge8 = 8;
+icon_duplicate = 9;
+icon_duplicate2 = 10;
+icon_duplicate3 = 11;
+icon_duplicate4 = 12;
+icon_duplicate5 = 13;
+icon_duplicate6 = 14;
+icon_duplicate7 = 15;
+icon_duplicate8 = 16;
+i = 0;
 if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_0.png")){ icon_merge = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_0.png", 1, false, false, 0, 0); i++;}
 icon_duplicate = sprite_duplicate(icon_merge);
 if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidIcon_1.png")){ icon_merge2 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidIcon_1.png", 1, false, false, 0, 0); i++;}
@@ -437,19 +437,3 @@ if(i == 8){
     oControl.MultitroidMapIcon = icon_duplicate;
 }
 
-sprite_delete(icon_merge);
-sprite_delete(icon_merge2);
-sprite_delete(icon_merge3);
-sprite_delete(icon_merge4);
-sprite_delete(icon_merge5);
-sprite_delete(icon_merge6);
-sprite_delete(icon_merge7);
-sprite_delete(icon_merge8);
-sprite_delete(icon_duplicate);
-sprite_delete(icon_duplicate2);
-sprite_delete(icon_duplicate3);
-sprite_delete(icon_duplicate4);
-sprite_delete(icon_duplicate5);
-sprite_delete(icon_duplicate6);
-sprite_delete(icon_duplicate7);
-sprite_delete(icon_duplicate8);

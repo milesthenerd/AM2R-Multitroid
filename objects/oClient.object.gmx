@@ -158,7 +158,6 @@ global.onlineMetdead = ds_list_create();
 global.onlineEvent = ds_list_create();
 global.onlineMap = ds_list_create();
 global.onlineReceived = ds_grid_create(3, 20);
-global.receivedPacketIDs = ds_list_create();
 roomList = ds_list_create();
 roomListData = ds_list_create();
 global.idList = ds_list_create();
@@ -236,7 +235,6 @@ if(!noName){
     ds_list_destroy(global.onlineMetdead);
     ds_list_destroy(global.onlineEvent);
     ds_list_destroy(global.onlineMap);
-    ds_list_destroy(global.receivedPacketIDs);
     ds_list_destroy(roomList);
     ds_list_destroy(roomListData);
     ds_list_destroy(global.idList);
@@ -952,7 +950,7 @@ if(canSend){
 if(instance_exists(oCharacter)){
     check_areaclear();
     if(global.playerhealth &lt;= 0){
-        if(oCharacter.state != oCharacter.DEFEATED){
+        if(oCharacter.state != oCharacter.DEFEATED &amp;&amp; oCharacter.canbehit){
             oCharacter.alarm[0] = 6;
             oCharacter.state = oCharacter.DEFEATED;
             mus_current_fadeout();
@@ -1024,7 +1022,10 @@ if(itemCount != global.itemstaken){
         buffer = buffer_create(size, type, alignment);
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_u8, 1);
-        buffer_write(buffer, buffer_string, name)
+        buffer_write(buffer, buffer_string, name);
+        var bufferSize = buffer_get_size(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         instance_create(x, y, oNametag);
     } else {
@@ -1096,6 +1097,10 @@ if(keyboard_check_pressed(vk_f2)){
 
 if(keyboard_check_pressed(vk_f3)){
     popup_text_ext(string(oControl.seed), 300);
+    global.event[303] = 1;
+    global.targetx = 864;
+    global.targety = 96;
+    room_change(rm_a7c01, 1);
 }
 
 if(keyboard_check_pressed(vk_f4)){
@@ -1414,7 +1419,8 @@ if(instance_exists(self)){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>if(!global.acceptPacket) exit;
+
 var type_event = ds_map_find_value(async_load, "type");
 
 switch(type_event){
@@ -1695,9 +1701,6 @@ switch(type_event){
             case 1:
                 ds_grid_read(global.onlineReceived, strict_decompress(buffer_read(_buffer, buffer_string)));
                 global.receivedClientID = buffer_read(_buffer, buffer_u8);
-                if(global.receivedClientID == global.clientID){
-                    global.receivedPacketIDs[| global.receivedPacketID] = buffer_read(_buffer, buffer_u32);
-                }
                 global.receivedPacketID++;
                 if(global.receivedClientID != global.clientID){
                     update_variables("disablesame");
@@ -2592,21 +2595,22 @@ if(room == titleroom){
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
-network_destroy(socket);
-buffer_delete(buffer);
-ds_grid_destroy(global.onlineList);
-ds_grid_destroy(global.onlineSend);
-ds_grid_destroy(global.onlineReceived);
-ds_list_destroy(global.onlineItem);
-ds_list_destroy(global.onlineMetdead);
-ds_list_destroy(global.onlineEvent);
-ds_list_destroy(global.onlineMap);
-ds_list_destroy(global.receivedPacketIDs);
-ds_list_destroy(roomList);
-ds_list_destroy(roomListData);
-ds_list_destroy(global.idList);
-ds_list_destroy(posData);
-ds_list_destroy(global.hatchlingList);
+if(!noName){
+    network_destroy(socket);
+    buffer_delete(buffer);
+    ds_grid_destroy(global.onlineList);
+    ds_grid_destroy(global.onlineSend);
+    ds_grid_destroy(global.onlineReceived);
+    ds_list_destroy(global.onlineItem);
+    ds_list_destroy(global.onlineMetdead);
+    ds_list_destroy(global.onlineEvent);
+    ds_list_destroy(global.onlineMap);
+    ds_list_destroy(roomList);
+    ds_list_destroy(roomListData);
+    ds_list_destroy(global.idList);
+    ds_list_destroy(posData);
+    ds_list_destroy(global.hatchlingList);
+}
 </string>
           </argument>
         </arguments>
