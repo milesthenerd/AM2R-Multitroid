@@ -73,7 +73,7 @@ sid = 0;
     if (statetime == 1150) intensity = 1;
     if (statetime == 1190) intensity = 0;
     if (statetime == 1200) event_user(0);
-    if (statetime == 1000 &amp;&amp; global.lavastate &gt;= 10) sfx_play(sndQueenDistant);
+    if (statetime == 1000 &amp;&amp; global.lavastate &gt;= 10 &amp;&amp; global.event[303] == 0) sfx_play(sndQueenDistant);
     if (global.quake) {
         if (global.classicmode == 0) {
             view_xport[0] = round(random(intensity));

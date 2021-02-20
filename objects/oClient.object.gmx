@@ -222,6 +222,11 @@ trail = 0;
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 254);
     buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 254);
+    buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
@@ -273,6 +278,14 @@ type = buffer_grow;
 alignment = 1;
 buffer = buffer_create(size, type, alignment);
 buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 101);
+buffer_write(buffer, buffer_u8, global.clientID);
+buffer_write(buffer, buffer_s16, room);
+buffer_write(buffer, buffer_s16, posX);
+buffer_write(buffer, buffer_s16, posY);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
 buffer_write(buffer, buffer_u8, 101);
 buffer_write(buffer, buffer_u8, global.clientID);
 buffer_write(buffer, buffer_s16, room);
@@ -349,6 +362,29 @@ alarm[11] = 20;
             buffer_write(buffer, buffer_s16, oCharacter.image_blend);
             buffer_write(buffer, buffer_s8, oCharacter.fxtimer);
             buffer_write(buffer, buffer_s16, global.roomPrev);
+            var bufferSize = buffer_tell(buffer);
+            buffer_seek(buffer, buffer_seek_start, 0);
+            buffer_write(buffer, buffer_s32, bufferSize);
+            buffer_write(buffer, buffer_u8, 100);
+            buffer_write(buffer, buffer_u8, global.clientID);
+            buffer_write(buffer, buffer_s16, oCharacter.x);
+            buffer_write(buffer, buffer_s16, oCharacter.y);
+            buffer_write(buffer, buffer_s16, oCharacter.sprite_index);
+            buffer_write(buffer, buffer_s16, oCharacter.image_index);
+            buffer_write(buffer, buffer_s16, oCharacter.aspr1);
+            buffer_write(buffer, buffer_s16, oCharacter.asprx);
+            buffer_write(buffer, buffer_s16, oCharacter.aspry);
+            buffer_write(buffer, buffer_s16, oCharacter.aspr2);
+            buffer_write(buffer, buffer_s16, oCharacter.aspr2x);
+            buffer_write(buffer, buffer_s16, oCharacter.aspr2y);
+            buffer_write(buffer, buffer_s16, oCharacter.aspr2a);
+            buffer_write(buffer, buffer_s16, oCharacter.mirror);
+            buffer_write(buffer, buffer_s16, oCharacter.armmsl);
+            buffer_write(buffer, buffer_s16, room);
+            buffer_write(buffer, buffer_string, name);
+            buffer_write(buffer, buffer_s16, oCharacter.image_blend);
+            buffer_write(buffer, buffer_s8, oCharacter.fxtimer);
+            buffer_write(buffer, buffer_s16, global.roomPrev);
             var result = network_send_packet(socket, buffer, buffer_tell(buffer));
             if(global.roomPrev != room){
                 global.roomPrev = room;
@@ -387,6 +423,12 @@ alarm[10] = 3;
     alignment = 1;
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 12);
+    buffer_write(buffer, buffer_u8, global.maxsmissiles);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 12);
     buffer_write(buffer, buffer_u8, global.maxsmissiles);
     buffer_write(buffer, buffer_u8, global.clientID);
@@ -435,6 +477,12 @@ if(maxsmissilesChanged){
     buffer_write(buffer, buffer_u8, 11);
     buffer_write(buffer, buffer_u16, global.maxmissiles);
     buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 11);
+    buffer_write(buffer, buffer_u16, global.maxmissiles);
+    buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
     maxmissilesChanged = true;
 }
@@ -477,6 +525,12 @@ if(maxmissilesChanged){
     alignment = 1;
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 10);
+    buffer_write(buffer, buffer_u8, global.itemstaken);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 10);
     buffer_write(buffer, buffer_u8, global.itemstaken);
     buffer_write(buffer, buffer_u8, global.clientID);
@@ -544,6 +598,12 @@ if(mapChanged){
     buffer_write(buffer, buffer_u8, 9);
     buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMap)));
     buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 9);
+    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMap)));
+    buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
@@ -602,6 +662,12 @@ if(eventChanged){
     buffer_write(buffer, buffer_u8, 8);
     buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineEvent)));
     buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 8);
+    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineEvent)));
+    buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
@@ -654,6 +720,12 @@ if(metdeadChanged){
     alignment = 1;
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 7);
+    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMetdead)));
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 7);
     buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMetdead)));
     buffer_write(buffer, buffer_u8, global.clientID);
@@ -712,6 +784,12 @@ if(itemChanged){
     buffer_write(buffer, buffer_u8, 6);
     buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineItem)));
     buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 6);
+    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineItem)));
+    buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
@@ -756,6 +834,12 @@ if(itemChanged){
     buffer_write(buffer, buffer_u8, 4);
     buffer_write(buffer, buffer_s8, global.monstersleft);
     buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 4);
+    buffer_write(buffer, buffer_s8, global.monstersleft);
+    buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
     metroidCountChanged = true;
 }
@@ -768,6 +852,12 @@ if(global.monstersareaPrev != global.monstersarea){
     alignment = 1;
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 5);
+    buffer_write(buffer, buffer_s8, global.monstersarea);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 5);
     buffer_write(buffer, buffer_s8, global.monstersarea);
     buffer_write(buffer, buffer_u8, global.clientID);
@@ -932,6 +1022,13 @@ if(canSend){
     buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineSend)));
     buffer_write(buffer, buffer_u8, global.clientID);
     buffer_write(buffer, buffer_u32, global.packetID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 0);
+    buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineSend)));
+    buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u32, global.packetID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
     show_debug_message("packetID = " + string(global.packetID));
     global.packetID++;
@@ -968,6 +1065,14 @@ if(instance_exists(oQueen) &amp;&amp; instance_exists(oQueenHead) &amp;&amp; !is
         alignment = 1;
         buffer = buffer_create(size, type, alignment);
         buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 2);
+        buffer_write(buffer, buffer_s32, oQueenHead.myhealth);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        buffer_write(buffer, buffer_s8, oQueen.phase);
+        buffer_write(buffer, buffer_s8, oQueen.state);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
         buffer_write(buffer, buffer_u8, 2);
         buffer_write(buffer, buffer_s32, oQueenHead.myhealth);
         buffer_write(buffer, buffer_u8, global.clientID);
@@ -1023,9 +1128,11 @@ if(itemCount != global.itemstaken){
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_u8, 1);
         buffer_write(buffer, buffer_string, name);
-        var bufferSize = buffer_get_size(buffer);
+        var bufferSize = buffer_tell(buffer);
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_s32, bufferSize);
+        buffer_write(buffer, buffer_u8, 1);
+        buffer_write(buffer, buffer_string, name);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         instance_create(x, y, oNametag);
     } else {
@@ -1038,6 +1145,10 @@ if(instance_exists(oCharacter)){
     if(global.event[203] &lt; 9 &amp;&amp; string_lower(reactorsequence) == "disabled"){
         global.event[203] = 9;
     }
+}
+
+if(global.event[103] &gt; 0){
+    global.event[103] = floor(global.event[103]);
 }
 
 if(global.event[303] &gt; 0){
@@ -1097,10 +1208,6 @@ if(keyboard_check_pressed(vk_f2)){
 
 if(keyboard_check_pressed(vk_f3)){
     popup_text_ext(string(oControl.seed), 300);
-    global.event[303] = 1;
-    global.targetx = 864;
-    global.targety = 96;
-    room_change(rm_a7c01, 1);
 }
 
 if(keyboard_check_pressed(vk_f4)){
@@ -1186,6 +1293,12 @@ if(maxpbombsTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 13);
         buffer_write(buffer, buffer_u8, global.maxpbombs);
         buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
+        buffer_write(buffer, buffer_u8, 13);
+        buffer_write(buffer, buffer_u8, global.maxpbombs);
+        buffer_write(buffer, buffer_u8, global.clientID);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         maxpbombsChanged = true;
     }
@@ -1209,6 +1322,12 @@ if(maxhealthTimer == 0 &amp;&amp; connected){
         alignment = 1;
         buffer = buffer_create(size, type, alignment);
         buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 14);
+        buffer_write(buffer, buffer_u16, global.maxhealth);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
         buffer_write(buffer, buffer_u8, 14);
         buffer_write(buffer, buffer_u16, global.maxhealth);
         buffer_write(buffer, buffer_u8, global.clientID);
@@ -1238,6 +1357,12 @@ if(etanksTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 15);
         buffer_write(buffer, buffer_u8, global.etanks);
         buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
+        buffer_write(buffer, buffer_u8, 15);
+        buffer_write(buffer, buffer_u8, global.etanks);
+        buffer_write(buffer, buffer_u8, global.clientID);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         etanksChanged = true;
     }
@@ -1261,6 +1386,12 @@ if(mtanksTimer == 0 &amp;&amp; connected){
         alignment = 1;
         buffer = buffer_create(size, type, alignment);
         buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 16);
+        buffer_write(buffer, buffer_u8, global.mtanks);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
         buffer_write(buffer, buffer_u8, 16);
         buffer_write(buffer, buffer_u8, global.mtanks);
         buffer_write(buffer, buffer_u8, global.clientID);
@@ -1290,6 +1421,12 @@ if(stanksTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 17);
         buffer_write(buffer, buffer_u8, global.stanks);
         buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
+        buffer_write(buffer, buffer_u8, 17);
+        buffer_write(buffer, buffer_u8, global.stanks);
+        buffer_write(buffer, buffer_u8, global.clientID);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         stanksChanged = true;
     }
@@ -1313,6 +1450,12 @@ if(ptanksTimer == 0 &amp;&amp; connected){
         alignment = 1;
         buffer = buffer_create(size, type, alignment);
         buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 18);
+        buffer_write(buffer, buffer_u8, global.ptanks);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
         buffer_write(buffer, buffer_u8, 18);
         buffer_write(buffer, buffer_u8, global.ptanks);
         buffer_write(buffer, buffer_u8, global.clientID);
@@ -1351,6 +1494,11 @@ if(pingTimer &lt;= 0){
     alignment = 1;
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 103);
+    buffer_write(buffer, buffer_u32, current_time);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 103);
     buffer_write(buffer, buffer_u32, current_time);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
@@ -1426,9 +1574,14 @@ var type_event = ds_map_find_value(async_load, "type");
 switch(type_event){
     case network_type_data:
         var _buffer = ds_map_find_value(async_load, "buffer");
+        var bufferSize = buffer_get_size(_buffer);
         buffer_seek(_buffer, buffer_seek_start, 0);
+        var bufferSizePacket = buffer_read(_buffer, buffer_s32);
+        show_debug_message(string(bufferSize) + " " + string(bufferSizePacket));
+        if(!is_real(bufferSizePacket)) exit;
+        if(bufferSizePacket + 4 != bufferSize) exit;
+        show_debug_message("done");
         msgid = buffer_read(_buffer, buffer_u8);
-        show_debug_message(string(buffer_get_size(_buffer)));
         switch(msgid){
             case 254:
                 var clientID = buffer_read(_buffer, buffer_u8);
@@ -1672,6 +1825,10 @@ switch(type_event){
                 var ping = buffer_read(_buffer, buffer_u32);
                 global.ping = current_time - ping;
                 break;
+            case 106:
+                load_character_vars();
+                reset_dmap();
+                break;
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
                 show_debug_message(string(msgid) + " " + string(global.clientID));
@@ -1693,6 +1850,12 @@ switch(type_event){
                 alignment = 1;
                 buffer = buffer_create(size, type, alignment);
                 buffer_seek(buffer, buffer_seek_start, 0);
+                buffer_write(buffer, buffer_u8, 200);
+                buffer_write(buffer, buffer_u8, global.clientID);
+                buffer_write(buffer, buffer_u8, preferredcolor);
+                var bufferSize = buffer_tell(buffer);
+                buffer_seek(buffer, buffer_seek_start, 0);
+                buffer_write(buffer, buffer_s32, bufferSize);
                 buffer_write(buffer, buffer_u8, 200);
                 buffer_write(buffer, buffer_u8, global.clientID);
                 buffer_write(buffer, buffer_u8, preferredcolor);
@@ -1856,6 +2019,9 @@ switch(type_event){
                                 global.metdeadPrev[i] = metdeadArr[f, 0];
                                 if(global.metdead[i] != metdeadArr[f, 0]){
                                     global.metdead[i] = metdeadArr[f, 0];
+                                    if(metdeadArr[f, 0] == 1 &amp;&amp; global.clientID != clientID){
+                                        popup_text("Metroid killed");
+                                    }
                                 }
                             }
                         }
@@ -2303,6 +2469,13 @@ switch(type_event){
                     for(var i=0; i&lt;array_length_1d(global.item); i++){
                         buffer_write(itemBuffer, buffer_u8, global.item[i]);
                     }
+                    var bufferSize = buffer_tell(itemBuffer);
+                    buffer_seek(itemBuffer, buffer_seek_start, 0);
+                    buffer_write(itemBuffer, buffer_s32, bufferSize);
+                    buffer_write(itemBuffer, buffer_u8, 50);
+                    for(var i=0; i&lt;array_length_1d(global.item); i++){
+                        buffer_write(itemBuffer, buffer_u8, global.item[i]);
+                    }
                     network_send_packet(socket, itemBuffer, buffer_tell(itemBuffer));
                     buffer_delete(itemBuffer);
                 }
@@ -2312,10 +2485,10 @@ switch(type_event){
                 for(var i=0; i&lt;array_length_1d(global.event); i++){
                     if(i &lt; 350){
                         var receivedEvent = buffer_read(_buffer, buffer_u8);
-                        if(receivedEvent &gt; global.event[i]){
+                        if(floor(receivedEvent) &gt; floor(global.event[i])){
                             global.event[i] = receivedEvent;
                             global.eventPrev[i] = global.event[i];
-                        } else if(receivedEvent &lt; global.event[i]){
+                        } else if(floor(receivedEvent) &lt; floor(global.event[i])){
                             resend = true;
                         }
                     }
@@ -2328,6 +2501,13 @@ switch(type_event){
                     alignment = 1;
                     eventBuffer = buffer_create(size, type, alignment);
                     buffer_seek(eventBuffer, buffer_seek_start, 0);
+                    buffer_write(eventBuffer, buffer_u8, 51);
+                    for(var i=0; i&lt;array_length_1d(global.event); i++){
+                        buffer_write(eventBuffer, buffer_u8, global.event[i]);
+                    }
+                    var bufferSize = buffer_tell(eventBuffer);
+                    buffer_seek(eventBuffer, buffer_seek_start, 0);
+                    buffer_write(eventBuffer, buffer_s32, bufferSize);
                     buffer_write(eventBuffer, buffer_u8, 51);
                     for(var i=0; i&lt;array_length_1d(global.event); i++){
                         buffer_write(eventBuffer, buffer_u8, global.event[i]);
@@ -2477,6 +2657,13 @@ switch(type_event){
                     for(var i=0; i&lt;array_length_1d(global.metdead); i++){
                         buffer_write(metdeadBuffer, buffer_u8, global.metdead[i]);
                     }
+                    var bufferSize = buffer_tell(metdeadBuffer);
+                    buffer_seek(metdeadBuffer, buffer_seek_start, 0);
+                    buffer_write(metdeadBuffer, buffer_s32, bufferSize);
+                    buffer_write(metdeadBuffer, buffer_u8, 52);
+                    for(var i=0; i&lt;array_length_1d(global.metdead); i++){
+                        buffer_write(metdeadBuffer, buffer_u8, global.metdead[i]);
+                    }
                     network_send_packet(socket, metdeadBuffer, buffer_tell(metdeadBuffer));
                     buffer_delete(metdeadBuffer);
                 }
@@ -2505,6 +2692,15 @@ switch(type_event){
                     alignment = 1;
                     dmapBuffer = buffer_create(size, type, alignment);
                     buffer_seek(dmapBuffer, buffer_seek_start, 0);
+                    buffer_write(dmapBuffer, buffer_u8, 53);
+                    for(var i=0; i&lt;array_height_2d(global.dmap); i++){
+                        for(var j=0; j&lt;array_length_2d(global.dmap, i); j++){
+                            buffer_write(dmapBuffer, buffer_u8, global.dmap[i, j]);
+                        }
+                    }
+                    var bufferSize = buffer_tell(dmapBuffer);
+                    buffer_seek(dmapBuffer, buffer_seek_start, 0);
+                    buffer_write(dmapBuffer, buffer_s32, bufferSize);
                     buffer_write(dmapBuffer, buffer_u8, 53);
                     for(var i=0; i&lt;array_height_2d(global.dmap); i++){
                         for(var j=0; j&lt;array_length_2d(global.dmap, i); j++){
@@ -2554,6 +2750,12 @@ switch(type_event){
     buffer_write(buffer, buffer_u8, 19);
     buffer_write(buffer, buffer_s32, global.gametime);
     buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 19);
+    buffer_write(buffer, buffer_s32, global.gametime);
+    buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
@@ -2590,6 +2792,11 @@ if(room == titleroom){
     alignment = 1;
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 254);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 254);
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));

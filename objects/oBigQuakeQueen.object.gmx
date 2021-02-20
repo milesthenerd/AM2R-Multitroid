@@ -66,7 +66,7 @@ sid = 0;
     if (statetime == 130) intensity = 5;
     if (statetime == 160) intensity = 7;
     if (statetime == 190) intensity = 9;
-    if (statetime == 340) sfx_play(sndQueenIntro); //240
+    if (statetime == 340 &amp;&amp; global.event[303] == 0) sfx_play(sndQueenIntro); //240
     if (statetime == 250) {
         intensity = 11;
         audio_sound_gain(sid, 0, 1500);

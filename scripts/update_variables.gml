@@ -594,6 +594,15 @@ switch(argument0){
                         buffer_write(buffer, buffer_u8, global.smissiles);
                         buffer_write(buffer, buffer_u8, global.pbombs);
                         buffer_write(buffer, buffer_u8, global.clientID);
+                        var bufferSize = buffer_tell(buffer);
+                        buffer_seek(buffer, buffer_seek_start, 0);
+                        buffer_write(buffer, buffer_s32, bufferSize);
+                        buffer_write(buffer, buffer_u8, 102);
+                        buffer_write(buffer, buffer_s16, global.playerhealth);
+                        buffer_write(buffer, buffer_s16, global.missiles);
+                        buffer_write(buffer, buffer_u8, global.smissiles);
+                        buffer_write(buffer, buffer_u8, global.pbombs);
+                        buffer_write(buffer, buffer_u8, global.clientID);
                         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
                     }
                 } else {
