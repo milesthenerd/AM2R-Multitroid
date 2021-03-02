@@ -44,7 +44,7 @@ You will need to replace them with default shader code in order for the project 
 Finally, we have excluded the datafiles and changelog from this repository to further enforce the removal of trademarks.
 
 ## License
-Please read our [license](https://github.com/Lojemiru/AM2R-Community-Updates/blob/main/LICENSE) before distributing, modifying, contributing to, or otherwise interacting with this project.
+Please read our [license](https://github.com/lassiterm/AM2R-Multitroid/blob/main/LICENSE) before distributing, modifying, contributing to, or otherwise interacting with this project.
 
 ## Contributing
 Please read our [Contribution Guidelines](https://github.com/Lojemiru/AM2R-Community-Updates/blob/main/CONTRIBUTING.md) before opening any issues or creating pull requests.
