@@ -181,8 +181,8 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0 &amp;&amp; global.shaders_compiled) {
-    pal_swap_set(oControl.AlphaPalette, 1, false);
+            <string>if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
+    if(global.shaders_compiled) pal_swap_set(oControl.AlphaPalette, 1, false);
 }
 
 draw_self();

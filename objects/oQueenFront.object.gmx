@@ -99,8 +99,8 @@ fxtimer = 0;
           <argument>
             <kind>1</kind>
             <string>
-if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0 &amp;&amp; global.shaders_compiled) {
-    pal_swap_set(oControl.QueenPalette, 1, false);
+if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
+    if(global.shaders_compiled) pal_swap_set(oControl.QueenPalette, 1, false);
 }
 
 draw_sprite_ext(sQueenBelly, -1, x, y, 1, 1, image_angle, -1, 0.5);

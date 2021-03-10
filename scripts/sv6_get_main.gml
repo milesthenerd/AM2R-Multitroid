@@ -3,8 +3,8 @@ list = ds_list_create();
 ds_list_read(list, base64_decode(file_text_read_string(argument0)));
 i = 0;
 global.save_room = readline();
-global.difficulty = readline();
 if(!instance_exists(oClient)){
+    global.difficulty = readline();
     global.gametime = readline();
     global.itemstaken = readline();
     global.etanks = readline();
@@ -21,6 +21,7 @@ if(!instance_exists(oClient)){
     //don't reset values
     refill_heath_ammo();
 } else if(instance_exists(oClient) && global.lastroom != gameoverroom && string_count("rm_a", room_get_name(global.lastroom)) == 0){
+    global.difficulty = readline();
     global.gametime = readline();
     global.itemstaken = readline();
     global.etanks = readline();

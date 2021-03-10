@@ -1030,23 +1030,6 @@
       </ConfigOptions>
       <filename>readme.txt</filename>
     </datafile>
-    <datafile>
-      <name>dictionary.json</name>
-      <exists>-1</exists>
-      <size>4643</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>dictionary.json</filename>
-    </datafile>
     <datafiles number="325" name="mods">
       <datafiles number="325" name="titles">
         <datafile>

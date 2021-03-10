@@ -136,9 +136,9 @@ switch(argument0){
                         global.morphballPrev = global.morphball;
                     }
                     if(global.morphball == 1){
-                        popup_text("Morph enabled");
+                        popup_text(get_text("OptionsControlCommands", "Morph") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Morph disabled");
+                        popup_text(get_text("OptionsControlCommands", "Morph") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 1 && global.receivedClientID == global.clientID){
                     global.morphballPrev = global.morphball;
@@ -150,9 +150,9 @@ switch(argument0){
                         global.jumpballPrev = global.jumpball;
                     }
                     if(global.jumpball == 1){
-                        popup_text("Springball enabled");
+                        popup_text(get_text("Items", "JumpBall") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Springball disabled");
+                        popup_text(get_text("Items", "JumpBall") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 2 && global.receivedClientID == global.clientID){
                     global.jumpballPrev = global.jumpball;
@@ -164,9 +164,9 @@ switch(argument0){
                         global.powergripPrev = global.powergrip;
                     }
                     if(global.powergrip == 1){
-                        popup_text("Powergrip enabled");
+                        popup_text(get_text("Items", "PowerGrip") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Powergrip disabled");
+                        popup_text(get_text("Items", "PowerGrip") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 3 && global.receivedClientID == global.clientID){
                     global.powergripPrev = global.powergrip;
@@ -194,9 +194,9 @@ switch(argument0){
                         global.spacejumpPrev = global.spacejump;
                     }
                     if(global.spacejump == 1){
-                        popup_text("Spacejump enabled");
+                        popup_text(get_text("Items", "SpaceJump") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Spacejump disabled");
+                        popup_text(get_text("Items", "SpaceJump") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 4 && global.receivedClientID == global.clientID){
                     global.spacejumpPrev = global.spacejump;
@@ -224,9 +224,9 @@ switch(argument0){
                         global.screwattackPrev = global.screwattack;
                     }
                     if(global.screwattack == 1){
-                        popup_text("Screwattack enabled");
+                        popup_text(get_text("Items", "ScrewAttack") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Screwattack disabled");
+                        popup_text(get_text("Items", "ScrewAttack") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 5 && global.receivedClientID == global.clientID){
                     global.screwattackPrev = global.screwattack;

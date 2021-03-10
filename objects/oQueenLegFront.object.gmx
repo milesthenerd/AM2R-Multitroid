@@ -270,8 +270,8 @@ repeat (3) {
           <argument>
             <kind>1</kind>
             <string>
-if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0 &amp;&amp; global.shaders_compiled) {
-    pal_swap_set(oControl.QueenPalette, 2, false);
+if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
+    if(global.shaders_compiled) pal_swap_set(oControl.QueenPalette, 2, false);
 }
 
 if (!flashing) {

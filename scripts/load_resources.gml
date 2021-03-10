@@ -279,14 +279,6 @@ oControl.QueenDead = -1;
 oControl.QueenBloodDrop = -1;
 oControl.QueenBloodParticle = -1;
 
-oControl.MultitroidPalette = sPalMultitroidNew;
-oControl.MultitroidPaletteFusion = sPalMultitroidFusion;
-oControl.SpiderballPalette = sPalSpiderball;
-oControl.MultitroidBabyPalette = sPalMultitroidBaby;
-oControl.MultitroidIcon = sMultitroidIcon;
-oControl.MultitroidIconDark = sDarkMultitroidPlayer;
-oControl.MultitroidMapIcon = sMultitroidMapIcon;
-
 if (file_exists("mods/palettes/monsters/alpha.png")) oControl.AlphaPalette = sprite_add("mods/palettes/monsters/alpha.png", 1, false, false, 0, 0);
 if (file_exists("mods/palettes/monsters/gamma.png")) oControl.GammaPalette = sprite_add("mods/palettes/monsters/gamma.png", 1, false, false, 0, 0);
 if (file_exists("mods/palettes/monsters/zeta.png")) oControl.ZetaPalette  = sprite_add("mods/palettes/monsters/zeta.png", 1, false, false, 0, 0);
@@ -436,4 +428,3 @@ sprite_merge(icon_duplicate, icon_duplicate8);
 if(i == 8){
     oControl.MultitroidMapIcon = icon_duplicate;
 }
-

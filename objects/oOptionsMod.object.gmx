@@ -272,8 +272,8 @@ if (active) {
     
     
     
-    if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0) {
-        if (global.curropt == num_ip) {
+    if (keyboard_check_pressed(vk_space) &amp;&amp; oControl.kMenu1PushedSteps == 0) {
+        if (global.curropt == num_ip &amp;&amp; os_type != os_android) {
             editing = !editing;
             op[num_ip].editing = editing;
             if(editing){
@@ -281,8 +281,14 @@ if (active) {
             }
             sfx_play(sndMenuSel);
             event_user(2);
+        } else if(global.curropt == num_ip &amp;&amp; os_type == os_android){
+            if(!editing){
+                msg = get_string_async("Type in the IP Address to connect to.", ip);
+            }
+            editing = !editing;
+            op[num_ip].editing = editing;
         }
-        if (global.curropt == num_port) {
+        if (global.curropt == num_port &amp;&amp; os_type != os_android) {
             editing = !editing;
             op[num_port].editing = editing;
             if(editing){
@@ -290,8 +296,14 @@ if (active) {
             }
             sfx_play(sndMenuSel);
             event_user(2);
-        }
-        if (global.curropt == num_name) {
+        } else if(global.curropt = num_port &amp;&amp; os_type == os_android){
+            if(!editing){
+                msg = get_integer_async("Type in the server port.", real(port));
+            }
+            editing = !editing;
+            op[num_port].editing = editing;
+        } 
+        if (global.curropt == num_name &amp;&amp; os_type != os_android) {
             editing = !editing;
             op[num_name].editing = editing;
             if(editing){
@@ -299,6 +311,12 @@ if (active) {
             }
             sfx_play(sndMenuSel);
             event_user(2);
+        } else if(global.curropt == num_name &amp;&amp; os_type == os_android){
+            if(!editing){
+                msg = get_string_async("Type in your nametag.", name);
+            }
+            editing = !editing;
+            op[num_name].editing = editing;
         }
         if (global.curropt == num_connection){
             if(!instance_exists(oClient) &amp;&amp; global.canConnect){
@@ -336,17 +354,17 @@ if (active) {
     }
     */
     
-    if(editing &amp;&amp; global.curropt == num_ip){
+    if(editing &amp;&amp; global.curropt == num_ip &amp;&amp; os_type != os_android){
         ip = keyboard_string;
         op[num_ip].optext = ip;
     }
     
-    if(editing &amp;&amp; global.curropt == num_port){
+    if(editing &amp;&amp; global.curropt == num_port &amp;&amp; os_type != os_android){
         port = keyboard_string;
         op[num_port].optext = port;
     }
     
-    if(editing &amp;&amp; global.curropt == num_name){
+    if(editing &amp;&amp; global.curropt == num_name &amp;&amp; os_type != os_android){
         var keyboardLength = string_length(keyboard_string);
         if(keyboardLength &gt; 15){
             keyboard_string = string_copy(keyboard_string, 1, 15);
@@ -359,12 +377,84 @@ if (targety != y) y += (targety - y) / 10;
 timer -= 1;
 if (timer &lt; 0) timer = 8;
 
-if(instance_exists(oClient)){
+if(instance_exists(oClient) &amp;&amp; instance_exists(self) &amp;&amp; instance_exists(connID)){
     connectiontxt = "Disconnect";
     op[num_connection].label = connectiontxt;
-} else {
+} else if((!instance_exists(oClient)) &amp;&amp; instance_exists(self) &amp;&amp; instance_exists(connID)){
     connectiontxt = "Connect";
     op[num_connection].label = connectiontxt;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="63">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var ID = ds_map_find_value(async_load, "id");
+
+if(ID == msg &amp;&amp; global.curropt == num_ip){
+    if(ds_map_find_value(async_load, "status")){
+        var input = ds_map_find_value(async_load, "result");
+        if(is_string(input)){
+            ini_open(working_directory + "\settings.ini");
+            ini_write_string("Settings", "ipaddress", input);
+            ini_close();
+            ip = input;
+            oControl.ipaddress = ip;
+            op[num_ip].optext = ip;
+            event_user(2);
+        }
+    }
+    editing = !editing;
+    op[num_ip].editing = editing;
+}
+
+if(ID == msg &amp;&amp; global.curropt == num_port){
+    if(ds_map_find_value(async_load, "status")){
+        var input = ds_map_find_value(async_load, "value");
+        if(is_real(input)){
+            ini_open(working_directory + "\settings.ini");
+            ini_write_real("Settings", "port", input);
+            ini_close();
+            port = string(input);
+            op[num_port].optext = port;
+            event_user(2);
+        }
+    }
+    editing = !editing;
+    op[num_port].editing = editing;
+}
+
+if(ID == msg &amp;&amp; global.curropt == num_name){
+    if(ds_map_find_value(async_load, "status")){
+        var input = ds_map_find_value(async_load, "result");
+        if(is_string(input)){
+            ini_open(working_directory + "\settings.ini");
+            ini_write_string("Settings", "name", input);
+            ini_close();
+            name = input;
+            op[num_name].optext = name;
+            event_user(2);
+        }
+    }
+    editing = !editing;
+    op[num_name].editing = editing;
 }
 </string>
           </argument>
@@ -395,6 +485,7 @@ var _showname = "enabled";
 op[num_ip].optext = ip;
 op[num_port].optext = port;
 op[num_name].optext = name;
+
 
 switch(oControl.preferredcolor){
     case 1:
@@ -622,6 +713,10 @@ op[num_sequence].optionid = num_sequence;
 op[num_color] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_color].label = "Preferred color";
 op[num_color].optionid = num_color;
+if(!global.shaders_compiled){
+    op[num_color].enabled = 0;
+    canedit[num_color] = 0;
+}
 
 op[num_showname] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_showname].label = "Show names";
@@ -630,6 +725,7 @@ op[num_showname].optionid = num_showname;
 op[num_connection] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_connection].optionid = num_connection;
 op[num_connection].label = connectiontxt;
+connID = op[num_connection].id;
 
 op[lastitem] = instance_create(x, y + sep * (lastitem + 1), oPauseOption);
 op[lastitem].optionid = lastitem;

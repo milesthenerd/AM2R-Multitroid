@@ -3,7 +3,6 @@
 /*
     Read dictionary file
 */
-
 globalvar _strict_data;
 
 var json_data = "";
@@ -14,5 +13,6 @@ while (!file_text_eof(f)) {
     file_text_readln(f);
 }
 file_text_close(f);
+
 
 _strict_data = json_decode(json_data);

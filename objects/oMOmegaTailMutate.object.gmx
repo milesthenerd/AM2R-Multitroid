@@ -111,8 +111,8 @@ if (image_index == 0) {
           <argument>
             <kind>1</kind>
             <string>
-if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0 &amp;&amp; global.shaders_compiled) {
-    pal_swap_set(oControl.OmegaPalette, 1, false);
+if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
+    if(global.shaders_compiled) pal_swap_set(oControl.OmegaPalette, 1, false);
 }
 
 draw_sprite_ext(sprite_index, -1, x + offx, y + offy, image_xscale, 1, 0, -1, 1);

@@ -1050,8 +1050,8 @@ if (sfx_isplaying(sndMAlphaIntro)) sfx_stop(sndMAlphaIntro);
           <argument>
             <kind>1</kind>
             <string>
-if((oControl.mod_fusion == 1) || (oControl.MonsterPalettesFusionOnly == 0 &amp;&amp; global.shaders_compiled)) {
-    pal_swap_set(oControl.AlphaPalette, 1, false);
+if((oControl.mod_fusion == 1) || oControl.MonsterPalettesFusionOnly == 0) {
+    if(global.shaders_compiled) pal_swap_set(oControl.AlphaPalette, 1, false);
 }
 
 if (!flashing) draw_sprite_ext(sprite_index, -1, x, y, facing, 1, image_angle, -1, 1);

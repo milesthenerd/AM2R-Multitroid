@@ -21,10 +21,10 @@
     <option_android_arch_mipsr2>false</option_android_arch_mipsr2>
     <option_android_arch_mipsr2sf>false</option_android_arch_mipsr2sf>
     <option_android_arch_x86>True</option_android_arch_x86>
-    <option_android_build_tools_version>23.0.1</option_android_build_tools_version>
+    <option_android_build_tools_version>28.0.3</option_android_build_tools_version>
     <option_android_build_version>2</option_android_build_version>
     <option_android_color_depth>1</option_android_color_depth>
-    <option_android_compile_sdk_version>23</option_android_compile_sdk_version>
+    <option_android_compile_sdk_version>28</option_android_compile_sdk_version>
     <option_android_display_name>AM2R</option_android_display_name>
     <option_android_facebook_app_display_name></option_android_facebook_app_display_name>
     <option_android_facebook_appid></option_android_facebook_appid>
@@ -51,7 +51,7 @@
     <option_android_licensing_key></option_android_licensing_key>
     <option_android_lint>0</option_android_lint>
     <option_android_major_version>1</option_android_major_version>
-    <option_android_min_sdk_version>9</option_android_min_sdk_version>
+    <option_android_min_sdk_version>14</option_android_min_sdk_version>
     <option_android_minor_version>5</option_android_minor_version>
     <option_android_mmedia_ads>0</option_android_mmedia_ads>
     <option_android_moga>0</option_android_moga>
@@ -65,7 +65,7 @@
     <option_android_package_company>lojical</option_android_package_company>
     <option_android_package_domain>com</option_android_package_domain>
     <option_android_package_product>AM2R</option_android_package_product>
-    <option_android_permission_flags>16</option_android_permission_flags>
+    <option_android_permission_flags>24</option_android_permission_flags>
     <option_android_pocketchange_enable>false</option_android_pocketchange_enable>
     <option_android_pocketchange_id></option_android_pocketchange_id>
     <option_android_pocketchange_test_enable>false</option_android_pocketchange_test_enable>
@@ -77,8 +77,8 @@
     <option_android_sleep_margin>4</option_android_sleep_margin>
     <option_android_splash_png>Configs\Default\android\splash.png</option_android_splash_png>
     <option_android_splash_time>0</option_android_splash_time>
-    <option_android_support_lib_version>23.1.1</option_android_support_lib_version>
-    <option_android_target_sdk_version>23</option_android_target_sdk_version>
+    <option_android_support_lib_version>25.3.1</option_android_support_lib_version>
+    <option_android_target_sdk_version>28</option_android_target_sdk_version>
     <option_android_texture_page>1024</option_android_texture_page>
     <option_android_use_test_ads>false</option_android_use_test_ads>
     <option_androidfire_GPU_device>0</option_androidfire_GPU_device>
