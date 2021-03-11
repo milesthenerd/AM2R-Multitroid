@@ -63,6 +63,8 @@ wall2.image_yscale = 3;
 wheel = instance_create(x, y, oBoss1Wheel);
 
 sparkcounter = 0;
+
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -358,6 +360,21 @@ if (fxtimer &lt; 5) {
     fxtimer += 1;
 } else fxtimer = 0;
 if (flashing &gt; 0) flashing -= 1;
+
+if(global.event[51] &gt; 0 &amp;&amp; !dead){
+    state = 100;
+    sfx_play(sndBoss1Death);
+    with (wall1) instance_destroy();
+    with (wall2) instance_destroy();
+    with (wheel) instance_destroy();
+    with (block1) event_user(0);
+    with (block2) event_user(0);
+    with (inst_107511) instance_destroy();
+    mus_fadeout(musAncientGuardian);
+    oMusicV2.bossbgm = sndJump;
+    mus_current_fadein();
+    dead = true;
+}
 </string>
           </argument>
         </arguments>

@@ -238,9 +238,9 @@ switch(argument0){
                         global.hijumpPrev = global.hijump;
                     }
                     if(global.hijump == 1){
-                        popup_text("Hi jump enabled");
+                        popup_text(get_text("Items", "HiJump") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Hi jump disabled");
+                        popup_text(get_text("Items", "HiJump") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 6 && global.receivedClientID == global.clientID){
                     global.hijumpPrev = global.hijump;
@@ -252,9 +252,9 @@ switch(argument0){
                         global.spiderballPrev = global.spiderball;
                     }
                     if(global.spiderball == 1){
-                        popup_text("Spiderball enabled");
+                        popup_text(get_text("Items", "SpiderBall") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Spiderball disabled");
+                        popup_text(get_text("Items", "SpiderBall") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 7 && global.receivedClientID == global.clientID){
                     global.spiderballPrev = global.spiderball;
@@ -266,9 +266,9 @@ switch(argument0){
                         global.speedboosterPrev = global.speedbooster;
                     }
                     if(global.speedbooster == 1){
-                        popup_text("Speedbooster enabled");
+                        popup_text(get_text("Items", "SpeedBooster") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Speedbooster disabled");
+                        popup_text(get_text("Items", "SpeedBooster") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 8 && global.receivedClientID == global.clientID){
                     global.speedboosterPrev = global.speedbooster;
@@ -280,9 +280,9 @@ switch(argument0){
                         global.bombPrev = global.bomb;
                     }
                     if(global.bomb == 1){
-                        popup_text("Bombs enabled");
+                        popup_text(get_text("Items", "Bombs") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Bombs disabled");
+                        popup_text(get_text("Items", "Bombs") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 9 && global.receivedClientID == global.clientID){
                     global.bombPrev = global.bomb;
@@ -294,9 +294,9 @@ switch(argument0){
                         global.ibeamPrev = global.ibeam;
                     }
                     if(global.ibeam == 1){
-                        popup_text("Ice beam enabled");
+                        popup_text(get_text("Items", "IceBeam") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Ice beam disabled");
+                        popup_text(get_text("Items", "IceBeam") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 10 && global.receivedClientID == global.clientID){
                     global.ibeamPrev = global.ibeam;
@@ -308,9 +308,9 @@ switch(argument0){
                         global.wbeamPrev = global.wbeam;
                     }
                     if(global.wbeam == 1){
-                        popup_text("Wave beam enabled");
+                        popup_text(get_text("Items", "WaveBeam") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Wave beam disabled");
+                        popup_text(get_text("Items", "WaveBeam") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 11 && global.receivedClientID == global.clientID){
                     global.wbeamPrev = global.wbeam;
@@ -322,9 +322,9 @@ switch(argument0){
                         global.pbeamPrev = global.pbeam;
                     }
                     if(global.pbeam == 1){
-                        popup_text("Plasma beam enabled");
+                        popup_text(get_text("Items", "PlasmaBeam") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Plasma beam disabled");
+                        popup_text(get_text("Items", "PlasmaBeam") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 12 && global.receivedClientID == global.clientID){
                     global.pbeamPrev = global.pbeam;
@@ -336,9 +336,9 @@ switch(argument0){
                         global.sbeamPrev = global.sbeam;
                     }
                     if(global.sbeam == 1){
-                        popup_text("Spazer beam enabled");
+                        popup_text(get_text("Items", "SpazerBeam") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Spazer beam disabled");
+                        popup_text(get_text("Items", "SpazerBeam") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 13 && global.receivedClientID == global.clientID){
                     global.sbeamPrev = global.sbeam;
@@ -350,9 +350,9 @@ switch(argument0){
                         global.cbeamPrev = global.cbeam;
                     }
                     if(global.cbeam == 1){
-                        popup_text("Charge beam enabled");
+                        popup_text(get_text("Items", "ChargeBeam") + " " + get_text("GlobalOptions", "Enabled"));
                     } else {
-                        popup_text("Charge beam disabled");
+                        popup_text(get_text("Items", "ChargeBeam") + " " + get_text("GlobalOptions", "Disabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 14 && global.receivedClientID == global.clientID){
                     global.cbeamPrev = global.cbeam;
@@ -431,11 +431,11 @@ switch(argument0){
                         global.currentsuitPrev = global.currentsuit;
                     }
                     if(global.currentsuit == 2){
-                        popup_text("Gravity suit enabled");
+                        popup_text(get_text("Items", "GravitySuit") + " " + get_text("GlobalOptions", "Enabled"));
                     } else if(global.currentsuit == 1){
-                        popup_text("Varia suit enabled");
+                        popup_text(get_text("Items", "VariaSuit") + " " + get_text("GlobalOptions", "Enabled"));
                     } else if(global.currentsuit == 0){
-                        popup_text("Power suit enabled");
+                        popup_text(get_text("ItemsMenu", "PowerSuit") + " " + get_text("GlobalOptions", "Enabled"));
                     }
                 } else if(global.onlineReceived[# 2, i] == 18 && global.receivedClientID == global.clientID){
                     global.currentsuitPrev = global.currentsuit;

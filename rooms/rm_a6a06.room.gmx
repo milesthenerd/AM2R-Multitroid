@@ -17,8 +17,8 @@ global.waterlevel = 0;
 global.watertype = 0;
 if (global.lavastate == 8) {
     make_liquid(1, 680, 0, 0, 0, 0, 0);
-} else if (global.lavastate == 9) make_liquid(1, 160, 0, 0, 0, 0, 0);
-if (global.lavastate &gt;= 9) {
+} else if (global.lavastate == 9 &amp;&amp; !instance_exists(oClient)) make_liquid(1, 160, 0, 0, 0, 0, 0);
+if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {
     tile_layer_shift(-101, -32, 48);
     tile_layer_shift(-102, -32, 48);
 }
@@ -72,14 +72,14 @@ if (global.lavastate &lt; 10) tile_layer_delete(-99);</code>
     <instance objName="oSlope3B" x="528" y="528" name="inst_137014" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope3B" x="448" y="560" name="inst_137015" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope3B" x="304" y="592" name="inst_137016" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oSlope3B" x="336" y="400" name="inst_137017" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSlope3B" x="336" y="400" name="inst_137017" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope3" x="480" y="544" name="inst_137018" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope3" x="384" y="576" name="inst_137019" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope2B" x="64" y="608" name="inst_137020" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope3" x="128" y="544" name="inst_137021" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope3" x="240" y="176" name="inst_137022" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oSlope1" x="240" y="240" name="inst_137023" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oSlope2B" x="384" y="256" name="inst_137024" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSlope1" x="240" y="240" name="inst_137023" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSlope2B" x="384" y="256" name="inst_137024" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope4" x="448" y="224" name="inst_137025" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope4" x="368" y="192" name="inst_137026" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope4" x="272" y="32" name="inst_137027" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -96,7 +96,7 @@ if (global.lavastate &lt; 10) tile_layer_delete(-99);</code>
     <instance objName="oSlopeFL1B" x="432" y="96" name="inst_137038" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlopeFL1B" x="512" y="592" name="inst_137039" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlopeFL1" x="544" y="576" name="inst_137040" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oSlopeFL2" x="368" y="240" name="inst_137041" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSlopeFL2" x="368" y="240" name="inst_137041" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="512" y="512" name="inst_137042" locked="0" code="" scaleX="8" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="464" y="528" name="inst_137043" locked="0" code="" scaleX="4" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="432" y="544" name="inst_137044" locked="0" code="" scaleX="3" scaleY="1" colour="4294967295" rotation="0"/>
@@ -110,15 +110,15 @@ if (global.lavastate &lt; 10) tile_layer_delete(-99);</code>
     <instance objName="oSolid1" x="0" y="608" name="inst_137052" locked="0" code="" scaleX="4" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="48" y="624" name="inst_137053" locked="0" code="" scaleX="4" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="0" y="544" name="inst_137054" locked="0" code="" scaleX="8" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="192" y="352" name="inst_137055" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;if (global.lavastate &gt;= 10) instance_destroy();&#xA;" scaleX="1" scaleY="5" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="208" y="320" name="inst_137056" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="6" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="224" y="288" name="inst_137057" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="3" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="240" y="256" name="inst_137058" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="8" scaleY="9" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="256" y="240" name="inst_137059" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="7" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="368" y="336" name="inst_137060" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="4" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="208" y="416" name="inst_137061" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="4" scaleY="2" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="272" y="416" name="inst_137062" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="272" y="400" name="inst_137063" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="4" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="192" y="352" name="inst_137055" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;if (global.lavastate &gt;= 10) instance_destroy();" scaleX="1" scaleY="5" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="208" y="320" name="inst_137056" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="1" scaleY="6" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="224" y="288" name="inst_137057" locked="0" code="&#xA;if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="1" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="240" y="256" name="inst_137058" locked="0" code="&#xA;if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="8" scaleY="9" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="256" y="240" name="inst_137059" locked="0" code="&#xA;if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="7" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="368" y="336" name="inst_137060" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="1" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="208" y="416" name="inst_137061" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="4" scaleY="2" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="272" y="416" name="inst_137062" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="272" y="400" name="inst_137063" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="4" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="208" y="512" name="inst_137064" locked="0" code="" scaleX="11" scaleY="5" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="240" y="496" name="inst_137065" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="256" y="496" name="inst_137066" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -140,8 +140,8 @@ if (global.lavastate &lt; 10) tile_layer_delete(-99);</code>
     <instance objName="oSolid1" x="144" y="304" name="inst_137082" locked="0" code="" scaleX="1" scaleY="11" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="160" y="256" name="inst_137083" locked="0" code="" scaleX="1" scaleY="4" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="176" y="208" name="inst_137084" locked="0" code="" scaleX="1" scaleY="4" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="384" y="320" name="inst_137085" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="2" scaleY="2" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="384" y="272" name="inst_137086" locked="0" code="&#xA;if (global.lavastate &gt;= 9) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}&#xA;" scaleX="3" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="384" y="320" name="inst_137085" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="2" scaleY="2" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="384" y="272" name="inst_137086" locked="0" code="if (global.lavastate &gt;= 9 &amp;&amp; !instance_exists(oClient)) {&#xA;    x -= 32;&#xA;    y += 48;&#xA;}" scaleX="3" scaleY="3" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="432" y="384" name="inst_137087" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="432" y="368" name="inst_137088" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="448" y="368" name="inst_137089" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

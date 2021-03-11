@@ -95,7 +95,7 @@ boostspddelay = 1;
 stepdelayfinal = stepdelay;
 use2 = 0;
 
-
+dead = false;
 
 
 
@@ -558,6 +558,12 @@ if (boosting &gt; 0) {
 if (use2) {
     event_user(2);
     use2 = 0;
+}
+
+if(global.event[261] &gt; 0 &amp;&amp; !dead){
+    state = 100;
+    statetime = -1;
+    dead = true;
 }
 </string>
           </argument>

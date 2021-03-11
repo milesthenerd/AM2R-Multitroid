@@ -270,9 +270,14 @@ if (active) {
         event_user(2);
     }
     
+    var key;
+    if(os_type != os_android){
+        key = keyboard_check_pressed(vk_enter);
+    } else {
+        key = (oControl.kMenu1 &gt; 0);
+    }
     
-    
-    if (keyboard_check_pressed(vk_space) &amp;&amp; oControl.kMenu1PushedSteps == 0) {
+    if (key &amp;&amp; oControl.kMenu1PushedSteps == 0) {
         if (global.curropt == num_ip &amp;&amp; os_type != os_android) {
             editing = !editing;
             op[num_ip].editing = editing;
@@ -318,6 +323,9 @@ if (active) {
             editing = !editing;
             op[num_name].editing = editing;
         }
+    } // if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0)
+    
+    if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0){
         if (global.curropt == num_connection){
             if(!instance_exists(oClient) &amp;&amp; global.canConnect){
                 instance_create(x, y, oClient);
@@ -341,7 +349,7 @@ if (active) {
             instance_destroy();
             sfx_play(sndMenuSel);
         }
-    } // if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0)
+    }
     
     /*
     if (oControl.kMenu2 &amp;&amp; oControl.kMenu1PushedSteps == 0) {

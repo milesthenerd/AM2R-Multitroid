@@ -1,6 +1,6 @@
 /// draw_character(sprite, x, y, sprite2, s2ox, s2oy, sprite3, s3ox, s3oy, s3angle, facing, color, alpha, s3show)
 
-if(global.shaders_compiled){
+if(shader_is_compiled(shd_pal_swapper)){
     if ((oControl.mod_fusion) && (!oControl.msr_fusionsuit)) { // Fusion suit
         if (global.currentsuit == 0) { // Power
             pal_swap_set(sPalFusion0, 1, false);

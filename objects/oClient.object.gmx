@@ -58,6 +58,7 @@ ptanksTimer = 10;
 teleportTimer = 180;
 disconnectTimer = 900;
 pingTimer = 90;
+resetTimer = -1;
 teleport = false;
 noName = false;
 state = undefined;
@@ -185,6 +186,8 @@ posY = 3;
 time = 60;
 
 trail = 0;
+
+get_loadout(5);
 </string>
           </argument>
         </arguments>
@@ -639,7 +642,7 @@ if(mapChanged){
             <kind>1</kind>
             <string>var v = 0;
 for(var f=0; f&lt;array_length_1d(global.event); f++){
-    if(f &gt; 350){
+    if(f &gt; 350 || f == 102){
         break;
     }
     if(global.eventPrev[f] != global.event[f]){
@@ -1511,6 +1514,25 @@ if(pingTimer &lt;= 0){
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
+if(resetTimer == 0){
+    buffer_delete(buffer);
+    var size, type, alignment;
+    size = 1024;
+    type = buffer_grow;
+    alignment = 1;
+    buffer = buffer_create(size, type, alignment);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 20);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 20);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    show_debug_message("it sent why doesn't this work pls");
+}
+
 time--;
 maxpbombsTimer--;
 maxhealthTimer--;
@@ -1520,6 +1542,10 @@ stanksTimer--;
 ptanksTimer--;
 disconnectTimer--;
 pingTimer--;
+
+if(resetTimer &gt; -1){
+    resetTimer--;
+}
 
 if(instance_exists(self)){
     if(ds_list_size(roomListData) &gt; 0){
@@ -1830,6 +1856,11 @@ switch(type_event){
             case 106:
                 load_character_vars();
                 reset_dmap();
+                global.itemPrev = array_clone(global.item);
+                global.metdeadPrev = array_clone(global.metdead);
+                global.eventPrev = array_clone(global.event);
+                global.dmapPrev = array_clone(global.dmap);
+                popup_text("Stats reset");
                 break;
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
@@ -2044,7 +2075,7 @@ switch(type_event){
                 if(is_array(eventArr)){
                     for(var i=0; i&lt;array_length_1d(global.event); i++){
                         for(var f=0; f&lt;array_height_2d(eventArr); f++){
-                            if(i == eventArr[f, 1]){
+                            if(i == eventArr[f, 1] &amp;&amp; eventArr[f, 1] != 102){
                                 global.eventPrev[i] = eventArr[f, 0];
                                 if(global.event[i] != eventArr[f, 0]){
                                     global.event[i] = eventArr[f, 0];
@@ -2282,37 +2313,37 @@ switch(type_event){
                         if(i == 0){
                             global.bomb = 1;
                             global.bombPrev = global.bomb;
-                            popup_text("Bombs enabled");
+                            popup_text(get_text("Items", "Bombs") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 1){
                             global.powergrip = 1;
                             global.powergripPrev = global.powergrip;
-                            popup_text("Powergrip enabled");
+                            popup_text(get_text("Items", "PowerGrip") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 2){
                             global.spiderball = 1;
                             global.spiderballPrev = global.spiderball;
-                            popup_text("Spiderball enabled");
+                            popup_text(get_text("Items", "SpiderBall") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 3){
                             global.jumpball = 1;
                             global.jumpballPrev = global.jumpball;
-                            popup_text("Springball enabled");
+                            popup_text(get_text("Items", "JumpBall") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 4){
                             global.hijump = 1;
                             global.hijumpPrev = global.hijump;
-                            popup_text("Hi jump enabled");
+                            popup_text(get_text("Items", "HiJump") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 5){
                             global.currentsuit = 1;
                             global.currentsuitPrev = global.currentsuit;
-                            popup_text("Varia suit enabled");
+                            popup_text(get_text("Items", "VariaSuit") + " " + get_text("GlobalOptions", "Enabled"));
                             if(sfx_isplaying(sndSpinJump)){
                                 sfx_stop(sndSpinJump);
                             }
@@ -2333,7 +2364,7 @@ switch(type_event){
                         if(i == 6){
                             global.spacejump = 1;
                             global.spacejumpPrev = global.spacejump;
-                            popup_text("Spacejump enabled");
+                            popup_text(get_text("Items", "SpaceJump") + " " + get_text("GlobalOptions", "Enabled"));
                             if(sfx_isplaying(sndSpinJump)){
                                 sfx_stop(sndSpinJump);
                             }
@@ -2354,13 +2385,13 @@ switch(type_event){
                         if(i == 7){
                             global.speedbooster = 1;
                             global.speedboosterPrev = global.speedbooster;
-                            popup_text("Speedbooster enabled");
+                            popup_text(get_text("Items", "SpeedBooster") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 8){
                             global.screwattack = 1;
                             global.screwattackPrev = global.screwattack;
-                            popup_text("Screwattack enabled");
+                            popup_text(get_text("Items", "ScrewAttack") + " " + get_text("GlobalOptions", "Enabled"));
                             if(sfx_isplaying(sndSpinJump)){
                                 sfx_stop(sndSpinJump);
                             }
@@ -2381,7 +2412,7 @@ switch(type_event){
                         if(i == 9){
                             global.currentsuit = 2;
                             global.currentsuitPrev = global.currentsuit;
-                            popup_text("Gravity suit enabled");
+                            popup_text(get_text("Items", "GravitySuit") + " " + get_text("GlobalOptions", "Enabled"));
                             if(sfx_isplaying(sndSpinJump)){
                                 sfx_stop(sndSpinJump);
                             }
@@ -2402,31 +2433,31 @@ switch(type_event){
                         if(i == 10){
                             global.cbeam = 1;
                             global.cbeamPrev = global.cbeam;
-                            popup_text("Charge beam enabled");
+                            popup_text(get_text("Items", "ChargeBeam") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 11){
                             global.ibeam = 1;
                             global.ibeamPrev = global.ibeam;
-                            popup_text("Ice beam enabled");
+                            popup_text(get_text("Items", "IceBeam") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 12){
                             global.wbeam = 1;
                             global.wbeamPrev = global.wbeam;
-                            popup_text("Wave beam enabled");
+                            popup_text(get_text("Items", "WaveBeam") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 13){
                             global.sbeam = 1;
                             global.sbeamPrev = global.sbeam;
-                            popup_text("Spazer beam enabled");
+                            popup_text(get_text("Items", "SpazerBeam") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                         
                         if(i == 14){
                             global.pbeam = 1;
                             global.pbeamPrev = global.pbeam;
-                            popup_text("Plasma beam enabled");
+                            popup_text(get_text("Items", "PlasmaBeam") + " " + get_text("GlobalOptions", "Enabled"));
                         }
                     } else if(receivedItem == 0 &amp;&amp; global.item[i] == 1){
                         resend = true;
@@ -2519,10 +2550,10 @@ switch(type_event){
                 for(var i=0; i&lt;array_length_1d(global.event); i++){
                     if(i &lt; 350){
                         var receivedEvent = buffer_read(_buffer, buffer_u8);
-                        if(floor(receivedEvent) &gt; floor(global.event[i])){
+                        if(floor(receivedEvent) &gt; floor(global.event[i]) &amp;&amp; i != 102){
                             global.event[i] = receivedEvent;
                             global.eventPrev[i] = global.event[i];
-                        } else if(floor(receivedEvent) &lt; floor(global.event[i])){
+                        } else if(floor(receivedEvent) &lt; floor(global.event[i]) &amp;&amp; i != 102){
                             resend = true;
                         }
                     }
@@ -2795,6 +2826,10 @@ switch(type_event){
     buffer_write(buffer, buffer_s32, global.gametime);
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+}
+
+if(room == rm_score){
+    resetTimer = 5;
 }
 
 if(room == titleroom){

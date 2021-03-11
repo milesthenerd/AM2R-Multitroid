@@ -78,6 +78,8 @@ movespeed = 1;
 directrotate = 0;
 aim_x = 0;
 aim_y = 0;
+
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -635,7 +637,17 @@ if (state != 100) {
 if (flashing &gt; 0) flashing -= 1;
 statetime += 1;
 
-
+if(global.event[200] &gt; 1 &amp;&amp; !dead){
+    make_explosion3(x, y);
+    repeat (30) instance_create(x, y, oDebris);
+    state = 100;
+    statetime = -1;
+    alarm[10] = 1;
+    alarm[11] = 300;
+    with (oTesterShield) event_user(1);
+    visible = false;
+    dead = true;
+}
 </string>
           </argument>
         </arguments>

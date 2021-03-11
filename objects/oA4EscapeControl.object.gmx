@@ -204,10 +204,13 @@ if (surface_exists(oControl.gui_surface)) {
                 instance_create(oCharacter.x, oCharacter.y + 480, oA4EscapeExplosionFail);
                 instance_destroy();
             } else {
-                with (oA4EscapeSeqFX) instance_destroy();
-                global.event[203] = 9;
-                instance_destroy();
-                popup_text_ext("Reactor destroyed", 240);
+                if(room != rm_a4b01){
+                    with (oA4EscapeSeqFX) instance_destroy();
+                    sfx_stop_loops();
+                    global.event[203] = 9;
+                    instance_destroy();
+                    popup_text_ext("Reactor destroyed", 240);
+                }
             }
         }
     }
@@ -292,7 +295,8 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>
+</string>
           </argument>
         </arguments>
       </action>

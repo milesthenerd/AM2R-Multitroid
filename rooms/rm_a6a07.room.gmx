@@ -14,7 +14,7 @@
 global.mapoffsety = 52;
 global.waterlevel = 0;
 global.floormaterial = 1;
-if (global.lavastate == 9) make_liquid(1, 400, 0, 0, 0, 0, 0);</code>
+if (global.lavastate == 9 &amp;&amp; !instance_exists(oClient)) make_liquid(1, 400, 0, 0, 0, 0, 0);</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>0</clearDisplayBuffer>
