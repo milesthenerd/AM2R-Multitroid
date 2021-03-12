@@ -98,6 +98,8 @@ for (var i = bodylength; i &gt;= 0; i --) { // Create body
 
 alarm[0] = 1; // Bubbles!
 alarm[1] = 120; // Move SFX
+
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -535,6 +537,12 @@ if ((state != 100) &amp;&amp; (state != 0)) {
 statetime ++;
 if (cooldown &gt; 0) {
     cooldown --;
+}
+
+if(global.event[261] &gt; 0 &amp;&amp; !dead){
+    state = 100;
+    statetime = -1;
+    dead = true;
 }
 </string>
           </argument>
