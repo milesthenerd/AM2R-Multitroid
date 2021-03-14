@@ -157,7 +157,6 @@ global.onlineSend = ds_grid_create(3, 20);
 global.onlineItem = ds_list_create();
 global.onlineMetdead = ds_list_create();
 global.onlineEvent = ds_list_create();
-global.onlineMap = ds_list_create();
 global.onlineReceived = ds_grid_create(3, 20);
 roomList = ds_list_create();
 roomListData = ds_list_create();
@@ -174,7 +173,7 @@ update_variables("initprev");
 
 update_variables("onlinevars");
 
-if(global.shaders_compiled){
+if(os_type != os_android){
     alpha = 1;
 } else {
     alpha = 0.8;
@@ -186,8 +185,6 @@ posY = 3;
 time = 60;
 
 trail = 0;
-
-get_loadout(5);
 </string>
           </argument>
         </arguments>
@@ -242,7 +239,6 @@ if(!noName){
     ds_list_destroy(global.onlineItem);
     ds_list_destroy(global.onlineMetdead);
     ds_list_destroy(global.onlineEvent);
-    ds_list_destroy(global.onlineMap);
     ds_list_destroy(roomList);
     ds_list_destroy(roomListData);
     ds_list_destroy(global.idList);
@@ -576,15 +572,8 @@ if(global.ingame){
     for(var i=0; i&lt;array_height_2d(global.dmap); i++){
         for(var f=0; f&lt;array_length_2d(global.dmap, i); f++){
             if(global.dmapPrev[i, f] != global.dmap[i, f]){
-                global.dmapChanges[v, 0] = global.dmap[i, f];
-                global.dmapChanges[v, 1] = i;
-                global.dmapChanges[v, 2] = f;
-                global.onlineMap[| 0] = global.dmapChanges;
                 mapChanged = true;
-                if(v == 30){
-                    break;
-                }
-                v++;
+                break;
             }
         }
     }
@@ -599,13 +588,39 @@ if(mapChanged){
     buffer = buffer_create(size, type, alignment);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 9);
-    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMap)));
+    
+    var tileCount = 0;
+    
+    for(var i=0; i&lt;array_height_2d(global.dmap); i++){
+        for(var f=0; f&lt;array_length_2d(global.dmap, i); f++){
+            if(global.dmapPrev[i, f] != global.dmap[i, f]){
+                buffer_write(buffer, buffer_u8, i);
+                buffer_write(buffer, buffer_u8, f);
+                buffer_write(buffer, buffer_u8, global.dmap[i, f]);
+                tileCount++;
+            }
+        }
+    }
+    
+    buffer_write(buffer, buffer_u16, tileCount);
     buffer_write(buffer, buffer_u8, global.clientID);
+    
     var bufferSize = buffer_tell(buffer);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 9);
-    buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMap)));
+    buffer_write(buffer, buffer_u16, tileCount);
+    
+    for(var i=0; i&lt;array_height_2d(global.dmap); i++){
+        for(var f=0; f&lt;array_length_2d(global.dmap, i); f++){
+            if(global.dmapPrev[i, f] != global.dmap[i, f]){
+                buffer_write(buffer, buffer_u8, i);
+                buffer_write(buffer, buffer_u8, f);
+                buffer_write(buffer, buffer_u8, global.dmap[i, f]);
+            }
+        }
+    }
+    
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
@@ -2089,6 +2104,7 @@ switch(type_event){
                                                 if (global.currentsuit == 1) sprite_index = scr_suit_sprites(sVFront,sFront_fusion);
                                                 if (global.currentsuit == 2) sprite_index = scr_suit_sprites(sGFront,sFront_fusion);
                                                 global.enablecontrol = 0;
+                                                canbehit = 0;
                                                 oControl.displaygui = 0;
                                                 xVel = 0;
                                                 yVel = 0;
@@ -2130,6 +2146,7 @@ switch(type_event){
                                                 yVel = 0;
                                                 xAcc = 0;
                                                 yAcc = 0;
+                                                canbehit = 1;
                                             }
                                         }
                                         remove_persistent_objects();
@@ -2159,37 +2176,29 @@ switch(type_event){
                 ds_list_destroy(event);
                 break;
             case 10:
-                var dmap = ds_list_create();
-                ds_list_read(dmap, strict_decompress(buffer_read(_buffer, buffer_string)));
-                var clientID = buffer_read(_buffer, buffer_u8);
-                var dmapArr = dmap[| 0];
-                if(is_array(dmapArr)){
-                    for(var i=0; i&lt;array_height_2d(global.dmap); i++){
-                        for(var f=0; f&lt;array_length_2d(global.dmap, i); f++){
-                            for(var v=0; v&lt;array_height_2d(dmapArr); v++){
-                                if(i == dmapArr[v, 1] &amp;&amp; f == dmapArr[v, 2]){
-                                    global.dmapPrev[i, f] = dmapArr[v, 0];
-                                    if(global.dmap[i, f] != dmapArr[v, 0]){
-                                        global.dmap[i, f] = dmapArr[v, 0];
-                                        if(global.ingame){
-                                            with (oControl) event_user(2);
-                                        }
-                                        
-                                        if(instance_exists(oMapCursor) &amp;&amp; surface_exists(oSS_Control.s_map)){
-                                            surface_free(oSS_Control.s_map);
-                                        }
-                                    }
-                                }
+                var tileCount = buffer_read(_buffer, buffer_u16);
+                if(tileCount &gt; 0){
+                    for(var i=0; i&lt;tileCount; i++){
+                        var tileX = buffer_read(_buffer, buffer_u8);
+                        var tileY = buffer_read(_buffer, buffer_u8);
+                        var tileData = buffer_read(_buffer, buffer_u8);
+                        global.dmapPrev[tileX, tileY] = tileData;
+                        if(global.dmap[tileX, tileY] != tileData){
+                            global.dmap[tileX, tileY] = tileData;
+                            
+                            if(global.ingame){
+                                with (oControl) event_user(2);
+                            }
+                            
+                            if(instance_exists(oMapCursor) &amp;&amp; surface_exists(oSS_Control.s_map)){
+                                surface_free(oSS_Control.s_map);
                             }
                         }
                     }
+                    var clientID = buffer_read(_buffer, buffer_u8);
                 }
+                
                 alarm[6] = 10;
-                if(global.clientID == clientID){
-                    ds_list_clear(global.onlineMap);
-                    global.dmapChanges = 0;
-                }
-                ds_list_destroy(dmap);
                 break;
             case 11:
                 var itemstaken = buffer_read(_buffer, buffer_u8);
@@ -2504,7 +2513,7 @@ switch(type_event){
                 if(ptankCount != global.ptanks){
                     global.ptanks = ptankCount;
                     if (global.difficulty &lt; 2) global.maxpbombs = 2 * global.ptanks;
-                    if (global.difficulty == 2) global.maxpbombs = 2 * global.ptanks;
+                    if (global.difficulty == 2) global.maxpbombs = 1 * global.ptanks;
                     global.pbombs = global.maxpbombs;
                 }
                 
@@ -2884,7 +2893,6 @@ if(!noName){
     ds_list_destroy(global.onlineItem);
     ds_list_destroy(global.onlineMetdead);
     ds_list_destroy(global.onlineEvent);
-    ds_list_destroy(global.onlineMap);
     ds_list_destroy(roomList);
     ds_list_destroy(roomListData);
     ds_list_destroy(global.idList);
@@ -2939,10 +2947,10 @@ if(!noName){
             if(arrSprite == sSpiderMorphBall || arrSprite == sGSpiderMorphBall || arrSprite == sVSpiderMorphBall || arrSprite == sSpiderMorphBall_fusion || arrSprite == sSpiderMorphBall_fusion_gravity || arrSprite == sSpiderMorphBall_fusion_varia){
                 draw_set_blend_mode(bm_add);
                 draw_set_alpha(arrFXTimer * 0.1);
-                if(global.shaders_compiled){
+                if(global.shaders_compiled &amp;&amp; os_type != os_android){
                     pal_swap_set(oControl.SpiderballPalette, arrID, false);
                     draw_sprite_ext(sSpiderballFX, -1, arrX, arrY, 1, 1, 0, -1, 0.2 + arrFXTimer * 0.1);
-                } else {
+                } else if(global.shaders_compiled &amp;&amp; os_type == os_android){
                     switch(arrSprite){
                         case sSpiderMorphBall:
                             draw_sprite_ext(sSpiderballFX, -1, arrX, arrY, 1, 1, 0, -1, 0.2 + arrFXTimer * 0.1);

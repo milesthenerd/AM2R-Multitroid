@@ -887,7 +887,7 @@ with (leg2b_obj) instance_destroy();
             <kind>1</kind>
             <string>
 if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
-    if(global.shaders_compiled) pal_swap_set(oControl.QueenPalette, 1, false);
+    if(global.shaders_compiled &amp;&amp; os_type != os_android) pal_swap_set(oControl.QueenPalette, 1, false);
 }
 
 if (!flashing) {

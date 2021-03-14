@@ -1,6 +1,6 @@
 /// draw_character(sprite, x, y, sprite2, s2ox, s2oy, sprite3, s3ox, s3oy, s3angle, facing, color, alpha, s3show)
 
-if(shader_is_compiled(shd_pal_swapper)){
+if(global.shaders_compiled){
     if ((oControl.mod_fusion) && (!oControl.msr_fusionsuit)) { // Fusion suit
         if (global.currentsuit == 0) { // Power
             pal_swap_set(sPalFusion0, 1, false);
@@ -10,11 +10,11 @@ if(shader_is_compiled(shd_pal_swapper)){
             pal_swap_set(sPalFusion2, 1, false);
         }
     } else { // Custom color swaps
-        if (global.currentsuit == 0) { // Power
+        if (global.currentsuit == 0 && os_type != os_android) { // Power
             pal_swap_set(oControl.PowerPalette, 1, false);
-        } else if (global.currentsuit == 1) { // Varia
+        } else if (global.currentsuit == 1 && os_type != os_android) { // Varia
             pal_swap_set(oControl.VariaPalette, 1, false);
-        } else if (global.currentsuit == 2) { // Gravity
+        } else if (global.currentsuit == 2 && os_type != os_android) { // Gravity
             pal_swap_set(oControl.GravityPalette, 1, false);
         }
     }

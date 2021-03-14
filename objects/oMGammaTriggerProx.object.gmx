@@ -206,7 +206,7 @@ legbb2y = lengthdir_y(12, currentangle + 256);
             <kind>1</kind>
             <string>
 if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
-    if(global.shaders_compiled) pal_swap_set(oControl.GammaPalette, 1, false);
+    if(global.shaders_compiled &amp;&amp; os_type != os_android) pal_swap_set(oControl.GammaPalette, 1, false);
 }
 
 draw_sprite_ext(sMGammaLegBA1, -1, x + legba1x, y + legba1y, facing, 1, 0, -1, 1);

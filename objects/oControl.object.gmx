@@ -463,6 +463,12 @@ MultitroidBabyPalette = sPalMultitroidBaby;
 MultitroidIcon = sMultitroidIcon;
 MultitroidIconDark = sDarkMultitroidPlayer;
 MultitroidMapIcon = sMultitroidMapIcon;
+if(os_type == os_android){
+    MonsterPalettesFusionOnly = 1;
+    PowerPalette = sPalFusion0;
+    VariaPalette = sPalFusion1;
+    GravityPalette = sPalFusion2;
+} 
 
 global.acceptPacket = true;
 
@@ -1472,7 +1478,7 @@ if(room == titleroom){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.shaders_compiled){
+            <string>if(os_type != os_android){
     sprite_delete(icon_merge);
     sprite_delete(icon_merge2);
     sprite_delete(icon_merge3);
@@ -1556,10 +1562,6 @@ if (shaders_are_supported()) {
     if (shader_is_compiled(shGameBoy) &amp;&amp; shader_is_compiled(shd_pal_swapper)) {
       global.shaders_compiled = true;
     }
-}
-
-if(os_type == os_android){
-    global.shaders_compiled = false;
 }
 
 // DEBUG
