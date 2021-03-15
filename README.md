@@ -3,24 +3,21 @@
 ## Co-op Changes
 String compression scripts are by Homunculus: https://marketplace.yoyogames.com/assets/4560/strict
 
-m5x7 font by Daniel Linssen: https://managore.itch.io/m5x7
-
 Special thanks to Lojical/Lojemiru and ShirtyScarab for help with programming and art.
 
 The source code here has the same requirements as the original repo in order for it to work. Only the code and my changes have been included.
 
-Currently syncs all health, items, metroids, events, and power-ups. The Queen fight is synced, the reactor explosion sequence is synced, the transition to the credits at the end is synced, and death is synced. (There may be more things synced that I've forgotten about.)
+Currently syncs all health, ammo, items, metroids, events, and power-ups. The Queen fight is synced, boss deaths are synced, the reactor explosion sequence is synced, the transition to the credits at the end is synced, and death is synced.
 
 If players die, progress will be kept for a better user experience.
 
-Currently, pressing F1 will make an attempt to connect to the server. F2 will disconnect from the server. F3 will show the current random seed. F4 will toggle nametags.
-
-Put the ip and port of the server you want to connect to into the mod settings.ini. 
+There is a Multitroid Settings menu under Options that allows you to change whatever mod settings you need to and connect/disconnect. There is no longer a need to manually edit the mod_settings.ini.
 
 The server can be found here: https://github.com/lassiterm/AM2R-Server
 
 ## To-do List
- - I've covered most of what I wanted to add, but if you have any suggestions, feel free to @milesthenerd in the AM2R Discord Server.
+ - The only remaining plan is to add a special game mode :)
+ - If you have any suggestions, feel free to @milesthenerd in the AM2R Discord Server.
 
 ## What is this?
 The source code for the AM2R Community Updates 1.5.x branch, free of copyrighted assets and trademarks.
@@ -70,8 +67,6 @@ A copy of the latest release build of the AM2R Community Updates, which can be i
 ## Installation
 This repository, being based on YellowAfterlife's source reconstruction, is installed in a very similar fashion. Please refer to his installation instructions [here](https://gitlab.com/yellowafterlife/AM2Rrc/-/tree/master/), but replace 1.1's `data.win` with the latest Community Update `AM2R.exe`.
 
-Afterwards, replace the two blank shader assets with default GM:S shader skeletons or your own copy of each shader, as well as the accompanying script files for the Retro Palette Swapper: pal_swap_init_system and pal_swap_set.
+Afterwards, replace the two blank shader assets with default GM:S shader skeletons or your own copy of each shader, as well as the accompanying script files for the Retro Palette Swapper: `pal_swap_init_system` and `pal_swap_set`.
 
-WARNING: If the two above scripts are not replaced before opening the project file, GM:S 1.4 will replace them with <undefined> references in the asset tree at Scripts/Lojical/Shaders/. This will produce numerous seemingly unrelated errors until they are deleted and replaced with the appropriately named scripts.
-
-Finally, you will need to install modifiers.ini as well as the lang and mods folders as datafiles within the GM:S project. The default ones do not contain the actual assets and are merely references. These can be copied over from your AM2R_15_2 folder.
+Finally, you will need to install `modifiers.ini` as well as the `lang` and `mods` folders as datafiles within the GM:S project. The default ones do not contain the actual assets and are merely references. These can be copied over from your AM2R_15_2 folder.
