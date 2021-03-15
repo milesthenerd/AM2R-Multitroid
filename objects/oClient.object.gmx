@@ -2562,6 +2562,73 @@ switch(type_event){
                         if(floor(receivedEvent) &gt; floor(global.event[i]) &amp;&amp; i != 102){
                             global.event[i] = receivedEvent;
                             global.eventPrev[i] = global.event[i];
+                            if(receivedEvent == 1){
+                                if(instance_exists(oCharacter)){
+                                    with(oCharacter){
+                                        facing = 0;
+                                        if (global.currentsuit == 0) sprite_index = scr_suit_sprites(sFront,sFront_fusion);
+                                        if (global.currentsuit == 1) sprite_index = scr_suit_sprites(sVFront,sFront_fusion);
+                                        if (global.currentsuit == 2) sprite_index = scr_suit_sprites(sGFront,sFront_fusion);
+                                        global.enablecontrol = 0;
+                                        canbehit = 0;
+                                        oControl.displaygui = 0;
+                                        xVel = 0;
+                                        yVel = 0;
+                                        xAcc = 0;
+                                        yAcc = 0;
+                                    }
+                                }
+                                popup_text_ext("Ship reached", 120);
+                            }
+                            if(receivedEvent == 2){
+                                oControl.displaygui = 0;
+                                global.enablecontrol = 0;
+                                if(instance_exists(oCharacter)){
+                                    with(oCharacter){
+                                        xVel = 0;
+                                        yVel = 0;
+                                        xAcc = 0;
+                                        yAcc = 0;
+                                    }
+                                }
+                            }
+                            if(receivedEvent == 3){
+                                instance_create(0, 0, oFinalFadeout);
+                                mus_fadeout(musHatchling);
+                                global.enablecontrol = 0;
+                                if(instance_exists(oCharacter)){
+                                    with(oCharacter){
+                                        xVel = 0;
+                                        yVel = 0;
+                                        xAcc = 0;
+                                        yAcc = 0;
+                                    }
+                                }
+                            }
+                            if(receivedEvent == 4){
+                                if(instance_exists(oCharacter)){
+                                    with(oCharacter){
+                                        xVel = 0;
+                                        yVel = 0;
+                                        xAcc = 0;
+                                        yAcc = 0;
+                                        canbehit = 1;
+                                    }
+                                }
+                                remove_persistent_objects();
+                                sfx_stop_all();
+                                global.vibL = 0;
+                                global.vibR = 0;
+                                global.ingame = 0;
+                                global.darkness = 0;
+                                global.gotolog = -1;
+                                global.enablecontrol = 1;
+                                global.transitiontype = 0;
+                                oControl.displaygui = 1;
+                                room_goto(rm_credits);
+                                mus_stop_all();
+                                mus_play_once(musCredits);
+                            }
                         } else if(floor(receivedEvent) &lt; floor(global.event[i]) &amp;&amp; i != 102){
                             resend = true;
                         }
