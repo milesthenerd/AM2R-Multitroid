@@ -277,10 +277,12 @@ if (active) {
         key = (oControl.kMenu1 &gt; 0);
     }
     
-    if (key &amp;&amp; oControl.kMenu1PushedSteps == 0) {
+    if ((oControl.kMenu1 &gt; 0 || keyboard_check_pressed(vk_enter)) &amp;&amp; oControl.kMenu1PushedSteps == 0) {
         if (global.curropt == num_ip &amp;&amp; os_type != os_android) {
-            editing = !editing;
-            op[num_ip].editing = editing;
+            if(editing &amp;&amp; keyboard_check_pressed(vk_enter)){
+                editing = !editing;
+                op[num_ip].editing = editing;
+            }
             if(editing){
                 keyboard_string = ip;
             }
@@ -294,6 +296,10 @@ if (active) {
             op[num_ip].editing = editing;
         }
         if (global.curropt == num_port &amp;&amp; os_type != os_android) {
+            if(editing &amp;&amp; keyboard_check_pressed(vk_enter)){
+                editing = !editing;
+                op[num_port].editing = editing;
+            }
             editing = !editing;
             op[num_port].editing = editing;
             if(editing){
@@ -309,6 +315,10 @@ if (active) {
             op[num_port].editing = editing;
         } 
         if (global.curropt == num_name &amp;&amp; os_type != os_android) {
+            if(editing &amp;&amp; keyboard_check_pressed(vk_enter)){
+                editing = !editing;
+                op[num_name].editing = editing;
+            }
             editing = !editing;
             op[num_name].editing = editing;
             if(editing){
