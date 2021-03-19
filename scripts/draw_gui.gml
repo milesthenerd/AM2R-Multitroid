@@ -200,17 +200,19 @@ if (global.maxmissiles >= 100) {
 draw_background(bgGUIMsl, xoff, 0);
 } else draw_background(bgGUISmsl, xoff, 0);
 draw_text(0 + xoff + 19, 7, string(global.missiles));
+mslspr = sGUIMissile;
+if (global.icemissiles) mslspr = sGUIIceMissile;
 if (global.opmslstyle == 0) {
-if (global.currentweapon != 1 || oCharacter.state == 23 || oCharacter.state == 24 || oCharacter.state == 27 || oCharacter.state == 54 || oCharacter.state == 55 || oCharacter.sjball) draw_sprite(sGUIMissile, 0, 0 + xoff + 1, 4);
+if (global.currentweapon != 1 || oCharacter.state == 23 || oCharacter.state == 24 || oCharacter.state == 27 || oCharacter.state == 54 || oCharacter.state == 55 || oCharacter.sjball) draw_sprite(mslspr, 0, 0 + xoff + 1, 4);
 if (global.currentweapon == 1 && oCharacter.state != 23 && oCharacter.state != 24 && oCharacter.state != 27 && oCharacter.state != 54 && oCharacter.state != 55 && oCharacter.sjball == 0) {
-if (oCharacter.armmsl == 0) draw_sprite(sGUIMissile, 1, 0 + xoff + 1, 4);
-if (oCharacter.armmsl == 1) draw_sprite(sGUIMissile, 2, 0 + xoff + 1, 4);
+if (oCharacter.armmsl == 0) draw_sprite(mslspr, 1, 0 + xoff + 1, 4);
+if (oCharacter.armmsl == 1) draw_sprite(mslspr, 2, 0 + xoff + 1, 4);
 }
 }
 if (global.opmslstyle == 1) {
 if (global.currentweapon == 1) {
-draw_sprite(sGUIMissile, 1, 0 + xoff + 1, 4);
-} else draw_sprite(sGUIMissile, 0, 0 + xoff + 1, 4);
+draw_sprite(mslspr, 1, 0 + xoff + 1, 4);
+} else draw_sprite(mslspr, 0, 0 + xoff + 1, 4);
 }
 if (global.maxmissiles >= 100) {
 xoff += 45;

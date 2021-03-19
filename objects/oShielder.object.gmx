@@ -46,6 +46,7 @@ target = 0;
 state = 0;
 statetime = 0;
 myobj = instance_create(x, y, oShielderShield);
+myobj.frozen = 0;
 movedir = 1;
 alarm[0] = 60 + random(200);
 firedelay = 200 + random(100);
@@ -127,6 +128,11 @@ alarm[0] = 60 + random(200);
             <string>action_inherited();
 enemy_active_check(70);
 enemy_target_check(firerange, 1);
+if (frozen == 0){
+    myobj.frozen = 0;
+} else {
+    myobj.frozen = 1;
+}
 if (active == 1 &amp;&amp; stun == 0 &amp;&amp; frozen == 0 &amp;&amp; state != 100) {
     if (state == 0) {
         if (statetime &gt;= firedelay) {

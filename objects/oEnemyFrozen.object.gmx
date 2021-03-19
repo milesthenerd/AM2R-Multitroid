@@ -223,7 +223,9 @@ with (other) event_user(0);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>event_user(0);
+            <string>if(!(!other.smissile &amp;&amp; global.icemissiles)){
+    event_user(0);
+}
 </string>
           </argument>
         </arguments>

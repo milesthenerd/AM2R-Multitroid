@@ -3,7 +3,7 @@
   <spriteName>sPBomb</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-110</depth>
+  <depth>-10</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -30,30 +30,6 @@ alarm[0] = 60;
 alarm[1] = 30;
 sfx_play(sndPBombSet);
 special = 0;
-
-if(instance_exists(oClient)){
-    if(ds_list_size(oClient.roomListData) &gt; 0){
-        var size, type, alignment;
-        size = 1024;
-        type = buffer_grow;
-        alignment = 1;
-        pbombBuffer = buffer_create(size, type, alignment);
-        buffer_seek(pbombBuffer, buffer_seek_start, 0);
-        buffer_write(pbombBuffer, buffer_u8, 24);
-        buffer_write(pbombBuffer, buffer_u8, global.clientID);
-        buffer_write(pbombBuffer, buffer_s16, x);
-        buffer_write(pbombBuffer, buffer_s16, y);
-        var bufferSize = buffer_tell(pbombBuffer);
-        buffer_seek(pbombBuffer, buffer_seek_start, 0);
-        buffer_write(pbombBuffer, buffer_s32, bufferSize);
-        buffer_write(pbombBuffer, buffer_u8, 24);
-        buffer_write(pbombBuffer, buffer_u8, global.clientID);
-        buffer_write(pbombBuffer, buffer_s16, x);
-        buffer_write(pbombBuffer, buffer_s16, y);
-        var result = network_send_packet(oClient.socket, pbombBuffer, buffer_tell(pbombBuffer));
-        buffer_delete(pbombBuffer);
-    }
-}
 </string>
           </argument>
         </arguments>
@@ -126,6 +102,6 @@ instance_destroy();
   <PhysicsObjectAngularDamping>0.100000001490116</PhysicsObjectAngularDamping>
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
-  <PhysicsObjectKinematic>-1</PhysicsObjectKinematic>
+  <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
   <PhysicsShapePoints/>
 </object>

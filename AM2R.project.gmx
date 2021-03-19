@@ -4580,6 +4580,11 @@
       <sprite>sprites\sPalSpiderball</sprite>
       <sprite>sprites\sPalMultitroidBaby</sprite>
       <sprite>sprites\sMultitroidMapIcon</sprite>
+      <sprite>sprites\sIceMissile</sprite>
+      <sprite>sprites\sIceMissileFlame</sprite>
+      <sprite>sprites\sIceMissileTrail</sprite>
+      <sprite>sprites\sIMPickup</sprite>
+      <sprite>sprites\sGUIIceMissile</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -5522,6 +5527,8 @@
       <script>scripts\draw_character_ext.gml</script>
       <script>scripts\reset_dmap.gml</script>
       <script>scripts\popup_seed.gml</script>
+      <script>scripts\shoot_beam_receive.gml</script>
+      <script>scripts\shoot_missile_receive.gml</script>
     </scripts>
     <scripts name="Misc">
       <script>scripts\pal_swap_get_color_count.gml</script>
@@ -6595,6 +6602,9 @@
       <object>objects\oOptionsMod</object>
       <object>objects\oOptionLRMod</object>
       <object>objects\oPopupTextSeed</object>
+      <object>objects\oMflashMulti</object>
+      <object>objects\oBombMulti</object>
+      <object>objects\oPBombMulti</object>
     </objects>
   </objects>
   <timelines name="timelines">

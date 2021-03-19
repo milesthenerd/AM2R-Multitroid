@@ -564,6 +564,7 @@ if(global.event[261] &gt; 0 &amp;&amp; !dead){
     state = 100;
     statetime = -1;
     dead = true;
+    sfx_stop_loops();
 }
 </string>
           </argument>

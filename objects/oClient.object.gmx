@@ -185,6 +185,8 @@ posY = 3;
 time = 60;
 
 trail = 0;
+
+global.icemissiles = 1;
 </string>
           </argument>
         </arguments>
@@ -361,6 +363,8 @@ alarm[11] = 20;
             buffer_write(buffer, buffer_s16, oCharacter.image_blend);
             buffer_write(buffer, buffer_s8, oCharacter.fxtimer);
             buffer_write(buffer, buffer_s16, global.roomPrev);
+            buffer_write(buffer, buffer_s8, oCharacter.state);
+            buffer_write(buffer, buffer_s8, oCharacter.speedboost);
             var bufferSize = buffer_tell(buffer);
             buffer_seek(buffer, buffer_seek_start, 0);
             buffer_write(buffer, buffer_s32, bufferSize);
@@ -384,6 +388,8 @@ alarm[11] = 20;
             buffer_write(buffer, buffer_s16, oCharacter.image_blend);
             buffer_write(buffer, buffer_s8, oCharacter.fxtimer);
             buffer_write(buffer, buffer_s16, global.roomPrev);
+            buffer_write(buffer, buffer_s8, oCharacter.state);
+            buffer_write(buffer, buffer_s8, oCharacter.speedboost);
             var result = network_send_packet(socket, buffer, buffer_tell(buffer));
             if(global.roomPrev != room){
                 global.roomPrev = room;
@@ -2314,6 +2320,80 @@ switch(type_event){
                 var time = buffer_read(_buffer, buffer_s32);
                 global.gametime = time;
                 break;
+            case 21:
+                var clientID = buffer_read(_buffer, buffer_u8);
+                var dir = buffer_read(_buffer, buffer_s16);
+                var sprX = buffer_read(_buffer, buffer_s16);
+                var sprY = buffer_read(_buffer, buffer_s16);
+                var charge = buffer_read(_buffer, buffer_u8);
+                if(ds_list_size(roomListData) &gt; 0 &amp;&amp; clientID != global.clientID){ 
+                    for(var i=0; i&lt;ds_list_size(roomListData); i++){
+                        var arrDraw = roomListData[| i];
+                        var arrID = arrDraw[0];
+                        if(clientID == arrID){
+                            if(instance_exists(oCharacter)){
+                                with(oCharacter){
+                                    shoot_beam_receive(sprX, sprY, dir, charge);
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            case 22:
+                var clientID = buffer_read(_buffer, buffer_u8);
+                var bombX = buffer_read(_buffer, buffer_s16);
+                var bombY = buffer_read(_buffer, buffer_s16);
+                if(ds_list_size(roomListData) &gt; 0 &amp;&amp; clientID != global.clientID){ 
+                    for(var i=0; i&lt;ds_list_size(roomListData); i++){
+                        var arrDraw = roomListData[| i];
+                        var arrID = arrDraw[0];
+                        if(clientID == arrID){
+                            if(instance_exists(oCharacter)){
+                                instance_create(bombX, bombY, oBombMulti);
+                                sfx_play(sndBombSet);
+                            }
+                        }
+                    }
+                }
+                break; 
+            case 23:
+                var clientID = buffer_read(_buffer, buffer_u8);
+                var currentWeapon = buffer_read(_buffer, buffer_u8);
+                var dir = buffer_read(_buffer, buffer_s16);
+                var missileX = buffer_read(_buffer, buffer_s16);
+                var missileY = buffer_read(_buffer, buffer_s16);
+                if(ds_list_size(roomListData) &gt; 0 &amp;&amp; clientID != global.clientID){ 
+                    for(var i=0; i&lt;ds_list_size(roomListData); i++){
+                        var arrDraw = roomListData[| i];
+                        var arrID = arrDraw[0];
+                        if(clientID == arrID){
+                            if(instance_exists(oCharacter)){
+                                with(oCharacter){
+                                    shoot_missile_receive(dir, currentWeapon, missileX, missileY);
+                                    show_debug_message("x = " + string(missileX) + " y = " + string(missileY));
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            case 24:
+                var clientID = buffer_read(_buffer, buffer_u8);
+                var pbombX = buffer_read(_buffer, buffer_s16);
+                var pbombY = buffer_read(_buffer, buffer_s16);
+                if(ds_list_size(roomListData) &gt; 0 &amp;&amp; clientID != global.clientID){ 
+                    for(var i=0; i&lt;ds_list_size(roomListData); i++){
+                        var arrDraw = roomListData[| i];
+                        var arrID = arrDraw[0];
+                        if(clientID == arrID){
+                            if(instance_exists(oCharacter)){
+                                instance_create(pbombX, pbombY, oPBombMulti);
+                            }
+                        }
+                    }
+                }
+                break;
             case 50:
                 var resend = false;
                 for(var i=0; i&lt;array_length_1d(global.item); i++){
@@ -2565,72 +2645,74 @@ switch(type_event){
                         if(floor(receivedEvent) &gt; floor(global.event[i]) &amp;&amp; i != 102){
                             global.event[i] = receivedEvent;
                             global.eventPrev[i] = global.event[i];
-                            if(receivedEvent == 1){
-                                if(instance_exists(oCharacter)){
-                                    with(oCharacter){
-                                        facing = 0;
-                                        if (global.currentsuit == 0) sprite_index = scr_suit_sprites(sFront,sFront_fusion);
-                                        if (global.currentsuit == 1) sprite_index = scr_suit_sprites(sVFront,sFront_fusion);
-                                        if (global.currentsuit == 2) sprite_index = scr_suit_sprites(sGFront,sFront_fusion);
-                                        global.enablecontrol = 0;
-                                        canbehit = 0;
-                                        oControl.displaygui = 0;
-                                        xVel = 0;
-                                        yVel = 0;
-                                        xAcc = 0;
-                                        yAcc = 0;
+                            if(i == 308){
+                                if(receivedEvent == 1){
+                                    if(instance_exists(oCharacter)){
+                                        with(oCharacter){
+                                            facing = 0;
+                                            if (global.currentsuit == 0) sprite_index = scr_suit_sprites(sFront,sFront_fusion);
+                                            if (global.currentsuit == 1) sprite_index = scr_suit_sprites(sVFront,sFront_fusion);
+                                            if (global.currentsuit == 2) sprite_index = scr_suit_sprites(sGFront,sFront_fusion);
+                                            global.enablecontrol = 0;
+                                            canbehit = 0;
+                                            oControl.displaygui = 0;
+                                            xVel = 0;
+                                            yVel = 0;
+                                            xAcc = 0;
+                                            yAcc = 0;
+                                        }
+                                    }
+                                    popup_text_ext("Ship reached", 120);
+                                }
+                                if(receivedEvent == 2){
+                                    oControl.displaygui = 0;
+                                    global.enablecontrol = 0;
+                                    if(instance_exists(oCharacter)){
+                                        with(oCharacter){
+                                            xVel = 0;
+                                            yVel = 0;
+                                            xAcc = 0;
+                                            yAcc = 0;
+                                        }
                                     }
                                 }
-                                popup_text_ext("Ship reached", 120);
-                            }
-                            if(receivedEvent == 2){
-                                oControl.displaygui = 0;
-                                global.enablecontrol = 0;
-                                if(instance_exists(oCharacter)){
-                                    with(oCharacter){
-                                        xVel = 0;
-                                        yVel = 0;
-                                        xAcc = 0;
-                                        yAcc = 0;
+                                if(receivedEvent == 3){
+                                    instance_create(0, 0, oFinalFadeout);
+                                    mus_fadeout(musHatchling);
+                                    global.enablecontrol = 0;
+                                    if(instance_exists(oCharacter)){
+                                        with(oCharacter){
+                                            xVel = 0;
+                                            yVel = 0;
+                                            xAcc = 0;
+                                            yAcc = 0;
+                                        }
                                     }
                                 }
-                            }
-                            if(receivedEvent == 3){
-                                instance_create(0, 0, oFinalFadeout);
-                                mus_fadeout(musHatchling);
-                                global.enablecontrol = 0;
-                                if(instance_exists(oCharacter)){
-                                    with(oCharacter){
-                                        xVel = 0;
-                                        yVel = 0;
-                                        xAcc = 0;
-                                        yAcc = 0;
+                                if(receivedEvent == 4){
+                                    if(instance_exists(oCharacter)){
+                                        with(oCharacter){
+                                            xVel = 0;
+                                            yVel = 0;
+                                            xAcc = 0;
+                                            yAcc = 0;
+                                            canbehit = 1;
+                                        }
                                     }
+                                    remove_persistent_objects();
+                                    sfx_stop_all();
+                                    global.vibL = 0;
+                                    global.vibR = 0;
+                                    global.ingame = 0;
+                                    global.darkness = 0;
+                                    global.gotolog = -1;
+                                    global.enablecontrol = 1;
+                                    global.transitiontype = 0;
+                                    oControl.displaygui = 1;
+                                    room_goto(rm_credits);
+                                    mus_stop_all();
+                                    mus_play_once(musCredits);
                                 }
-                            }
-                            if(receivedEvent == 4){
-                                if(instance_exists(oCharacter)){
-                                    with(oCharacter){
-                                        xVel = 0;
-                                        yVel = 0;
-                                        xAcc = 0;
-                                        yAcc = 0;
-                                        canbehit = 1;
-                                    }
-                                }
-                                remove_persistent_objects();
-                                sfx_stop_all();
-                                global.vibL = 0;
-                                global.vibR = 0;
-                                global.ingame = 0;
-                                global.darkness = 0;
-                                global.gotolog = -1;
-                                global.enablecontrol = 1;
-                                global.transitiontype = 0;
-                                oControl.displaygui = 1;
-                                room_goto(rm_credits);
-                                mus_stop_all();
-                                mus_play_once(musCredits);
                             }
                         } else if(floor(receivedEvent) &lt; floor(global.event[i]) &amp;&amp; i != 102){
                             resend = true;

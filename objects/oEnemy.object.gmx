@@ -323,7 +323,7 @@ if (flashing &gt; 0) flashing -= 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (canbehit) {
+            <string>if (canbehit &amp;&amp; !(!other.smissile &amp;&amp; global.icemissiles)) {
     if (stun == 0 &amp;&amp; hitmissileexpl) event_user(0);
     if (myhealth &lt;= 0 &amp;&amp; frozen == 0) state = 100;
     if (myhealth &lt;= 0 &amp;&amp; frozen) {
@@ -629,7 +629,21 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>dmg = other.damage;
+            <string>if((other.object_index == oMissile || other.object_index == oMissileExpl) &amp;&amp; global.icemissiles &amp;&amp; !other.smissile){
+    if(canfreeze){
+        frozen = 180;
+        if(other.damage &gt; myhealth || ceil(other.damage / 2) &gt; myhealth){
+            dmg = 0;
+            myhealth = 1;
+        } else {
+            dmg = other.damage;
+        }
+    } else {
+        dmg = other.damage;
+    }
+} else {
+    dmg = other.damage;
+}
 if (global.difficulty == 2) dmg = ceil(dmg / 2);
 if (justfrozen == 0) myhealth -= dmg;
 if (myhealth &lt;= 0 &amp;&amp; justfrozen == 0 &amp;&amp; state != 100) {
@@ -696,7 +710,7 @@ if (frozen) {
             <string>if (flipx) {
     image_xscale = facing;
 } else image_xscale = 1;
-if (frozen) {
+if (frozen &gt; 0) {
     myspr = frozenspr;
 } else myspr = sprite_index;
 if (!flashing) {

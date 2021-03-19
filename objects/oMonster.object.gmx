@@ -619,8 +619,14 @@ damagemissiles = global.mod_monstersDmissiles;
 damagesupermissiles = global.mod_monstersDsuper;
 
 if (state &gt;= 2) {
+    if (!other.smissile &amp;&amp; global.icemissiles) {
+        state = 5;
+        statetime = 0;
+        PlaySoundMono(sndFreezeHit);
+        with (other) event_user(0);
+    }  
     if (state != 5) {
-        with (other) event_user(1);
+        if (!global.icemissiles) with (other) event_user(1);
     } else {
         with (other) event_user(0);
         if (other.smissile == 1) {

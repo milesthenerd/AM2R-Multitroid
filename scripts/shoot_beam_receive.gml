@@ -1,23 +1,22 @@
-/// shoot_beam(direction)
-if (chargebeam < 1) chargebeam = 0;
-instance_create(x + aspr2x, y + aspr2y, oMflash);
-var beamX = oMflash.x;
-var beamY = oMflash.y;
+/// shoot_beam_receive(aspr2x, aspr2y, direction, charge)
+if (argument3 < 1) argument3 = 0;
+instance_create(argument0, argument1, oMflashMulti);
 beams = 1;
-if (global.wbeam && !global.sbeam && chargebeam >= 1) beams = 2;
+if (global.wbeam && !global.sbeam && argument3 >= 1) beams = 2;
 if (global.sbeam) beams = 3;
 i = 0;
 repeat (beams) {
-    beam = instance_create(x + aspr2x, y + aspr2y, oBeam);
+    beam = instance_create(argument0, argument1, oBeam);
     beam.ibeam = global.ibeam;
     beam.wbeam = global.wbeam;
     beam.pbeam = global.pbeam;
     beam.sbeam = global.sbeam;
     beam.beamid = i;
-    beam.direction = argument0;
-    beam.maindir = argument0;
+    beam.direction = argument2;
+    beam.maindir = argument2;
     beam.speed = 6.4;
     beam.offset = 0;
+    beam.chargebeam = argument3;
     if (global.wbeam) {
         global.wbdir = !global.wbdir;
         beam.wbeamdir = global.wbdir;
@@ -26,8 +25,8 @@ repeat (beams) {
     }
     if (global.ibeam) beam.alarm[0] = 1 + random(5);
     if (global.pbeam) beam.alarm[1] = 1;
-    if (chargebeam >= 1) beam.speed = 12;
-    beam.image_angle = argument0;
+    if (argument3 >= 1) beam.speed = 12;
+    beam.image_angle = argument2;
     beam.fcolor = make_color_rgb(180, 180, 45);
     if (global.wbeam) beam.fcolor = make_color_rgb(240, 150, 210);
     if (global.pbeam) beam.fcolor = make_color_rgb(120, 250, 210);
@@ -36,34 +35,30 @@ repeat (beams) {
     beam.fxscale = 0.6;
     beam.fyscale = 0.6;
     if (global.sbeam) beam.fxscale = 0.8;
-    if (chargebeam >= 1) {
+    if (argument3 >= 1) {
         beam.fxscale = 1;
         beam.fyscale = 1;
     }
-    nofire = 5;
     beam.damage = 5;
     beam.chargebeam = 0;
     if (global.wbeam) {
         beam.damage *= 1.5;
-        nofire += 2;
     }
     if (global.ibeam) {
         beam.damage *= 1.5;
-        nofire += 2;
     }
     if (global.sbeam) {
         beam.damage *= 0.8;
-        nofire += 2;
     }
     if (global.pbeam) {
         beam.damage *= 1.2;
-        nofire += 3;
     }
-    if (chargebeam >= 1) {
+    if (argument3 >= 1) {
         beam.damage *= 3;
         beam.chargebeam = 1;
         if (global.wbeam && !global.sbeam) beam.damage *= 0.6;
-    }
+    } 
+    /*
     if (aimdirection == 1) {
         beam.x += 4;
         if (state != GRIP) beam.y -= 1;
@@ -73,201 +68,174 @@ repeat (beams) {
         beam.y += 4;
         if (facing == LEFT) beam.x += 1;
     }
+    */
     if (global.ibeam == 0 && global.wbeam == 0 && global.pbeam == 0 && global.sbeam == 0) {
-        if (chargebeam == 0) beam.sprite_index = sBeam;
-        if (chargebeam >= 1) {
+        if (argument3 == 0) beam.sprite_index = sBeam;
+        if (argument3 >= 1) {
             beam.sprite_index = sBeam2;
             beam.offset = 4;
         }
     }
     if (global.ibeam == 0 && global.wbeam == 1 && global.pbeam == 0 && global.sbeam == 0) {
-        if (chargebeam == 0) beam.sprite_index = sWBeam;
-        if (chargebeam >= 1) beam.sprite_index = sWBeam2;
+        if (argument3 == 0) beam.sprite_index = sWBeam;
+        if (argument3 >= 1) beam.sprite_index = sWBeam2;
         beam.offset = 10;
     }
     if (global.ibeam == 1 && global.wbeam == 0 && global.pbeam == 0 && global.sbeam == 0) {
-        if (chargebeam == 0) beam.sprite_index = sIBeam;
-        if (chargebeam >= 1) {
+        if (argument3 == 0) beam.sprite_index = sIBeam;
+        if (argument3 >= 1) {
             beam.sprite_index = sIBeam2;
             beam.image_xscale = 1.4;
         }
     }
     if (global.ibeam == 0 && global.wbeam == 0 && global.pbeam == 1 && global.sbeam == 0) {
-        if (chargebeam == 0) beam.sprite_index = sPBeam;
-        if (chargebeam >= 1) beam.sprite_index = sPBeam2;
+        if (argument3 == 0) beam.sprite_index = sPBeam;
+        if (argument3 >= 1) beam.sprite_index = sPBeam2;
         beam.offset = 4;
     }
     if (global.ibeam == 0 && global.wbeam == 0 && global.pbeam == 0 && global.sbeam == 1) {
-        if (chargebeam == 0) {
+        if (argument3 == 0) {
             beam.sprite_index = sSBeam;
             beam.offset = 5;
         }
-        if (chargebeam >= 1) {
+        if (argument3 >= 1) {
             beam.sprite_index = sSBeam2;
             beam.offset = 8;
         }
     }
     if (global.ibeam == 0 && global.wbeam == 1 && global.pbeam == 0 && global.sbeam == 1) {
-        if (chargebeam == 0) beam.sprite_index = sWBeam;
-        if (chargebeam >= 1) beam.sprite_index = sWBeam2;
+        if (argument3 == 0) beam.sprite_index = sWBeam;
+        if (argument3 >= 1) beam.sprite_index = sWBeam2;
         beam.offset = 12;
     }
     if (global.ibeam == 1 && global.wbeam == 0 && global.pbeam == 0 && global.sbeam == 1) {
-        if (chargebeam == 0) {
+        if (argument3 == 0) {
             beam.sprite_index = sISBeam;
             beam.image_xscale = 0.6;
         }
-        if (chargebeam >= 1) {
+        if (argument3 >= 1) {
             beam.sprite_index = sISBeam;
             beam.image_xscale = 1.2;
         }
         beam.offset = 8;
     }
     if (global.ibeam == 0 && global.wbeam == 0 && global.pbeam == 1 && global.sbeam == 1) {
-        if (chargebeam == 0) beam.sprite_index = sSPBeam;
-        if (chargebeam >= 1) beam.sprite_index = sSPBeam2;
+        if (argument3 == 0) beam.sprite_index = sSPBeam;
+        if (argument3 >= 1) beam.sprite_index = sSPBeam2;
         beam.offset = 8;
     }
     if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 0 && global.sbeam == 0) {
-        if (chargebeam == 0) beam.sprite_index = sIWBeam;
-        if (chargebeam >= 1) beam.sprite_index = sIWBeam2;
+        if (argument3 == 0) beam.sprite_index = sIWBeam;
+        if (argument3 >= 1) beam.sprite_index = sIWBeam2;
         beam.offset = 8;
     }
     if (global.ibeam == 0 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 0) {
-        if (chargebeam == 0) beam.sprite_index = sPBeam;
-        if (chargebeam >= 1) beam.sprite_index = sPBeam2;
+        if (argument3 == 0) beam.sprite_index = sPBeam;
+        if (argument3 >= 1) beam.sprite_index = sPBeam2;
         beam.offset = 8;
     }
     if (global.ibeam == 1 && global.wbeam == 0 && global.pbeam == 1 && global.sbeam == 0) {
-        if (chargebeam == 0) {
+        if (argument3 == 0) {
             beam.sprite_index = sIPBeam;
             beam.image_xscale = 0.6;
             beam.image_yscale = 0.6;
         }
-        if (chargebeam >= 1) beam.sprite_index = sIPBeam;
+        if (argument3 >= 1) beam.sprite_index = sIPBeam;
         beam.offset = 8;
     }
     if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 0 && global.sbeam == 1) {
-        if (chargebeam == 0) beam.sprite_index = sIWBeam;
-        if (chargebeam >= 1) beam.sprite_index = sIWBeam2;
+        if (argument3 == 0) beam.sprite_index = sIWBeam;
+        if (argument3 >= 1) beam.sprite_index = sIWBeam2;
         beam.offset = 8;
     }
     if (global.ibeam == 0 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 1) {
-        if (chargebeam == 0) beam.sprite_index = sPBeam;
-        if (chargebeam >= 1) beam.sprite_index = sPBeam2;
+        if (argument3 == 0) beam.sprite_index = sPBeam;
+        if (argument3 >= 1) beam.sprite_index = sPBeam2;
         beam.offset = 8;
     }
     if (global.ibeam == 1 && global.wbeam == 0 && global.pbeam == 1 && global.sbeam == 1) {
-        if (chargebeam == 0) beam.sprite_index = sISPBeam;
-        if (chargebeam >= 1) beam.sprite_index = sISPBeam2;
+        if (argument3 == 0) beam.sprite_index = sISPBeam;
+        if (argument3 >= 1) beam.sprite_index = sISPBeam2;
         beam.offset = 8;
     }
     if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 0) {
-        if (chargebeam == 0) {
+        if (argument3 == 0) {
             beam.sprite_index = sIPBeam;
             beam.image_xscale = 0.6;
             beam.image_yscale = 0.6;
         }
-        if (chargebeam >= 1) beam.sprite_index = sIPBeam;
+        if (argument3 >= 1) beam.sprite_index = sIPBeam;
         beam.offset = 8;
     }
     if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 1) {
-        if (chargebeam == 0) beam.sprite_index = sISWPBeam;
-        if (chargebeam >= 1) beam.sprite_index = sISWPBeam2;
+        if (argument3 == 0) beam.sprite_index = sISWPBeam;
+        if (argument3 >= 1) beam.sprite_index = sISWPBeam2;
         beam.offset = 8;
     }
     with (beam) if (offset != 0) beam_offset(offset, maindir);
     i += 1;
 } // repeat (beams)
 if (global.ibeam == 0 && global.wbeam == 0 && global.pbeam == 0 && global.sbeam == 0) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeam);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamC);
+    if (argument3 == 0) PlaySoundMono(sndFireBeam);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamC);
 }
 if (global.ibeam == 0 && global.wbeam == 1 && global.pbeam == 0 && global.sbeam == 0) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamW);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCW);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamW);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCW);
 }
 if (global.ibeam == 1 && global.wbeam == 0 && global.pbeam == 0 && global.sbeam == 0) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamI);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCI);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamI);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCI);
 }
 if (global.ibeam == 0 && global.wbeam == 0 && global.pbeam == 1 && global.sbeam == 0) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamP);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCP);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamP);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCP);
 }
 if (global.ibeam == 0 && global.wbeam == 0 && global.pbeam == 0 && global.sbeam == 1) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamS);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCS);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamS);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCS);
 }
 if (global.ibeam == 0 && global.wbeam == 1 && global.pbeam == 0 && global.sbeam == 1) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamSW);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCSW);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamSW);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCSW);
 }
 if (global.ibeam == 1 && global.wbeam == 0 && global.pbeam == 0 && global.sbeam == 1) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamSI);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCSI);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamSI);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCSI);
 }
 if (global.ibeam == 0 && global.wbeam == 0 && global.pbeam == 1 && global.sbeam == 1) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamSP);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCSP);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamSP);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCSP);
 }
 if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 0 && global.sbeam == 0) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamWI);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCWI);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamWI);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCWI);
 }
 if (global.ibeam == 0 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 0) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamWP);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCWP);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamWP);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCWP);
 }
 if (global.ibeam == 1 && global.wbeam == 0 && global.pbeam == 1 && global.sbeam == 0) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamIP);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCIP);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamIP);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCIP);
 }
 if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 0 && global.sbeam == 1) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamSWI);
-    if (chargebeam == 1) PlaySoundMono(sndFireBeamCSWI);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamSWI);
+    if (argument3 == 1) PlaySoundMono(sndFireBeamCSWI);
 }
 if (global.ibeam == 0 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 1) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamSWP);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCSWP);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamSWP);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCSWP);
 }
 if (global.ibeam == 1 && global.wbeam == 0 && global.pbeam == 1 && global.sbeam == 1) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamSIP);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCSIP);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamSIP);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCSIP);
 }
 if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 0) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamWIP);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCWIP);
+    if (argument3 == 0) PlaySoundMono(sndFireBeamWIP);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCWIP);
 }
 if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 1) {
-    if (chargebeam == 0) PlaySoundMono(sndFireBeamSWIP);
-    if (chargebeam >= 1) PlaySoundMono(sndFireBeamCSWIP);
-}
-
-if(instance_exists(oClient)){
-    if(ds_list_size(oClient.roomListData) > 0){
-        var size, type, alignment;
-        size = 1024;
-        type = buffer_grow;
-        alignment = 1;
-        beamBuffer = buffer_create(size, type, alignment);
-        buffer_seek(beamBuffer, buffer_seek_start, 0);
-        buffer_write(beamBuffer, buffer_u8, 21);
-        buffer_write(beamBuffer, buffer_u8, global.clientID);
-        buffer_write(beamBuffer, buffer_s16, argument0);
-        buffer_write(beamBuffer, buffer_s16, beamX);
-        buffer_write(beamBuffer, buffer_s16, beamY);
-        buffer_write(beamBuffer, buffer_u8, chargebeam);
-        var bufferSize = buffer_tell(beamBuffer);
-        buffer_seek(beamBuffer, buffer_seek_start, 0);
-        buffer_write(beamBuffer, buffer_s32, bufferSize);
-        buffer_write(beamBuffer, buffer_u8, 21);
-        buffer_write(beamBuffer, buffer_u8, global.clientID);
-        buffer_write(beamBuffer, buffer_s16, argument0);
-        buffer_write(beamBuffer, buffer_s16, beamX);
-        buffer_write(beamBuffer, buffer_s16, beamY);
-        buffer_write(beamBuffer, buffer_u8, chargebeam);
-        var result = network_send_packet(oClient.socket, beamBuffer, buffer_tell(beamBuffer));
-        buffer_delete(beamBuffer);
-    }
+    if (argument3 == 0) PlaySoundMono(sndFireBeamSWIP);
+    if (argument3 >= 1) PlaySoundMono(sndFireBeamCSWIP);
 }

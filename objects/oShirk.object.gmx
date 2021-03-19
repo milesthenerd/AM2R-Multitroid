@@ -110,17 +110,20 @@ alarm[3] = 3;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (oCharacter.y - 20 &gt; y) yVel = 3.5;
-if (oCharacter.y - 20 &lt; y) yVel = -3.5;
-if (oCharacter.x &gt; x) {
-    xVel = 4;
-    if (facing == -1) turning = 5;
-}
-if (oCharacter.x &lt; x) {
-    xVel = -4;
-    if (facing == 1) turning = 5;
+            <string>if(frozen &lt;= 0){
+    if (oCharacter.y - 20 &gt; y) yVel = 3.5;
+    if (oCharacter.y - 20 &lt; y) yVel = -3.5;
+    if (oCharacter.x &gt; x) {
+        xVel = 4;
+        if (facing == -1) turning = 5;
+    }
+    if (oCharacter.x &lt; x) {
+        xVel = -4;
+        if (facing == 1) turning = 5;
+    }
 }
 alarm[0] = 50;
+
 </string>
           </argument>
         </arguments>
@@ -358,7 +361,50 @@ if (random(2) &lt; 0.2) instance_create(x, y, oDebris);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_xscale = facing;
+            <string>action_inherited();
+image_xscale = facing;
+if (frozen == 0){
+    image_speed = 0.5;
+    if (!flashing) {
+        if (turning == 0) {
+            draw_sprite_ext(sprite_index, -1, x, y, image_xscale, 1, image_angle, -1, image_alpha);
+            if (myhealth &gt; shell1hp) draw_sprite_ext(sShirkArmor1, -1, x, y, image_xscale, 1, image_angle, -1, image_alpha);
+            if (myhealth &gt; shell2hp) draw_sprite_ext(sShirkArmor2, -1, x, y, image_xscale, 1, image_angle, -1, image_alpha);
+        }
+        if (turning &gt; 0) {
+            draw_sprite_ext(sShirkTurn, -1, x, y, image_xscale, 1, image_angle, -1, image_alpha);
+            if (myhealth &gt; shell1hp) draw_sprite_ext(sShirkTurnArmor1, -1, x, y, image_xscale, 1, image_angle, -1, image_alpha);
+            if (myhealth &gt; shell2hp) draw_sprite_ext(sShirkTurnArmor2, -1, x, y, image_xscale, 1, image_angle, -1, image_alpha);
+        }
+    }
+    if (flashing) {
+        if (turning == 0) {
+            draw_sprite_ext(sprite_index, -1, x, y, image_xscale, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+            if (myhealth &gt; shell1hp) draw_sprite_ext(sShirkArmor1, -1, x, y, image_xscale, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+            if (myhealth &gt; shell2hp) draw_sprite_ext(sShirkArmor2, -1, x, y, image_xscale, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+            draw_set_blend_mode(bm_add);
+            repeat (3) {
+                draw_sprite_ext(sprite_index, -1, x, y, image_xscale, 1, image_angle, -1, 1 - fxtimer * 0.25);
+                if (myhealth &gt; shell1hp) draw_sprite_ext(sShirkArmor1, -1, x, y, image_xscale, 1, image_angle, -1, 1 - fxtimer * 0.25);
+                if (myhealth &gt; shell2hp) draw_sprite_ext(sShirkArmor2, -1, x, y, image_xscale, 1, image_angle, -1, 1 - fxtimer * 0.25);
+            }
+            draw_set_blend_mode(bm_normal);
+        }
+        if (turning &gt; 0) {
+            draw_sprite_ext(sShirkTurn, -1, x, y, image_xscale, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+            if (myhealth &gt; shell1hp) draw_sprite_ext(sShirkTurnArmor1, -1, x, y, image_xscale, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+            if (myhealth &gt; shell2hp) draw_sprite_ext(sShirkTurnArmor2, -1, x, y, image_xscale, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+            draw_set_blend_mode(bm_add);
+            repeat (3) {
+                draw_sprite_ext(sprite_index, -1, x, y, image_xscale, 1, image_angle, -1, 1 - fxtimer * 0.25);
+                if (myhealth &gt; shell1hp) draw_sprite_ext(sShirkTurnArmor1, -1, x, y, image_xscale, 1, image_angle, -1, 1 - fxtimer * 0.25);
+                if (myhealth &gt; shell2hp) draw_sprite_ext(sShirkTurnArmor2, -1, x, y, image_xscale, 1, image_angle, -1, 1 - fxtimer * 0.25);
+            }
+            draw_set_blend_mode(bm_normal);
+        }
+    } // if (flashing)
+}
+/*
 if (!flashing) {
     if (turning == 0) {
         draw_sprite_ext(sprite_index, -1, x, y, image_xscale, 1, image_angle, -1, image_alpha);
@@ -397,6 +443,7 @@ if (flashing) {
         draw_set_blend_mode(bm_normal);
     }
 } // if (flashing)
+*/
 </string>
           </argument>
         </arguments>

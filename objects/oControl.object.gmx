@@ -321,7 +321,7 @@ global.fontVersion = font_add_sprite_ext(sVersionFont, "V.0123456789", true, 1);
 
 global.am2r_version = "V1.5.2"; // no longer dynamic, not worth the effort to maintain - mostly because of Android oddities.
 
-global.multitroid_version = "V1.2.1";
+global.multitroid_version = "V1.3";
 
 // Android
 global.gamestarted = 0;
@@ -484,6 +484,7 @@ if(!file_exists(working_directory + "\dictionary.json")){
     file_text_close(file);
 }
 
+global.icemissiles = 1;
 </string>
           </argument>
         </arguments>
