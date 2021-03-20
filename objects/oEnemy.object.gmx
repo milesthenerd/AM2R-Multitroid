@@ -631,13 +631,13 @@ instance_destroy();
             <kind>1</kind>
             <string>if((other.object_index == oMissile || other.object_index == oMissileExpl) &amp;&amp; global.icemissiles &amp;&amp; !other.smissile){
     if(canfreeze){
-        frozen = 180;
-        if(other.damage &gt; myhealth || ceil(other.damage / 2) &gt; myhealth){
+        if(other.damage &gt; myhealth &amp;&amp; !frozen || ceil(other.damage / 2) &gt; myhealth &amp;&amp; !frozen){
             dmg = 0;
             myhealth = 1;
         } else {
             dmg = other.damage;
         }
+        frozen = 180;
     } else {
         dmg = other.damage;
     }

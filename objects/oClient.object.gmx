@@ -1774,6 +1774,7 @@ switch(type_event){
                 var clientMapY = buffer_read(_buffer, buffer_s16);
                 var findsocket = ds_list_find_index(roomList, clientID);
                 
+                /*
                 if(instance_exists(oCharacter)){
                     if(clientRoom == rm_death){
                         if(oCharacter.state != oCharacter.DEFEATED){
@@ -1784,6 +1785,7 @@ switch(type_event){
                         }
                     }
                 }
+                */
                                 
                 if(clientRoom == room &amp;&amp; global.clientID != clientID){
                     sameRoom = true;

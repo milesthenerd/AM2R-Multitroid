@@ -485,6 +485,8 @@ if(!file_exists(working_directory + "\dictionary.json")){
 }
 
 global.icemissiles = 1;
+global.clientID = 0;
+global.currentweapon = 0;
 </string>
           </argument>
         </arguments>

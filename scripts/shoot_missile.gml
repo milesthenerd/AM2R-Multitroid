@@ -1,4 +1,6 @@
 /// shoot_missile(direction)
+var missileX = 0;
+var missileY = 0;
 if (global.currentweapon == 1 && global.missiles > 0 || global.currentweapon == 2 && global.smissiles > 0) {
     msl = instance_create(x + aspr2x, y + aspr2y, oMissile);
     msl.direction = argument0;
@@ -15,8 +17,8 @@ if (global.currentweapon == 1 && global.missiles > 0 || global.currentweapon == 
         msl.y += 4;
         if (facing == LEFT) msl.x += 1;
     }
-    var missileX = msl.x;
-    var missileY = msl.y;
+    missileX = msl.x;
+    missileY = msl.y;
     msl.smissile = global.currentweapon == 2;
     if (global.currentweapon == 1) {
         global.missiles -= 1;
@@ -55,8 +57,8 @@ if (global.currentweapon == 1 && global.missiles > 0 || global.currentweapon == 
 if (global.currentweapon == 2 && global.smissiles == 0) global.currentweapon = 1;
 if (global.currentweapon == 1 && global.missiles == 0) global.currentweapon = 0;
 
-if(instance_exists(oClient)){
-    if(ds_list_size(oClient.roomListData) > 0){
+if(instance_exists(oClient) && missileX != 0 && missileY != 0){
+    if(ds_list_size(oClient.roomListData) >= 0){
         var size, type, alignment;
         size = 1024;
         type = buffer_grow;

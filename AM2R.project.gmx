@@ -4585,6 +4585,14 @@
       <sprite>sprites\sIceMissileTrail</sprite>
       <sprite>sprites\sIMPickup</sprite>
       <sprite>sprites\sGUIIceMissile</sprite>
+      <sprite>sprites\sGunzooArmor1Frozen</sprite>
+      <sprite>sprites\sGunzooArmor2Frozen</sprite>
+      <sprite>sprites\sGunzooTurnFrozen</sprite>
+      <sprite>sprites\sShirkArmor1Frozen</sprite>
+      <sprite>sprites\sShirkArmor2Frozen</sprite>
+      <sprite>sprites\sShirkTurnArmor1Frozen</sprite>
+      <sprite>sprites\sShirkTurnArmor2Frozen</sprite>
+      <sprite>sprites\sShirkTurnFrozen</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
