@@ -90,3 +90,5 @@ if (header != "[AM2R SaveData V7.0]") {
     
     
 } // if (header != "[AM2R SaveData V7.0]") else
+
+if(instance_exists(oClient)) refill_heath_ammo();

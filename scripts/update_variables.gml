@@ -568,7 +568,7 @@ switch(argument0){
                 if(instance_exists(oCharacter)){
                     if(oCharacter.state != oCharacter.SAVINGFX && oCharacter.state != oCharacter.SAVINGSHIPFX && oCharacter.state != oCharacter.SAVINGSHIP && oCharacter.state != oCharacter.SAVING){
                         global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
-                    } else if(oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP || oCharacter.state == oCharacter.SAVING){
+                    } else if(oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP || oCharacter.state == oCharacter.SAVING || (oCharacter.state == oCharacter.IDLE && oCharacter.juststarted > 0)){
                         if(global.playerhealth != global.maxhealth){
                             refill_heath_ammo();
                         }
