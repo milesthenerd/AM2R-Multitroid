@@ -186,7 +186,7 @@ time = 60;
 
 trail = 0;
 
-global.icemissiles = 1;
+//global.icemissiles = 1;
 </string>
           </argument>
         </arguments>
