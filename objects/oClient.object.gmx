@@ -187,6 +187,9 @@ time = 60;
 trail = 0;
 
 //global.icemissiles = 1;
+
+banned = false;
+kicked = false;
 </string>
           </argument>
         </arguments>
@@ -250,6 +253,9 @@ if(!noName){
 
 global.canConnect = false;
 oControl.alarm[10] = 90;
+
+if(banned) popup_text("Banned from server");
+if(kicked) popup_text("Kicked from server");
 </string>
           </argument>
         </arguments>
@@ -1674,6 +1680,15 @@ switch(type_event){
                         }
                     }
                 }
+                break;
+            case 250:
+                var ban = buffer_read(_buffer, buffer_u8);
+                if(ban){
+                    banned = true;
+                } else {
+                    kicked = true;
+                }
+                instance_destroy();
                 break;
             case 200:
                 global.clientID = preferredcolor;
