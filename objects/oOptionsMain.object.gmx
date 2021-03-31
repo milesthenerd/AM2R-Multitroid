@@ -149,7 +149,7 @@ global.tiptext = tip[global.curropt];
                 instance_destroy();
             } else {
                 save_gameoptions();
-                global.curropt = 5; // used to be 3, menu shifted
+                global.curropt = 4; // used to be 3, menu shifted
                 room_change(titleroom, 0); //room_goto(titleroom);
             }
         }
