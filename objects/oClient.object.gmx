@@ -43,6 +43,10 @@ etanksChanged = false;
 mtanksChanged = false;
 stanksChanged = false;
 ptanksChanged = false;
+healthChanged = false;
+missilesChanged = false;
+smissilesChanged = false;
+pbombsChanged = false;
 connected = false;
 queenHealthWait = false;
 queenDead = false;
@@ -55,16 +59,23 @@ etanksTimer = 10;
 mtanksTimer = 10;
 stanksTimer = 10;
 ptanksTimer = 10;
+healthTimer = 10;
+missilesTimer = 10;
+smissilesTimer = 10;
+pbombsTimer = 10;
 teleportTimer = 180;
 disconnectTimer = 900;
 pingTimer = 90;
 resetTimer = -1;
 teleport = false;
 noName = false;
+syncedDifficulty = 0;
 state = undefined;
 seed = undefined;
 var type;
 type = network_socket_tcp;
+
+syncedDifficulty = global.difficulty;
 
 ini_open(working_directory + "\mod_settings.ini");
 ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
@@ -1033,7 +1044,7 @@ if(metroidCountChanged){
 update_variables("onlinevars");
 
 for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
-    if(global.onlineList[# 0, i] != global.onlineList[# 1, i]){
+    if(global.onlineList[# 0, i] != global.onlineList[# 1, i] &amp;&amp; (i != 0 || i != 15 || i != 16 || i != 17)){
         global.onlineSend[# 0, i] = global.onlineList[# 0, i];
         global.onlineSend[# 1, i] = global.onlineList[# 1, i];
         global.onlineSend[# 2, i] = global.onlineList[# 2, i];
@@ -1513,6 +1524,134 @@ if(ptanksTimer == 0 &amp;&amp; connected){
     }
 }
 
+if(healthTimer == 0 &amp;&amp; connected){
+    if(global.playerhealthPrev != global.playerhealth){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 25);
+        buffer_write(buffer, buffer_s16, global.playerhealth);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
+        buffer_write(buffer, buffer_u8, 25);
+        buffer_write(buffer, buffer_s16, global.playerhealth);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        healthTimer = true;
+    }
+    
+    if(!healthChanged){
+        healthTimer = 10;
+    }
+    
+    if(healthChanged){
+        healthChanged = false;
+        healthTimer = 75;
+    }
+}
+
+if(missilesTimer == 0 &amp;&amp; connected){
+    if(global.missilesPrev != global.missiles){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 26);
+        buffer_write(buffer, buffer_s16, global.missiles);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
+        buffer_write(buffer, buffer_u8, 26);
+        buffer_write(buffer, buffer_s16, global.missiles);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        missilesTimer = true;
+    }
+    
+    if(!missilesChanged){
+        missilesTimer = 10;
+    }
+    
+    if(missilesChanged){
+        missilesChanged = false;
+        missilesTimer = 75;
+    }
+}
+
+if(smissilesTimer == 0 &amp;&amp; connected){
+    if(global.smissilesPrev != global.smissiles){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 27);
+        buffer_write(buffer, buffer_s16, global.smissiles);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
+        buffer_write(buffer, buffer_u8, 27);
+        buffer_write(buffer, buffer_s16, global.smissiles);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        smissilesTimer = true;
+    }
+    
+    if(!smissilesChanged){
+        smissilesTimer = 10;
+    }
+    
+    if(smissilesChanged){
+        smissilesChanged = false;
+        smissilesTimer = 75;
+    }
+}
+
+if(pbombsTimer == 0 &amp;&amp; connected){
+    if(global.pbombsPrev != global.pbombs){
+        buffer_delete(buffer);
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        buffer = buffer_create(size, type, alignment);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_u8, 28);
+        buffer_write(buffer, buffer_s16, global.pbombs);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var bufferSize = buffer_tell(buffer);
+        buffer_seek(buffer, buffer_seek_start, 0);
+        buffer_write(buffer, buffer_s32, bufferSize);
+        buffer_write(buffer, buffer_u8, 28);
+        buffer_write(buffer, buffer_s16, global.pbombs);
+        buffer_write(buffer, buffer_u8, global.clientID);
+        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        pbombsTimer = true;
+    }
+    
+    if(!pbombsChanged){
+        pbombsTimer = 10;
+    }
+    
+    if(pbombsChanged){
+        pbombsChanged = false;
+        pbombsTimer = 75;
+    }
+}
+
 if(teleport){
     teleportTimer--;
     if(teleportTimer &lt;= 0){
@@ -1570,6 +1709,10 @@ etanksTimer--;
 mtanksTimer--;
 stanksTimer--;
 ptanksTimer--;
+healthTimer--;
+missilesTimer--;
+smissilesTimer--;
+pbombsTimer--;
 disconnectTimer--;
 pingTimer--;
 
@@ -1608,6 +1751,32 @@ if(instance_exists(self)){
     }
 }
 
+switch(syncedDifficulty){
+    case 0:
+        //Easy
+        global.difficulty = syncedDifficulty;
+        oControl.mod_fusion = 0;
+        oControl.mod_diffmult = 1;
+        break;
+    case 1:
+        //Normal
+        global.difficulty = syncedDifficulty;
+        oControl.mod_fusion = 0;
+        oControl.mod_diffmult = 1;
+        break;        
+    case 2:
+        //Hard
+        global.difficulty = syncedDifficulty;
+        oControl.mod_fusion = 0;
+        oControl.mod_diffmult = 2;
+        break;
+    case 3:
+        //Fusion
+        global.difficulty = 2;
+        oControl.mod_fusion = 1;
+        oControl.mod_diffmult = 4;
+        break;
+}
 </string>
           </argument>
         </arguments>
@@ -2411,6 +2580,222 @@ switch(type_event){
                     }
                 }
                 break;
+            case 25:
+                var playerhealth = buffer_read(_buffer, buffer_s16);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; playerhealth != global.playerhealth){
+                    if(instance_exists(oCharacter)){
+                        if(oCharacter.state != oCharacter.SAVINGFX &amp;&amp; oCharacter.state != oCharacter.SAVINGSHIPFX &amp;&amp; oCharacter.state != oCharacter.SAVINGSHIP &amp;&amp; oCharacter.state != oCharacter.SAVING){
+                            global.playerhealthPrev = playerhealth;
+                            global.playerhealth = playerhealth;
+                        } else if(oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP || oCharacter.state == oCharacter.SAVING || (oCharacter.state == oCharacter.IDLE &amp;&amp; oCharacter.juststarted &gt; 0)){
+                            if(global.playerhealth != global.maxhealth){
+                                refill_heath_ammo();
+                            }
+                            if(global.missiles != global.maxmissiles){
+                                refill_heath_ammo();
+                            }
+                            if(global.smissiles != global.maxsmissiles){
+                                refill_heath_ammo();
+                            }
+                            if(global.pbombs != global.maxpbombs){
+                                refill_heath_ammo();
+                            }
+                            buffer_delete(buffer);
+                            var size, type, alignment;
+                            size = 1024;
+                            type = buffer_grow;
+                            alignment = 1;
+                            buffer = buffer_create(size, type, alignment);
+                            buffer_seek(buffer, buffer_seek_start, 0);
+                            buffer_write(buffer, buffer_u8, 102);
+                            buffer_write(buffer, buffer_s16, global.playerhealth);
+                            buffer_write(buffer, buffer_s16, global.missiles);
+                            buffer_write(buffer, buffer_u8, global.smissiles);
+                            buffer_write(buffer, buffer_u8, global.pbombs);
+                            buffer_write(buffer, buffer_u8, global.clientID);
+                            var bufferSize = buffer_tell(buffer);
+                            buffer_seek(buffer, buffer_seek_start, 0);
+                            buffer_write(buffer, buffer_s32, bufferSize);
+                            buffer_write(buffer, buffer_u8, 102);
+                            buffer_write(buffer, buffer_s16, global.playerhealth);
+                            buffer_write(buffer, buffer_s16, global.missiles);
+                            buffer_write(buffer, buffer_u8, global.smissiles);
+                            buffer_write(buffer, buffer_u8, global.pbombs);
+                            buffer_write(buffer, buffer_u8, global.clientID);
+                            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                        }
+                    } else {
+                        global.playerhealthPrev = playerhealth;
+                        global.playerhealth = playerhealth;
+                    }
+                } else if(clientID == global.clientID){
+                    global.playerhealthPrev = global.playerhealth;
+                }
+                healthTimer = 1;
+                break;
+            case 26:
+                var missiles = buffer_read(_buffer, buffer_s16);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; missiles != global.missiles){
+                    if(instance_exists(oCharacter)){
+                        if(oCharacter.state != oCharacter.SAVINGFX &amp;&amp; oCharacter.state != oCharacter.SAVINGSHIPFX &amp;&amp; oCharacter.state != oCharacter.SAVINGSHIP &amp;&amp; oCharacter.state != oCharacter.SAVING){
+                            global.missilesPrev = missiles;
+                            global.missiles = missiles;
+                        } else if(oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP || oCharacter.state == oCharacter.SAVING || (oCharacter.state == oCharacter.IDLE &amp;&amp; oCharacter.juststarted &gt; 0)){
+                            if(global.playerhealth != global.maxhealth){
+                                refill_heath_ammo();
+                            }
+                            if(global.missiles != global.maxmissiles){
+                                refill_heath_ammo();
+                            }
+                            if(global.smissiles != global.maxsmissiles){
+                                refill_heath_ammo();
+                            }
+                            if(global.pbombs != global.maxpbombs){
+                                refill_heath_ammo();
+                            }
+                            buffer_delete(buffer);
+                            var size, type, alignment;
+                            size = 1024;
+                            type = buffer_grow;
+                            alignment = 1;
+                            buffer = buffer_create(size, type, alignment);
+                            buffer_seek(buffer, buffer_seek_start, 0);
+                            buffer_write(buffer, buffer_u8, 102);
+                            buffer_write(buffer, buffer_s16, global.playerhealth);
+                            buffer_write(buffer, buffer_s16, global.missiles);
+                            buffer_write(buffer, buffer_u8, global.smissiles);
+                            buffer_write(buffer, buffer_u8, global.pbombs);
+                            buffer_write(buffer, buffer_u8, global.clientID);
+                            var bufferSize = buffer_tell(buffer);
+                            buffer_seek(buffer, buffer_seek_start, 0);
+                            buffer_write(buffer, buffer_s32, bufferSize);
+                            buffer_write(buffer, buffer_u8, 102);
+                            buffer_write(buffer, buffer_s16, global.playerhealth);
+                            buffer_write(buffer, buffer_s16, global.missiles);
+                            buffer_write(buffer, buffer_u8, global.smissiles);
+                            buffer_write(buffer, buffer_u8, global.pbombs);
+                            buffer_write(buffer, buffer_u8, global.clientID);
+                            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                        }
+                    } else {
+                        global.missilesPrev = missiles;
+                        global.missiles = missiles;
+                    }
+                } else if(clientID == global.clientID){
+                    global.missilesPrev = global.missiles;
+                }
+                missilesTimer = 1;
+                break;
+            case 27:
+                var smissiles = buffer_read(_buffer, buffer_s16);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; smissiles != global.smissiles){
+                    if(instance_exists(oCharacter)){
+                        if(oCharacter.state != oCharacter.SAVINGFX &amp;&amp; oCharacter.state != oCharacter.SAVINGSHIPFX &amp;&amp; oCharacter.state != oCharacter.SAVINGSHIP &amp;&amp; oCharacter.state != oCharacter.SAVING){
+                            global.smissilesPrev = smissiles;
+                            global.smissiles = smissiles;
+                        } else if(oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP || oCharacter.state == oCharacter.SAVING || (oCharacter.state == oCharacter.IDLE &amp;&amp; oCharacter.juststarted &gt; 0)){
+                            if(global.playerhealth != global.maxhealth){
+                                refill_heath_ammo();
+                            }
+                            if(global.missiles != global.maxmissiles){
+                                refill_heath_ammo();
+                            }
+                            if(global.smissiles != global.maxsmissiles){
+                                refill_heath_ammo();
+                            }
+                            if(global.pbombs != global.maxpbombs){
+                                refill_heath_ammo();
+                            }
+                            buffer_delete(buffer);
+                            var size, type, alignment;
+                            size = 1024;
+                            type = buffer_grow;
+                            alignment = 1;
+                            buffer = buffer_create(size, type, alignment);
+                            buffer_seek(buffer, buffer_seek_start, 0);
+                            buffer_write(buffer, buffer_u8, 102);
+                            buffer_write(buffer, buffer_s16, global.playerhealth);
+                            buffer_write(buffer, buffer_s16, global.missiles);
+                            buffer_write(buffer, buffer_u8, global.smissiles);
+                            buffer_write(buffer, buffer_u8, global.pbombs);
+                            buffer_write(buffer, buffer_u8, global.clientID);
+                            var bufferSize = buffer_tell(buffer);
+                            buffer_seek(buffer, buffer_seek_start, 0);
+                            buffer_write(buffer, buffer_s32, bufferSize);
+                            buffer_write(buffer, buffer_u8, 102);
+                            buffer_write(buffer, buffer_s16, global.playerhealth);
+                            buffer_write(buffer, buffer_s16, global.missiles);
+                            buffer_write(buffer, buffer_u8, global.smissiles);
+                            buffer_write(buffer, buffer_u8, global.pbombs);
+                            buffer_write(buffer, buffer_u8, global.clientID);
+                            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                        }
+                    } else {
+                        global.smissilesPrev = smissiles;
+                        global.smissiles = smissiles;
+                    }
+                } else if(clientID == global.clientID){
+                    global.smissilesPrev = global.smissiles;
+                }
+                smissilesTimer = 1;
+                break;
+            case 28:
+                var pbombs = buffer_read(_buffer, buffer_s16);
+                var clientID = buffer_read(_buffer, buffer_u8);
+                if(clientID != global.clientID &amp;&amp; pbombs != global.pbombs){
+                    if(instance_exists(oCharacter)){
+                        if(oCharacter.state != oCharacter.SAVINGFX &amp;&amp; oCharacter.state != oCharacter.SAVINGSHIPFX &amp;&amp; oCharacter.state != oCharacter.SAVINGSHIP &amp;&amp; oCharacter.state != oCharacter.SAVING){
+                            global.pbombsPrev = pbombs;
+                            global.pbombs = pbombs;
+                        } else if(oCharacter.state == oCharacter.SAVINGFX || oCharacter.state == oCharacter.SAVINGSHIPFX || oCharacter.state == oCharacter.SAVINGSHIP || oCharacter.state == oCharacter.SAVING || (oCharacter.state == oCharacter.IDLE &amp;&amp; oCharacter.juststarted &gt; 0)){
+                            if(global.playerhealth != global.maxhealth){
+                                refill_heath_ammo();
+                            }
+                            if(global.missiles != global.maxmissiles){
+                                refill_heath_ammo();
+                            }
+                            if(global.smissiles != global.maxsmissiles){
+                                refill_heath_ammo();
+                            }
+                            if(global.pbombs != global.maxpbombs){
+                                refill_heath_ammo();
+                            }
+                            buffer_delete(buffer);
+                            var size, type, alignment;
+                            size = 1024;
+                            type = buffer_grow;
+                            alignment = 1;
+                            buffer = buffer_create(size, type, alignment);
+                            buffer_seek(buffer, buffer_seek_start, 0);
+                            buffer_write(buffer, buffer_u8, 102);
+                            buffer_write(buffer, buffer_s16, global.playerhealth);
+                            buffer_write(buffer, buffer_s16, global.missiles);
+                            buffer_write(buffer, buffer_u8, global.smissiles);
+                            buffer_write(buffer, buffer_u8, global.pbombs);
+                            buffer_write(buffer, buffer_u8, global.clientID);
+                            var bufferSize = buffer_tell(buffer);
+                            buffer_seek(buffer, buffer_seek_start, 0);
+                            buffer_write(buffer, buffer_s32, bufferSize);
+                            buffer_write(buffer, buffer_u8, 102);
+                            buffer_write(buffer, buffer_s16, global.playerhealth);
+                            buffer_write(buffer, buffer_s16, global.missiles);
+                            buffer_write(buffer, buffer_u8, global.smissiles);
+                            buffer_write(buffer, buffer_u8, global.pbombs);
+                            buffer_write(buffer, buffer_u8, global.clientID);
+                            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                        }
+                    } else {
+                        global.pbombsPrev = pbombs;
+                        global.pbombs = pbombs;
+                    }
+                } else if(clientID == global.clientID){
+                    global.pbombsPrev = global.pbombs;
+                }
+                pbombsTimer = 1;
+                break;
             case 50:
                 var resend = false;
                 for(var i=0; i&lt;array_length_1d(global.item); i++){
@@ -3010,9 +3395,6 @@ if(room == rm_score){
     resetTimer = 5;
 }
 
-if(room == titleroom){
-    seed = undefined;
-}
 </string>
           </argument>
         </arguments>
@@ -3166,7 +3548,9 @@ if(instance_exists(oMapCursor)){
             var arrID = arrMapIcon[0];
             var arrX = arrMapIcon[1];
             var arrY = arrMapIcon[2];
-            draw_sprite_ext(oControl.MultitroidMapIcon, (arrID - 1), (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
+            if(arrX != 3 &amp;&amp; arrY != 3){
+                draw_sprite_ext(oControl.MultitroidMapIcon, (arrID - 1), (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
+            }
         }
     }
 }

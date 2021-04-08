@@ -38,6 +38,8 @@ num_name = tempnumcounter++;
 num_sequence = tempnumcounter++;
 num_color = tempnumcounter++;
 num_showname = tempnumcounter++;
+num_difficulty = tempnumcounter++;
+num_seedgen = tempnumcounter++;
 num_connection = tempnumcounter++;
 
 lastitem = tempnumcounter; // This value will be one number higher than the last number in the list above.
@@ -47,6 +49,10 @@ name = oControl.name;
 port = string(oControl.port);
 showname = 1;
 sequence = 1;
+
+menuDifficulty = global.difficulty;
+
+if(oControl.mod_fusion) menuDifficulty = 3;
 
 connectiontxt = "Connect";
 
@@ -94,13 +100,14 @@ with (oSS_Fg) {
 }
 
 
-
 tip[num_ip] = "Set the IP address of the server";
 tip[num_port] = "Set the port of the server";
 tip[num_name] = "Set your display name";
 tip[num_sequence] = "Toggle whether the reactor sequence is synced";
 tip[num_color] = "Pick your preferred player color";
 tip[num_showname] = "Enable/disable showing player names";
+tip[num_difficulty] = "Choose the shared Multitroid difficulty";
+tip[num_seedgen] = "Generate a random seed for Multitroid";
 tip[num_connection] = "Connect/disconnect to the server";
 
 
@@ -237,6 +244,18 @@ if (active) {
                 event_user(2);
             }
         }
+        
+        if (global.curropt == num_difficulty &amp;&amp; instance_exists(oClient))
+        {
+            oClient.syncedDifficulty--;
+            menuDifficulty--;
+            if(oClient.syncedDifficulty &lt; 0){
+                oClient.syncedDifficulty = 3;
+                menuDifficulty = 3;
+            }
+            sfx_play(sndMenuMove);
+            event_user(2);
+        }
     } // End Left
     
     
@@ -252,6 +271,18 @@ if (active) {
                 sfx_play(sndMenuMove);
                 event_user(2);
             }
+        }
+        
+        if (global.curropt == num_difficulty &amp;&amp; instance_exists(oClient))
+        {
+            oClient.syncedDifficulty++;
+            menuDifficulty++;
+            if(oClient.syncedDifficulty &gt; 3){
+                oClient.syncedDifficulty = 0;
+                menuDifficulty = 0;
+            }
+            sfx_play(sndMenuMove);
+            event_user(2);
         }
     } // End Right
     //End Controller
@@ -547,6 +578,21 @@ switch(showname){
         break;
 }
 
+switch(menuDifficulty){
+    case 0:
+        op[num_difficulty].optext = "Easy";
+        break;
+    case 1:
+        op[num_difficulty].optext = "Normal";
+        break;
+    case 2:
+        op[num_difficulty].optext = "Hard";
+        break;
+    case 3:
+        op[num_difficulty].optext = "Fusion";
+        break;
+}
+
 //if (oControl.mod_earlybaby == 1) {
 //    op[num_baby].optext = get_text("GlobalOptions", "Enabled");
 //} else op[num_baby].optext = get_text("GlobalOptions", "Disabled");
@@ -622,6 +668,14 @@ switch(showname){
     case 1: 
         _showname = "enabled";
         break;
+}
+
+if(!instance_exists(oClient)){
+    op[num_difficulty].enabled = 0;
+    canedit[num_difficulty] = 0;
+} else {
+    op[num_difficulty].enabled = 1;
+    canedit[num_difficulty] = 1;
 }
 
 ini_open(working_directory + "\mod_settings.ini");
@@ -729,6 +783,14 @@ if(!global.shaders_compiled){
 op[num_showname] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_showname].label = "Show names";
 op[num_showname].optionid = num_showname;
+
+op[num_difficulty] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_difficulty].label = "Difficulty";
+op[num_difficulty].optionid = num_difficulty;
+
+op[num_seedgen] = instance_create(x, y + sep * tempcount++, oPauseOption);
+op[num_seedgen].optionid = num_seedgen;
+op[num_seedgen].label = "Generate seed";
 
 op[num_connection] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_connection].optionid = num_connection;

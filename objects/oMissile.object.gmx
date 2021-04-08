@@ -131,7 +131,12 @@ if (y &gt; global.waterlevel &amp;&amp; global.waterlevel != 0) {
 }
 if(instance_exists(oClient)){
     if(ds_list_size(oClient.roomListData) &gt; 0){
-        if (x &gt; room_width + 200 || x &lt; -200 || y &gt; room_height + 200 || y &lt; -200) instance_destroy();
+        if (x &gt; room_width + 200 || x &lt; -200 || y &gt; room_height + 200 || y &lt; -200){
+            instance_destroy();
+            trail.speed = speed;
+            trail.alarm[0] = 30;
+            with (flame) instance_destroy();
+        }
     } else {
         if (x &lt; view_xview[0] - 48 - (oControl.widescreen_space/2)|| x &gt; view_xview[0] + view_wview[0] + 48 + (oControl.widescreen_space/2) || y &lt; view_yview[0] - 48 || y &gt; view_yview[0] + view_hview[0] + 48) {
             instance_destroy();
