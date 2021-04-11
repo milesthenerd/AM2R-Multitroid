@@ -1754,27 +1754,27 @@ if(instance_exists(self)){
 switch(syncedDifficulty){
     case 0:
         //Easy
-        global.difficulty = syncedDifficulty;
-        oControl.mod_fusion = 0;
-        oControl.mod_diffmult = 1;
+        if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+        if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
+        if(oControl.mod_diffmult != 1) oControl.mod_diffmult = 1;
         break;
     case 1:
         //Normal
-        global.difficulty = syncedDifficulty;
-        oControl.mod_fusion = 0;
-        oControl.mod_diffmult = 1;
+        if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+        if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
+        if(oControl.mod_diffmult != 1) oControl.mod_diffmult = 1;
         break;        
     case 2:
         //Hard
-        global.difficulty = syncedDifficulty;
-        oControl.mod_fusion = 0;
-        oControl.mod_diffmult = 2;
+        if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+        if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
+        if(oControl.mod_diffmult != 2) oControl.mod_diffmult = 2;
         break;
     case 3:
         //Fusion
-        global.difficulty = 2;
-        oControl.mod_fusion = 1;
-        oControl.mod_diffmult = 4;
+        if(global.difficulty != 2) global.difficulty = 2;
+        if(oControl.mod_fusion != 1) oControl.mod_fusion = 1;
+        if(oControl.mod_diffmult != 4) oControl.mod_diffmult = 4;
         break;
 }
 </string>
@@ -2796,6 +2796,29 @@ switch(type_event){
                 }
                 pbombsTimer = 1;
                 break;
+            case 29:
+                var syncDiff = buffer_read(_buffer, buffer_u8);
+                if(syncDiff != syncedDifficulty){
+                    syncedDifficulty = syncDiff;
+                    var str;
+                    switch(syncedDifficulty){
+                        case 0:
+                            str = "Easy";
+                            break;
+                        case 1:
+                            str = "Normal";
+                            break;
+                        case 2:
+                            str = "Hard";
+                            break;
+                        case 3:
+                            str = "Fusion";
+                            break;
+                    }
+                    popup_text(str);
+                }
+                if(instance_exists(oOptionsMod) &amp;&amp; oOptionsMod.menuDifficulty != syncedDifficulty) oOptionsMod.menuDifficulty = syncedDifficulty;
+                break;
             case 50:
                 var resend = false;
                 for(var i=0; i&lt;array_length_1d(global.item); i++){
@@ -3349,6 +3372,43 @@ switch(type_event){
                 break;
         }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 29);
+buffer_write(buffer, buffer_u8, syncedDifficulty);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 29);
+buffer_write(buffer, buffer_u8, syncedDifficulty);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 </string>
           </argument>
         </arguments>

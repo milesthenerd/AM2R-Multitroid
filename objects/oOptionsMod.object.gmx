@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.curropt = 0;
+            <string>done = false;
+global.curropt = 0;
 var tempnumcounter = 0;
 /*
     This list dictates the order of selection in the Extras Menu. 
@@ -253,6 +254,7 @@ if (active) {
                 oClient.syncedDifficulty = 3;
                 menuDifficulty = 3;
             }
+            with(oClient) event_user(0);
             sfx_play(sndMenuMove);
             event_user(2);
         }
@@ -281,6 +283,7 @@ if (active) {
                 oClient.syncedDifficulty = 0;
                 menuDifficulty = 0;
             }
+            with(oClient) event_user(0);
             sfx_play(sndMenuMove);
             event_user(2);
         }
@@ -372,6 +375,15 @@ if (active) {
             sfx_play(sndMenuSel);
             event_user(2);
         }
+        if (global.curropt == num_seedgen) {
+            if(instance_exists(oClient)){
+                randomize();
+                oClient.seed = random_get_seed();
+                random_set_seed(oClient.seed);
+                send_seed();
+            }
+            sfx_play(sndMenuSel);
+        }
         if (global.curropt == lastitem) {
             save_gameoptions();
             view_object[0] = noone;
@@ -422,6 +434,49 @@ if(instance_exists(oClient) &amp;&amp; instance_exists(self) &amp;&amp; instance
 } else if((!instance_exists(oClient)) &amp;&amp; instance_exists(self) &amp;&amp; instance_exists(connID)){
     connectiontxt = "Connect";
     op[num_connection].label = connectiontxt;
+}
+
+if(!done){
+    if(!instance_exists(oClient)){
+        op[num_difficulty].enabled = 0;
+        canedit[num_difficulty] = 0;
+    } else {
+        if(!instance_exists(oSS_Control)){
+            op[num_difficulty].enabled = 1;
+            canedit[num_difficulty] = 1;
+        } else {
+            op[num_difficulty].enabled = 0;
+            canedit[num_difficulty] = 0;
+        }
+    }
+    
+    if(!instance_exists(oClient)){
+        op[num_seedgen].enabled = 0;
+        canedit[num_seedgen] = 0;
+    } else {
+        if(!instance_exists(oSS_Control)){
+            op[num_seedgen].enabled = 1;
+            canedit[num_seedgen] = 1;
+        } else {
+            op[num_seedgen].enabled = 0;
+            canedit[num_seedgen] = 0;
+        }
+    }
+    
+    switch(menuDifficulty){
+        case 0:
+            op[num_difficulty].optext = "Easy";
+            break;
+        case 1:
+            op[num_difficulty].optext = "Normal";
+            break;
+        case 2:
+            op[num_difficulty].optext = "Hard";
+            break;
+        case 3:
+            op[num_difficulty].optext = "Fusion";
+            break;
+    }
 }
 </string>
           </argument>
@@ -578,21 +633,6 @@ switch(showname){
         break;
 }
 
-switch(menuDifficulty){
-    case 0:
-        op[num_difficulty].optext = "Easy";
-        break;
-    case 1:
-        op[num_difficulty].optext = "Normal";
-        break;
-    case 2:
-        op[num_difficulty].optext = "Hard";
-        break;
-    case 3:
-        op[num_difficulty].optext = "Fusion";
-        break;
-}
-
 //if (oControl.mod_earlybaby == 1) {
 //    op[num_baby].optext = get_text("GlobalOptions", "Enabled");
 //} else op[num_baby].optext = get_text("GlobalOptions", "Disabled");
@@ -670,14 +710,6 @@ switch(showname){
         break;
 }
 
-if(!instance_exists(oClient)){
-    op[num_difficulty].enabled = 0;
-    canedit[num_difficulty] = 0;
-} else {
-    op[num_difficulty].enabled = 1;
-    canedit[num_difficulty] = 1;
-}
-
 ini_open(working_directory + "\mod_settings.ini");
 ini_write_string("ModSettings", "ipaddress", ip);
 ini_write_real("ModSettings", "port", real(port));
@@ -712,7 +744,8 @@ oControl.port = real(port);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for (var i = 0; i &lt;= lastitem; i++)
+            <string>done = true;
+for (var i = 0; i &lt;= lastitem; i++)
 {
     with (op[i]) instance_destroy();
 }
