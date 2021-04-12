@@ -40,6 +40,7 @@ num_sequence = tempnumcounter++;
 num_color = tempnumcounter++;
 num_showname = tempnumcounter++;
 num_difficulty = tempnumcounter++;
+num_elm = tempnumcounter++;
 num_seedgen = tempnumcounter++;
 num_connection = tempnumcounter++;
 
@@ -54,6 +55,8 @@ sequence = 1;
 menuDifficulty = global.difficulty;
 
 if(oControl.mod_fusion) menuDifficulty = 3;
+
+elm = oControl.mod_monstersextremecheck;
 
 connectiontxt = "Connect";
 
@@ -108,6 +111,7 @@ tip[num_sequence] = "Toggle whether the reactor sequence is synced";
 tip[num_color] = "Pick your preferred player color";
 tip[num_showname] = "Enable/disable showing player names";
 tip[num_difficulty] = "Choose the shared Multitroid difficulty";
+tip[num_elm] = "Choose the shared ELM difficulty";
 tip[num_seedgen] = "Generate a random seed for Multitroid";
 tip[num_connection] = "Connect/disconnect to the server";
 
@@ -463,6 +467,19 @@ if(!done){
         }
     }
     
+    if(!instance_exists(oClient)){
+        op[num_elm].enabled = 0;
+        canedit[num_elm] = 0;
+    } else {
+        if(!instance_exists(oSS_Control)){
+            op[num_elm].enabled = 1;
+            canedit[num_elm] = 1;
+        } else {
+            op[num_elm].enabled = 0;
+            canedit[num_elm] = 0;
+        }
+    }
+    
     switch(menuDifficulty){
         case 0:
             op[num_difficulty].optext = "Easy";
@@ -633,35 +650,6 @@ switch(showname){
         break;
 }
 
-//if (oControl.mod_earlybaby == 1) {
-//    op[num_baby].optext = get_text("GlobalOptions", "Enabled");
-//} else op[num_baby].optext = get_text("GlobalOptions", "Disabled");
-//if (global.mod_gamebeaten == 0) {
-//    op[num_baby].optext = get_text("ExtrasMenu", "Locked");
-//}
-
-/*if (oControl.mod_monstersextremecheck == 1) {
-    op[num_exmonsters].optext = get_text("GlobalOptions", "Enabled");
-} else op[num_exmonsters].optext = get_text("GlobalOptions", "Disabled");
-if (global.mod_gamebeaten == 0) {
-    op[num_exmonsters].optext = get_text("ExtrasMenu", "Locked");
-}*/
-//if (global.shaders_compiled) {
-//    if (oControl.msr_fusionsuit == 1) {
-//        op[num_MSRfusion].optext = get_text("ExtrasMenu", "MSR");
-//    } else op[num_MSRfusion].optext = get_text("ExtrasMenu", "Default");
-//    if (global.mod_fusion_unlocked == 0) {
-//        op[num_MSRfusion].optext = get_text("ExtrasMenu", "Locked");
-//    }
-//}
-
-//if (oControl.mod_IGT == 1) {
-//    op[num_IGT].optext = get_text("GlobalOptions", "Enabled");
-//} else op[num_IGT].optext = get_text("GlobalOptions", "Disabled");
-//if (global.mod_gamebeaten == 0) {
-//    op[num_IGT].optext = get_text("ExtrasMenu", "Locked");
-//}
-
 switch(oControl.preferredcolor){
     case 1:
         color = "green";
@@ -820,6 +808,10 @@ op[num_showname].optionid = num_showname;
 op[num_difficulty] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_difficulty].label = "Difficulty";
 op[num_difficulty].optionid = num_difficulty;
+
+op[num_elm] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_elm].label = "Extreme Lab Metroids";
+op[num_elm].optionid = num_elm;
 
 op[num_seedgen] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_seedgen].optionid = num_seedgen;

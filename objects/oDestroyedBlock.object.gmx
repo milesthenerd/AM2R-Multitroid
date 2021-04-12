@@ -30,6 +30,7 @@ image_index = 0;
 state = 0;
 statetime = 0;
 type = 0;
+DEPTH = 0;
 </string>
           </argument>
         </arguments>
@@ -171,6 +172,10 @@ block.material = 0;
 block.delay = delay;
 block.link_id = link_id;
 block.visible = true;
+if(DEPTH != 0){
+    block.depth = DEPTH;
+    block.DEPTH = DEPTH;
+}
 instance_destroy();
 </string>
           </argument>
