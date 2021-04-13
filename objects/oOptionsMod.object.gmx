@@ -303,6 +303,11 @@ if (active) {
         //}
         //if (global.curropt == num_exmonsters) oControl.mod_monstersextremecheck = !oControl.mod_monstersextremecheck;
         //if (global.curropt == num_IGT) oControl.mod_IGT = !oControl.mod_IGT;
+        if (global.curropt == num_elm &amp;&amp; instance_exists(oClient)){
+            oClient.elm = !oClient.elm;
+            elm = !elm;
+            with(oClient) event_user(1);
+        }
         
         sfx_play(sndMenuMove);
         event_user(2);
@@ -492,6 +497,15 @@ if(!done){
             break;
         case 3:
             op[num_difficulty].optext = "Fusion";
+            break;
+    }
+    
+    switch(elm){
+        case 0:
+            op[num_elm].optext = "Disabled";
+            break;
+        case 1:
+            op[num_elm].optext = "Enabled";
             break;
     }
 }
@@ -772,14 +786,6 @@ var tempcount = 1;
 op[num_ip] = instance_create(x, y + sep * tempcount++, oOptionLRMod);
 op[num_ip].label = "IP Address";
 op[num_ip].optionid = num_ip;
-
-/*op[num_exmonsters] = instance_create(x, y + sep * tempcount++, oOptionLR);
-op[num_exmonsters].label = get_text("ExtrasMenu", "ExtremeMonsters");
-op[num_exmonsters].optionid = num_exmonsters;
-if (global.mod_gamebeaten == 0) {
-    op[num_exmonsters].enabled = 0;
-    canedit[num_exmonsters] = 0;
-}*/
 
 op[num_port] = instance_create(x, y + sep * tempcount++, oOptionLRMod);
 op[num_port].label = "Port";

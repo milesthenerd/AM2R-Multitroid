@@ -70,12 +70,14 @@ resetTimer = -1;
 teleport = false;
 noName = false;
 syncedDifficulty = 0;
+elm = 0;
 state = undefined;
 seed = undefined;
 var type;
 type = network_socket_tcp;
 
 syncedDifficulty = global.difficulty;
+elm = oControl.mod_monstersextremecheck;
 
 ini_open(working_directory + "\mod_settings.ini");
 ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
@@ -1777,6 +1779,8 @@ switch(syncedDifficulty){
         if(oControl.mod_diffmult != 4) oControl.mod_diffmult = 4;
         break;
 }
+
+if(oControl.mod_monstersextremecheck != elm) oControl.mod_monstersextremecheck = elm;
 </string>
           </argument>
         </arguments>
@@ -2819,6 +2823,23 @@ switch(type_event){
                 }
                 if(instance_exists(oOptionsMod) &amp;&amp; oOptionsMod.menuDifficulty != syncedDifficulty) oOptionsMod.menuDifficulty = syncedDifficulty;
                 break;
+            case 30:
+                var syncELM = buffer_read(_buffer, buffer_u8);
+                if(syncELM != elm){
+                    elm = syncELM;
+                    var str;
+                    switch(elm){
+                        case 0:
+                            str = "ELM Disabled";
+                            break;
+                        case 1:
+                            str = "ELM Enabled";
+                            break;
+                    }
+                    popup_text(str);
+                }
+                if(instance_exists(oOptionsMod) &amp;&amp; oOptionsMod.elm != elm) oOptionsMod.elm = elm;
+                break;
             case 50:
                 var resend = false;
                 for(var i=0; i&lt;array_length_1d(global.item); i++){
@@ -3372,6 +3393,43 @@ switch(type_event){
                 break;
         }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 30);
+buffer_write(buffer, buffer_u8, elm);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 30);
+buffer_write(buffer, buffer_u8, elm);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 </string>
           </argument>
         </arguments>
