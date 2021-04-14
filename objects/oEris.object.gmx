@@ -506,6 +506,7 @@ if (state == 100) {
         sfx_play(sndMissileExpl);
         
         global.event[261] = 1;
+        dead = true;
         
         if(oControl.mod_fusion == 0) {
             with (oDoorA5) event_user(3);

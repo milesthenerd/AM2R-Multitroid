@@ -451,8 +451,32 @@ switch(preferredcolor){
     case "white":
         preferredcolor = 8;
         break;
-    case "random":
+    case "canary":
         preferredcolor = 9;
+        break;
+    case "red orange":
+        preferredcolor = 10;
+        break;
+    case "sky blue":
+        preferredcolor = 11;
+        break;
+    case "gold":
+        preferredcolor = 12;
+        break;
+    case "porsche":
+        preferredcolor = 13;
+        break;
+    case "light purple":
+        preferredcolor = 14;
+        break;
+    case "hot pink":
+        preferredcolor = 15;
+        break;
+    case "dull green":
+        preferredcolor = 16;
+        break;
+    case "random":
+        preferredcolor = 17;
         break;
 }
 
@@ -1496,6 +1520,22 @@ if(room == titleroom){
     sprite_delete(icon_duplicate6);
     sprite_delete(icon_duplicate7);
     sprite_delete(icon_duplicate8);
+    sprite_delete(icon_merge9);
+    sprite_delete(icon_merge10);
+    sprite_delete(icon_merge11);
+    sprite_delete(icon_merge12);
+    sprite_delete(icon_merge13);
+    sprite_delete(icon_merge14);
+    sprite_delete(icon_merge15);
+    sprite_delete(icon_merge16);
+    sprite_delete(icon_duplicate9);
+    sprite_delete(icon_duplicate10);
+    sprite_delete(icon_duplicate11);
+    sprite_delete(icon_duplicate12);
+    sprite_delete(icon_duplicate13);
+    sprite_delete(icon_duplicate14);
+    sprite_delete(icon_duplicate15);
+    sprite_delete(icon_duplicate16);
 }
 </string>
           </argument>

@@ -561,6 +561,7 @@ if(global.event[307] &gt; 0 &amp;&amp; !dead){
         oMusicV2.bossbgm = sndJump;
     }
     global.event[307] = 1;
+    dead = true;
 } else sfx_play(sndGenesisHit);
 </string>
           </argument>

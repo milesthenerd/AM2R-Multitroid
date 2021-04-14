@@ -855,6 +855,7 @@ if (myhealth &lt;= 0) {
     mus_fadeout(musTorizoA);
     oMusicV2.bossbgm = sndJump;
     global.event[152] = 2;
+    dead = true;
 }
 </string>
           </argument>

@@ -243,7 +243,7 @@ if (active) {
             {
                 oControl.preferredcolor--;
                 if(oControl.preferredcolor &lt; 1){
-                    oControl.preferredcolor = 9;
+                    oControl.preferredcolor = 17;
                 }
                 sfx_play(sndMenuMove);
                 event_user(2);
@@ -271,7 +271,7 @@ if (active) {
             if (global.curropt == num_color)
             {
                 oControl.preferredcolor++;
-                if(oControl.preferredcolor &gt; 9){
+                if(oControl.preferredcolor &gt; 17){
                     oControl.preferredcolor = 1;
                 }
                 sfx_play(sndMenuMove);
@@ -638,6 +638,30 @@ switch(oControl.preferredcolor){
         op[num_color].optext = "White";
         break;
     case 9:
+        op[num_color].optext = "Canary";
+        break;
+    case 10:
+        op[num_color].optext = "Red Orange";
+        break;
+    case 11:
+        op[num_color].optext = "Sky Blue";
+        break;
+    case 12:
+        op[num_color].optext = "Gold";
+        break;
+    case 13:
+        op[num_color].optext = "Porsche";
+        break;
+    case 14:
+        op[num_color].optext = "Light Purple";
+        break;
+    case 15:
+        op[num_color].optext = "Hot Pink";
+        break;
+    case 16:
+        op[num_color].optext = "Dull Green";
+        break;
+    case 17:
         op[num_color].optext = "Random";
         break;
 }
@@ -690,6 +714,30 @@ switch(oControl.preferredcolor){
         color = "white";
         break;
     case 9:
+        color = "canary";
+        break;
+    case 10:
+        color = "red orange";
+        break;
+    case 11:
+        color = "sky blue";
+        break;
+    case 12:
+        color = "gold";
+        break;
+    case 13:
+        color = "porsche";
+        break;
+    case 14:
+        color = "light purple";
+        break;
+    case 15:
+        color = "hot pink";
+        break;
+    case 16:
+        color = "dull green";
+        break;
+    case 17:
         color = "random";
         break;
 }

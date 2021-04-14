@@ -75,6 +75,7 @@
             var arrBlend = arrDraw[16];
             var arrFXTimer = arrDraw[17];
             var arrRoomPrev = arrDraw[18];
+            var arrState = arrDraw[19];
             if((arrRoom == room || arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen) &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
                 var showName = true;
                 switch(oControl.showname){
@@ -98,15 +99,21 @@
                     }
                     if(arrRoom != room){
                         if(arrRoomPrev == room){
+                            var offset = 52;
+                            if(string_lower(arrName) == "meep") offset = 54;
+                            if(string_lower(arrName) == "omegadruid") offset = 62;
                             draw_set_font(fontGUI2);
                             draw_set_halign(fa_center);
-                            draw_cool_text(arrX, arrY - 52, text, c_black, c_white, c_white, 1);
+                            draw_cool_text(arrX, arrY - offset, text, c_black, c_white, c_white, 1);
                             draw_set_halign(fa_left);
                         }
                     } else {
+                        var offset = 52;
+                        if(string_lower(arrName) == "meep") offset = 54;
+                        if(string_lower(arrName) == "omegadruid") offset = 62;
                         draw_set_font(fontGUI2);
                         draw_set_halign(fa_center);
-                        draw_cool_text(arrX, arrY - 52, text, c_black, c_white, c_white, 1);
+                        draw_cool_text(arrX, arrY - offset, text, c_black, c_white, c_white, 1);
                         draw_set_halign(fa_left);
                     }
                 }

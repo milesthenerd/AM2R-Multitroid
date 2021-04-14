@@ -602,6 +602,7 @@ if (state == 100) {
         with (oTesterEye) instance_destroy();
         
         global.event[200] = 2;
+        dead = true;
         mus_current_fadein();
         instance_destroy();
     }

@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-11</depth>
   <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -130,8 +130,32 @@ switch(preferredcolor){
     case "white":
         preferredcolor = 8;
         break;
-    case "random":
+    case "canary":
         preferredcolor = 9;
+        break;
+    case "red orange":
+        preferredcolor = 10;
+        break;
+    case "sky blue":
+        preferredcolor = 11;
+        break;
+    case "gold":
+        preferredcolor = 12;
+        break;
+    case "porsche":
+        preferredcolor = 13;
+        break;
+    case "light purple":
+        preferredcolor = 14;
+        break;
+    case "hot pink":
+        preferredcolor = 15;
+        break;
+    case "dull green":
+        preferredcolor = 16;
+        break;
+    case "random":
+        preferredcolor = 17;
         break;
 }
 
@@ -1814,10 +1838,10 @@ switch(type_event){
         var bufferSize = buffer_get_size(_buffer);
         buffer_seek(_buffer, buffer_seek_start, 0);
         var bufferSizePacket = buffer_read(_buffer, buffer_s32);
-        show_debug_message(string(bufferSize) + " " + string(bufferSizePacket));
+        //show_debug_message(string(bufferSize) + " " + string(bufferSizePacket));
         if(!is_real(bufferSizePacket)) exit;
         if(bufferSizePacket + 4 != bufferSize) exit;
-        show_debug_message("done");
+        //show_debug_message("done");
         msgid = buffer_read(_buffer, buffer_u8);
         switch(msgid){
             case 254:
@@ -1886,6 +1910,7 @@ switch(type_event){
                 var clientBlend = buffer_read(_buffer, buffer_s16);
                 var clientFXTimer = buffer_read(_buffer, buffer_s8);
                 var clientRoomPrev = buffer_read(_buffer, buffer_s16);
+                var clientState = buffer_read(_buffer, buffer_u8);
                 var findsocket = ds_list_find_index(roomList, clientID);
                 if(global.clientID != clientID){
                     if(findsocket &lt; 0){
@@ -1911,6 +1936,7 @@ switch(type_event){
                             arr[16] = clientBlend;
                             arr[17] = clientFXTimer;
                             arr[18] = clientRoomPrev;
+                            arr[19] = clientState;
                             ds_list_add(roomListData, arr);
                         }
                     } else {
@@ -1934,6 +1960,7 @@ switch(type_event){
                         arr[16] = clientBlend;
                         arr[17] = clientFXTimer;
                         arr[18] = clientRoomPrev;
+                        arr[19] = clientState;
                         var indexValue = ds_list_find_value(roomList, findsocket);
                         for(var i=0; i&lt;ds_list_size(roomListData); i++){
                                 var arrList = roomListData[| i];
@@ -3612,6 +3639,7 @@ if(!noName){
         var arrBlend = arrDraw[16];
         var arrFXTimer = arrDraw[17];
         var arrRoomPrev = arrDraw[18];
+        var arrState = arrDraw[19];
         if((arrRoom == room || arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen) &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
             if(arrSprite == sSpiderMorphBall || arrSprite == sGSpiderMorphBall || arrSprite == sVSpiderMorphBall || arrSprite == sSpiderMorphBall_fusion || arrSprite == sSpiderMorphBall_fusion_gravity || arrSprite == sSpiderMorphBall_fusion_varia){
                 draw_set_blend_mode(bm_add);
@@ -3651,10 +3679,20 @@ if(!noName){
             if(arrRoom != room){
                 if(arrRoomPrev == room){
                     draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
+                    var sprHeight = sprite_get_height(sIdleRight);
+                    if(arrSprite != sTurn &amp;&amp; arrSprite != sVTurn &amp;&amp; arrSprite != sGTurn &amp;&amp; arrSprite != sTurn_fusion &amp;&amp; arrSprite != sTurn_fusion_varia &amp;&amp; arrSprite != sTurn_fusion_gravity) sprHeight = sprite_get_height(arrSprite);
+                    if(string_lower(arrName) == "meep" &amp;&amp; string_count("Crouch", sprite_get_name(arrSprite))) sprHeight += 10;
+                    if(string_lower(arrName) == "omegadruid" &amp;&amp; arrState != oCharacter.BALL &amp;&amp; arrState != oCharacter.CLIMBING &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMOmega_Head_Roar, 2, arrX, arrY - sprHeight, 0.5 * arrMirror, 0.5, direction, c_white, 1);
+                    if(string_lower(arrName) == "meep" &amp;&amp; arrState != oCharacter.BALL &amp;&amp; arrState != oCharacter.CLIMBING &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMiepee, 2, arrX, arrY - sprHeight, 1 * arrMirror, 1, direction, c_white, 1);
                 }
             } else {
                 draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
-            }
+                var sprHeight = sprite_get_height(sIdleRight);
+                if(arrSprite != sTurn &amp;&amp; arrSprite != sVTurn &amp;&amp; arrSprite != sGTurn &amp;&amp; arrSprite != sTurn_fusion &amp;&amp; arrSprite != sTurn_fusion_varia &amp;&amp; arrSprite != sTurn_fusion_gravity) sprHeight = sprite_get_height(arrSprite);
+                if(string_lower(arrName) == "meep" &amp;&amp; string_count("Crouch", sprite_get_name(arrSprite))) sprHeight += 10;
+                if(string_lower(arrName) == "omegadruid" &amp;&amp; arrState != oCharacter.BALL &amp;&amp; arrState != oCharacter.CLIMBING &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMOmega_Head_Roar, 2, arrX, arrY - sprHeight, 0.5 * arrMirror, 0.5, direction, c_white, 1);
+                if(string_lower(arrName) == "meep" &amp;&amp; arrState != oCharacter.BALL &amp;&amp; arrState != oCharacter.CLIMBING &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMiepee, 2, arrX, arrY - sprHeight, 1 * arrMirror, 1, direction, c_white, 1);
+            } 
         }
     }
 }
@@ -3671,7 +3709,37 @@ if(instance_exists(oMapCursor)){
             }
         }
     }
+    var rectoffset;
+    rectoffset = 0;
+    if(instance_exists(oMapScrBG2)) rectoffset = oMapScrBG2.rectoffset;
+    
+    draw_sprite_ext(sMultitroidMapPlayerCountBox, 1, view_xview[0] - oControl.widescreen_space/2, (view_yview[0] + 44) - rectoffset, 1, 1, direction, c_white, 1);
+    
+    if(ds_list_size(global.idList) &gt; 1){
+        for(var f=0; f&lt;ds_list_size(global.idList); f++){
+            var arrList = global.idList[| f];
+            var ID = arrList[0, 0];
+            var _x = 10 * floor(f / 2),
+            var _y = 10 * (f % 2);
+            if(ID == global.clientID){
+                draw_sprite_ext(oControl.MultitroidIcon, (ID - 1), ((view_xview[0] - oControl.widescreen_space/2) + 2 + _x), (view_yview[0] + 44) + 13 + _y, 1, 1, direction, c_white, 1);
+            } else {
+                draw_sprite_ext(oControl.MultitroidIconDark, (ID - 1), ((view_xview[0] - oControl.widescreen_space/2) + 2 + _x), (view_yview[0] + 44) + 13 + _y, 1, 1, direction, c_white, 1);
+            }
+        }
+    } else if(ds_list_size(global.idList) == 1 || ds_list_size(global.idList) == 0){
+        draw_sprite_ext(oControl.MultitroidIcon, clamp(global.clientID - 1, 0, 16), ((view_xview[0] - oControl.widescreen_space/2) + 2), (view_yview[0] + 44) + 13, 1, 1, direction, c_white, 1);
+    }
 }
+
+/*
+if(ID == global.clientID){
+                draw_sprite(oControl.MultitroidIcon, (ID - 1), ((view_xview[0] - oControl.widescreen_space/2) + 2 + _x), (view_yview[0] + 44) + 13 + _y);
+            } else {
+                draw_sprite(oControl.MultitroidIconDark, (ID - 1), (240 + _x) + oControl.widescreen_space, 5 + _y);
+            }
+            draw_sprite(oControl.MultitroidIcon, clamp(global.clientID - 1, 0, 16), 240 + oControl.widescreen_space, 5);
+*/
 
 </string>
           </argument>

@@ -786,6 +786,7 @@ if (myhealth &lt;= 0) {
         oMusicV2.bossbgm = sndJump;
     }
     global.event[152] = 3;
+    dead = true;
 }
 </string>
           </argument>
