@@ -446,6 +446,7 @@ if(instance_exists(oClient) &amp;&amp; instance_exists(self) &amp;&amp; instance
 }
 
 if(!done){
+    /*
     if(!instance_exists(oClient)){
         op[num_difficulty].enabled = 0;
         canedit[num_difficulty] = 0;
@@ -458,6 +459,7 @@ if(!done){
             canedit[num_difficulty] = 0;
         }
     }
+    */
     
     if(!instance_exists(oClient)){
         op[num_seedgen].enabled = 0;
@@ -472,6 +474,7 @@ if(!done){
         }
     }
     
+    /*
     if(!instance_exists(oClient)){
         op[num_elm].enabled = 0;
         canedit[num_elm] = 0;
@@ -484,6 +487,7 @@ if(!done){
             canedit[num_elm] = 0;
         }
     }
+    */
     
     switch(menuDifficulty){
         case 0:
@@ -537,7 +541,7 @@ if(ID == msg &amp;&amp; global.curropt == num_ip){
     if(ds_map_find_value(async_load, "status")){
         var input = ds_map_find_value(async_load, "result");
         if(is_string(input)){
-            ini_open(working_directory + "\settings.ini");
+            ini_open(working_directory + "\Multitroid\settings.ini");
             ini_write_string("Settings", "ipaddress", input);
             ini_close();
             ip = input;
@@ -554,7 +558,7 @@ if(ID == msg &amp;&amp; global.curropt == num_port){
     if(ds_map_find_value(async_load, "status")){
         var input = ds_map_find_value(async_load, "value");
         if(is_real(input)){
-            ini_open(working_directory + "\settings.ini");
+            ini_open(working_directory + "\Multitroid\settings.ini");
             ini_write_real("Settings", "port", input);
             ini_close();
             port = string(input);
@@ -570,7 +574,7 @@ if(ID == msg &amp;&amp; global.curropt == num_name){
     if(ds_map_find_value(async_load, "status")){
         var input = ds_map_find_value(async_load, "result");
         if(is_string(input)){
-            ini_open(working_directory + "\settings.ini");
+            ini_open(working_directory + "\Multitroid\settings.ini");
             ini_write_string("Settings", "name", input);
             ini_close();
             name = input;
@@ -760,7 +764,7 @@ switch(showname){
         break;
 }
 
-ini_open(working_directory + "\mod_settings.ini");
+ini_open(working_directory + "\Multitroid\mod_settings.ini");
 ini_write_string("ModSettings", "ipaddress", ip);
 ini_write_real("ModSettings", "port", real(port));
 ini_write_string("ModSettings", "displayname", name);
@@ -863,9 +867,15 @@ op[num_difficulty] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_difficulty].label = "Difficulty";
 op[num_difficulty].optionid = num_difficulty;
 
+op[num_difficulty].enabled = 0;
+canedit[num_difficulty] = 0;
+
 op[num_elm] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_elm].label = "Extreme Lab Metroids";
 op[num_elm].optionid = num_elm;
+
+op[num_elm].enabled = 0;
+canedit[num_elm] = 0;
 
 op[num_seedgen] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_seedgen].optionid = num_seedgen;

@@ -27,15 +27,17 @@ if (argument13 == 1) {
 }
 
 if(instance_exists(oClient) && instance_exists(oCharacter)){
-    if(oClient.connected && string_lower(oClient.name) == "omegadruid" && oCharacter.state != oCharacter.BALL && oCharacter.state != oCharacter.CLIMBING && oCharacter.vjump != 0 && !(oCharacter.sjball > 0) && oCharacter.state != oCharacter.AIRBALL){
+    if(oClient.connected && string_lower(oClient.name) == "omegadruid" && string_count("JumpLeft", sprite_get_name(sprite_index)) == 0 && string_count("JumpRight", sprite_get_name(sprite_index)) == 0 && string_count("Ball", sprite_get_name(sprite_index)) == 0 && string_count("Walljump", sprite_get_name(sprite_index)) == 0 && string_count("Spacejump", sprite_get_name(sprite_index)) == 0){
         var sprHeight = sprite_get_height(sIdleRight);
         if(sprite_index != sTurn && sprite_index != sVTurn && sprite_index != sGTurn && sprite_index != sTurn_fusion && sprite_index != sTurn_fusion_varia && sprite_index != sTurn_fusion_gravity) sprHeight = sprite_height;
+        if(string_count("AimUp", sprite_get_name(sprite_index)) > 0) sprHeight = sprite_get_height(sIdleRight);
         draw_sprite_ext(sMOmega_Head_Roar, 2, argument1, argument2 - sprHeight, 0.5 * argument10, 0.5, direction, c_white, 1);
     }
     
-    if(oClient.connected && string_lower(oClient.name) == "meep" && oCharacter.state != oCharacter.BALL && oCharacter.state != oCharacter.CLIMBING && oCharacter.vjump != 0 && !(oCharacter.sjball > 0) && oCharacter.state != oCharacter.AIRBALL){
+    if(oClient.connected && string_lower(oClient.name) == "meep" && string_count("JumpLeft", sprite_get_name(sprite_index)) == 0 && string_count("JumpRight", sprite_get_name(sprite_index)) == 0 && string_count("Ball", sprite_get_name(sprite_index)) == 0 && string_count("Walljump", sprite_get_name(sprite_index)) == 0 && string_count("Spacejump", sprite_get_name(sprite_index)) == 0){
         var sprHeight = sprite_get_height(sIdleRight);
         if(sprite_index != sTurn && sprite_index != sVTurn && sprite_index != sGTurn && sprite_index != sTurn_fusion && sprite_index != sTurn_fusion_varia && sprite_index != sTurn_fusion_gravity) sprHeight = sprite_height;
+        if(string_count("AimUp", sprite_get_name(sprite_index)) > 0) sprHeight = sprite_get_height(sIdleRight);
         if(string_count("Crouch", sprite_get_name(sprite_index))) sprHeight += 10;
         draw_sprite_ext(sMiepee, 2, argument1, argument2 - sprHeight, 1 * argument10, 1, direction, c_white, 1);
     }

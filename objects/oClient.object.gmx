@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>network_set_config(network_config_connect_timeout, 5000);
-strict_init(working_directory + "\dictionary.json");
+strict_init(working_directory + "\Multitroid\dictionary.json");
 queenHealthResetQueued = false;
 canSend = false;
 metroidCountChanged = false;
@@ -69,7 +69,7 @@ pingTimer = 90;
 resetTimer = -1;
 teleport = false;
 noName = false;
-syncedDifficulty = 0;
+syncedDifficulty = 1;
 elm = 0;
 state = undefined;
 seed = undefined;
@@ -79,7 +79,7 @@ type = network_socket_tcp;
 syncedDifficulty = global.difficulty;
 elm = oControl.mod_monstersextremecheck;
 
-ini_open(working_directory + "\mod_settings.ini");
+ini_open(working_directory + "\Multitroid\mod_settings.ini");
 ipaddress = ini_read_string("ModSettings", "ipaddress", "127.0.0.1");
 name = ini_read_string("ModSettings", "displayname", "name");
 port = ini_read_real("ModSettings", "port", 64198);
@@ -91,7 +91,7 @@ ini_close();
 var nameLength = string_length(name);
 if(nameLength &gt; 15){
     name = string_copy(name, 1, 15);
-    ini_open(working_directory + "\mod_settings.ini");
+    ini_open(working_directory + "\Multitroid\mod_settings.ini");
     ini_write_string("ModSettings", "displayname", name);
     ini_close();
 }
@@ -2269,6 +2269,156 @@ switch(type_event){
                                 global.itemPrev[i] = itemArr[f, 0];
                                 if(global.item[i] != itemArr[f, 0]){
                                     global.item[i] = itemArr[f, 0];
+                                    
+                                    if(i == 0){
+                                        global.bomb = 1;
+                                        global.bombPrev = global.bomb;
+                                        popup_text(get_text("Items", "Bombs") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 1){
+                                        global.powergrip = 1;
+                                        global.powergripPrev = global.powergrip;
+                                        popup_text(get_text("Items", "PowerGrip") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 2){
+                                        global.spiderball = 1;
+                                        global.spiderballPrev = global.spiderball;
+                                        popup_text(get_text("Items", "SpiderBall") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 3){
+                                        global.jumpball = 1;
+                                        global.jumpballPrev = global.jumpball;
+                                        popup_text(get_text("Items", "JumpBall") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 4){
+                                        global.hijump = 1;
+                                        global.hijumpPrev = global.hijump;
+                                        popup_text(get_text("Items", "HiJump") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 5){
+                                        global.currentsuit = 1;
+                                        global.currentsuitPrev = global.currentsuit;
+                                        popup_text(get_text("Items", "VariaSuit") + " " + get_text("GlobalOptions", "Enabled"));
+                                        if(sfx_isplaying(sndSpinJump)){
+                                            sfx_stop(sndSpinJump);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndSpaceJump)){
+                                            sfx_stop(sndSpaceJump);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndScrewAttack)){
+                                            sfx_stop(sndScrewAttack);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndSpaceScrewAttack)){
+                                            sfx_stop(sndSpaceScrewAttack);
+                                        }
+                                    }
+                                    
+                                    if(i == 6){
+                                        global.spacejump = 1;
+                                        global.spacejumpPrev = global.spacejump;
+                                        popup_text(get_text("Items", "SpaceJump") + " " + get_text("GlobalOptions", "Enabled"));
+                                        if(sfx_isplaying(sndSpinJump)){
+                                            sfx_stop(sndSpinJump);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndSpaceJump)){
+                                            sfx_stop(sndSpaceJump);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndScrewAttack)){
+                                            sfx_stop(sndScrewAttack);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndSpaceScrewAttack)){
+                                            sfx_stop(sndSpaceScrewAttack);
+                                        }
+                                    }
+                                    
+                                    if(i == 7){
+                                        global.speedbooster = 1;
+                                        global.speedboosterPrev = global.speedbooster;
+                                        popup_text(get_text("Items", "SpeedBooster") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 8){
+                                        global.screwattack = 1;
+                                        global.screwattackPrev = global.screwattack;
+                                        popup_text(get_text("Items", "ScrewAttack") + " " + get_text("GlobalOptions", "Enabled"));
+                                        if(sfx_isplaying(sndSpinJump)){
+                                            sfx_stop(sndSpinJump);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndSpaceJump)){
+                                            sfx_stop(sndSpaceJump);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndScrewAttack)){
+                                            sfx_stop(sndScrewAttack);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndSpaceScrewAttack)){
+                                            sfx_stop(sndSpaceScrewAttack);
+                                        }
+                                    }
+                                    
+                                    if(i == 9){
+                                        global.currentsuit = 2;
+                                        global.currentsuitPrev = global.currentsuit;
+                                        popup_text(get_text("Items", "GravitySuit") + " " + get_text("GlobalOptions", "Enabled"));
+                                        if(sfx_isplaying(sndSpinJump)){
+                                            sfx_stop(sndSpinJump);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndSpaceJump)){
+                                            sfx_stop(sndSpaceJump);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndScrewAttack)){
+                                            sfx_stop(sndScrewAttack);
+                                        }
+                                        
+                                        if(sfx_isplaying(sndSpaceScrewAttack)){
+                                            sfx_stop(sndSpaceScrewAttack);
+                                        }
+                                    }
+                                    
+                                    if(i == 10){
+                                        global.cbeam = 1;
+                                        global.cbeamPrev = global.cbeam;
+                                        popup_text(get_text("Items", "ChargeBeam") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 11){
+                                        global.ibeam = 1;
+                                        global.ibeamPrev = global.ibeam;
+                                        popup_text(get_text("Items", "IceBeam") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 12){
+                                        global.wbeam = 1;
+                                        global.wbeamPrev = global.wbeam;
+                                        popup_text(get_text("Items", "WaveBeam") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 13){
+                                        global.sbeam = 1;
+                                        global.sbeamPrev = global.sbeam;
+                                        popup_text(get_text("Items", "SpazerBeam") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
+                                    
+                                    if(i == 14){
+                                        global.pbeam = 1;
+                                        global.pbeamPrev = global.pbeam;
+                                        popup_text(get_text("Items", "PlasmaBeam") + " " + get_text("GlobalOptions", "Enabled"));
+                                    }
                                 }
                             }
                         }
@@ -3681,17 +3831,19 @@ if(!noName){
                     draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
                     var sprHeight = sprite_get_height(sIdleRight);
                     if(arrSprite != sTurn &amp;&amp; arrSprite != sVTurn &amp;&amp; arrSprite != sGTurn &amp;&amp; arrSprite != sTurn_fusion &amp;&amp; arrSprite != sTurn_fusion_varia &amp;&amp; arrSprite != sTurn_fusion_gravity) sprHeight = sprite_get_height(arrSprite);
+                    if(string_count("AimUp", sprite_get_name(arrSprite)) &gt; 0) sprHeight = sprite_get_height(sIdleRight);
                     if(string_lower(arrName) == "meep" &amp;&amp; string_count("Crouch", sprite_get_name(arrSprite))) sprHeight += 10;
-                    if(string_lower(arrName) == "omegadruid" &amp;&amp; arrState != oCharacter.BALL &amp;&amp; arrState != oCharacter.CLIMBING &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMOmega_Head_Roar, 2, arrX, arrY - sprHeight, 0.5 * arrMirror, 0.5, direction, c_white, 1);
-                    if(string_lower(arrName) == "meep" &amp;&amp; arrState != oCharacter.BALL &amp;&amp; arrState != oCharacter.CLIMBING &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMiepee, 2, arrX, arrY - sprHeight, 1 * arrMirror, 1, direction, c_white, 1);
+                    if(string_lower(arrName) == "omegadruid" &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Walljump", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Spacejump", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMOmega_Head_Roar, 2, arrX, arrY - sprHeight, 0.5 * arrMirror, 0.5, direction, c_white, 1);
+                    if(string_lower(arrName) == "meep" &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Walljump", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Spacejump", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMiepee, 2, arrX, arrY - sprHeight, 1 * arrMirror, 1, direction, c_white, 1);
                 }
             } else {
                 draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
                 var sprHeight = sprite_get_height(sIdleRight);
                 if(arrSprite != sTurn &amp;&amp; arrSprite != sVTurn &amp;&amp; arrSprite != sGTurn &amp;&amp; arrSprite != sTurn_fusion &amp;&amp; arrSprite != sTurn_fusion_varia &amp;&amp; arrSprite != sTurn_fusion_gravity) sprHeight = sprite_get_height(arrSprite);
+                if(string_count("AimUp", sprite_get_name(arrSprite)) &gt; 0) sprHeight = sprite_get_height(sIdleRight);
                 if(string_lower(arrName) == "meep" &amp;&amp; string_count("Crouch", sprite_get_name(arrSprite))) sprHeight += 10;
-                if(string_lower(arrName) == "omegadruid" &amp;&amp; arrState != oCharacter.BALL &amp;&amp; arrState != oCharacter.CLIMBING &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMOmega_Head_Roar, 2, arrX, arrY - sprHeight, 0.5 * arrMirror, 0.5, direction, c_white, 1);
-                if(string_lower(arrName) == "meep" &amp;&amp; arrState != oCharacter.BALL &amp;&amp; arrState != oCharacter.CLIMBING &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMiepee, 2, arrX, arrY - sprHeight, 1 * arrMirror, 1, direction, c_white, 1);
+                if(string_lower(arrName) == "omegadruid" &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Walljump", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Spacejump", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMOmega_Head_Roar, 2, arrX, arrY - sprHeight, 0.5 * arrMirror, 0.5, direction, c_white, 1);
+                if(string_lower(arrName) == "meep" &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Walljump", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Spacejump", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMiepee, 2, arrX, arrY - sprHeight, 1 * arrMirror, 1, direction, c_white, 1);
             } 
         }
     }

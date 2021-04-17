@@ -869,7 +869,7 @@ if (state == SAVINGFX) {
         instance_create(x, y, oSaveFX);
         instance_create(x, y, oSaveSparks);
         popup_text(get_text("Notifications", "GameSaved"));
-        save_game("save" + string(global.saveslot + 1));
+        save_game(working_directory + "\Multitroid\save" + string(global.saveslot + 1));
         refill_heath_ammo();
     }
     if (statetime == 230) state = IDLE;
@@ -934,7 +934,7 @@ if (state == SAVINGSHIP) {
 if (state == SAVINGSHIPFX) {
     if (statetime == 1) {
         sfx_play(sndSave);
-        save_game("save" + string(global.saveslot + 1));
+        save_game(working_directory + "\Multitroid\save" + string(global.saveslot + 1));
         refill_heath_ammo();
         popup_text(get_text("Notifications", "GameSaved"));
     }

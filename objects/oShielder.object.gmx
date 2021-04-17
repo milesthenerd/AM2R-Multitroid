@@ -129,9 +129,9 @@ alarm[0] = 60 + random(200);
 enemy_active_check(70);
 enemy_target_check(firerange, 1);
 if (frozen == 0){
-    myobj.frozen = 0;
+    if(instance_exists(myobj)) myobj.frozen = 0;
 } else {
-    myobj.frozen = 1;
+    if(instance_exists(myobj)) myobj.frozen = 1;
 }
 if (active == 1 &amp;&amp; stun == 0 &amp;&amp; frozen == 0 &amp;&amp; state != 100) {
     if (state == 0) {
