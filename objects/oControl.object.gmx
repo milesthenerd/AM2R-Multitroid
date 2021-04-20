@@ -490,13 +490,13 @@ MultitroidIconDefault = sMultitroidIcon;
 MultitroidIconDarkDefault = sDarkMultitroidPlayer;
 MultitroidMapIconDefault = sMultitroidMapIcon;
 
-MultitroidPaletteColor = sPalMultitroidNew;
+MultitroidPaletteColor = sPalMultitroidMiepeeNew;
 MultitroidPaletteFusionColor = sPalMultitroidFusion;
 SpiderballPaletteColor = sPalSpiderball;
 MultitroidBabyPaletteColor = sPalMultitroidBaby;
 MultitroidIconColor = sMultitroidIcon;
-MultitroidIconDarkColor = sDarkMultitroidPlayer;
-MultitroidMapIconColor = sMultitroidMapIcon;
+MultitroidIconDarkColor = sMultitroidIcon;
+MultitroidMapIconColor = sMultitroidMapIconMiepee;
 
 MultitroidPaletteCustom = sPalMultitroidNew;
 MultitroidPaletteFusionCustom = sPalMultitroidFusion;

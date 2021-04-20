@@ -283,7 +283,7 @@ if (state == 5 || dodging) alarm[2] = 3;
         if (chasing) {
             targetx = oCharacter.x;
             targety = oCharacter.y - 24;
-            if (shell.hitting &amp;&amp; hitandrun) {
+            if (instance_exists(shell) &amp;&amp; shell.hitting &amp;&amp; hitandrun) {
                 xVel = 0;
                 yVel = 0;
                 event_user(1);
@@ -475,7 +475,7 @@ if (state == 5 || dodging) alarm[2] = 3;
     moveTo(xVel, yVel);
 } // if (active == 1)
 if (state == 100) {
-    if (statetime == 1) {
+    if (statetime == 1 &amp;&amp; instance_exists(shell)) {
         damagedealt += shell.damagedealt;
         with (shell) instance_destroy();
     }
