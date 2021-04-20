@@ -38,6 +38,7 @@ num_port = tempnumcounter++;
 num_name = tempnumcounter++;
 num_sequence = tempnumcounter++;
 num_color = tempnumcounter++;
+num_palette = tempnumcounter++;
 num_showname = tempnumcounter++;
 num_difficulty = tempnumcounter++;
 num_elm = tempnumcounter++;
@@ -109,6 +110,7 @@ tip[num_port] = "Set the port of the server";
 tip[num_name] = "Set your display name";
 tip[num_sequence] = "Toggle whether the reactor sequence is synced";
 tip[num_color] = "Pick your preferred player color";
+tip[num_palette] = "Choose Default/Color/Custom Palette";
 tip[num_showname] = "Enable/disable showing player names";
 tip[num_difficulty] = "Choose the shared Multitroid difficulty";
 tip[num_elm] = "Choose the shared ELM difficulty";
@@ -248,6 +250,16 @@ if (active) {
                 sfx_play(sndMenuMove);
                 event_user(2);
             }
+            
+            if (global.curropt == num_palette)
+            {
+                oControl.palette--;
+                if(oControl.palette &lt; 0){
+                    oControl.palette = 2;
+                }
+                sfx_play(sndMenuMove);
+                event_user(2);
+            }
         }
         
         if (global.curropt == num_difficulty &amp;&amp; instance_exists(oClient))
@@ -273,6 +285,16 @@ if (active) {
                 oControl.preferredcolor++;
                 if(oControl.preferredcolor &gt; 17){
                     oControl.preferredcolor = 1;
+                }
+                sfx_play(sndMenuMove);
+                event_user(2);
+            }
+            
+            if (global.curropt == num_palette)
+            {
+                oControl.palette++;
+                if(oControl.palette &gt; 2){
+                    oControl.palette = 0;
                 }
                 sfx_play(sndMenuMove);
                 event_user(2);
@@ -313,14 +335,15 @@ if (active) {
         event_user(2);
     }
     
-    var key;
+    var key, keyBegin;
+    var keyBegin = (oControl.kMenu1 &gt; 0);
     if(os_type != os_android){
         key = keyboard_check_pressed(vk_enter);
     } else {
         key = (oControl.kMenu1 &gt; 0);
     }
     
-    if (key &amp;&amp; oControl.kMenu1PushedSteps == 0) {
+    if (key &amp;&amp; oControl.kMenu1PushedSteps == 0 || (os_type != os_android &amp;&amp; keyBegin &amp;&amp; oControl.kMenu1PushedSteps == 0 &amp;&amp; !editing)) {
         if (global.curropt == num_ip &amp;&amp; os_type != os_android) {
             editing = !editing;
             op[num_ip].editing = editing;
@@ -541,7 +564,7 @@ if(ID == msg &amp;&amp; global.curropt == num_ip){
     if(ds_map_find_value(async_load, "status")){
         var input = ds_map_find_value(async_load, "result");
         if(is_string(input)){
-            ini_open(working_directory + "\Multitroid\settings.ini");
+            ini_open(working_directory + "\multitroid\settings.ini");
             ini_write_string("Settings", "ipaddress", input);
             ini_close();
             ip = input;
@@ -558,7 +581,7 @@ if(ID == msg &amp;&amp; global.curropt == num_port){
     if(ds_map_find_value(async_load, "status")){
         var input = ds_map_find_value(async_load, "value");
         if(is_real(input)){
-            ini_open(working_directory + "\Multitroid\settings.ini");
+            ini_open(working_directory + "\multitroid\settings.ini");
             ini_write_real("Settings", "port", input);
             ini_close();
             port = string(input);
@@ -574,7 +597,7 @@ if(ID == msg &amp;&amp; global.curropt == num_name){
     if(ds_map_find_value(async_load, "status")){
         var input = ds_map_find_value(async_load, "result");
         if(is_string(input)){
-            ini_open(working_directory + "\Multitroid\settings.ini");
+            ini_open(working_directory + "\multitroid\settings.ini");
             ini_write_string("Settings", "name", input);
             ini_close();
             name = input;
@@ -764,13 +787,26 @@ switch(showname){
         break;
 }
 
-ini_open(working_directory + "\Multitroid\mod_settings.ini");
+switch(oControl.palette){
+    case 0:
+        op[num_palette].optext = "Default";
+        break;
+    case 1:
+        op[num_palette].optext = "Color";
+        break;
+    case 2:
+        op[num_palette].optext = "Custom";
+        break;
+}
+
+ini_open(working_directory + "\multitroid\mod_settings.ini");
 ini_write_string("ModSettings", "ipaddress", ip);
 ini_write_real("ModSettings", "port", real(port));
 ini_write_string("ModSettings", "displayname", name);
 ini_write_string("ModSettings", "reactorsequence", _sequence);
 ini_write_string("ModSettings", "preferredcolor", color);
 ini_write_string("ModSettings", "showname", _showname);
+ini_write_real("ModSettings", "palette", oControl.palette);
 ini_close();
 
 oControl.ipaddress = ip;
@@ -857,6 +893,14 @@ op[num_color].optionid = num_color;
 if(!global.shaders_compiled){
     op[num_color].enabled = 0;
     canedit[num_color] = 0;
+}
+
+op[num_palette] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_palette].label = "Palette";
+op[num_palette].optionid = num_palette;
+if(!global.shaders_compiled){
+    op[num_palette].enabled = 0;
+    canedit[num_palette] = 0;
 }
 
 op[num_showname] = instance_create(x, y + sep * tempcount++, oOptionLR);

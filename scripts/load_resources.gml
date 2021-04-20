@@ -289,10 +289,10 @@ if (file_exists("mods/palettes/monsters/queen_dead.png")) oControl.QueenDead = b
 if (file_exists("mods/palettes/monsters/queen_blood_drop.png")) oControl.QueenBloodDrop = sprite_add("mods/palettes/monsters/queen_blood_drop.png", sprite_get_number(sQueenBloodDrop), false, false, sprite_get_xoffset(sQueenBloodDrop), sprite_get_yoffset(sQueenBloodDrop));
 if (file_exists("mods/palettes/monsters/queen_blood_particle.png")) oControl.QueenBloodParticle = sprite_add("mods/palettes/monsters/queen_blood_particle.png", sprite_get_number(sQueenBloodParticle), false, false, sprite_get_xoffset(sQueenBloodParticle), sprite_get_yoffset(sQueenBloodParticle));
 
-if (file_exists("mods/palettes/multitroid/multitroid.png")) oControl.MultitroidPalette = sprite_add("mods/palettes/multitroid/multitroid.png", 1, false, false, 0, 0);
-if (file_exists("mods/palettes/multitroid/multitroid_fusion.png")) oControl.MultitroidPaletteFusion = sprite_add("mods/palettes/multitroid/multitroid_fusion.png", 1, false, false, 0, 0);
-if (file_exists("mods/palettes/multitroid/spiderball.png")) oControl.SpiderballPalette = sprite_add("mods/palettes/multitroid/spiderball.png", 1, false, false, 0, 0);
-if (file_exists("mods/palettes/multitroid/baby_metroid.png")) oControl.MultitroidBabyPalette = sprite_add("mods/palettes/multitroid/baby_metroid.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/multitroid.png")) oControl.MultitroidPaletteCustom = sprite_add("mods/palettes/multitroid/multitroid.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/multitroid_fusion.png")) oControl.MultitroidPaletteFusionCustom = sprite_add("mods/palettes/multitroid/multitroid_fusion.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/spiderball.png")) oControl.SpiderballPaletteCustom = sprite_add("mods/palettes/multitroid/spiderball.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/baby_metroid.png")) oControl.MultitroidBabyPaletteCustom = sprite_add("mods/palettes/multitroid/baby_metroid.png", 1, false, false, 0, 0);
 
 icon_sprite = 0;
 icon_merge = 1;
@@ -376,7 +376,8 @@ if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_15.png"
 icon_duplicate16 = sprite_duplicate(icon_merge16);
 sprite_merge(icon_duplicate, icon_duplicate16);
 if(i == 16){
-    oControl.MultitroidIcon = icon_duplicate;
+    //oControl.MultitroidIcon = icon_duplicate;
+    oControl.MultitroidIconCustom = icon_duplicate;
     show_debug_message("MultitroidIcons imported");
 }
 
@@ -462,7 +463,8 @@ if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlaye
 icon_duplicate16 = sprite_duplicate(icon_merge16);
 sprite_merge(icon_duplicate, icon_duplicate16);
 if(i == 16){
-    oControl.MultitroidIconDark = icon_duplicate;
+    //oControl.MultitroidIconDark = icon_duplicate;
+    oControl.MultitroidIconDarkCustom = icon_duplicate;
     show_debug_message("MultitroidIconDark imported");
 }
 
@@ -548,6 +550,7 @@ if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_15.png"))
 icon_duplicate16 = sprite_duplicate(icon_merge16);
 sprite_merge(icon_duplicate, icon_duplicate16);
 if(i == 16){
-    oControl.MultitroidMapIcon = icon_duplicate;
+    //oControl.MultitroidMapIcon = icon_duplicate;
+    oControl.MultitroidMapIconCustom = icon_duplicate;
     show_debug_message("MultitroidMapIcons imported");
 }

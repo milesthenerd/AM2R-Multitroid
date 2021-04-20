@@ -115,7 +115,13 @@ widescreen_space = oControl.widescreen_space;
         rectoffset -= 2;
     } else fadein = 0;
 }
-if (active &amp;&amp; !fadein &amp;&amp; oControl.kStart &amp;&amp; oControl.kStartPushedSteps == 0) event_user(0);
+if (active &amp;&amp; !fadein &amp;&amp; oControl.kStart &amp;&amp; oControl.kStartPushedSteps == 0){
+    if(instance_exists(oOptionsMod)){
+        if(oOptionsMod.editing){
+            //do nothing
+        } else event_user(0);
+    } else event_user(0);
+}
 if (fadeout) rectoffset += 2;
 if (ealpha &lt; 1 &amp;&amp; fadeout == 0) ealpha += 0.05;
 if (ealpha &gt; 0 &amp;&amp; fadeout) ealpha -= 0.05;
