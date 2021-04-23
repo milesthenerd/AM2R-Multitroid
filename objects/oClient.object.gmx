@@ -151,7 +151,7 @@ switch(preferredcolor){
     case "hot pink":
         preferredcolor = 15;
         break;
-    case "dull green":
+    case "retro green":
         preferredcolor = 16;
         break;
     case "random":
@@ -1216,13 +1216,19 @@ if(instance_exists(oCharacter)){
         global.event[203] = 9;
     }
 }
-
+//Ensure Arachnus event syncs properly
 if(global.event[103] &gt; 0){
     global.event[103] = floor(global.event[103]);
 }
 
+//Reset Queen phase when dead
 if(global.event[303] &gt; 0){
     phase = 0;
+}
+
+//Changes drill event to already be done
+if(global.event[172] != 3){
+    global.event[172] = 3;
 }
 
 if(room == rm_death){

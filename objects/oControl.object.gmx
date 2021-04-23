@@ -474,7 +474,7 @@ switch(preferredcolor){
     case "hot pink":
         preferredcolor = 15;
         break;
-    case "dull green":
+    case "retro green":
         preferredcolor = 16;
         break;
     case "random":

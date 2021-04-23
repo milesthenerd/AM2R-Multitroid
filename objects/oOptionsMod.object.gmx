@@ -686,7 +686,7 @@ switch(oControl.preferredcolor){
         op[num_color].optext = "Hot Pink";
         break;
     case 16:
-        op[num_color].optext = "Dull Green";
+        op[num_color].optext = "Retro Green";
         break;
     case 17:
         op[num_color].optext = "Random";
@@ -762,7 +762,7 @@ switch(oControl.preferredcolor){
         color = "hot pink";
         break;
     case 16:
-        color = "dull green";
+        color = "retro green";
         break;
     case 17:
         color = "random";
