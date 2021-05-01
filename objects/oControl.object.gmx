@@ -408,6 +408,7 @@ if(!(file_exists(working_directory + "\multitroid\mod_settings.ini"))){
     ini_write_string("ModSettings", "preferredcolor", "random");
     ini_write_string("ModSettings", "showname", "enabled");
     ini_write_real("ModSettings", "palette", 0);
+    ini_write_real("ModSettings", "censorip", 0);
     ini_close();
 }
 ini_open(working_directory + "\multitroid\mod_settings.ini");
@@ -418,6 +419,7 @@ reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence",
 preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
 showname = string_lower(ini_read_string("ModSettings", "showname", "enabled"));
 palette = ini_read_real("ModSettings", "palette", 0);
+censorip = ini_read_real("ModSettings", "censorip", 0);
 ini_close();
 
 var nameLength = string_length(name);
@@ -490,10 +492,10 @@ MultitroidIconDefault = sMultitroidIcon;
 MultitroidIconDarkDefault = sDarkMultitroidPlayer;
 MultitroidMapIconDefault = sMultitroidMapIcon;
 
-MultitroidPaletteColor = sPalMultitroidMiepeeNew;
-MultitroidPaletteFusionColor = sPalMultitroidFusion;
-SpiderballPaletteColor = sPalSpiderball;
-MultitroidBabyPaletteColor = sPalMultitroidBaby;
+MultitroidPaletteColor = sPalMultitroidColorNew;
+MultitroidPaletteFusionColor = sPalMultitroidFusionColor;
+SpiderballPaletteColor = sPalSpiderballColor;
+MultitroidBabyPaletteColor = sPalMetroidBabyColor;
 MultitroidIconColor = sMultitroidIcon;
 MultitroidIconDarkColor = sMultitroidIcon;
 MultitroidMapIconColor = sMultitroidMapIconMiepee;

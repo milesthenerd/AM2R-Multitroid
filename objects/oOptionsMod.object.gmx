@@ -32,7 +32,8 @@ var tempnumcounter = 0;
     This list dictates the order of selection in the Extras Menu. 
     Also, the list in User Defined 0 needs to be in order.
 */
-
+init = 0;
+num_censorip = tempnumcounter++;
 num_ip = tempnumcounter++;
 num_port = tempnumcounter++;
 num_name = tempnumcounter++;
@@ -105,6 +106,7 @@ with (oSS_Fg) {
 }
 
 
+tip[num_censorip] = "Toggle whether your IP address is censored"
 tip[num_ip] = "Set the IP address of the server";
 tip[num_port] = "Set the port of the server";
 tip[num_name] = "Set your display name";
@@ -318,6 +320,7 @@ if (active) {
     
      
     if (oControl.kLeft &gt; 0 &amp;&amp; oControl.kLeftPushedSteps == 0 || oControl.kRight &gt; 0 &amp;&amp; oControl.kRightPushedSteps == 0 &amp;&amp; global.curropt &lt; lastitem &amp;&amp; oControl.kDown == 0 &amp;&amp; oControl.kUp == 0) {
+        if (global.curropt == num_censorip) oControl.censorip = !oControl.censorip;
         if (global.curropt == num_sequence) sequence = !sequence;
         if (global.curropt == num_showname) showname = !showname;
         //if (global.shaders_compiled) {
@@ -535,6 +538,17 @@ if(!done){
             op[num_elm].optext = "Enabled";
             break;
     }
+    
+    if(oControl.censorip &amp;&amp; !op[num_ip].editing){
+        op[num_ip].optext = "";
+        init = 1;
+    }
+    
+    if(op[num_ip].editing){
+        if(keyboard_check(vk_control) &amp;&amp; keyboard_check_pressed(ord('V'))){
+            keyboard_string = clipboard_get_text();
+        }
+    }
 }
 </string>
           </argument>
@@ -634,7 +648,10 @@ if(ID == msg &amp;&amp; global.curropt == num_name){
 var _sequence = "synced";
 var _showname = "enabled";
 
-op[num_ip].optext = ip;
+if(oControl.censorip){
+    if(init) op[num_ip].optext = ip;
+} else op[num_ip].optext = ip;
+
 op[num_port].optext = port;
 op[num_name].optext = name;
 
@@ -799,6 +816,15 @@ switch(oControl.palette){
         break;
 }
 
+switch(oControl.censorip){
+    case 0:
+        op[num_censorip].optext = "Disabled";
+        break;
+    case 1:
+        op[num_censorip].optext = "Enabled";
+        break;
+}
+
 ini_open(working_directory + "\multitroid\mod_settings.ini");
 ini_write_string("ModSettings", "ipaddress", ip);
 ini_write_real("ModSettings", "port", real(port));
@@ -807,6 +833,7 @@ ini_write_string("ModSettings", "reactorsequence", _sequence);
 ini_write_string("ModSettings", "preferredcolor", color);
 ini_write_string("ModSettings", "showname", _showname);
 ini_write_real("ModSettings", "palette", oControl.palette);
+ini_write_real("ModSettings", "censorip", oControl.censorip);
 ini_close();
 
 oControl.ipaddress = ip;
@@ -870,6 +897,10 @@ op[50] = instance_create(x, y, oMenuLabel);
 op[50].text = "Multitroid settings";
 
 var tempcount = 1;
+
+op[num_censorip] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_censorip].label = "IP Address Censoring";
+op[num_censorip].optionid = num_censorip;
 
 op[num_ip] = instance_create(x, y + sep * tempcount++, oOptionLRMod);
 op[num_ip].label = "IP Address";

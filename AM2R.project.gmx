@@ -5003,8 +5003,11 @@
       <sprite>sprites\sShirkTurnFrozen</sprite>
       <sprite>sprites\sMultitroidMapPlayerCountBox</sprite>
       <sprite>sprites\sMiepee</sprite>
-      <sprite>sprites\sPalMultitroidMiepeeNew</sprite>
+      <sprite>sprites\sPalMultitroidColorNew</sprite>
       <sprite>sprites\sMultitroidMapIconMiepee</sprite>
+      <sprite>sprites\sPalMultitroidFusionColor</sprite>
+      <sprite>sprites\sPalSpiderballColor</sprite>
+      <sprite>sprites\sPalMetroidBabyColor</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
