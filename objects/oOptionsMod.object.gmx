@@ -487,6 +487,7 @@ if(!done){
     }
     */
     
+    /*
     if(!instance_exists(oClient)){
         op[num_seedgen].enabled = 0;
         canedit[num_seedgen] = 0;
@@ -499,6 +500,7 @@ if(!done){
             canedit[num_seedgen] = 0;
         }
     }
+    */
     
     /*
     if(!instance_exists(oClient)){
@@ -955,6 +957,9 @@ canedit[num_elm] = 0;
 op[num_seedgen] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_seedgen].optionid = num_seedgen;
 op[num_seedgen].label = "Generate seed";
+
+op[num_seedgen].enabled = 0;
+canedit[num_seedgen] = 0;
 
 op[num_connection] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_connection].optionid = num_connection;

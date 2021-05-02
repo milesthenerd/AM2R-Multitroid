@@ -3,8 +3,8 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="361" name="datafiles">
-    <datafiles number="361" name="lang">
+  <datafiles number="362" name="datafiles">
+    <datafiles number="362" name="lang">
       <datafile>
         <name>czech.ini</name>
         <exists>-1</exists>
@@ -158,7 +158,7 @@
         </ConfigOptions>
         <filename>languages.txt</filename>
       </datafile>
-      <datafiles number="361" name="headers">
+      <datafiles number="362" name="headers">
         <datafile>
           <name>castellano_a1_f24_b0_c3_d19_e21.png</name>
           <exists>-1</exists>
@@ -857,7 +857,7 @@
           <filename>russian_a8_f19_b0_c3_d14_e16.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="361" name="fonts">
+      <datafiles number="362" name="fonts">
         <datafile>
           <name>04b09.ttf</name>
           <exists>-1</exists>
@@ -1030,8 +1030,8 @@
       </ConfigOptions>
       <filename>readme.txt</filename>
     </datafile>
-    <datafiles number="361" name="mods">
-      <datafiles number="361" name="titles">
+    <datafiles number="362" name="mods">
+      <datafiles number="362" name="titles">
         <datafile>
           <name>config.ini</name>
           <exists>-1</exists>
@@ -1067,8 +1067,8 @@
           <filename>titlebackground.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="361" name="palettes">
-        <datafiles number="361" name="monsters">
+      <datafiles number="362" name="palettes">
+        <datafiles number="362" name="monsters">
           <datafile>
             <name>alpha.png</name>
             <exists>-1</exists>
@@ -1240,7 +1240,7 @@
             <filename>zeta_blur.png</filename>
           </datafile>
         </datafiles>
-        <datafiles number="361" name="suits">
+        <datafiles number="362" name="suits">
           <datafile>
             <name>fusion_gravity.png</name>
             <exists>-1</exists>
@@ -1343,7 +1343,7 @@
             </ConfigOptions>
             <filename>varia.png</filename>
           </datafile>
-          <datafiles number="361" name="MorphTrailColors">
+          <datafiles number="362" name="MorphTrailColors">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1447,7 +1447,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="361" name="SpaceJumpTrails">
+          <datafiles number="362" name="SpaceJumpTrails">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1551,7 +1551,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="361" name="SpiderBallGlow">
+          <datafiles number="362" name="SpiderBallGlow">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1656,8 +1656,8 @@
             </datafile>
           </datafiles>
         </datafiles>
-        <datafiles number="361" name="multitroid">
-          <datafiles number="361" name="dark_player_icons">
+        <datafiles number="362" name="multitroid">
+          <datafiles number="362" name="dark_player_icons">
             <datafile>
               <name>sDarkMultitroidPlayer_0.png</name>
               <exists>-1</exists>
@@ -1931,7 +1931,7 @@
               <filename>sDarkMultitroidPlayer_15.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="361" name="player_icons">
+          <datafiles number="362" name="player_icons">
             <datafile>
               <name>sMultitroidPlayer_0.png</name>
               <exists>-1</exists>
@@ -2205,7 +2205,7 @@
               <filename>sMultitroidPlayer_15.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="361" name="map_icons">
+          <datafiles number="362" name="map_icons">
             <datafile>
               <name>sMultitroidMapIcon_0.png</name>
               <exists>-1</exists>
@@ -2533,7 +2533,7 @@
           <datafile>
             <name>multitroid.png</name>
             <exists>-1</exists>
-            <size>1288</size>
+            <size>1128</size>
             <exportAction>2</exportAction>
             <exportDir></exportDir>
             <overwrite>0</overwrite>
@@ -5952,6 +5952,7 @@
       <script>scripts\popup_seed.gml</script>
       <script>scripts\shoot_beam_receive.gml</script>
       <script>scripts\shoot_missile_receive.gml</script>
+      <script>scripts\receive_randmod_buffer.gml</script>
     </scripts>
     <scripts name="Misc">
       <script>scripts\pal_swap_get_color_count.gml</script>
