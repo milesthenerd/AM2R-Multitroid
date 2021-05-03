@@ -2114,6 +2114,9 @@ switch(type_event){
                 global.dmapPrev = array_clone(global.dmap);
                 popup_text("Stats reset");
                 break;
+            case 107:
+                disconnectTimer = -10;
+                break;
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
                 show_debug_message(string(msgid) + " " + string(global.clientID));

@@ -1,4 +1,5 @@
 /// receive_randmod_buffer
+/*
 //Power-ups
 oControl.mod_bombs = buffer_read(_buffer, buffer_s16);
 oControl.mod_spider = buffer_read(_buffer, buffer_s16);
