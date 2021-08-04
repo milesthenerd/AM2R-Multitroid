@@ -58,6 +58,8 @@ walkspeed = 0.3;
 image_index_last = 0;
 proj_damage = 0;
 scan_log(34, get_text("ScanEvents", "ScanMechanism"), 180, 0);
+
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -614,6 +616,19 @@ if (fxtimer &lt; 5) {
 } else fxtimer = 0;
 if (flashing &gt; 0) flashing -= 1;
 dist = distance_to_point(oCharacter.x, oCharacter.y - 20);
+
+if(global.event[152] &gt;= 2 &amp;&amp; !dead){
+    flashing = 5;
+    fxtimer = 0;
+    PlaySoundMono(sndTorizoHit);
+    state = 100;
+    statetime = -1;
+    alarm[10] = 1;
+    alarm[11] = 300;
+    mus_fadeout(musTorizoA);
+    oMusicV2.bossbgm = sndJump;
+    dead = true;
+}
 </string>
           </argument>
         </arguments>
@@ -839,6 +854,8 @@ if (myhealth &lt;= 0) {
     alarm[11] = 300;
     mus_fadeout(musTorizoA);
     oMusicV2.bossbgm = sndJump;
+    global.event[152] = 2;
+    dead = true;
 }
 </string>
           </argument>

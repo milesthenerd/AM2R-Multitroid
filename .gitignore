@@ -8,8 +8,14 @@ scripts/pal_swap_*
 *.wav
 *.shader
 \#backups
-datafiles
+exports
 help.rtf
+datafiles/lang/*
+datafiles/mods/*
+datafiles/modifiers.ini
+datafiles/readme.txt
+datafiles/explanations.txt
+exports
 extensions
 AM2R.exe
 data.win

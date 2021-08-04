@@ -169,7 +169,7 @@ repeat (3) {
             <kind>1</kind>
             <string>
 if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
-    pal_swap_set(oControl.QueenPalette, 2, false);
+    if(global.shaders_compiled &amp;&amp; os_type != os_android) pal_swap_set(oControl.QueenPalette, 2, false);
 }
 
 if (!flashing) {

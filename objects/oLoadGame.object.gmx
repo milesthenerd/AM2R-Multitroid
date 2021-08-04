@@ -73,7 +73,7 @@
             <kind>1</kind>
             <string>if (global.newgame == 1) {
     start_new_game();
-} else load_game("save" + string(global.saveslot + 1));
+} else load_game(working_directory + "\multitroid\save" + string(global.saveslot + 1));
 </string>
           </argument>
         </arguments>

@@ -71,6 +71,7 @@ if (oControl.debug &gt; 0) {
 flame = instance_create(x, y, oMissileFlame);
 flame.image_angle = image_angle;
 if (smissile) flame.sprite_index = sSMissileFlame;
+if (global.icemissiles) flame.sprite_index = sIceMissileFlame;
 </string>
           </argument>
         </arguments>
@@ -128,11 +129,29 @@ if (y &gt; global.waterlevel &amp;&amp; global.waterlevel != 0) {
     if (inwater == 1) instance_create(x, global.waterlevel, oSmallSplash);
     inwater = 0;
 }
-if (x &lt; view_xview[0] - 48 - (oControl.widescreen_space/2)|| x &gt; view_xview[0] + view_wview[0] + 48 + (oControl.widescreen_space/2) || y &lt; view_yview[0] - 48 || y &gt; view_yview[0] + view_hview[0] + 48) {
-    instance_destroy();
-    trail.speed = speed;
-    trail.alarm[0] = 30;
-    with (flame) instance_destroy();
+if(instance_exists(oClient)){
+    if(ds_list_size(oClient.roomListData) &gt; 0){
+        if (x &gt; room_width + 200 || x &lt; -200 || y &gt; room_height + 200 || y &lt; -200){
+            instance_destroy();
+            trail.speed = speed;
+            trail.alarm[0] = 30;
+            with (flame) instance_destroy();
+        }
+    } else {
+        if (x &lt; view_xview[0] - 48 - (oControl.widescreen_space/2)|| x &gt; view_xview[0] + view_wview[0] + 48 + (oControl.widescreen_space/2) || y &lt; view_yview[0] - 48 || y &gt; view_yview[0] + view_hview[0] + 48) {
+            instance_destroy();
+            trail.speed = speed;
+            trail.alarm[0] = 30;
+            with (flame) instance_destroy();
+        }
+    }
+} else {
+    if (x &lt; view_xview[0] - 48 - (oControl.widescreen_space/2)|| x &gt; view_xview[0] + view_wview[0] + 48 + (oControl.widescreen_space/2) || y &lt; view_yview[0] - 48 || y &gt; view_yview[0] + view_hview[0] + 48) {
+        instance_destroy();
+        trail.speed = speed;
+        trail.alarm[0] = 30;
+        with (flame) instance_destroy();
+    }
 }
 trail.x = x;
 trail.y = y;
@@ -163,6 +182,7 @@ if (instance_exists(flame)) {
           <argument>
             <kind>1</kind>
             <string>///NULL
+
 </string>
           </argument>
         </arguments>
@@ -186,6 +206,7 @@ if (instance_exists(flame)) {
           <argument>
             <kind>1</kind>
             <string>///NULL
+
 </string>
           </argument>
         </arguments>
@@ -358,6 +379,7 @@ rspark.image_speed = 0.5;
 rspark.depth = -120;
 rmsl = instance_create(x, y, oRMissile);
 if (smissile) rmsl.sprite_index = sSMissile;
+if (!smissile &amp;&amp; global.icemissiles) rmsl.sprite_index = sIceMissile;
 rmsl.direction = direction + 190 - random(20);
 if (direction != 90) {
     rmsl.speed = 2;
@@ -400,10 +422,18 @@ if (smissile == 0) {
     expl.image_yscale = 0.6;
     expl.damage = 5;
     expl.smissile = 0;
-    PlaySoundMono(sndMissileExpl);
+    if (!global.icemissiles) PlaySoundMono(sndMissileExpl);
     light = instance_create(x, y, oFadeLight32);
     light.fadespeed = 0.1;
     light.alarm[0] = 10;
+    if (global.icemissiles){
+        expl.sprite_index = sTesterIceSpark;
+        expl.image_xscale = 1;
+        expl.image_yscale = 1;
+        expl.image_speed = 0.3;
+        PlaySoundMono(sndMissileExpl);
+        PlaySoundMono(sndIceBeamHit);
+    }
 }
 if (smissile) {
     quake = instance_create(0, 0, oQuake);

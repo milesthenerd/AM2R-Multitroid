@@ -200,17 +200,19 @@ if (global.maxmissiles >= 100) {
 draw_background(bgGUIMsl, xoff, 0);
 } else draw_background(bgGUISmsl, xoff, 0);
 draw_text(0 + xoff + 19, 7, string(global.missiles));
+mslspr = sGUIMissile;
+if (global.icemissiles) mslspr = sGUIIceMissile;
 if (global.opmslstyle == 0) {
-if (global.currentweapon != 1 || oCharacter.state == 23 || oCharacter.state == 24 || oCharacter.state == 27 || oCharacter.state == 54 || oCharacter.state == 55 || oCharacter.sjball) draw_sprite(sGUIMissile, 0, 0 + xoff + 1, 4);
+if (global.currentweapon != 1 || oCharacter.state == 23 || oCharacter.state == 24 || oCharacter.state == 27 || oCharacter.state == 54 || oCharacter.state == 55 || oCharacter.sjball) draw_sprite(mslspr, 0, 0 + xoff + 1, 4);
 if (global.currentweapon == 1 && oCharacter.state != 23 && oCharacter.state != 24 && oCharacter.state != 27 && oCharacter.state != 54 && oCharacter.state != 55 && oCharacter.sjball == 0) {
-if (oCharacter.armmsl == 0) draw_sprite(sGUIMissile, 1, 0 + xoff + 1, 4);
-if (oCharacter.armmsl == 1) draw_sprite(sGUIMissile, 2, 0 + xoff + 1, 4);
+if (oCharacter.armmsl == 0) draw_sprite(mslspr, 1, 0 + xoff + 1, 4);
+if (oCharacter.armmsl == 1) draw_sprite(mslspr, 2, 0 + xoff + 1, 4);
 }
 }
 if (global.opmslstyle == 1) {
 if (global.currentweapon == 1) {
-draw_sprite(sGUIMissile, 1, 0 + xoff + 1, 4);
-} else draw_sprite(sGUIMissile, 0, 0 + xoff + 1, 4);
+draw_sprite(mslspr, 1, 0 + xoff + 1, 4);
+} else draw_sprite(mslspr, 0, 0 + xoff + 1, 4);
 }
 if (global.maxmissiles >= 100) {
 xoff += 45;
@@ -249,6 +251,27 @@ draw_sprite(sGUIPBomb, 1, xoff + 1, 4);
 } else draw_sprite(sGUIPBomb, 0, xoff + 1, 4);
 }
 }
+
+if(instance_exists(oClient)){
+    if(oClient.connected){
+        if(ds_list_size(global.idList) > 1 && ds_list_size(global.idList) <= 6){
+            for(var f=0; f<ds_list_size(global.idList); f++){
+                var arrList = global.idList[| f];
+                var ID = arrList[0, 0];
+                var _x = 10 * floor(f / 2),
+                var _y = 10 * (f % 2);
+                if(ID == global.clientID){
+                    draw_sprite(oControl.MultitroidIcon, (ID - 1), (240 - _x) + widescreen_space, 5 + _y);
+                } else {
+                    draw_sprite(oControl.MultitroidIconDark, (ID - 1), (240 - _x) + widescreen_space, 5 + _y);
+                }
+            }
+        } else if(ds_list_size(global.idList) == 1 || ds_list_size(global.idList) == 0){
+            draw_sprite(oControl.MultitroidIcon, clamp(global.clientID - 1, 0, 8), 240 + widescreen_space, 5);
+        }
+    }
+}
+
 if (global.ophudshowmap && global.ophudshowmetrcount) {
 draw_background(bgGUIMap, 250 + widescreen_space, 0);
 xoff = 250;
@@ -268,7 +291,19 @@ draw_background(bgGUIMetCountBG2, xoff + 4 + widescreen_space, 4);
 draw_text(xoff + 6 + widescreen_space, 21, to_string_lz(global.monstersleft));
 }
 }
-if (global.ophudshowmap) draw_gui_map(276 + widescreen_space, 0);
+if (global.ophudshowmap){ 
+    draw_gui_map(276 + widescreen_space, 0);
+    if(instance_exists(oClient)){
+        for(var i=0; i<ds_list_size(oClient.posData); i++){
+            var arrData = oClient.posData[| i];
+            var xDiff = oClient.posX - arrData[1];
+            var yDiff = oClient.posY - arrData[2];
+            if(abs(xDiff) <= 2 && abs(yDiff) <= 1){
+                draw_sprite_ext(oControl.MultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
+            }
+        }
+    }
+}
 } // if (global.classicmode == 0 && global.opshowhud)
 
 

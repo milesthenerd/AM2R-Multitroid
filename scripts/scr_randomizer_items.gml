@@ -1,11 +1,17 @@
 var temp_seed = random_get_seed();
 randomize();
-oControl.seed = random_get_seed();
-random_set_seed(oControl.seed);
-
-if (oControl.mod_usemanualseed == 1) { 
-    random_set_seed(oControl.mod_seed);
-    oControl.seed = oControl.mod_seed; 
+if(instance_exists(oClient)){
+    if(!is_undefined(oClient.seed)){
+        oControl.seed = oClient.seed;
+        random_set_seed(oControl.seed);
+    } else {
+        //oControl.seed = random_get_seed();
+        //random_set_seed(oControl.seed);
+        //send_seed();
+    }
+} else {
+    oControl.seed = random_get_seed();
+    random_set_seed(oControl.seed);
 }
 
 var randpb = argument0;

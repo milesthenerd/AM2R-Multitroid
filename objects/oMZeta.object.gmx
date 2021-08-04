@@ -116,6 +116,12 @@ targety = 0;
 alarm[3] = 1;
 alarm[9] = 1;
 scan_log(14, get_text("ScanEvents", "ScanBioform"), 180, 0);
+dead = false;
+
+myposx = floor(x / 320);
+myposy = floor((y - 8) / 240);
+mapposx = myposx + global.mapoffsetx;
+mapposy = myposy + global.mapoffsety;
 </string>
           </argument>
         </arguments>
@@ -1363,6 +1369,23 @@ if (fxtimer &lt; 5) {
 if (noswipe &gt; 0) noswipe -= 1;
 if (roaring &gt; 0) roaring -= 1;
 moveTo(xVel, yVel);
+
+if(global.metdead[myid] == 1 &amp;&amp; !dead){
+    myhealth = 0;
+    state = 100;
+    statetime = 0;
+    alarm[10] = 1;
+    alarm[11] = 160;
+    with (body_obj) instance_destroy();
+    with (head_obj) instance_destroy();
+    with (mask_obj) instance_destroy();
+    mus_fadeout(musZetaFight);
+    oMusicV2.bossbgm = sndJump;
+    check_areaclear();
+    global.dmap[mapposx, mapposy] = 11;
+    with (oControl) event_user(2);
+    dead = true;
+}
 </string>
           </argument>
         </arguments>
@@ -1550,6 +1573,7 @@ if (myhealth &lt;= 0) {
     check_areaclear();
     global.dmap[mapposx, mapposy] = 11;
     with (oControl) event_user(2);
+    dead = true;
 }
 if (myhealth &gt; 0) {
     PlaySoundMono(sndMZetaHit);
@@ -1609,7 +1633,7 @@ if (myhealth &gt; 0) {
             <kind>1</kind>
             <string>
 if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
-    pal_swap_set(oControl.ZetaPalette, 1, false);
+    if(global.shaders_compiled &amp;&amp; os_type != os_android) pal_swap_set(oControl.ZetaPalette, 1, false);
 }
 
 if (surface_exists(surf)) {

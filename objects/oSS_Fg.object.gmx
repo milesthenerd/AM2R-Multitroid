@@ -115,7 +115,13 @@ widescreen_space = oControl.widescreen_space;
         rectoffset -= 2;
     } else fadein = 0;
 }
-if (active &amp;&amp; !fadein &amp;&amp; oControl.kStart &amp;&amp; oControl.kStartPushedSteps == 0) event_user(0);
+if (active &amp;&amp; !fadein &amp;&amp; oControl.kStart &amp;&amp; oControl.kStartPushedSteps == 0){
+    if(instance_exists(oOptionsMod)){
+        if(oOptionsMod.editing){
+            //do nothing
+        } else event_user(0);
+    } else event_user(0);
+}
 if (fadeout) rectoffset += 2;
 if (ealpha &lt; 1 &amp;&amp; fadeout == 0) ealpha += 0.05;
 if (ealpha &gt; 0 &amp;&amp; fadeout) ealpha -= 0.05;
@@ -174,6 +180,7 @@ if (global.ssmode == 3) {
     with (oOptionsQuit) active = 0;
     with (oOptionsReload) active = 0;
     with (oOptionsExtras) active = 0; // 1.5.1 fix
+    with (oOptionsMod) active = 0;
 }
 if (global.ssmode == 2) with (oLogScreenControl) active = 0;
 if (global.ssmode == 1) with (oSubscreenMenu) active = 0;

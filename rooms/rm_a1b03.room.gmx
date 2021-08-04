@@ -202,7 +202,7 @@ scan_log(22, get_text("ScanEvents", "ScanEnvironment"), 180, 0);</code>
     <instance objName="oSolid8x1Grass" x="1440" y="224" name="inst_109273" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid8x1Grass" x="1456" y="208" name="inst_109274" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid4x1Grass" x="496" y="208" name="inst_109275" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oMAlphaTriggerProx" x="1536" y="96" name="inst_109276" locked="0" code="&#xA;init_monster_trigger(2, 1);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oMAlphaTriggerProx" x="1536" y="96" name="inst_109276" locked="0" code="init_monster_trigger(2, 1);" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oGotoRoom" x="0" y="160" name="inst_109277" locked="0" code="&#xA;targetroom = rm_a1b02;&#xA;targetx = 304;&#xA;targety = 400;&#xA;height = 80;&#xA;direction = 180;&#xA;camstartx = 304;&#xA;camstarty = 360;&#xA;transitionx = 316;&#xA;transitiony = 160;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oScrUpperGreenShadow" x="0" y="32" name="inst_109278" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>

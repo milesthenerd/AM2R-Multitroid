@@ -78,7 +78,7 @@ repeat (10) {
     sy[0] = y;
     x = oCharacter.x;
     y = oCharacter.y;
-    
+        
     switch (oControl.mod_fusion) {
         case 1: {
             ///make_color_rgb(red, green, blue);            
@@ -99,7 +99,7 @@ repeat (10) {
             {
                 if (global.currentsuit == 1) image_blend = make_color_rgb(oControl.Trail_V_R_F, oControl.Trail_V_G_F, oControl.Trail_V_B_F);
             }
-            
+                
             if (oControl.msr_fusionsuit == 1)
             {
                 if (global.currentsuit == 2) image_blend = make_color_rgb(oControl.Trail_G_R_F_SR, oControl.Trail_G_G_F_SR, oControl.Trail_G_B_F_SR); 
@@ -149,6 +149,8 @@ repeat (10) {
     draw_set_blend_mode(bm_normal);
     i += 1;
 }
+
+
 </string>
           </argument>
         </arguments>

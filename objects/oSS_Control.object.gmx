@@ -128,6 +128,7 @@ widescreen_space = oControl.widescreen_space;
         with (oOptionsQuit) active = 0;
         with (oOptionsReload) active = 0;
         with (oOptionsExtras) active = 0; // 1.5.1 fix NOT QUITE
+        with (oOptionsMod) active = 0;
     }
     if (global.ssmode == 2) with (oLogScreenControl) active = 0;
     if (global.ssmode == 1) with (oSubscreenMenu) active = 0;
@@ -219,6 +220,7 @@ with (oOptionsJoypad) instance_destroy();
 with (oOptionsQuit) instance_destroy();
 with (oOptionsReload) instance_destroy();
 with (oOptionsExtras) instance_destroy();
+with (oOptionsMod) instance_destroy();
 </string>
           </argument>
         </arguments>

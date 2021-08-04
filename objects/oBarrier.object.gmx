@@ -150,7 +150,13 @@ if (wiggle &gt; 0) {
             <kind>1</kind>
             <string>if (frozen == 0) {
     wiggle = 45;
-    with (other) event_user(1);
+    if(global.icemissiles &amp;&amp; !other.smissile){
+        with (other) event_user(0);
+        frozen = 300;
+        PlaySoundMono(sndFreezeHit);
+    } else {
+        with (other) event_user(1);
+    }
 } else {
     event_user(0);
     with (other) event_user(0);

@@ -45,6 +45,8 @@ damage = global.mod_genesisDamage;
 turning = 0;
 turnframe = 0;
 scan_log(38, get_text("ScanEvents", "ScanBioform"), 180, 0);
+
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -364,6 +366,12 @@ if (turning) {
     }
 }
 statetime += 1;
+
+if(global.event[307] &gt; 0 &amp;&amp; !dead){
+    hp = 0;
+    event_user(1);
+    dead = true;
+}
 </string>
           </argument>
         </arguments>
@@ -553,6 +561,7 @@ statetime += 1;
         oMusicV2.bossbgm = sndJump;
     }
     global.event[307] = 1;
+    dead = true;
 } else sfx_play(sndGenesisHit);
 </string>
           </argument>

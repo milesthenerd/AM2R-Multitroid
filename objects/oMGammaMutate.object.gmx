@@ -131,7 +131,7 @@ statetime += 1;
             <kind>1</kind>
             <string>
 if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
-    pal_swap_set(oControl.GammaPalette, 1, false);
+    if(global.shaders_compiled &amp;&amp; os_type != os_android) pal_swap_set(oControl.GammaPalette, 1, false);
 }
 
 alpha2 = image_index - floor(image_index);

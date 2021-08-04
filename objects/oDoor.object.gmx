@@ -209,6 +209,51 @@ if (open == 0) {
         if (hlalpha &gt; 1) hlalpha = 1;
     }
 }
+
+if(room == rm_a7b05){
+    if(instance_number(oMonster) == 0){
+        event_user(3);
+    }
+}
+
+if(room == rm_a7b06){
+    if(instance_number(oMonster) == 0){
+        event_user(3);
+    }
+}
+
+if(room == rm_a7b06A){
+    if(instance_number(oMonster) == 0){
+        event_user(3);
+    }
+}
+
+if(room == rm_a7b07){
+    if(instance_number(oMonster) == 0){
+        event_user(3);
+    }
+}
+
+if(room == rm_a7b08){
+    if(instance_number(oMonster) == 0){
+        event_user(3);
+    }
+}
+
+if(room == rm_a7b08A){
+    if(instance_number(oMonster) == 0){
+        event_user(3);
+    }
+}
+
+if(event &gt; -1){
+    if(global.event[event] &gt; 0){
+        if(lock == 1 || lock == 2 || lock == 3){
+            lock = 0;
+            open = 1;
+        }
+    }
+}
 </string>
           </argument>
         </arguments>

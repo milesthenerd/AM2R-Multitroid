@@ -141,6 +141,67 @@ if (state == 2) alarm[0] = 7;
             <string>event_inherited();
 enemy_active_check(20);
 enemy_target_check(90, 1);
+
+if (frozen == 0){
+    switch (phase) {
+        case 0: vaccel = 0.3; break;
+        case 1: vaccel = 0.5; break;
+        case 2: vaccel = 0.7; break;
+    }
+    if (state == 1) {
+        if (facing == 1) {
+            targetx = oCharacter.x - 120;
+        } else targetx = oCharacter.x + 120;
+        targety = oCharacter.y - (sprite_get_height(oCharacter.mask_index)/2); // 1.5.1 fix
+        if (aoffset &gt; 0) aoffset -= 0.2;
+        if (x &gt; targetx) xVel -= haccel;
+        if (x &lt; targetx) xVel += haccel;
+        if (y &gt; targety) yVel -= vaccel;
+        if (y &lt; targety) yVel += vaccel;
+        if (xVel &gt; 2) xVel = 2;
+        if (xVel &lt; -2) xVel = -2;
+        if (yVel &gt; 4) yVel = 4;
+        if (yVel &lt; -4) yVel = -4;
+        if (oCharacter.x &gt; x &amp;&amp; facing == -1 &amp;&amp; turning == 0) turning = 4;
+        if (oCharacter.x &lt;= x &amp;&amp; facing == 1 &amp;&amp; turning == 0) turning = 4;
+        if (statetime &gt; 120) {
+            if (collision_line(x, y - 6, x + 160 * facing, y - 6, oCharacter, false, true)) {
+                state = 2;
+                statetime = 0;
+            }
+        }
+    }
+    if (state == 2) {
+        xVel *= 0.8;
+        yVel *= 0.8;
+        if (aoffset &lt; 2) aoffset += 0.2;
+        if (statetime == 0) { }
+        if (statetime == 60) alarm[0] = 1;
+        if (statetime == 90) {
+            state = 1;
+            statetime = -1;
+        }
+    }
+    if (stun == 0) moveTo(xVel, yVel);
+    if (state == 100) {
+        canbehit = 0;
+        alarm[1] = 0;
+        yVel += 0.1;
+        moveTo(xVel, yVel);
+        if (xVel &lt;= 0) image_angle += 0.6;
+        if (xVel &gt; 0) image_angle -= 0.6;
+        if (isCollisionLeft(1) || isCollisionRight(1)) xVel = 0;
+        if (isCollisionBottom(1) || statetime &gt; 240 || y &gt; view_yview[0] + 240) {
+            enemy_death2();
+            repeat (20) instance_create(x, y, oDebris);
+        }
+    }
+    if (turning == 2) facing *= -1;
+    if (turning &gt; 0) turning -= 1;
+} else {
+    if (state == 2) state = 1;
+}
+/*
 switch (phase) {
     case 0: vaccel = 0.3; break;
     case 1: vaccel = 0.5; break;
@@ -196,6 +257,7 @@ if (state == 100) {
 }
 if (turning == 2) facing *= -1;
 if (turning &gt; 0) turning -= 1;
+*/
 </string>
           </argument>
         </arguments>
@@ -317,32 +379,57 @@ prevhealth = myhealth;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!flashing) {
+            <string>armor1 = sGunzooArmor1;
+armor2 = sGunzooArmor2;
+turn = sGunzooTurn;
+if (frozen) {
+    myspr = frozenspr;
+    armor1 = sGunzooArmor1Frozen;
+    armor2 = sGunzooArmor2Frozen;
+    turn = sGunzooTurnFrozen;
+} else {
+    myspr = sprite_index;
+    armor1 = sGunzooArmor1;
+    armor2 = sGunzooArmor2;
+    turn = sGunzooTurn;
+}
+if (!flashing) {
     if (turning == 0) {
-        draw_sprite_ext(sprite_index, -1, x, y, facing, 1, image_angle, -1, 1);
-        if (phase == 0) draw_sprite_ext(sGunzooArmor1, -1, x, y - aoffset, facing, 1, image_angle, -1, 1);
-        if (phase &lt;= 1) draw_sprite_ext(sGunzooArmor2, -1, x + aoffset, y, facing, 1, image_angle, -1, 1);
+        draw_sprite_ext(myspr, -1, x, y, facing, 1, image_angle, -1, 1);
+        if (phase == 0) draw_sprite_ext(armor1, -1, x, y - aoffset, facing, 1, image_angle, -1, 1);
+        if (phase &lt;= 1) draw_sprite_ext(armor2, -1, x + aoffset, y, facing, 1, image_angle, -1, 1);
     }
-    if (turning &gt; 0) draw_sprite_ext(sGunzooTurn, -1, x, y, facing, 1, image_angle, -1, 1);
+    if (turning &gt; 0) draw_sprite_ext(turn, -1, x, y, facing, 1, image_angle, -1, 1);
+    if (frozen &gt; 0 &amp;&amp; frozen &lt; freezetime * 0.2){
+        draw_set_blend_mode(bm_add);
+        if (turning == 0) {
+            draw_sprite_ext(myspr, -1, x, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.35);
+            if (phase == 0) draw_sprite_ext(armor1, -1, x, y - aoffset, facing, 1, image_angle, -1, 1 - fxtimer * 0.40);
+            if (phase &lt;= 1) draw_sprite_ext(armor2, -1, x + aoffset, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.40);
+        }
+        if (turning &gt; 0) draw_sprite_ext(turn, -1, x, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.35);
+        draw_set_blend_mode(bm_normal);
+    }
 }
 if (flashing) {
     if (turning == 0) {
-        draw_sprite_ext(sprite_index, -1, x, y, facing, 1, image_angle, make_color_rgb(80, 80, 80), 1);
-        if (phase == 0) draw_sprite_ext(sGunzooArmor1, -1, x, y - aoffset, facing, 1, image_angle, make_color_rgb(80, 80, 80), 1);
-        if (phase &lt;= 1) draw_sprite_ext(sGunzooArmor2, -1, x + aoffset, y, facing, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+        draw_sprite_ext(myspr, -1, x, y, facing, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+        if (phase == 0) draw_sprite_ext(armor1, -1, x, y - aoffset, facing, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+        if (phase &lt;= 1) draw_sprite_ext(armor2, -1, x + aoffset, y, facing, 1, image_angle, make_color_rgb(80, 80, 80), 1);
     }
-    if (turning &gt; 0) draw_sprite_ext(sGunzooTurn, -1, x, y, facing, 1, image_angle, make_color_rgb(80, 80, 80), 1);
+    if (turning &gt; 0) draw_sprite_ext(turn, -1, x, y, facing, 1, image_angle, make_color_rgb(80, 80, 80), 1);
     draw_set_blend_mode(bm_add);
-    repeat (3) {
+    repeat (2) {
         if (turning == 0) {
-            draw_sprite_ext(sprite_index, -1, x, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.25);
-            if (phase == 0) draw_sprite_ext(sGunzooArmor1, -1, x, y - aoffset, facing, 1, image_angle, -1, 1 - fxtimer * 0.25);
-            if (phase &lt;= 1) draw_sprite_ext(sGunzooArmor2, -1, x + aoffset, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.25);
+            draw_sprite_ext(myspr, -1, x, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.25);
+            if (phase == 0) draw_sprite_ext(armor1, -1, x, y - aoffset, facing, 1, image_angle, -1, 1 - fxtimer * 0.25);
+            if (phase &lt;= 1) draw_sprite_ext(armor2, -1, x + aoffset, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.25);
         }
-        if (turning &gt; 0) draw_sprite_ext(sGunzooTurn, -1, x, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.25);
+        if (turning &gt; 0) draw_sprite_ext(turn, -1, x, y, facing, 1, image_angle, -1, 1 - fxtimer * 0.25);
     }
     draw_set_blend_mode(bm_normal);
 }
+
 </string>
           </argument>
         </arguments>

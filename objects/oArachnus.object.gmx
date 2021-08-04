@@ -76,6 +76,8 @@ sprite_index = sArachnusUnmorph;
 event_user(1);
 
 PowerBombImmune = false;
+
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -109,6 +111,7 @@ instance_create(x, y, oScreenFlash);
 sfx_play(sndEDeath1);
 sfx_play(sndMissileExpl);
 global.event[103] = x;
+dead = true;
 
 if(oControl.mod_fusion == 0) {
     var temp_randitem = scr_itemsopen(oControl.mod_jumpball);
@@ -606,7 +609,7 @@ if (state == 90) {
         myhealth -= 1;
         shaking = 1;
         angry = 0;
-        if (myhealth == 0) {
+        if (myhealth &lt;= 0) {
             with(oArachnusFireball3) instance_destroy();
             alarm[10] = 60;
             alarm[11] = 240;
@@ -629,7 +632,7 @@ if (state == 90) {
             with (spike_L2) active = 0;
             with (spike_R2) active = 0;
         }
-        if (myhealth == 0) {
+        if (myhealth &lt;= 0) {
             with (spike_L1) active = 0;
             with (spike_R1) active = 0;
             hspeed = 2.5 * -facing;
@@ -661,6 +664,13 @@ if (PowerBombImmune) {
     if(!instance_exists(oPBombExpl)) PowerBombImmune = false; 
 }
 
+if(global.event[103] &gt; 0 &amp;&amp; !dead){
+    myhealth = 0;
+    state = 90;
+    statetime = -1;
+    dead = true;
+    with(oArachnusSpikes) instance_destroy();
+}
 </string>
           </argument>
         </arguments>

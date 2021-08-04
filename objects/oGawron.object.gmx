@@ -135,7 +135,8 @@ if (state == 100) enemy_death();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index, image_index, x, y + sin(x/10), facing, image_yscale, image_angle, image_blend, image_alpha);
+            <string>action_inherited();
+draw_sprite_ext(sprite_index, image_index, x, y + sin(x/10), facing, image_yscale, image_angle, image_blend, image_alpha);
 </string>
           </argument>
         </arguments>

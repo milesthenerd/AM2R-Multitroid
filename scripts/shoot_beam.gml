@@ -1,6 +1,8 @@
 /// shoot_beam(direction)
 if (chargebeam < 1) chargebeam = 0;
 instance_create(x + aspr2x, y + aspr2y, oMflash);
+var beamX = oMflash.x;
+var beamY = oMflash.y;
 beams = 1;
 if (global.wbeam && !global.sbeam && chargebeam >= 1) beams = 2;
 if (global.sbeam) beams = 3;
@@ -240,4 +242,32 @@ if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam 
 if (global.ibeam == 1 && global.wbeam == 1 && global.pbeam == 1 && global.sbeam == 1) {
     if (chargebeam == 0) PlaySoundMono(sndFireBeamSWIP);
     if (chargebeam >= 1) PlaySoundMono(sndFireBeamCSWIP);
+}
+
+if(instance_exists(oClient)){
+    if(ds_list_size(oClient.roomListData) > 0){
+        var size, type, alignment;
+        size = 1024;
+        type = buffer_grow;
+        alignment = 1;
+        beamBuffer = buffer_create(size, type, alignment);
+        buffer_seek(beamBuffer, buffer_seek_start, 0);
+        buffer_write(beamBuffer, buffer_u8, 21);
+        buffer_write(beamBuffer, buffer_u8, global.clientID);
+        buffer_write(beamBuffer, buffer_s16, argument0);
+        buffer_write(beamBuffer, buffer_s16, beamX);
+        buffer_write(beamBuffer, buffer_s16, beamY);
+        buffer_write(beamBuffer, buffer_u8, chargebeam);
+        var bufferSize = buffer_tell(beamBuffer);
+        buffer_seek(beamBuffer, buffer_seek_start, 0);
+        buffer_write(beamBuffer, buffer_s32, bufferSize);
+        buffer_write(beamBuffer, buffer_u8, 21);
+        buffer_write(beamBuffer, buffer_u8, global.clientID);
+        buffer_write(beamBuffer, buffer_s16, argument0);
+        buffer_write(beamBuffer, buffer_s16, beamX);
+        buffer_write(beamBuffer, buffer_s16, beamY);
+        buffer_write(beamBuffer, buffer_u8, chargebeam);
+        var result = network_send_packet(oClient.socket, beamBuffer, buffer_tell(beamBuffer));
+        buffer_delete(beamBuffer);
+    }
 }

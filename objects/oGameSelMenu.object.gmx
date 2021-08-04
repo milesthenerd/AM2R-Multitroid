@@ -212,10 +212,14 @@ op[7].label = get_text("Title", "Exit");
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var detail;
+            <string>var etanks = global.etanks;
+var mtanks = global.mtanks;
+var stanks = global.stanks;
+var ptanks = global.ptanks;
+var detail;
 j = 0;
 repeat (3) {
-    filename = "save" + string(j + 1);
+    filename = working_directory + "\multitroid\save" + string(j + 1);
     if (file_exists(filename)) {
         detail = sv6_load_details(filename);
         if (detail == 1) {
@@ -236,6 +240,13 @@ repeat (3) {
     j += 1;
 }
 scr_default_global_items();
+if(instance_exists(oClient)){
+    update_variables("replaceglobalvars");
+    global.etanks = etanks;
+    global.mtanks = mtanks;
+    global.stanks = stanks;
+    global.ptanks = ptanks;
+}
 </string>
           </argument>
         </arguments>

@@ -60,6 +60,7 @@ text4 = get_text("ScoreScreen", "TheLastMonster");
 text5 = get_text("ScoreScreen", "ToBeContinued");
 statetime = 0;
 state = 0;
+itemstaken = global.itemstaken;
 
 if (global.difficulty == 0) {
     ending = 276;
@@ -201,7 +202,7 @@ statetime += 1;
             <kind>1</kind>
             <string>//room_change(titleroom, 1); //room_goto(titleroom);
 
-if(round((global.itemstaken / 88) * 100) &lt; 100) {
+if(round((itemstaken / 88) * 100) &lt; 100) {
     room_change(titleroom, 1); //room_goto(titleroom);
 } else {
     room_goto(rm_secretEnding);

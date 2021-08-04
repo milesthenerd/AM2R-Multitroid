@@ -160,6 +160,8 @@ if (!instance_exists(oQueenFireball) &amp;&amp; !sfx_isplaying(musQueen3))
     {
         mus_play(musQueen3);
         oMusicV2.bossbgm = musQueen3;
+        mus_stop(musQueen);
+        mus_stop(musQueen2);
     }
 }
 else
@@ -195,6 +197,8 @@ if (!instance_exists(oQueenFireball) &amp;&amp; !sfx_isplaying(musQueen2))
     {
         mus_play(musQueen2);
         oMusicV2.bossbgm = musQueen2;
+        mus_stop(musQueen);
+        mus_stop(musQueen3);
     }
 }
 else
@@ -227,6 +231,8 @@ else
     if (instance_exists(oQueen) || global.ingame == false) {
         mus_play(musQueen);
         oMusicV2.bossbgm = musQueen;
+        mus_stop(musQueen2);
+        mus_stop(musQueen3);
     }
 } else alarm[5] = 1;
 </string>

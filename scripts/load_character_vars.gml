@@ -36,8 +36,8 @@ repeat (100) {
     i -= 1;
     global.metdead[i] = 0;
 }
-i = 350;
-repeat (350) {
+i = 400;
+repeat (400) {
     i -= 1;
     global.event[i] = 0;
 }
@@ -60,3 +60,4 @@ repeat (350) {
 global.item[1] = 1;
 reset_logs_list();
 reset_hints();
+global.dmapPrev = array_clone(global.dmap);

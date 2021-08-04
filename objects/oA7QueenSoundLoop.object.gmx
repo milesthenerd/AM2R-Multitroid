@@ -48,10 +48,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_exists(oCharacter)) {
-    if (oCharacter.x &lt; 1000) sfx_play(sndQueenDistant);
+            <string>if(global.event[303] == 0){
+    if (instance_exists(oCharacter)) {
+        if (oCharacter.x &lt; 1000) sfx_play(sndQueenDistant);
+    }
+    alarm[0] = 400 + random(160);
 }
-alarm[0] = 400 + random(160);
+
 </string>
           </argument>
         </arguments>

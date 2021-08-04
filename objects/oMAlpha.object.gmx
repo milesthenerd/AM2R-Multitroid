@@ -54,6 +54,7 @@ deathsound = sndMAlphaDeath;
 active = 1;
 target = 0;
 state = 3;
+
 alarm[1] = 120;
 alarm[3] = 1;
 image_speed = 0.2;
@@ -71,7 +72,7 @@ mapposy = myposy + global.mapoffsety;
 if (room != rm_a0h14) global.dmap[mapposx, mapposy] = 10;
 else global.dmap[43, 24] = 10;
 with (oControl) event_user(2);
-
+dead = false;
 </string>
           </argument>
         </arguments>
@@ -282,7 +283,7 @@ if (state == 5 || dodging) alarm[2] = 3;
         if (chasing) {
             targetx = oCharacter.x;
             targety = oCharacter.y - 24;
-            if (shell.hitting &amp;&amp; hitandrun) {
+            if (instance_exists(shell) &amp;&amp; shell.hitting &amp;&amp; hitandrun) {
                 xVel = 0;
                 yVel = 0;
                 event_user(1);
@@ -474,7 +475,7 @@ if (state == 5 || dodging) alarm[2] = 3;
     moveTo(xVel, yVel);
 } // if (active == 1)
 if (state == 100) {
-    if (statetime == 1) {
+    if (statetime == 1 &amp;&amp; instance_exists(shell)) {
         damagedealt += shell.damagedealt;
         with (shell) instance_destroy();
     }
@@ -494,6 +495,32 @@ if (dodging) dodgetime += 1;
 if (fxtimer &lt; 5) {
     fxtimer += 1;
 } else fxtimer = 0;
+
+if(global.metdead[myid] == 1 &amp;&amp; !dead){
+    myhealth = 0;
+    state = 100;
+    statetime = 0;
+    alarm[10] = 1;
+    alarm[11] = 160;
+    flashtime = 180;
+    turndelay = 180;
+    PlaySoundMono(deathsound);
+    check_areaclear();
+    global.monstersalive -= 1;
+    if(global.monstersalive &lt; 0){
+        global.monstersalive = 0;
+    }
+    if (global.monstersalive == 0) {
+        mus_fadeout(musAlphaFight);
+        oMusicV2.bossbgm = sndJump;
+    }
+    with (oMAlpha) event_user(2);
+    global.dmap[mapposx, mapposy] = 11;
+    with (oControl) event_user(2);
+    dead = true;
+    xVel = 0;
+    yVel = 0;
+}
 </string>
           </argument>
         </arguments>
@@ -931,6 +958,7 @@ if (myhealth &lt;= 0) {
     with (oMAlpha) event_user(2);
     global.dmap[mapposx, mapposy] = 11;
     with (oControl) event_user(2);
+    dead = true;
 }
 flashing = 1;
 canbehit = 0;
@@ -1022,8 +1050,8 @@ if (sfx_isplaying(sndMAlphaIntro)) sfx_stop(sndMAlphaIntro);
           <argument>
             <kind>1</kind>
             <string>
-if((oControl.mod_fusion == 1) || (oControl.MonsterPalettesFusionOnly == 0)) {
-    pal_swap_set(oControl.AlphaPalette, 1, false);
+if((oControl.mod_fusion == 1) || oControl.MonsterPalettesFusionOnly == 0) {
+    if(global.shaders_compiled &amp;&amp; os_type != os_android) pal_swap_set(oControl.AlphaPalette, 1, false);
 }
 
 if (!flashing) draw_sprite_ext(sprite_index, -1, x, y, facing, 1, image_angle, -1, 1);

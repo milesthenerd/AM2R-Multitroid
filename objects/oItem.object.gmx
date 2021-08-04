@@ -34,6 +34,30 @@ itemtype = 0;
 itemid = 0;
 text1 = "";
 text2 = "";
+collected = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>instance_destroy();
 </string>
           </argument>
         </arguments>
@@ -57,6 +81,32 @@ text2 = "";
           <argument>
             <kind>1</kind>
             <string>active = 1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(global.item[itemid] == 1 &amp;&amp; !collected){
+    collected = true;
+    alarm[1] = 1;
+}
 </string>
           </argument>
         </arguments>
@@ -152,6 +202,12 @@ instance_destroy();
           <argument>
             <kind>1</kind>
             <string>
+/*
+if(global.item[itemid] == 1){
+    instance_destroy();
+}
+*/
+
 if (global.item[itemid])
 {        
     myposx = floor(x / 320);

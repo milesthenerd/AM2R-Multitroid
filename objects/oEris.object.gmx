@@ -95,7 +95,7 @@ boostspddelay = 1;
 stepdelayfinal = stepdelay;
 use2 = 0;
 
-
+dead = false;
 
 
 
@@ -506,6 +506,7 @@ if (state == 100) {
         sfx_play(sndMissileExpl);
         
         global.event[261] = 1;
+        dead = true;
         
         if(oControl.mod_fusion == 0) {
             with (oDoorA5) event_user(3);
@@ -558,6 +559,13 @@ if (boosting &gt; 0) {
 if (use2) {
     event_user(2);
     use2 = 0;
+}
+
+if(global.event[261] &gt; 0 &amp;&amp; !dead){
+    state = 100;
+    statetime = -1;
+    dead = true;
+    sfx_stop_loops();
 }
 </string>
           </argument>

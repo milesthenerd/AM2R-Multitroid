@@ -50,7 +50,7 @@ image_speed = 0.5;
           <argument>
             <kind>1</kind>
             <string>y = global.waterlevel;
-if (global.watertype == 0) y += oWater.yoffset;
+if (global.watertype == 0 &amp;&amp; instance_exists(oWater)) y += oWater.yoffset;
 </string>
           </argument>
         </arguments>

@@ -112,7 +112,7 @@ if (image_index == 0) {
             <kind>1</kind>
             <string>
 if(oControl.mod_fusion == 1 || oControl.MonsterPalettesFusionOnly == 0) {
-    pal_swap_set(oControl.OmegaPalette, 1, false);
+    if(global.shaders_compiled &amp;&amp; os_type != os_android) pal_swap_set(oControl.OmegaPalette, 1, false);
 }
 
 draw_sprite_ext(sprite_index, -1, x + offx, y + offy, image_xscale, 1, 0, -1, 1);

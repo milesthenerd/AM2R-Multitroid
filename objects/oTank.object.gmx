@@ -207,6 +207,9 @@ if (state == 100) {
         with (oTesterMissile) event_user(1);
         alarm[10] = 1;
         global.event[203] = 2;
+        if(instance_exists(oTankCore)){
+            if(!oTankCore.dead) oTankCore.dead = true;
+        }
     }
     if (statetime == 240) {
         repeat (20) {
