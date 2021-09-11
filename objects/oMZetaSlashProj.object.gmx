@@ -129,7 +129,9 @@ damage = global.mod_zetadamageslash1;
             <string>var combo;
 combo = global.difficulty &gt;= 2;
 if (fadeout == 0 &amp;&amp; (combo == 1 || other.invincible == 0)) {
-    damage_player(damage, hpush, vpush, 0, combo);
+    var damageToDeal = damage;
+    if (global.sax) damageToDeal = damageToDeal * 2;
+    damage_player(damageToDeal, hpush, vpush, 0, combo);
     fadeout = 1;
     speed = 0;
 }

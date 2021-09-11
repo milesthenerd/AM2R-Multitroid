@@ -581,6 +581,9 @@ if(global.event[152] &gt;= 3 &amp;&amp; !dead){
         oMusicV2.bossbgm = sndJump;
     }
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
 }
 </string>
           </argument>
@@ -787,6 +790,9 @@ if (myhealth &lt;= 0) {
     }
     global.event[152] = 3;
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
 }
 </string>
           </argument>

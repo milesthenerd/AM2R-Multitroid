@@ -9,6 +9,7 @@ if (global.sbeam) beams = 3;
 i = 0;
 repeat (beams) {
     beam = instance_create(x + aspr2x, y + aspr2y, oBeam);
+    beam.sax = global.sax;
     beam.ibeam = global.ibeam;
     beam.wbeam = global.wbeam;
     beam.pbeam = global.pbeam;
@@ -45,7 +46,9 @@ repeat (beams) {
     beam.chargebeam = 0;
     if (global.wbeam) {
         beam.damage *= 1.5;
-        nofire += 2;
+        if(global.saxmode){
+            nofire += 23;
+        } else nofire += 2;
     }
     if (global.ibeam) {
         beam.damage *= 1.5;
@@ -258,6 +261,7 @@ if(instance_exists(oClient)){
         buffer_write(beamBuffer, buffer_s16, beamX);
         buffer_write(beamBuffer, buffer_s16, beamY);
         buffer_write(beamBuffer, buffer_u8, chargebeam);
+        buffer_write(beamBuffer, buffer_u8, global.sax);
         var bufferSize = buffer_tell(beamBuffer);
         buffer_seek(beamBuffer, buffer_seek_start, 0);
         buffer_write(beamBuffer, buffer_s32, bufferSize);
@@ -267,6 +271,7 @@ if(instance_exists(oClient)){
         buffer_write(beamBuffer, buffer_s16, beamX);
         buffer_write(beamBuffer, buffer_s16, beamY);
         buffer_write(beamBuffer, buffer_u8, chargebeam);
+        buffer_write(beamBuffer, buffer_u8, global.sax);
         var result = network_send_packet(oClient.socket, beamBuffer, buffer_tell(beamBuffer));
         buffer_delete(beamBuffer);
     }

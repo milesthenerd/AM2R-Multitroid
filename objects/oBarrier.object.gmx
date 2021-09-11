@@ -33,6 +33,7 @@ fxtimer = 0;
 image_speed = 0.1;
 alarm[0] = 60;
 wiggle = 0;
+justfrozen = 0;
 </string>
           </argument>
         </arguments>
@@ -60,6 +61,29 @@ wiggle = 0;
         instance_create(x + irandom_range(-12, 12), y + irandom_range(16, 48), oMeboid);
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>justfrozen = 0;
 </string>
           </argument>
         </arguments>
@@ -154,6 +178,8 @@ if (wiggle &gt; 0) {
         with (other) event_user(0);
         frozen = 300;
         PlaySoundMono(sndFreezeHit);
+        justfrozen = 1;
+        alarm[11] = 10;
     } else {
         with (other) event_user(1);
     }
@@ -220,7 +246,14 @@ if (wiggle &gt; 0) {
           <argument>
             <kind>1</kind>
             <string>if (other.image_index &lt; 2) {
+    if (frozen &gt; 0 &amp;&amp; global.icemissiles &amp;&amp; !other.smissile &amp;&amp; justfrozen) exit;
     if (frozen) event_user(0); // fix for odd missile collisions
+    if (!frozen &amp;&amp; global.icemissiles &amp;&amp; !other.smissile){
+        frozen = 300;
+        PlaySoundMono(sndFreezeHit);
+        justfrozen = 1;
+        alarm[11] = 10;
+    } 
 }
 </string>
           </argument>

@@ -44,9 +44,14 @@ shield1 = instance_create(x, y - 8, oRamulkenShield);
 limit_l = x - 80;
 limit_r = x + 80;
 image_speed = 0.2;
+ispeed = image_speed;
 
 x = floor(x);
 y = floor(y);
+
+shield1.frozen = frozen;
+
+eyespr = sRamulkenEye;
 </string>
           </argument>
         </arguments>
@@ -118,7 +123,9 @@ y = floor(y);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (frozen == 0) {
+            <string>shield1.frozen = frozen;
+if (frozen == 0) {
+    image_speed = ispeed;
     if (state == 0) {
         hspeed = lerp(hspeed, 0.5 * facing, 0.05);
         vspeed = 0;
@@ -205,9 +212,14 @@ if (state == 100) {
             <string>//draw_self();
 draw_sprite(sprite_index, image_index, round(x), round(y));
 event_inherited();
-with(shield1) draw_self();
+
+if(frozen &gt; 0){
+    eyespr = sRamulkenEyeFrozen;
+} else eyespr = sRamulkenEye;
+
+if(frozen == 0) with(shield1) draw_self();
 if(instance_exists(oCharacter) &amp;&amp; collision_line(x, y, oCharacter.x-1, oCharacter.y-16, oSolid, false, true) == noone) {
-    draw_sprite(sRamulkenEye, floor((point_direction(x, y, oCharacter.x-1, oCharacter.y-16)+22.5)/45), round(x), round(y)+1);
+    draw_sprite(eyespr, floor((point_direction(x, y, oCharacter.x-1, oCharacter.y-16)+22.5)/45), round(x), round(y)+1);
 }
 </string>
           </argument>

@@ -283,6 +283,7 @@ if (turning &gt; 0) turning -= 1;
             <string>event_inherited();
 deb = instance_create(x, y, oDebris);
 deb.sprite_index = sGunzooArmor1;
+if(frozen &gt; 0) deb.sprite_index = sGunzooArmor1Frozen;
 deb.depth = -4;
 </string>
           </argument>
@@ -317,6 +318,7 @@ if (myhealth &lt;= 140 &amp;&amp; prevhealth &gt; 140) {
     repeat (8) instance_create(x, y, oDebris);
     deb = instance_create(x, y, oDebris);
     deb.sprite_index = sGunzooArmor1;
+    if(frozen &gt; 0) deb.sprite_index = sGunzooArmor1Frozen;
     deb.depth = -4;
     phase = 1;
 }
@@ -329,6 +331,7 @@ if (myhealth &lt;= 70 &amp;&amp; prevhealth &gt; 70) {
     repeat (8) instance_create(x, y, oDebris);
     deb = instance_create(x, y, oDebris);
     deb.sprite_index = sGunzooArmor1;
+    if(frozen &gt; 0) deb.sprite_index = sGunzooArmor1Frozen;
     deb.depth = -4;
     phase = 2;
 }

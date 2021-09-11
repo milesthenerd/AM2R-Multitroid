@@ -47,17 +47,17 @@ roomoffsety = 0;
 
 switch (room) {
     case rm_a2a04:
-        sprite_index = sCoreXArachnus; 
+        sprite_index = sCoreXArachnus;
         break;
-    case rm_a3a01:  
-        sprite_index = sCoreXTorizo;   
+    case rm_a3a01:
+        sprite_index = sCoreXTorizo;
         roomoffsety = -100;
         break;
-    case rm_a5b03a: 
-        sprite_index = sCoreXSerris;   
+    case rm_a5b03a:
+        sprite_index = sCoreXSerris;
         break;
-    case rm_a8a11:  
-        sprite_index = sCoreXGenesis;  
+    case rm_a8a11:
+        sprite_index = sCoreXGenesis;
         break;
 }
 

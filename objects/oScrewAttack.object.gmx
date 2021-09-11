@@ -2,7 +2,7 @@
 <object>
   <spriteName>sMask2</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -26,6 +26,16 @@
           <argument>
             <kind>1</kind>
             <string>alarm[0] = 1;
+myid = 0;
+sax = global.sax;
+mirror = 0;
+fxtimer = 0;
+sprite = sScrewSpark;
+index = 0;
+xscale = 1;
+yscale = 1;
+alpha = 1;
+blend = c_white;
 </string>
           </argument>
         </arguments>
@@ -48,7 +58,64 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>action_kill_object();
+            <string>if(myid == 0) action_kill_object();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(myid != 0){
+    depth = -12;
+    if(instance_exists(oClient)){
+        var findID = ds_list_find_index(global.screwList, myid);
+        if(findID &gt;= 0){
+            if(ds_list_size(oClient.roomListData) &gt; 0){
+                for(var i=0; i&lt;ds_list_size(oClient.roomListData); i++){
+                    var arrDraw = oClient.roomListData[| i];
+                    var arrID = arrDraw[0];
+                    var arrX = arrDraw[1];
+                    var arrY = arrDraw[2];
+                    var arrSprite = arrDraw[3];
+                    mirror = arrDraw[12];
+                    var arrRoom = arrDraw[14];
+                    var arrState = arrDraw[19];
+                    if(arrID == myid){
+                        x = arrX;
+                        y = arrY;
+                        if(arrRoom != room){
+                            instance_destroy();
+                        }
+                    }
+                }
+            }
+        } else {
+            instance_destroy();
+        }
+    } else {
+        instance_destroy();
+    }
+}
+fxtimer++;
+if(fxtimer &gt; 4){
+    fxtimer = 0;
+}
 </string>
           </argument>
         </arguments>
@@ -143,6 +210,49 @@
             <string>with (other) {
     check_linkid();
     event_user(0);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(myid != 0){
+    repeat(3){
+        if (mirror == -1){
+            xscale = -1;
+        } else xscale = 1;
+        index = round(random(2));
+        alpha = 1 + fxtimer * 0.1;
+        blend = make_color_rgb(50 + random(200), 255, 50 + random(200));
+        if (random(10) &lt; 1) blend = c_white;
+        if (random(10) &lt; 5){
+            xscale = -1;
+        } else xscale = 1;
+        if (random(10) &lt; 5){
+            yscale = -1;
+        } else yscale = 1;
+        draw_set_blend_mode(bm_add);
+        if(sax) blend = make_color_rgb(40, 160, 40);
+        draw_sprite_ext(sScrewSpark, index, x, y - 15, xscale, yscale, direction, blend, alpha);
+        draw_set_blend_mode(bm_normal);
+    }
 }
 </string>
           </argument>

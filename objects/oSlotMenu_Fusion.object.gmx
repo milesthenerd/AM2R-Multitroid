@@ -158,6 +158,10 @@ if (oControl.mod_insanitymode) {
         if (instance_exists(op[3])) with (op[3]) instance_destroy();
 
         mus_fadeout(musTitle);
+        if(global.lobbyLocked){
+            global.spectator = true;
+            global.spectatorIndex = -1;
+        }
         room_change(14, 0);  
         
     }

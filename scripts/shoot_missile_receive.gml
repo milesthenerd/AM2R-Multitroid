@@ -1,6 +1,11 @@
-/// shoot_missile_receive(direction, currentweapon, x, y)
-if (argument1 == 1 && global.missiles > 0 || argument1 == 2 && global.smissiles > 0) {
+/// shoot_missile_receive(direction, currentweapon, x, y, sax, clientID, velX, velY, icemissiles)
     msl = instance_create(argument2, argument3, oMissile);
+    msl.sax = argument4;
+    msl.myid = argument5;
+    msl.velX = argument6;
+    msl.velY = argument7;
+    msl.icemissiles = argument8;
+    if(argument1 == 2) msl.smissile = 1;
     msl.direction = argument0;
     msl.speed = 6.4;
     msl.image_angle = argument0;
@@ -28,7 +33,7 @@ if (argument1 == 1 && global.missiles > 0 || argument1 == 2 && global.smissiles 
         msl.damage = 100;
         PlaySoundMono(sndFlyby);
     }
-    if (global.icemissiles && argument1 == 1){
+    if (argument8 && argument1 == 1){
         msl.sprite_index = sIceMissile;
     }
     with (msl) {
@@ -46,6 +51,6 @@ if (argument1 == 1 && global.missiles > 0 || argument1 == 2 && global.smissiles 
         }
         */
     }
-} // if (argument1 == 1 && global.missiles > 0 || argument1 == 2 && global.smissiles > 0)
+// if (argument1 == 1 && global.missiles > 0 || argument1 == 2 && global.smissiles > 0)
 if (argument1 == 2 && global.smissiles == 0) argument1 = 1;
 if (argument1 == 1 && global.missiles == 0) argument1 = 0;

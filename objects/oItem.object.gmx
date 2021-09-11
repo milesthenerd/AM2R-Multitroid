@@ -107,6 +107,8 @@ collected = false;
     collected = true;
     alarm[1] = 1;
 }
+
+if(global.spectator) active = 0;
 </string>
           </argument>
         </arguments>

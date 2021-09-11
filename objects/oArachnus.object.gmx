@@ -112,6 +112,9 @@ sfx_play(sndEDeath1);
 sfx_play(sndMissileExpl);
 global.event[103] = x;
 dead = true;
+if(instance_exists(oClient) &amp;&amp; oClient.connected){
+    with(oClient) event_user(8);
+} 
 
 if(oControl.mod_fusion == 0) {
     var temp_randitem = scr_itemsopen(oControl.mod_jumpball);
@@ -669,6 +672,9 @@ if(global.event[103] &gt; 0 &amp;&amp; !dead){
     state = 90;
     statetime = -1;
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
     with(oArachnusSpikes) instance_destroy();
 }
 </string>

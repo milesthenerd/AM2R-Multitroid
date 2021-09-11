@@ -145,7 +145,7 @@ instance_create(592, 192, scr_itemsopen(oControl.mod_256));</code>
     <instance objName="oA4TileLight5" x="560" y="64" name="inst_127921" locked="0" code="" scaleX="-1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oA4TileLight5" x="560" y="224" name="inst_127922" locked="0" code="" scaleX="-1" scaleY="-1" colour="4294967295" rotation="0"/>
     <instance objName="oA4TileLight5" x="608" y="176" name="inst_127923" locked="0" code="" scaleX="-1" scaleY="-1" colour="4294967295" rotation="0"/>
-    <instance objName="oDoorA4" x="24" y="80" name="inst_127924" locked="0" code="&#xA;if (global.event[200] == 0) lock = 4;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oDoorA4" x="24" y="80" name="inst_127924" locked="0" code="&#xA;if (global.event[200] == 0) lock = 4;&#xA;&#xA;if(global.saxmode &amp;&amp; global.sax &amp;&amp; global.event[200] == 0){&#xA;    lock = 4;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oShielder" x="136" y="64" name="inst_127925" locked="0" code="&#xA;if (global.event[200] == 0) instance_destroy();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oShielder" x="440" y="64" name="inst_127926" locked="0" code="&#xA;if (global.event[200] == 0) instance_destroy();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="16" y="192" name="inst_127927" locked="0" code="" scaleX="1" scaleY="3" colour="4294967295" rotation="0"/>

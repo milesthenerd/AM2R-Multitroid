@@ -194,6 +194,11 @@ if (ealpha &lt;= 0 &amp;&amp; fadeout) {
 if (global.curropt &lt; 14) {
     oSubScrPlayer.targety = 52;
 } else oSubScrPlayer.targety = -13;
+
+if(global.saxmode &amp;&amp; global.enemyNearby){
+    fadeout = 1;
+    active = 0;
+}
 </string>
           </argument>
         </arguments>

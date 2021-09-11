@@ -38,6 +38,7 @@ flash = 0;
 chaseX = 0;
 alarm1set = 0;
 myid = 0;
+name = "";
 </string>
           </argument>
         </arguments>
@@ -86,7 +87,8 @@ followplayer = 0;
           <argument>
             <kind>1</kind>
             <string>if(myid == 0){
-    sfx_play(choose(sndHatchling,sndHatchling2,sndHatchling3,sndHatchling4));
+    if(sprite_index != sFedtogg) sfx_play(choose(sndHatchling,sndHatchling2,sndHatchling3,sndHatchling4));
+    if(sprite_index == sFedtogg) sfx_play(choose(sndSeptogg1, sndSeptogg2, sndSeptogg3));
     alarm[0] = 300 + irandom(320);
     roaring = 60;
 }
@@ -114,7 +116,17 @@ followplayer = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(myid == 0){
+            <string>if(myid == 0 &amp;&amp; instance_exists(oClient) &amp;&amp; string_lower(oClient.name) == "shirty"){
+    if(sprite_index != sFedtogg) sprite_index = sFedtogg;
+    image_speed = 0.33;
+}
+
+if(myid != 0 &amp;&amp; string_lower(name) == "shirty"){
+    if(sprite_index != sFedtogg) sprite_index = sFedtogg;
+    image_speed = 0.33;
+}
+
+if(myid == 0){
     if (global.event[304] == 1 &amp;&amp; distance_to_object(oA7Crystal1) &lt; 120) {
         tgtobj = instance_nearest(x, y, oA7Crystal1);
         if (tgtobj != -4) {

@@ -3,6 +3,7 @@ var missileX = 0;
 var missileY = 0;
 if (global.currentweapon == 1 && global.missiles > 0 || global.currentweapon == 2 && global.smissiles > 0) {
     msl = instance_create(x + aspr2x, y + aspr2y, oMissile);
+    msl.sax = global.sax;
     msl.direction = argument0;
     msl.speed = 6.4;
     msl.image_angle = argument0;
@@ -57,7 +58,7 @@ if (global.currentweapon == 1 && global.missiles > 0 || global.currentweapon == 
 if (global.currentweapon == 2 && global.smissiles == 0) global.currentweapon = 1;
 if (global.currentweapon == 1 && global.missiles == 0) global.currentweapon = 0;
 
-if(instance_exists(oClient) && missileX != 0 && missileY != 0){
+if(instance_exists(oClient) && instance_exists(oCharacter) && missileX != 0 && missileY != 0){
     if(ds_list_size(oClient.roomListData) > 0){
         var size, type, alignment;
         size = 1024;
@@ -71,6 +72,10 @@ if(instance_exists(oClient) && missileX != 0 && missileY != 0){
         buffer_write(missileBuffer, buffer_s16, argument0);
         buffer_write(missileBuffer, buffer_s16, missileX);
         buffer_write(missileBuffer, buffer_s16, missileY);
+        buffer_write(missileBuffer, buffer_u8, global.sax);
+        buffer_write(missileBuffer, buffer_s8, oCharacter.xVel);
+        buffer_write(missileBuffer, buffer_s8, oCharacter.yVel);
+        buffer_write(missileBuffer, buffer_u8, global.icemissiles);
         var bufferSize = buffer_tell(missileBuffer);
         buffer_seek(missileBuffer, buffer_seek_start, 0);
         buffer_write(missileBuffer, buffer_s32, bufferSize);
@@ -80,6 +85,10 @@ if(instance_exists(oClient) && missileX != 0 && missileY != 0){
         buffer_write(missileBuffer, buffer_s16, argument0);
         buffer_write(missileBuffer, buffer_s16, missileX);
         buffer_write(missileBuffer, buffer_s16, missileY);
+        buffer_write(missileBuffer, buffer_u8, global.sax);
+        buffer_write(missileBuffer, buffer_s8, oCharacter.xVel);
+        buffer_write(missileBuffer, buffer_s8, oCharacter.yVel);
+        buffer_write(missileBuffer, buffer_u8, global.icemissiles);
         var result = network_send_packet(oClient.socket, missileBuffer, buffer_tell(missileBuffer));
         buffer_delete(missileBuffer);
     }

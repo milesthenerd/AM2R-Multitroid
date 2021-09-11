@@ -124,8 +124,10 @@ global.tiptext = tip[global.curropt];
             active = 0;
         }
         if (global.curropt == 1) {
-            instance_create(50, 92, oOptionsReload);
-            instance_destroy();
+            if(!global.saxmode &amp;&amp; !global.lobbyLocked &amp;&amp; global.currentroom != rm_a1h01 &amp;&amp; global.currentroom != rm_a2a04 &amp;&amp; global.currentroom != rm_a3a01 &amp;&amp; global.currentroom != rm_a4a05 &amp;&amp; global.currentroom != rm_a5b03 &amp;&amp; global.currentroom != rm_a5b03a &amp;&amp; global.currentroom != rm_a5c31 &amp;&amp; global.currentroom != rm_a5c32 &amp;&amp; global.currentroom != rm_a4a04 &amp;&amp; global.currentroom != rm_a4a07 &amp;&amp; global.currentroom != rm_a4a06 &amp;&amp; global.currentroom != rm_a8a11){
+                instance_create(50, 92, oOptionsReload);
+                instance_destroy();
+            }
         }
         if (global.curropt == 2) {
             instance_create(50, 92, oOptionsMain);
@@ -190,6 +192,7 @@ op1.optionid = 0;
 op1.label = get_text("PauseMenu", "Resume");
 op2 = instance_create(x, y + 16, oPauseOption);
 op2.optionid = 1;
+if(global.saxmode || global.lobbyLocked || global.currentroom == rm_a1h01 || global.currentroom == rm_a2a04 || global.currentroom == rm_a3a01 || global.currentroom == rm_a4a05 || global.currentroom == rm_a5b03 || global.currentroom == rm_a5b03a || global.currentroom == rm_a5c31 || global.currentroom == rm_a5c32 || global.currentroom == rm_a4a04 || global.currentroom == rm_a4a07 || global.currentroom == rm_a4a06 || global.currentroom == rm_a8a11) op2.enabled = 0;
 op2.label = get_text("PauseMenu", "Restart");
 op3 = instance_create(x, y + 32, oPauseOption);
 op3.optionid = 2;

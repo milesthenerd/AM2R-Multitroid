@@ -59,6 +59,9 @@ global.SuitChangeX = x;
 global.SuitChangeY = y;
 global.SuitChangeGravity = false;
 if (active) with (oCharacter) alarm[1] = 1;
+if(instance_exists(oClient) &amp;&amp; oClient.connected){
+    with(oClient) event_user(8);
+} 
 </string>
           </argument>
         </arguments>

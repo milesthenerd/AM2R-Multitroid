@@ -83,6 +83,9 @@ dead = false;
 if(global.event[203] != 1 &amp;&amp; !dead){
     event_user(1);
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
 }
 </string>
           </argument>

@@ -82,6 +82,11 @@ if (ealpha &lt;= 0 &amp;&amp; fadeout) {
     room_goto(global.currentroom);
     Unmute_Loops();
 }
+
+if(global.saxmode &amp;&amp; global.enemyNearby){
+    fadeout = 1;
+    active = 0;
+}
 </string>
           </argument>
         </arguments>

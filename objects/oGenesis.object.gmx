@@ -371,6 +371,9 @@ if(global.event[307] &gt; 0 &amp;&amp; !dead){
     hp = 0;
     event_user(1);
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
 }
 </string>
           </argument>
@@ -562,6 +565,9 @@ if(global.event[307] &gt; 0 &amp;&amp; !dead){
     }
     global.event[307] = 1;
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
 } else sfx_play(sndGenesisHit);
 </string>
           </argument>

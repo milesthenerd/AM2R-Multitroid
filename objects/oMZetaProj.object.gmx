@@ -153,7 +153,11 @@ gravity = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (fadeout == 0) damage_player(damage, hpush, vpush, 0, 0);
+            <string>if (fadeout == 0){
+    var damageToDeal = damage;
+    if (global.sax) damageToDeal = damageToDeal * 2;
+    damage_player(damageToDeal, hpush, vpush, 0, 0);
+} 
 </string>
           </argument>
         </arguments>

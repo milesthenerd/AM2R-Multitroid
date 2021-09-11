@@ -21,11 +21,11 @@
     <option_android_arch_mipsr2>false</option_android_arch_mipsr2>
     <option_android_arch_mipsr2sf>false</option_android_arch_mipsr2sf>
     <option_android_arch_x86>True</option_android_arch_x86>
-    <option_android_build_tools_version>23.0.1</option_android_build_tools_version>
+    <option_android_build_tools_version>28.0.3</option_android_build_tools_version>
     <option_android_build_version>2</option_android_build_version>
     <option_android_color_depth>1</option_android_color_depth>
-    <option_android_compile_sdk_version>23</option_android_compile_sdk_version>
-    <option_android_display_name>AM2R</option_android_display_name>
+    <option_android_compile_sdk_version>28</option_android_compile_sdk_version>
+    <option_android_display_name>Multitroid 1.4</option_android_display_name>
     <option_android_facebook_app_display_name></option_android_facebook_app_display_name>
     <option_android_facebook_appid></option_android_facebook_appid>
     <option_android_facebook_enable>0</option_android_facebook_enable>
@@ -51,7 +51,7 @@
     <option_android_licensing_key></option_android_licensing_key>
     <option_android_lint>0</option_android_lint>
     <option_android_major_version>1</option_android_major_version>
-    <option_android_min_sdk_version>9</option_android_min_sdk_version>
+    <option_android_min_sdk_version>14</option_android_min_sdk_version>
     <option_android_minor_version>5</option_android_minor_version>
     <option_android_mmedia_ads>0</option_android_mmedia_ads>
     <option_android_moga>0</option_android_moga>
@@ -62,10 +62,10 @@
     <option_android_orient_portrait_flipped>False</option_android_orient_portrait_flipped>
     <option_android_orientation>2</option_android_orientation>
     <option_android_ouya_icon>Configs\Default\android\icons\ouyaIcon.png</option_android_ouya_icon>
-    <option_android_package_company>lojical</option_android_package_company>
+    <option_android_package_company>milesthenerd</option_android_package_company>
     <option_android_package_domain>com</option_android_package_domain>
-    <option_android_package_product>AM2R</option_android_package_product>
-    <option_android_permission_flags>16</option_android_permission_flags>
+    <option_android_package_product>multitroid</option_android_package_product>
+    <option_android_permission_flags>24</option_android_permission_flags>
     <option_android_pocketchange_enable>false</option_android_pocketchange_enable>
     <option_android_pocketchange_id></option_android_pocketchange_id>
     <option_android_pocketchange_test_enable>false</option_android_pocketchange_test_enable>
@@ -77,8 +77,8 @@
     <option_android_sleep_margin>4</option_android_sleep_margin>
     <option_android_splash_png>Configs\Default\android\splash.png</option_android_splash_png>
     <option_android_splash_time>0</option_android_splash_time>
-    <option_android_support_lib_version>23.1.1</option_android_support_lib_version>
-    <option_android_target_sdk_version>23</option_android_target_sdk_version>
+    <option_android_support_lib_version>25.3.1</option_android_support_lib_version>
+    <option_android_target_sdk_version>28</option_android_target_sdk_version>
     <option_android_texture_page>1024</option_android_texture_page>
     <option_android_use_test_ads>false</option_android_use_test_ads>
     <option_androidfire_GPU_device>0</option_androidfire_GPU_device>
@@ -220,7 +220,7 @@
     <option_changeresolution>false</option_changeresolution>
     <option_closeesc>true</option_closeesc>
     <option_colordepth>0</option_colordepth>
-    <option_display_name>AM2R</option_display_name>
+    <option_display_name>AM2R Multitroid 1.4</option_display_name>
     <option_displayerrors>True</option_displayerrors>
     <option_ecma>0</option_ecma>
     <option_facebook_app_display_name></option_facebook_app_display_name>
@@ -301,6 +301,24 @@
     <option_ios_icon_57>Configs\Default\ios\icons\icon57.png</option_ios_icon_57>
     <option_ios_icon_72>Configs\Default\ios\icons\icon72.png</option_ios_icon_72>
     <option_ios_icon_76>Configs\Default\ios\icons\icon76.png</option_ios_icon_76>
+    <option_ios_icon_ipad_app_152>Configs\Default\ios\icons\app\ipad_152.png</option_ios_icon_ipad_app_152>
+    <option_ios_icon_ipad_app_76>Configs\Default\ios\icons\app\ipad_76.png</option_ios_icon_ipad_app_76>
+    <option_ios_icon_ipad_notification_20>Configs\Default\ios\icons\notification\ipad_20.png</option_ios_icon_ipad_notification_20>
+    <option_ios_icon_ipad_notification_40>Configs\Default\ios\icons\notification\ipad_40.png</option_ios_icon_ipad_notification_40>
+    <option_ios_icon_ipad_pro_app_167>Configs\Default\ios\icons\app\ipad_pro_167.png</option_ios_icon_ipad_pro_app_167>
+    <option_ios_icon_ipad_settings_29>Configs\Default\ios\icons\settings\ipad_29.png</option_ios_icon_ipad_settings_29>
+    <option_ios_icon_ipad_settings_58>Configs\Default\ios\icons\settings\ipad_58.png</option_ios_icon_ipad_settings_58>
+    <option_ios_icon_ipad_spotlight_40>Configs\Default\ios\icons\spotlight\ipad_40.png</option_ios_icon_ipad_spotlight_40>
+    <option_ios_icon_ipad_spotlight_80>Configs\Default\ios\icons\spotlight\ipad_80.png</option_ios_icon_ipad_spotlight_80>
+    <option_ios_icon_iphone_app_120>Configs\Default\ios\icons\app\iphone_120.png</option_ios_icon_iphone_app_120>
+    <option_ios_icon_iphone_app_180>Configs\Default\ios\icons\app\iphone_180.png</option_ios_icon_iphone_app_180>
+    <option_ios_icon_iphone_notification_40>Configs\Default\ios\icons\notification\iphone_40.png</option_ios_icon_iphone_notification_40>
+    <option_ios_icon_iphone_notification_60>Configs\Default\ios\icons\notification\iphone_60.png</option_ios_icon_iphone_notification_60>
+    <option_ios_icon_iphone_settings_58>Configs\Default\ios\icons\settings\iphone_58.png</option_ios_icon_iphone_settings_58>
+    <option_ios_icon_iphone_settings_87>Configs\Default\ios\icons\settings\iphone_87.png</option_ios_icon_iphone_settings_87>
+    <option_ios_icon_iphone_spotlight_120>Configs\Default\ios\icons\spotlight\iphone_120.png</option_ios_icon_iphone_spotlight_120>
+    <option_ios_icon_iphone_spotlight_80>Configs\Default\ios\icons\spotlight\iphone_80.png</option_ios_icon_iphone_spotlight_80>
+    <option_ios_icon_itunes_artwork_1024>Configs\Default\ios\icons\itunes\itunes_1024.png</option_ios_icon_itunes_artwork_1024>
     <option_ios_interpolate>-1</option_ios_interpolate>
     <option_ios_ipad_retina_splash_png>Configs\Default\ios\iPadRetinasplash.png</option_ios_ipad_retina_splash_png>
     <option_ios_ipad_retina_splash_portrait_png>Configs\Default\ios\iPadRetinasplashPortrait.png</option_ios_ipad_retina_splash_portrait_png>
@@ -312,10 +330,22 @@
     <option_ios_iphone6_splash_portrait_png>Configs\Default\ios\iPhone6splashPortrait.png</option_ios_iphone6_splash_portrait_png>
     <option_ios_iphone6plus_splash_png>Configs\Default\ios\iPhone6Plussplash.png</option_ios_iphone6plus_splash_png>
     <option_ios_iphone6plus_splash_portrait_png>Configs\Default\ios\iPhone6PlussplashPortrait.png</option_ios_iphone6plus_splash_portrait_png>
+    <option_ios_iphone7_splash_png>Configs\Default\ios\iPhone7splash.png</option_ios_iphone7_splash_png>
+    <option_ios_iphone7_splash_portrait_png>Configs\Default\ios\iPhone7splashPortrait.png</option_ios_iphone7_splash_portrait_png>
+    <option_ios_iphone7plus_splash_png>Configs\Default\ios\iPhone7Plussplash.png</option_ios_iphone7plus_splash_png>
+    <option_ios_iphone7plus_splash_portrait_png>Configs\Default\ios\iPhone7PlussplashPortrait.png</option_ios_iphone7plus_splash_portrait_png>
+    <option_ios_iphone8_splash_png>Configs\Default\ios\iPhone8splash.png</option_ios_iphone8_splash_png>
+    <option_ios_iphone8_splash_portrait_png>Configs\Default\ios\iPhone8splashPortrait.png</option_ios_iphone8_splash_portrait_png>
+    <option_ios_iphone8plus_splash_png>Configs\Default\ios\iPhone8Plussplash.png</option_ios_iphone8plus_splash_png>
+    <option_ios_iphone8plus_splash_portrait_png>Configs\Default\ios\iPhone8PlussplashPortrait.png</option_ios_iphone8plus_splash_portrait_png>
     <option_ios_iphone_retina_splash_png>Configs\Default\ios\IphoneRetinasplash.png</option_ios_iphone_retina_splash_png>
     <option_ios_iphone_retina_splash_portrait_png>Configs\Default\ios\IphoneRetinasplashPortrait.png</option_ios_iphone_retina_splash_portrait_png>
     <option_ios_iphone_splash_png>Configs\Default\ios\iPhonesplash.png</option_ios_iphone_splash_png>
     <option_ios_iphone_splash_portrait_png>Configs\Default\ios\iPhonesplashPortrait.png</option_ios_iphone_splash_portrait_png>
+    <option_ios_iphonese_splash_png>Configs\Default\ios\iPhonesesplash.png</option_ios_iphonese_splash_png>
+    <option_ios_iphonese_splash_portrait_png>Configs\Default\ios\iPhonesesplashPortrait.png</option_ios_iphonese_splash_portrait_png>
+    <option_ios_iphonex_splash_png>Configs\Default\ios\iPhonexsplash.png</option_ios_iphonex_splash_png>
+    <option_ios_iphonex_splash_portrait_png>Configs\Default\ios\iPhonexsplashPortrait.png</option_ios_iphonex_splash_portrait_png>
     <option_ios_major_version>1</option_ios_major_version>
     <option_ios_minor_version>0</option_ios_minor_version>
     <option_ios_orient_landscape>-1</option_ios_orient_landscape>
@@ -332,7 +362,7 @@
     <option_ios_texture_page>1024</option_ios_texture_page>
     <option_ios_use_test_ads>false</option_ios_use_test_ads>
     <option_lastchanged></option_lastchanged>
-    <option_linux_display_name>AM2R</option_linux_display_name>
+    <option_linux_display_name>AM2R Multitroid 1.4</option_linux_display_name>
     <option_linux_enable_steam>0</option_linux_enable_steam>
     <option_linux_fullscreen>0</option_linux_fullscreen>
     <option_linux_homepage>https://www.reddit.com/r/AM2R/</option_linux_homepage>
@@ -585,7 +615,7 @@
     <option_windows_runner_finished>Configs\Default\windows\Runner_finish.bmp</option_windows_runner_finished>
     <option_windows_runner_header>Configs\Default\windows\Runner_header.bmp</option_windows_runner_header>
     <option_windows_save_location>0</option_windows_save_location>
-    <option_windows_sleep_margin>10</option_windows_sleep_margin>
+    <option_windows_sleep_margin>11</option_windows_sleep_margin>
     <option_windows_splash_background_colour>#000000</option_windows_splash_background_colour>
     <option_windows_splash_screen>Configs\Default\windows\splash.png</option_windows_splash_screen>
     <option_windows_steam_app_id>0</option_windows_steam_app_id>

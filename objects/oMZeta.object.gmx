@@ -118,6 +118,9 @@ alarm[9] = 1;
 scan_log(14, get_text("ScanEvents", "ScanBioform"), 180, 0);
 dead = false;
 
+if(instance_exists(oClient)){
+    
+}
 myposx = floor(x / 320);
 myposy = floor((y - 8) / 240);
 mapposx = myposx + global.mapoffsetx;

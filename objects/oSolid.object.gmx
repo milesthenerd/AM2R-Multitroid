@@ -88,6 +88,50 @@ if (tileid != 0) visible = false;
         </arguments>
       </action>
     </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(id == inst_0B029596 || id == inst_42C9AABC){
+    if((room == rm_a0h08 || room == rm_a1h03) &amp;&amp; instance_exists(oClient) &amp;&amp; oClient.connected &amp;&amp; global.sax &amp;&amp; global.saxmode){
+        if(global.event[51] == 0 &amp;&amp; global.log[21] &gt; 0){
+            var playerInBossRoom = false;
+            if(ds_list_size(oClient.posData) &gt; 0){
+                for(var i=0; i&lt;ds_list_size(oClient.posData); i++){
+                    var arrMapIcon = oClient.posData[| i];
+                    var sax = arrMapIcon[3];
+                    var playerRoom = arrMapIcon[4];
+                    if(sax != global.sax &amp;&amp; playerRoom == rm_a1h01){
+                        playerInBossRoom = true;
+                    }
+                }
+            } else image_yscale = 0;
+            //add sa-x teleport when player is fighting guardian
+            if(playerInBossRoom){
+                image_yscale = 5;
+            } else image_yscale = 0;
+        } else image_yscale = 0;
+    } else image_yscale = 0;
+}
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="11">
       <action>
         <libid>1</libid>

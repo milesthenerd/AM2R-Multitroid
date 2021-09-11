@@ -28,87 +28,100 @@ oControl.mod_header[7, 4] = 17;
 oControl.mod_header[8, 3] = 15;
 oControl.mod_header[8, 4] = 17;
 
-/*
 var lin = "";
 
 if (os_type == os_linux) {
     lin = "/assets";
 }
-*/
 
 if(os_type == os_android) exit; // "Safety Check" on Android
 
 //Area Headers
 // Changed from program_directory to working_directory
 // Format: language_aArea_fFrames_bPause1_cPause2_dPause3_ePause4.png
-var filename = file_find_first("lang/headers/" + "*.png", 0);
-while(filename != "") {
-    if(string_pos(string_lower(string_replace(get_text("Header", "Language"), " (16:9)", "")), string_lower(filename)) != 0) {
-        var harea = string_pos("_a", string_lower(filename)),
-            hframes = string_pos("_f", string_lower(filename)),
-            hd1 = string_pos("_b", string_lower(filename)),
-            hd2 = string_pos("_c", string_lower(filename)),
-            hd3 = string_pos("_d", string_lower(filename)),
-            hd4 = string_pos("_e", string_lower(filename));
-            //show_debug_message("harea = " + string(harea));
-        
-        if(harea != 0) {
-            harea = real(string_digits(string_char_at(filename, harea + 2)));
-            //show_debug_message("harea = " + string(harea));
-            if(hframes != 0) {
-                hframes = real(string_digits(string_char_at(filename, hframes + 2) + string_char_at(filename, hframes + 3)));
-                oControl.mod_header[harea, 0] = hframes;
-            }
-            if(hd1 != 0) oControl.mod_header[harea, 1] = real(string_digits(string_char_at(filename, hd1 + 2) + string_char_at(filename, hd1 + 3)));
-            if(hd2 != 0) oControl.mod_header[harea, 2] = real(string_digits(string_char_at(filename, hd2 + 2) + string_char_at(filename, hd2 + 3)));
-            if(hd3 != 0) oControl.mod_header[harea, 3] = real(string_digits(string_char_at(filename, hd3 + 2) + string_char_at(filename, hd3 + 3)));
-            if(hd4 != 0) oControl.mod_header[harea, 4] = real(string_digits(string_char_at(filename, hd4 + 2) + string_char_at(filename, hd4 + 3)));
+if (directory_exists(working_directory + "/lang/headers")) {
+    var filename = file_find_first(working_directory + "/lang/headers/" + "*.png", 0);
+    while(filename != "") {
+        //show_debug_message(filename);
+        //var introString = , );
+        if(string_pos(string_lower(string_replace(get_text("Header", "Language"), " (16:9)", "")), string_lower(filename)) != 0) {
+            var harea = string_pos("_a", string_lower(filename)),
+                hframes = string_pos("_f", string_lower(filename)),
+                hd1 = string_pos("_b", string_lower(filename)),
+                hd2 = string_pos("_c", string_lower(filename)),
+                hd3 = string_pos("_d", string_lower(filename)),
+                hd4 = string_pos("_e", string_lower(filename));
+                //show_debug_message("harea = " + string(harea));
             
-            sprite_replace(asset_get_index("sIntro_A" + string(harea)), "lang/headers/" + filename, hframes, false, false, 0, 0);
+            if(harea != 0) {
+                harea = real(string_digits(string_char_at(filename, harea + 2)));
+                //show_debug_message("harea = " + string(harea));
+                if(hframes != 0) {
+                    hframes = real(string_digits(string_char_at(filename, hframes + 2) + string_char_at(filename, hframes + 3)));
+                    oControl.mod_header[harea, 0] = hframes;
+                }
+                if(hd1 != 0) oControl.mod_header[harea, 1] = real(string_digits(string_char_at(filename, hd1 + 2) + string_char_at(filename, hd1 + 3)));
+                if(hd2 != 0) oControl.mod_header[harea, 2] = real(string_digits(string_char_at(filename, hd2 + 2) + string_char_at(filename, hd2 + 3)));
+                if(hd3 != 0) oControl.mod_header[harea, 3] = real(string_digits(string_char_at(filename, hd3 + 2) + string_char_at(filename, hd3 + 3)));
+                if(hd4 != 0) oControl.mod_header[harea, 4] = real(string_digits(string_char_at(filename, hd4 + 2) + string_char_at(filename, hd4 + 3)));
+                
+                spr = sprite_add(working_directory + "/lang/headers/" + filename, hframes, false, false, 0, 0);
+                sprite_assign(asset_get_index("sIntro_A" + string(harea)), spr);
+                sprite_delete(spr);
+            }
         }
+        filename = file_find_next();
     }
-    filename = file_find_next();
+    file_find_close();
 }
-file_find_close();
+
+
 
 //Title Logo
-var filename = file_find_first("lang/titles/" + "*.png", 0);
-while(filename != "") {
-    if(string_pos(string_lower(string_replace(get_text("Header", "Language"), " (16:9)", "")), string_lower(filename)) != 0) {            
-        var titlex = string_pos("x", string_lower(filename)),
-            titley =  string_pos("y", string_lower(filename));   
+if (directory_exists(program_directory + lin + "/lang/titles")) {
+    var filename = file_find_first(program_directory + lin + "/lang/titles/" + "*.png", 0);
+    while(filename != "") {
+        if(string_pos(string_lower(string_replace(get_text("Header", "Language"), " (16:9)", "")), string_lower(filename)) != 0) {            
+            var titlex = string_pos("x", string_lower(filename)),
+                titley =  string_pos("y", string_lower(filename));   
+                
+            var xnegative = string_pos("-x", string_lower(filename));
+                
+            if(titlex != 0) oControl.mod_xcoordinate = real(string_digits(string_char_at(filename, titlex + 1) + string_char_at(filename, titlex + 2) + string_char_at(filename, titlex + 3)));
+            if(titley != 0) oControl.mod_ycoordinate = real(string_digits(string_char_at(filename, titley + 1) + string_char_at(filename, titley + 2) + string_char_at(filename, titley + 3)));
+            if(xnegative != 0) oControl.mod_xcoordinate = -oControl.mod_xcoordinate;
             
-        var xnegative = string_pos("-x", string_lower(filename));
-            
-        if(titlex != 0) oControl.mod_xcoordinate = real(string_digits(string_char_at(filename, titlex + 1) + string_char_at(filename, titlex + 2) + string_char_at(filename, titlex + 3)));
-        if(titley != 0) oControl.mod_ycoordinate = real(string_digits(string_char_at(filename, titley + 1) + string_char_at(filename, titley + 2) + string_char_at(filename, titley + 3)));
-        if(xnegative != 0) oControl.mod_xcoordinate = -oControl.mod_xcoordinate;
-
-        background_replace(bgAM2RTitle, "lang/titles/" + filename, false, false);
+            bck = background_add(program_directory + lin + "/lang/titles/" + filename, false, false);
+            background_assign(bgAM2RTitle, bck);
+            background_delete(bck);
+        }
+        filename = file_find_next();
     }
-    filename = file_find_next();
+    file_find_close();
 }
-file_find_close();
 
 //Title Background
-var filename = file_find_first("*.png", 0);
-while(filename != "") {
-    if(string_pos("titlebackground", filename) != 0) {
-        oControl.mod_backgroundframes = 1;
-        oControl.mod_backgroundspeed = 60;
+if (directory_exists(program_directory)) {
+    var filename = file_find_first(program_directory + "*.png", 0);
+    while(filename != "") {
+        if(string_pos("titlebackground", filename) != 0) {
+            oControl.mod_backgroundframes = 1;
+            oControl.mod_backgroundspeed = 60;
+            
+            var bgframes = string_pos("f", string_lower(filename)),
+                bgspeed =  string_pos("s", string_lower(filename));   
         
-        var bgframes = string_pos("f", string_lower(filename)),
-            bgspeed =  string_pos("s", string_lower(filename));   
-    
-        if(bgframes != 0) oControl.mod_backgroundframes = real(string_digits(string_char_at(filename, bgframes + 1) + string_char_at(filename, bgframes + 2)));
-        if(bgspeed != 0) oControl.mod_backgroundspeed = real(string_digits(string_char_at(filename, bgspeed + 1) + string_char_at(filename, bgspeed + 2)));
-
-        sprite_replace(sTitleAnimated, filename, oControl.mod_backgroundframes, false, false, 0, 0);
+            if(bgframes != 0) oControl.mod_backgroundframes = real(string_digits(string_char_at(filename, bgframes + 1) + string_char_at(filename, bgframes + 2)));
+            if(bgspeed != 0) oControl.mod_backgroundspeed = real(string_digits(string_char_at(filename, bgspeed + 1) + string_char_at(filename, bgspeed + 2)));
+            
+            spr = sprite_add(program_directory + filename, oControl.mod_backgroundframes, false, false, 0, 0);
+            sprite_assign(sTitleAnimated, spr);
+            sprite_delete(spr);
+        }
+        filename = file_find_next();
     }
-    filename = file_find_next();
+    file_find_close();
 }
-file_find_close();
-
 
 
 // ***Suit palettes***
@@ -256,22 +269,288 @@ ini_open("mods/palettes/monsters/config.ini");
 MonsterPalettesFusionOnly = ini_read_real('PaletteMode', 'FusionOnly', 1);
 ini_close();
 
-AlphaPalette = -1;
-GammaPalette = -1;
-ZetaPalette = -1;
-OmegaPalette = -1;
-QueenPalette = -1;
-ZetaBlur = -1;
-QueenDead = -1;
-QueenBloodDrop = -1;
-QueenBloodParticle = -1;
+oControl.AlphaPalette = -1;
+oControl.GammaPalette = -1;
+oControl.ZetaPalette = -1;
+oControl.OmegaPalette = -1;
+oControl.QueenPalette = -1;
+oControl.ZetaBlur = -1;
+oControl.QueenDead = -1;
+oControl.QueenBloodDrop = -1;
+oControl.QueenBloodParticle = -1;
 
-if (file_exists("mods/palettes/monsters/alpha.png")) AlphaPalette = sprite_add("mods/palettes/monsters/alpha.png", 1, false, false, 0, 0);
-if (file_exists("mods/palettes/monsters/gamma.png")) GammaPalette = sprite_add("mods/palettes/monsters/gamma.png", 1, false, false, 0, 0);
-if (file_exists("mods/palettes/monsters/zeta.png")) ZetaPalette  = sprite_add("mods/palettes/monsters/zeta.png", 1, false, false, 0, 0);
-if (file_exists("mods/palettes/monsters/omega.png")) OmegaPalette = sprite_add("mods/palettes/monsters/omega.png", 1, false, false, 0, 0);
-if (file_exists("mods/palettes/monsters/queen.png")) QueenPalette = sprite_add("mods/palettes/monsters/queen.png", 1, false, false, 0, 0);
-if (file_exists("mods/palettes/monsters/zeta_blur.png")) ZetaBlur = sprite_add("mods/palettes/monsters/zeta_blur.png", 1, false, false, sprite_get_xoffset(sMZetaBlur), sprite_get_yoffset(sMZetaBlur));
-if (file_exists("mods/palettes/monsters/queen_dead.png")) QueenDead = background_add("mods/palettes/monsters/queen_dead.png", false, false);
-if (file_exists("mods/palettes/monsters/queen_blood_drop.png")) QueenBloodDrop = sprite_add("mods/palettes/monsters/queen_blood_drop.png", sprite_get_number(sQueenBloodDrop), false, false, sprite_get_xoffset(sQueenBloodDrop), sprite_get_yoffset(sQueenBloodDrop));
-if (file_exists("mods/palettes/monsters/queen_blood_particle.png")) QueenBloodParticle = sprite_add("mods/palettes/monsters/queen_blood_particle.png", sprite_get_number(sQueenBloodParticle), false, false, sprite_get_xoffset(sQueenBloodParticle), sprite_get_yoffset(sQueenBloodParticle));
+if (file_exists("mods/palettes/monsters/alpha.png")) oControl.AlphaPalette = sprite_add("mods/palettes/monsters/alpha.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/monsters/gamma.png")) oControl.GammaPalette = sprite_add("mods/palettes/monsters/gamma.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/monsters/zeta.png")) oControl.ZetaPalette  = sprite_add("mods/palettes/monsters/zeta.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/monsters/omega.png")) oControl.OmegaPalette = sprite_add("mods/palettes/monsters/omega.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/monsters/queen.png")) oControl.QueenPalette = sprite_add("mods/palettes/monsters/queen.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/monsters/zeta_blur.png")) oControl.ZetaBlur = sprite_add("mods/palettes/monsters/zeta_blur.png", 1, false, false, sprite_get_xoffset(sMZetaBlur), sprite_get_yoffset(sMZetaBlur));
+if (file_exists("mods/palettes/monsters/queen_dead.png")) oControl.QueenDead = background_add("mods/palettes/monsters/queen_dead.png", false, false);
+if (file_exists("mods/palettes/monsters/queen_blood_drop.png")) oControl.QueenBloodDrop = sprite_add("mods/palettes/monsters/queen_blood_drop.png", sprite_get_number(sQueenBloodDrop), false, false, sprite_get_xoffset(sQueenBloodDrop), sprite_get_yoffset(sQueenBloodDrop));
+if (file_exists("mods/palettes/monsters/queen_blood_particle.png")) oControl.QueenBloodParticle = sprite_add("mods/palettes/monsters/queen_blood_particle.png", sprite_get_number(sQueenBloodParticle), false, false, sprite_get_xoffset(sQueenBloodParticle), sprite_get_yoffset(sQueenBloodParticle));
+
+if (file_exists("mods/palettes/multitroid/multitroid.png")) oControl.MultitroidPaletteCustom = sprite_add("mods/palettes/multitroid/multitroid.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/multitroid_fusion.png")) oControl.MultitroidPaletteFusionCustom = sprite_add("mods/palettes/multitroid/multitroid_fusion.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/spiderball.png")) oControl.SpiderballPaletteCustom = sprite_add("mods/palettes/multitroid/spiderball.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/baby_metroid.png")) oControl.MultitroidBabyPaletteCustom = sprite_add("mods/palettes/multitroid/baby_metroid.png", 1, false, false, 0, 0);
+
+icon_sprite = 0;
+icon_merge = 1;
+icon_merge2 = 2;
+icon_merge3 = 3;
+icon_merge4 = 4;
+icon_merge5 = 5;
+icon_merge6 = 6;
+icon_merge7 = 7;
+icon_merge8 = 8;
+icon_duplicate = 9;
+icon_duplicate2 = 10;
+icon_duplicate3 = 11;
+icon_duplicate4 = 12;
+icon_duplicate5 = 13;
+icon_duplicate6 = 14;
+icon_duplicate7 = 15;
+icon_duplicate8 = 16;
+icon_merge9 = 17;
+icon_merge10 = 18;
+icon_merge11 = 19;
+icon_merge12 = 20;
+icon_merge13 = 21;
+icon_merge14 = 22;
+icon_merge15 = 23;
+icon_merge16 = 24;
+icon_duplicate9 = 25;
+icon_duplicate10 = 26;
+icon_duplicate11 = 27;
+icon_duplicate12 = 28;
+icon_duplicate13 = 29;
+icon_duplicate14 = 30;
+icon_duplicate15 = 31;
+icon_duplicate16 = 32;
+i = 0;
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_0.png")){ icon_merge = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_0.png", 1, false, false, 0, 0); i++;}
+icon_duplicate = sprite_duplicate(icon_merge);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_1.png")){ icon_merge2 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_1.png", 1, false, false, 0, 0); i++;}
+icon_duplicate2 = sprite_duplicate(icon_merge2);
+sprite_merge(icon_duplicate, icon_duplicate2);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_2.png")){ icon_merge3 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_2.png", 1, false, false, 0, 0); i++;}
+icon_duplicate3 = sprite_duplicate(icon_merge3);
+sprite_merge(icon_duplicate, icon_duplicate3);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_3.png")){ icon_merge4 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_3.png", 1, false, false, 0, 0); i++;}
+icon_duplicate4 = sprite_duplicate(icon_merge4);
+sprite_merge(icon_duplicate, icon_duplicate4);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_4.png")){ icon_merge5 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_4.png", 1, false, false, 0, 0); i++;}
+icon_duplicate5 = sprite_duplicate(icon_merge5);
+sprite_merge(icon_duplicate, icon_duplicate5);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_5.png")){ icon_merge6 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_5.png", 1, false, false, 0, 0); i++;}
+icon_duplicate6 = sprite_duplicate(icon_merge6);
+sprite_merge(icon_duplicate, icon_duplicate6);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_6.png")){ icon_merge7 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_6.png", 1, false, false, 0, 0); i++;}
+icon_duplicate7 = sprite_duplicate(icon_merge7); 
+sprite_merge(icon_duplicate, icon_duplicate7);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_7.png")){ icon_merge8 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_7.png", 1, false, false, 0, 0); i++;}
+icon_duplicate8 = sprite_duplicate(icon_merge8);
+sprite_merge(icon_duplicate, icon_duplicate8);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_8.png")){ icon_merge9 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_8.png", 1, false, false, 0, 0); i++;}
+icon_duplicate9 = sprite_duplicate(icon_merge9);
+sprite_merge(icon_duplicate, icon_duplicate9);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_9.png")){ icon_merge10 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_9.png", 1, false, false, 0, 0); i++;}
+icon_duplicate10 = sprite_duplicate(icon_merge10);
+sprite_merge(icon_duplicate, icon_duplicate10);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_10.png")){ icon_merge11 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_10.png", 1, false, false, 0, 0); i++;}
+icon_duplicate11 = sprite_duplicate(icon_merge11);
+sprite_merge(icon_duplicate, icon_duplicate11);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_11.png")){ icon_merge12 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_11.png", 1, false, false, 0, 0); i++;}
+icon_duplicate12 = sprite_duplicate(icon_merge12);
+sprite_merge(icon_duplicate, icon_duplicate12);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_12.png")){ icon_merge13 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_12.png", 1, false, false, 0, 0); i++;}
+icon_duplicate13 = sprite_duplicate(icon_merge13);
+sprite_merge(icon_duplicate, icon_duplicate13);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_13.png")){ icon_merge14 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_13.png", 1, false, false, 0, 0); i++;}
+icon_duplicate14 = sprite_duplicate(icon_merge14);
+sprite_merge(icon_duplicate, icon_duplicate14);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_14.png")){ icon_merge15 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_14.png", 1, false, false, 0, 0); i++;}
+icon_duplicate15 = sprite_duplicate(icon_merge15);
+sprite_merge(icon_duplicate, icon_duplicate15);
+if (file_exists("mods/palettes/multitroid/player_icons/sMultitroidPlayer_15.png")){ icon_merge16 = sprite_add("mods/palettes/multitroid/player_icons/sMultitroidPlayer_15.png", 1, false, false, 0, 0); i++;}
+icon_duplicate16 = sprite_duplicate(icon_merge16);
+sprite_merge(icon_duplicate, icon_duplicate16);
+if(i == 16){
+    //oControl.MultitroidIcon = icon_duplicate;
+    oControl.MultitroidIconCustom = icon_duplicate;
+    show_debug_message("MultitroidIcons imported");
+}
+
+icon_sprite = 1;
+icon_merge = 2;
+icon_merge2 = 3;
+icon_merge3 = 4;
+icon_merge4 = 5;
+icon_merge5 = 6;
+icon_merge6 = 7;
+icon_merge7 = 8;
+icon_merge8 = 8;
+icon_duplicate = 9;
+icon_duplicate2 = 10;
+icon_duplicate3 = 11;
+icon_duplicate4 = 12;
+icon_duplicate5 = 13;
+icon_duplicate6 = 14;
+icon_duplicate7 = 15;
+icon_duplicate8 = 16;
+icon_merge9 = 17;
+icon_merge10 = 18;
+icon_merge11 = 19;
+icon_merge12 = 20;
+icon_merge13 = 21;
+icon_merge14 = 22;
+icon_merge15 = 23;
+icon_merge16 = 24;
+icon_duplicate9 = 25;
+icon_duplicate10 = 26;
+icon_duplicate11 = 27;
+icon_duplicate12 = 28;
+icon_duplicate13 = 29;
+icon_duplicate14 = 30;
+icon_duplicate15 = 31;
+icon_duplicate16 = 32;
+i = 0;
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_0.png")){ icon_merge = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_0.png", 1, false, false, 0, 0); i++;}
+icon_duplicate = sprite_duplicate(icon_merge);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_1.png")){ icon_merge2 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_1.png", 1, false, false, 0, 0); i++;}
+icon_duplicate2 = sprite_duplicate(icon_merge2);
+sprite_merge(icon_duplicate, icon_duplicate2);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_2.png")){ icon_merge3 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_2.png", 1, false, false, 0, 0); i++;}
+icon_duplicate3 = sprite_duplicate(icon_merge3);
+sprite_merge(icon_duplicate, icon_duplicate3);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_3.png")){ icon_merge4 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_3.png", 1, false, false, 0, 0); i++;}
+icon_duplicate4 = sprite_duplicate(icon_merge4);
+sprite_merge(icon_duplicate, icon_duplicate4);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_4.png")){ icon_merge5 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_4.png", 1, false, false, 0, 0); i++;}
+icon_duplicate5 = sprite_duplicate(icon_merge5);
+sprite_merge(icon_duplicate, icon_duplicate5);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_5.png")){ icon_merge6 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_5.png", 1, false, false, 0, 0); i++;}
+icon_duplicate6 = sprite_duplicate(icon_merge6); 
+sprite_merge(icon_duplicate, icon_duplicate6);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_6.png")){ icon_merge7 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_6.png", 1, false, false, 0, 0); i++;}
+icon_duplicate7 = sprite_duplicate(icon_merge7);
+sprite_merge(icon_duplicate, icon_duplicate7);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_7.png")){ icon_merge8 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_7.png", 1, false, false, 0, 0); i++;}
+icon_duplicate8 = sprite_duplicate(icon_merge8);
+sprite_merge(icon_duplicate, icon_duplicate8);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_8.png")){ icon_merge9 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_8.png", 1, false, false, 0, 0); i++;}
+icon_duplicate9 = sprite_duplicate(icon_merge9);
+sprite_merge(icon_duplicate, icon_duplicate9);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_9.png")){ icon_merge10 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_9.png", 1, false, false, 0, 0); i++;}
+icon_duplicate10 = sprite_duplicate(icon_merge10);
+sprite_merge(icon_duplicate, icon_duplicate10);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_10.png")){ icon_merge11 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_10.png", 1, false, false, 0, 0); i++;}
+icon_duplicate11 = sprite_duplicate(icon_merge11);
+sprite_merge(icon_duplicate, icon_duplicate11);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_11.png")){ icon_merge12 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_11.png", 1, false, false, 0, 0); i++;}
+icon_duplicate12 = sprite_duplicate(icon_merge12);
+sprite_merge(icon_duplicate, icon_duplicate12);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_12.png")){ icon_merge13 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_12.png", 1, false, false, 0, 0); i++;}
+icon_duplicate13 = sprite_duplicate(icon_merge13);
+sprite_merge(icon_duplicate, icon_duplicate13);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_13.png")){ icon_merge14 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_13.png", 1, false, false, 0, 0); i++;}
+icon_duplicate14 = sprite_duplicate(icon_merge14);
+sprite_merge(icon_duplicate, icon_duplicate14);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_14.png")){ icon_merge15 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_14.png", 1, false, false, 0, 0); i++;}
+icon_duplicate15 = sprite_duplicate(icon_merge15);
+sprite_merge(icon_duplicate, icon_duplicate15);
+if (file_exists("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_15.png")){ icon_merge16 = sprite_add("mods/palettes/multitroid/dark_player_icons/sDarkMultitroidPlayer_15.png", 1, false, false, 0, 0); i++;}
+icon_duplicate16 = sprite_duplicate(icon_merge16);
+sprite_merge(icon_duplicate, icon_duplicate16);
+if(i == 16){
+    //oControl.MultitroidIconDark = icon_duplicate;
+    oControl.MultitroidIconDarkCustom = icon_duplicate;
+    show_debug_message("MultitroidIconDark imported");
+}
+
+icon_sprite = 1;
+icon_merge = 2;
+icon_merge2 = 3;
+icon_merge3 = 4;
+icon_merge4 = 5;
+icon_merge5 = 6;
+icon_merge6 = 7;
+icon_merge7 = 8;
+icon_merge8 = 8;
+icon_duplicate = 9;
+icon_duplicate2 = 10;
+icon_duplicate3 = 11;
+icon_duplicate4 = 12;
+icon_duplicate5 = 13;
+icon_duplicate6 = 14;
+icon_duplicate7 = 15;
+icon_duplicate8 = 16;
+icon_merge9 = 17;
+icon_merge10 = 18;
+icon_merge11 = 19;
+icon_merge12 = 20;
+icon_merge13 = 21;
+icon_merge14 = 22;
+icon_merge15 = 23;
+icon_merge16 = 24;
+icon_duplicate9 = 25;
+icon_duplicate10 = 26;
+icon_duplicate11 = 27;
+icon_duplicate12 = 28;
+icon_duplicate13 = 29;
+icon_duplicate14 = 30;
+icon_duplicate15 = 31;
+icon_duplicate16 = 32;
+i = 0;
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_0.png")){ icon_merge = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_0.png", 1, false, false, 0, 0); i++;}
+icon_duplicate = sprite_duplicate(icon_merge);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_1.png")){ icon_merge2 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_1.png", 1, false, false, 0, 0); i++;}
+icon_duplicate2 = sprite_duplicate(icon_merge2);
+sprite_merge(icon_duplicate, icon_duplicate2);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_2.png")){ icon_merge3 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_2.png", 1, false, false, 0, 0); i++;}
+icon_duplicate3 = sprite_duplicate(icon_merge3);
+sprite_merge(icon_duplicate, icon_duplicate3);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_3.png")){ icon_merge4 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_3.png", 1, false, false, 0, 0); i++;}
+icon_duplicate4 = sprite_duplicate(icon_merge4);
+sprite_merge(icon_duplicate, icon_duplicate4);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_4.png")){ icon_merge5 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_4.png", 1, false, false, 0, 0); i++;}
+icon_duplicate5 = sprite_duplicate(icon_merge5);
+sprite_merge(icon_duplicate, icon_duplicate5);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_5.png")){ icon_merge6 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_5.png", 1, false, false, 0, 0); i++;}
+icon_duplicate6 = sprite_duplicate(icon_merge6);
+sprite_merge(icon_duplicate, icon_duplicate6);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_6.png")){ icon_merge7 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_6.png", 1, false, false, 0, 0); i++;}
+icon_duplicate7 = sprite_duplicate(icon_merge7);
+sprite_merge(icon_duplicate, icon_duplicate7);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_7.png")){ icon_merge8 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_7.png", 1, false, false, 0, 0); i++;}
+icon_duplicate8 = sprite_duplicate(icon_merge8);
+sprite_merge(icon_duplicate, icon_duplicate8);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_8.png")){ icon_merge9 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_8.png", 1, false, false, 0, 0); i++;}
+icon_duplicate9 = sprite_duplicate(icon_merge9);
+sprite_merge(icon_duplicate, icon_duplicate9);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_9.png")){ icon_merge10 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_9.png", 1, false, false, 0, 0); i++;}
+icon_duplicate10 = sprite_duplicate(icon_merge10);
+sprite_merge(icon_duplicate, icon_duplicate10);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_10.png")){ icon_merge11 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_10.png", 1, false, false, 0, 0); i++;}
+icon_duplicate11 = sprite_duplicate(icon_merge11);
+sprite_merge(icon_duplicate, icon_duplicate11);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_11.png")){ icon_merge12 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_11.png", 1, false, false, 0, 0); i++;}
+icon_duplicate12 = sprite_duplicate(icon_merge12);
+sprite_merge(icon_duplicate, icon_duplicate12);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_12.png")){ icon_merge13 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_12.png", 1, false, false, 0, 0); i++;}
+icon_duplicate13 = sprite_duplicate(icon_merge13);
+sprite_merge(icon_duplicate, icon_duplicate13);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_13.png")){ icon_merge14 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_13.png", 1, false, false, 0, 0); i++;}
+icon_duplicate14 = sprite_duplicate(icon_merge14);
+sprite_merge(icon_duplicate, icon_duplicate14);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_14.png")){ icon_merge15 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_14.png", 1, false, false, 0, 0); i++;}
+icon_duplicate15 = sprite_duplicate(icon_merge15);
+sprite_merge(icon_duplicate, icon_duplicate15);
+if (file_exists("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_15.png")){ icon_merge16 = sprite_add("mods/palettes/multitroid/map_icons/sMultitroidMapIcon_15.png", 1, false, false, 0, 0); i++;}
+icon_duplicate16 = sprite_duplicate(icon_merge16);
+sprite_merge(icon_duplicate, icon_duplicate16);
+if(i == 16){
+    //oControl.MultitroidMapIcon = icon_duplicate;
+    oControl.MultitroidMapIconCustom = icon_duplicate;
+    show_debug_message("MultitroidMapIcons imported");
+}

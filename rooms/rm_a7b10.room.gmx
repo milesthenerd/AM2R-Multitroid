@@ -3,8 +3,8 @@
   <caption></caption>
   <width>1280</width>
   <height>240</height>
-  <vsnap>32</vsnap>
-  <hsnap>32</hsnap>
+  <vsnap>16</vsnap>
+  <hsnap>16</hsnap>
   <isometric>0</isometric>
   <speed>60</speed>
   <persistent>0</persistent>
@@ -339,6 +339,7 @@ mus_change(musArea7D);</code>
     <instance objName="oSpikes4" x="1184" y="56" name="inst_146484" locked="0" code="" scaleX="2" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSpikes4" x="1232" y="56" name="inst_146485" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oA7QueenSoundLoop" x="64" y="0" name="inst_146486" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="1216" y="192" name="inst_07A9A991" locked="0" code="if(global.saxmode){&#xA;    if(!global.sax) instance_destroy();&#xA;} else instance_destroy();" scaleX="2" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="tlArea7Outside" x="48" y="176" w="16" h="16" xo="16" yo="64" id="10134946" name="tile_10134946" depth="-100" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

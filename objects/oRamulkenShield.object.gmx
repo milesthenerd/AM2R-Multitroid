@@ -100,10 +100,12 @@ canhit = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>dodamage = 1;
-if (canhit) {
-    if (other.dash &gt;= 29 || other.state == 30 || other.state == 31 || other.state == 29 || other.speedboost &gt; 0 || other.state == 15 &amp;&amp; other.vjump == 0 &amp;&amp; global.screwattack == 1) dodamage = 0;
-    if (dodamage == 1) damage_player(damage, hpush, vpush, 0, 0);
+            <string>if(frozen == 0){
+    dodamage = 1;
+    if (canhit) {
+        if (other.dash &gt;= 29 || other.state == 30 || other.state == 31 || other.state == 29 || other.speedboost &gt; 0 || other.state == 15 &amp;&amp; other.vjump == 0 &amp;&amp; global.screwattack == 1) dodamage = 0;
+        if (dodamage == 1) damage_player(damage, hpush, vpush, 0, 0);
+    }
 }
 </string>
           </argument>

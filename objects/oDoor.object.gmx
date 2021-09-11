@@ -254,6 +254,10 @@ if(event &gt; -1){
         }
     }
 }
+
+if(global.spectator &amp;&amp; instance_exists(oCharacter) &amp;&amp; distance_to_object(oCharacter) &lt; 50 &amp;&amp; room != rm_a2a03 &amp;&amp; id != inst_113941 &amp;&amp; room != rm_a4a06 &amp;&amp; room != rm_a4a08 &amp;&amp; room != rm_a5b02 &amp;&amp; room != rm_a8a13){
+    if(!open) open = 1;
+}
 </string>
           </argument>
         </arguments>

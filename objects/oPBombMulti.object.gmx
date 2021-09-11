@@ -3,7 +3,7 @@
   <spriteName>sPBomb</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-10</depth>
+  <depth>-12</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -30,6 +30,7 @@ alarm[0] = 60;
 alarm[1] = 30;
 sfx_play(sndPBombSet);
 special = 0;
+sax = global.sax;
 </string>
           </argument>
         </arguments>
@@ -76,13 +77,21 @@ special = 0;
           <argument>
             <kind>1</kind>
             <string>if (special == 0) {
-    instance_create(x, y, oPBombExpl);
+    expl = instance_create(x, y, oPBombExpl);
+    expl.sax = sax;
+    expl.myid = myid;
     expl = instance_create(x, y, oPBombExpl);
     expl.image_angle = 90;
+    expl.sax = sax;
+    expl.myid = myid;
     expl = instance_create(x, y, oPBombExpl);
     expl.image_angle = 180;
+    expl.sax = sax;
+    expl.myid = myid;
     expl = instance_create(x, y, oPBombExpl);
     expl.image_angle = 270;
+    expl.sax = sax;
+    expl.myid = myid;
     sfx_play(sndPBombExpl);
 } else instance_create(x, y, oQueenFinalExplosion);
 instance_destroy();

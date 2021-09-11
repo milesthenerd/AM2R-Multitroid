@@ -55,7 +55,7 @@ global.floormaterial = 4;</code>
   </views>
   <instances>
     <instance objName="oGotoRoom" x="320" y="688" name="inst_134640" locked="0" code="&#xA;targetroom = rm_a5b05;&#xA;targetx = 16;&#xA;targety = 448;&#xA;height = 64;&#xA;direction = 0;&#xA;camstartx = 16;&#xA;camstarty = 360;&#xA;transitionx = 4;&#xA;transitiony = 208;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oDoorA5" x="24" y="320" name="inst_134641" locked="0" code="&#xA;lock = 1;&#xA;event = 260;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oDoorA5" x="24" y="320" name="inst_134641" locked="0" code="&#xA;lock = 1;&#xA;event = 260;&#xA;&#xA;if(global.saxmode &amp;&amp; global.sax &amp;&amp; global.event[261] == 0){&#xA;    lock = 4;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="0" y="384" name="inst_134642" locked="0" code="" scaleX="11" scaleY="16" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="0" y="304" name="inst_134643" locked="0" code="" scaleX="4" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="0" y="688" name="inst_134644" locked="0" code="" scaleX="20" scaleY="1" colour="4294967295" rotation="0"/>

@@ -26,9 +26,12 @@
           <argument>
             <kind>1</kind>
             <string>sprite_index = sMflash;
-if (global.wbeam) sprite_index = sWMflash;
-if (global.pbeam) sprite_index = sPMflash;
-if (global.ibeam) sprite_index = sIMflash;
+ibeam = global.ibeam;
+wbeam = global.wbeam;
+pbeam = global.pbeam;
+//if (wbeam) sprite_index = sWMflash;
+//if (pbeam) sprite_index = sPMflash;
+//if (ibeam) sprite_index = sIMflash;
 image_speed = 0.5;
 </string>
           </argument>

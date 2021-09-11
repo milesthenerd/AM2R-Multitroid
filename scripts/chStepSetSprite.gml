@@ -19,7 +19,15 @@ if (state == STANDING) {
             if (set == 1) sprite_index = scr_suit_sprites(sVStandRight,sStandRight_fusion);
             if (set == 2) sprite_index = scr_suit_sprites(sGStandRight,sStandRight_fusion);
             image_speed = 0.1;
-            if (idle == timetoidle) idleanim = round(random(1));
+            if (!global.sax && idle == timetoidle) idleanim = round(random(1));
+            if (global.sax && idle == timetoidle) {
+                idleanim = round(irandom(100));
+                idleAnimTemp = 0;
+                if(idleanim <= 100 && idleanim >= 51) idleAnimTemp = 0;
+                if(idleanim <= 50 && idleanim >= 1) idleAnimTemp = 1;
+                if(idleanim == 0) idleAnimTemp = 2;
+                idleanim = idleAnimTemp;
+            }
             if (idle > timetoidle && !instance_exists(oEMPNoise)) {
                 image_speed = 0;
                 armcannon = 0;
@@ -46,25 +54,88 @@ if (state == STANDING) {
                     }
                 }
                 if (idleanim == 1) {
+                    if(global.sax){
+                        if (set == 0) sprite_index = sIdleRightSAX;
+                        if (set == 1) sprite_index = sVIdleRightSAX;
+                        if (set == 2) sprite_index = sGIdleRightSAX;
+                        //Loop frames 0-3
+                        if (idle > timetoidle && idle <= timetoidle + 5) image_index = 0;
+                        if (idle > timetoidle + 5 && idle <= timetoidle + 15) image_index = 1;
+                        if (idle > timetoidle + 15 && idle <= timetoidle + 25) image_index = 2;
+                        if (idle > timetoidle + 25 && idle <= timetoidle + 35) image_index = 3;
+                        if (idle > timetoidle + 35 && idle <= timetoidle + 45) image_index = 0;
+                        if (idle > timetoidle + 45 && idle <= timetoidle + 55) image_index = 1;
+                        if (idle > timetoidle + 55 && idle <= timetoidle + 65) image_index = 2;
+                        if (idle > timetoidle + 65 && idle <= timetoidle + 75) image_index = 3;
+                        if (idle > timetoidle + 75 && idle <= timetoidle + 85) image_index = 0;
+                        if (idle > timetoidle + 85 && idle <= timetoidle + 95) image_index = 1;
+                        if (idle > timetoidle + 95 && idle <= timetoidle + 105) image_index = 2;
+                        if (idle > timetoidle + 105 && idle <= timetoidle + 115) image_index = 3;
+                        //Slower frame 4 & 5 with pause on 6
+                        if (idle > timetoidle + 115 && idle <= timetoidle + 125) image_index = 4;
+                        if (idle > timetoidle + 125 && idle <= timetoidle + 135) image_index = 5;
+                        if (idle > timetoidle + 135 && idle <= timetoidle + 165) image_index = 6;
+                        //Frames 7-9 transition & hold on 10
+                        if (idle > timetoidle + 165 && idle <= timetoidle + 175) image_index = 7;
+                        if (idle > timetoidle + 175 && idle <= timetoidle + 185) image_index = 8;
+                        if (idle > timetoidle + 185 && idle <= timetoidle + 195) image_index = 9;
+                        if (idle > timetoidle + 195 && idle <= timetoidle + 255) image_index = 10;
+                        //Frames 11-13 & hold on 14
+                        if (idle > timetoidle + 255 && idle <= timetoidle + 265) image_index = 11;
+                        if (idle > timetoidle + 265 && idle <= timetoidle + 275) image_index = 12;
+                        if (idle > timetoidle + 275 && idle <= timetoidle + 285) image_index = 13;
+                        if (idle > timetoidle + 285 && idle <= timetoidle + 345) image_index = 14;
+                        //Frames 15 & 16 then back to frame 0 and end
+                        if (idle > timetoidle + 345 && idle <= timetoidle + 355) image_index = 15;
+                        if (idle > timetoidle + 355 && idle <= timetoidle + 365) image_index = 16;
+                        if (idle > timetoidle + 365 && idle <= timetoidle + 366) image_index = 0;
+                        if (idle > timetoidle + 366) {
+                            idle = 0;
+                            timetoidle = 300 + floor(random(300));
+                        }
+                    } else {
+                        if (idle > timetoidle && idle <= timetoidle + 10) image_index = 0;
+                        if (idle > timetoidle + 10 && idle <= timetoidle + 20) image_index = 1;
+                        if (idle > timetoidle + 20 && idle <= timetoidle + 80) image_index = 2;
+                        if (idle > timetoidle + 80 && idle <= timetoidle + 110) image_index = 8;
+                        if (idle > timetoidle + 110 && idle <= timetoidle + 120) image_index = 9;
+                        if (idle > timetoidle + 120 && idle <= timetoidle + 130) image_index = 10;
+                        if (idle > timetoidle + 130 && idle <= timetoidle + 140) image_index = 11;
+                        if (idle > timetoidle + 140 && idle <= timetoidle + 150) image_index = 10;
+                        if (idle > timetoidle + 150 && idle <= timetoidle + 160) image_index = 11;
+                        if (idle > timetoidle + 160 && idle <= timetoidle + 170) image_index = 10;
+                        if (idle > timetoidle + 170 && idle <= timetoidle + 180) image_index = 9;
+                        if (idle > timetoidle + 180 && idle <= timetoidle + 210) image_index = 10;
+                        if (idle > timetoidle + 210 && idle <= timetoidle + 220) image_index = 11;
+                        if (idle > timetoidle + 220 && idle <= timetoidle + 230) image_index = 10;
+                        if (idle > timetoidle + 230 && idle <= timetoidle + 240) image_index = 9;
+                        if (idle > timetoidle + 240 && idle <= timetoidle + 250) image_index = 8;
+                        if (idle > timetoidle + 250 && idle <= timetoidle + 260) image_index = 2;
+                        if (idle > timetoidle + 260 && idle <= timetoidle + 270) image_index = 1;
+                        if (idle > timetoidle + 270) {
+                            idle = 0;
+                            timetoidle = 300 + floor(random(300));
+                        }
+                    }
+                }
+                if (idleanim == 2) {
+                    if (set == 0) sprite_index = sIdleRightSAX;
+                    if (set == 1) sprite_index = sVIdleRightSAX;
+                    if (set == 2) sprite_index = sGIdleRightSAX;
                     if (idle > timetoidle && idle <= timetoidle + 10) image_index = 0;
                     if (idle > timetoidle + 10 && idle <= timetoidle + 20) image_index = 1;
                     if (idle > timetoidle + 20 && idle <= timetoidle + 80) image_index = 2;
-                    if (idle > timetoidle + 80 && idle <= timetoidle + 110) image_index = 8;
-                    if (idle > timetoidle + 110 && idle <= timetoidle + 120) image_index = 9;
-                    if (idle > timetoidle + 120 && idle <= timetoidle + 130) image_index = 10;
-                    if (idle > timetoidle + 130 && idle <= timetoidle + 140) image_index = 11;
-                    if (idle > timetoidle + 140 && idle <= timetoidle + 150) image_index = 10;
-                    if (idle > timetoidle + 150 && idle <= timetoidle + 160) image_index = 11;
-                    if (idle > timetoidle + 160 && idle <= timetoidle + 170) image_index = 10;
-                    if (idle > timetoidle + 170 && idle <= timetoidle + 180) image_index = 9;
-                    if (idle > timetoidle + 180 && idle <= timetoidle + 210) image_index = 10;
-                    if (idle > timetoidle + 210 && idle <= timetoidle + 220) image_index = 11;
-                    if (idle > timetoidle + 220 && idle <= timetoidle + 230) image_index = 10;
-                    if (idle > timetoidle + 230 && idle <= timetoidle + 240) image_index = 9;
-                    if (idle > timetoidle + 240 && idle <= timetoidle + 250) image_index = 8;
-                    if (idle > timetoidle + 250 && idle <= timetoidle + 260) image_index = 2;
-                    if (idle > timetoidle + 260 && idle <= timetoidle + 270) image_index = 1;
-                    if (idle > timetoidle + 270) {
+                    if (idle > timetoidle + 80 && idle <= timetoidle + 90) image_index = 3;
+                    if (idle > timetoidle + 90 && idle <= timetoidle + 100) image_index = 4;
+                    if (idle > timetoidle + 100 && idle <= timetoidle + 160) image_index = 5;
+                    if (idle > timetoidle + 160 && idle <= timetoidle + 170) image_index = 4;
+                    if (idle > timetoidle + 170 && idle <= timetoidle + 180) image_index = 3;
+                    if (idle > timetoidle + 180 && idle <= timetoidle + 190) image_index = 2;
+                    if (idle > timetoidle + 190 && idle <= timetoidle + 200) image_index = 6;
+                    if (idle > timetoidle + 200 && idle <= timetoidle + 270) image_index = 7;
+                    if (idle > timetoidle + 270 && idle <= timetoidle + 280) image_index = 6;
+                    if (idle > timetoidle + 280 && idle <= timetoidle + 290) image_index = 1;
+                    if (idle > timetoidle + 290) {
                         idle = 0;
                         timetoidle = 300 + floor(random(300));
                     }
@@ -94,7 +165,15 @@ if (state == STANDING) {
             if (set == 1) sprite_index = scr_suit_sprites(sVStandLeft,sStandLeft_fusion);
             if (set == 2) sprite_index = scr_suit_sprites(sGStandLeft,sStandLeft_fusion);
             image_speed = 0.1;
-            if (idle == timetoidle) idleanim = round(random(1));
+            if (!global.sax && idle == timetoidle) idleanim = round(random(1));
+            if (global.sax && idle == timetoidle) {
+                idleanim = round(irandom(100));
+                idleAnimTemp = 0;
+                if(idleanim <= 100 && idleanim >= 51) idleAnimTemp = 0;
+                if(idleanim <= 50 && idleanim >= 1) idleAnimTemp = 1;
+                if(idleanim == 0) idleAnimTemp = 2;
+                idleanim = idleAnimTemp;
+            }
             if (idle > timetoidle && !instance_exists(oEMPNoise)) {
                 image_speed = 0;
                 armcannon = 0;
@@ -117,31 +196,94 @@ if (state == STANDING) {
                     if (idle > timetoidle + 280 && idle <= timetoidle + 290) image_index = 1;
                     if (idle > timetoidle + 290) {
                         idle = 0;
-                        timetoidle = 60;
+                        timetoidle = 300 + floor(random(300));
                     }
                 }
                 if (idleanim == 1) {
+                    if(global.sax){
+                        if (set == 0) sprite_index = sIdleLeftSAX;
+                        if (set == 1) sprite_index = sVIdleLeftSAX;
+                        if (set == 2) sprite_index = sGIdleLeftSAX;
+                        //Loop frames 0-3
+                        if (idle > timetoidle && idle <= timetoidle + 5) image_index = 0;
+                        if (idle > timetoidle + 5 && idle <= timetoidle + 15) image_index = 1;
+                        if (idle > timetoidle + 15 && idle <= timetoidle + 25) image_index = 2;
+                        if (idle > timetoidle + 25 && idle <= timetoidle + 35) image_index = 3;
+                        if (idle > timetoidle + 35 && idle <= timetoidle + 45) image_index = 0;
+                        if (idle > timetoidle + 45 && idle <= timetoidle + 55) image_index = 1;
+                        if (idle > timetoidle + 55 && idle <= timetoidle + 65) image_index = 2;
+                        if (idle > timetoidle + 65 && idle <= timetoidle + 75) image_index = 3;
+                        if (idle > timetoidle + 75 && idle <= timetoidle + 85) image_index = 0;
+                        if (idle > timetoidle + 85 && idle <= timetoidle + 95) image_index = 1;
+                        if (idle > timetoidle + 95 && idle <= timetoidle + 105) image_index = 2;
+                        if (idle > timetoidle + 105 && idle <= timetoidle + 115) image_index = 3;
+                        //Slower frame 4 & 5 with pause on 6
+                        if (idle > timetoidle + 115 && idle <= timetoidle + 125) image_index = 4;
+                        if (idle > timetoidle + 125 && idle <= timetoidle + 135) image_index = 5;
+                        if (idle > timetoidle + 135 && idle <= timetoidle + 165) image_index = 6;
+                        //Frames 7-9 transition & hold on 10
+                        if (idle > timetoidle + 165 && idle <= timetoidle + 175) image_index = 7;
+                        if (idle > timetoidle + 175 && idle <= timetoidle + 185) image_index = 8;
+                        if (idle > timetoidle + 185 && idle <= timetoidle + 195) image_index = 9;
+                        if (idle > timetoidle + 195 && idle <= timetoidle + 255) image_index = 10;
+                        //Frames 11-13 & hold on 14
+                        if (idle > timetoidle + 255 && idle <= timetoidle + 265) image_index = 11;
+                        if (idle > timetoidle + 265 && idle <= timetoidle + 275) image_index = 12;
+                        if (idle > timetoidle + 275 && idle <= timetoidle + 285) image_index = 13;
+                        if (idle > timetoidle + 285 && idle <= timetoidle + 345) image_index = 14;
+                        //Frames 15 & 16 then back to frame 0 and end
+                        if (idle > timetoidle + 345 && idle <= timetoidle + 355) image_index = 15;
+                        if (idle > timetoidle + 355 && idle <= timetoidle + 365) image_index = 16;
+                        if (idle > timetoidle + 365 && idle <= timetoidle + 366) image_index = 0;
+                        if (idle > timetoidle + 366) {
+                            idle = 0;
+                            timetoidle = 300 + floor(random(300));
+                        }
+                    } else {
+                        if (idle > timetoidle && idle <= timetoidle + 10) image_index = 0;
+                        if (idle > timetoidle + 10 && idle <= timetoidle + 20) image_index = 1;
+                        if (idle > timetoidle + 20 && idle <= timetoidle + 80) image_index = 2;
+                        if (idle > timetoidle + 80 && idle <= timetoidle + 110) image_index = 8;
+                        if (idle > timetoidle + 110 && idle <= timetoidle + 120) image_index = 9;
+                        if (idle > timetoidle + 120 && idle <= timetoidle + 130) image_index = 10;
+                        if (idle > timetoidle + 130 && idle <= timetoidle + 140) image_index = 11;
+                        if (idle > timetoidle + 140 && idle <= timetoidle + 150) image_index = 10;
+                        if (idle > timetoidle + 150 && idle <= timetoidle + 160) image_index = 11;
+                        if (idle > timetoidle + 160 && idle <= timetoidle + 170) image_index = 10;
+                        if (idle > timetoidle + 170 && idle <= timetoidle + 180) image_index = 9;
+                        if (idle > timetoidle + 180 && idle <= timetoidle + 210) image_index = 10;
+                        if (idle > timetoidle + 210 && idle <= timetoidle + 220) image_index = 11;
+                        if (idle > timetoidle + 220 && idle <= timetoidle + 230) image_index = 10;
+                        if (idle > timetoidle + 230 && idle <= timetoidle + 240) image_index = 9;
+                        if (idle > timetoidle + 240 && idle <= timetoidle + 250) image_index = 8;
+                        if (idle > timetoidle + 250 && idle <= timetoidle + 260) image_index = 2;
+                        if (idle > timetoidle + 260 && idle <= timetoidle + 270) image_index = 1;
+                        if (idle > timetoidle + 270) {
+                            idle = 0;
+                            timetoidle = 300 + floor(random(300));
+                        }
+                    }
+                }
+                if (idleanim == 2) {
+                    if (set == 0) sprite_index = sIdleLeftSAX;
+                    if (set == 1) sprite_index = sVIdleLeftSAX;
+                    if (set == 2) sprite_index = sGIdleLeftSAX;
                     if (idle > timetoidle && idle <= timetoidle + 10) image_index = 0;
                     if (idle > timetoidle + 10 && idle <= timetoidle + 20) image_index = 1;
                     if (idle > timetoidle + 20 && idle <= timetoidle + 80) image_index = 2;
-                    if (idle > timetoidle + 80 && idle <= timetoidle + 110) image_index = 8;
-                    if (idle > timetoidle + 110 && idle <= timetoidle + 120) image_index = 9;
-                    if (idle > timetoidle + 120 && idle <= timetoidle + 130) image_index = 10;
-                    if (idle > timetoidle + 130 && idle <= timetoidle + 140) image_index = 11;
-                    if (idle > timetoidle + 140 && idle <= timetoidle + 150) image_index = 10;
-                    if (idle > timetoidle + 150 && idle <= timetoidle + 160) image_index = 11;
-                    if (idle > timetoidle + 160 && idle <= timetoidle + 170) image_index = 10;
-                    if (idle > timetoidle + 170 && idle <= timetoidle + 180) image_index = 9;
-                    if (idle > timetoidle + 180 && idle <= timetoidle + 210) image_index = 10;
-                    if (idle > timetoidle + 210 && idle <= timetoidle + 220) image_index = 11;
-                    if (idle > timetoidle + 220 && idle <= timetoidle + 230) image_index = 10;
-                    if (idle > timetoidle + 230 && idle <= timetoidle + 240) image_index = 9;
-                    if (idle > timetoidle + 240 && idle <= timetoidle + 250) image_index = 8;
-                    if (idle > timetoidle + 250 && idle <= timetoidle + 260) image_index = 2;
-                    if (idle > timetoidle + 260 && idle <= timetoidle + 270) image_index = 1;
-                    if (idle > timetoidle + 270) {
+                    if (idle > timetoidle + 80 && idle <= timetoidle + 90) image_index = 3;
+                    if (idle > timetoidle + 90 && idle <= timetoidle + 100) image_index = 4;
+                    if (idle > timetoidle + 100 && idle <= timetoidle + 160) image_index = 5;
+                    if (idle > timetoidle + 160 && idle <= timetoidle + 170) image_index = 4;
+                    if (idle > timetoidle + 170 && idle <= timetoidle + 180) image_index = 3;
+                    if (idle > timetoidle + 180 && idle <= timetoidle + 190) image_index = 2;
+                    if (idle > timetoidle + 190 && idle <= timetoidle + 200) image_index = 6;
+                    if (idle > timetoidle + 200 && idle <= timetoidle + 270) image_index = 7;
+                    if (idle > timetoidle + 270 && idle <= timetoidle + 280) image_index = 6;
+                    if (idle > timetoidle + 280 && idle <= timetoidle + 290) image_index = 1;
+                    if (idle > timetoidle + 290) {
                         idle = 0;
-                        timetoidle = 300 + random(300);
+                        timetoidle = 300 + floor(random(300));
                     }
                 }
             } // if (idle > timetoidle && !instance_exists(oEMPNoise))
@@ -707,11 +849,19 @@ if (state == HURT) {
             image_speed = 0.2;
         }
     }
-    if (sjball == 1) {
+    if (sjball == 1 || multiBall == 1) {
         if (set == 0) sprite_index = scr_suit_sprites(sAirMorphBall,sAirMorphBall_fusion);
         if (set == 1) sprite_index = scr_suit_sprites(sVAirMorphBall,sAirMorphBall_fusion);
         if (set == 2) sprite_index = scr_suit_sprites(sGAirMorphBall,sAirMorphBall_fusion);
         image_speed = 0.5;
+        if(statetime >= 10 && multiBall == 1){
+            state = AIRBALL;
+            statetime = 20;
+            if (aimlock == 0) canturn = 1;
+            sjball = 0;
+            multiBall = 0;
+            cmhurt = 20;
+        }
     }
 }
 if (state == IDLE || state == SAVING || state == SAVINGSHIP || state == ELEVATOR || state == GFELEVATOR) {
@@ -3143,6 +3293,7 @@ if (global.screwattack == 1 && state == JUMPING && vjump == 0 && walljumping == 
     mytrail.image_alpha = 1 + fxtimer * 0.1;
     mytrail.image_blend = make_color_rgb(50 + random(200), 255, 50 + random(200));
     if (random(10) < 1) mytrail.image_blend = c_white;
+    if(global.sax) mytrail.image_blend = make_color_rgb(40, 160, 40);
     mytrail.additive = 1;
     mytrail.fadespeed = 0.5;
     mytrail.depth = -11;

@@ -12,7 +12,9 @@
   <showcolour>0</showcolour>
   <code>global.mapoffsetx = 41;
 global.mapoffsety = 8;
-global.waterlevel = 0;</code>
+global.waterlevel = 0;
+
+if(global.saxmode &amp;&amp; global.sax &amp;&amp; global.event[176] != 1) global.event[176] = 1;</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>0</clearDisplayBuffer>

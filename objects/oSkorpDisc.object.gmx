@@ -53,25 +53,27 @@ image_speed = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (spin) {
-    //if (rotspeed &lt; 30) rotspeed += 1;
-    if (sprite_index == sSkorpDiscLunge) {
-        //sfx_stop(sndSkorpBlade);
-        image_index += 0.2;
-        if (image_index &gt; 2.8) {
-            sprite_index = sSkorpDisc;
+            <string>if(frozen == 0){
+    if (spin) {
+        //if (rotspeed &lt; 30) rotspeed += 1;
+        if (sprite_index == sSkorpDiscLunge) {
+            //sfx_stop(sndSkorpBlade);
+            image_index += 0.2;
+            if (image_index &gt; 2.8) {
+                sprite_index = sSkorpDisc;
+            }
         }
+        if (sprite_index == sSkorpDisc) {
+            //if !sfx_isplaying(sndSkorpBlade) sfx_loop(sndSkorpBlade);
+            image_index += 0.4;
+        }
+    } else if (sprite_index == sSkorpDisc) { //if (rotspeed &gt; 0) rotspeed -= 0.5;
+        image_index = 2;
+        sprite_index = sSkorpDiscLunge;
+    } else if (sprite_index == sSkorpDiscLunge &amp;&amp; image_index &gt; 0.2) {
+        //sfx_stop(sndSkorpBlade);
+        image_index -= 0.1;
     }
-    if (sprite_index == sSkorpDisc) {
-        //if !sfx_isplaying(sndSkorpBlade) sfx_loop(sndSkorpBlade);
-        image_index += 0.4;
-    }
-} else if (sprite_index == sSkorpDisc) { //if (rotspeed &gt; 0) rotspeed -= 0.5;
-    image_index = 2;
-    sprite_index = sSkorpDiscLunge;
-} else if (sprite_index == sSkorpDiscLunge &amp;&amp; image_index &gt; 0.2) {
-    //sfx_stop(sndSkorpBlade);
-    image_index -= 0.1;
 }
 
 //image_angle += rotspeed * image_xscale;
@@ -148,10 +150,12 @@ image_speed = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>dodamage = 1;
-if (sprite_index == sSkorpDisc) { //rotspeed &gt; 15
-    if (other.dash &gt;= 29 || other.state == 30 || other.state == 31 || other.state == 29 || other.speedboost &gt; 0 || other.state == 15 &amp;&amp; other.vjump == 0 &amp;&amp; global.screwattack == 1) dodamage = 0;
-    if (dodamage == 1) damage_player(damage, hpush, vpush, 0, 0);
+            <string>if(frozen == 0){
+    dodamage = 1;
+    if (sprite_index == sSkorpDisc) { //rotspeed &gt; 15
+        if (other.dash &gt;= 29 || other.state == 30 || other.state == 31 || other.state == 29 || other.speedboost &gt; 0 || other.state == 15 &amp;&amp; other.vjump == 0 &amp;&amp; global.screwattack == 1) dodamage = 0;
+        if (dodamage == 1) damage_player(damage, hpush, vpush, 0, 0);
+    }
 }
 </string>
           </argument>

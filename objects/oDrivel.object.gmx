@@ -44,6 +44,7 @@ limit_l = x - 80;
 limit_r = x + 80;
 targety = y + 8;
 image_speed = 0.2;
+ispeed = image_speed;
 
 if (global.difficulty &gt;= 2) {
     alarm[0] = 60;
@@ -71,10 +72,12 @@ if (global.difficulty &gt;= 2) {
           <argument>
             <kind>1</kind>
             <string>/// Hard mode acid
-var prj = instance_create(x, y, oDrivelProj);
-prj.speed = 0;
-prj.gravity = 0.1;
-prj.gravity_direction = 270;
+if(frozen == 0){
+    var prj = instance_create(x, y, oDrivelProj);
+    prj.speed = 0;
+    prj.gravity = 0.1;
+    prj.gravity_direction = 270;
+}
 alarm[0] = 180;
 </string>
           </argument>
@@ -98,7 +101,11 @@ alarm[0] = 180;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (frozen == 0) {
+            <string>if (frozen == 1){
+    targety = y + 8;
+}
+if (frozen == 0) {
+    image_speed = ispeed;
     if (state == 0) {
         hspeed = lerp(hspeed, 0.5 * facing, 0.05);
         if (y &gt; targety + 4) vspeed -= 0.1;

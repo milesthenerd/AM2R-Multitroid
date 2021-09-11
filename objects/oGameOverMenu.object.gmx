@@ -31,6 +31,7 @@ active = 0;
 alarm[0] = 5;
 continue_str = get_text("GameOver", "Continue");
 exit_str = get_text("GameOver", "Exit");
+spectate_str = "Spectate";
 event_user(0);
 </string>
           </argument>
@@ -91,10 +92,26 @@ event_user(0);
     if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0) {
         sfx_play(sndMenuSel);
         if (global.curropt == 0) {
-            global.newgame = 0;
-            room_goto(rm_loading);
+            if(op[global.curropt].label == spectate_str){
+                global.spectator = 1;
+                global.spectatorIndex = -1;
+                global.spectatorOption = false;
+                global.newgame = 0;
+                room_goto(rm_loading);
+            } else {
+                global.newgame = 0;
+                global.spectatorOption = false;
+                room_goto(rm_loading);
+            }
         }
-        if (global.curropt == 1) room_change(titleroom, 1);  //room_goto(titleroom);
+        if (global.curropt == 1){
+            global.spectatorOption = false;
+            if(global.lobbyLocked){
+                global.spectator = true;
+                global.spectatorIndex = -1;
+            }
+            room_change(titleroom, 1);  //room_goto(titleroom);
+        } 
         
     }
 }
@@ -148,6 +165,7 @@ active = 0;
             <string>op[0] = instance_create(x, y, oNormalOptionC);
 op[0].optionid = 0;
 op[0].label = continue_str;
+if(global.spectatorOption) op[0].label = spectate_str;
 op[1] = instance_create(x, y + 14, oNormalOptionC);
 op[1].optionid = 1;
 op[1].label = exit_str;

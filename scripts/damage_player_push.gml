@@ -1,4 +1,5 @@
 /// damage_player_push(damage, facing, inv_frames, ignore_armor, knockback_x)
+if(global.spectator) exit;
 var damage_taken;
 if (global.currentsuit == 0 || argument3 == 1) damage_taken = argument0 * oControl.mod_diffmult //((global.difficulty == 2) + 1) * oControl.mod_fusion;
 if (argument3 == 0) {
@@ -16,7 +17,7 @@ if (global.playerhealth > 0) with (other) {
     if (state != 41 && walljumping == 0) {
         if (canbehit) {
             if (state == BALL || state == AIRBALL || state == SPIDERBALL || (state == SUPERJUMP || state == SJSTART || state == SJEND) && sjball == 1) {
-                sjball = 1;
+                if(!instance_exists(oClient)) sjball = 1;
                 fixedx = 8;
                 sball = 0;
                 state = HURT;

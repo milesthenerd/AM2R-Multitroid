@@ -74,7 +74,7 @@ for (i=0; i&lt;instance_number(oSolid); i+=1) {
     <instance objName="oSolid1" x="0" y="48" name="inst_148306" locked="0" code="" scaleX="3" scaleY="2" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="0" y="80" name="inst_148307" locked="0" code="" scaleX="1" scaleY="6" colour="4294967295" rotation="0"/>
     <instance objName="oItemPBombTank" x="24" y="160" name="inst_148308" locked="0" code="itemid = 58;&#xA;itemidOriginal = itemid;&#xA;itemid = oControl.mod_58;&#xA;if (oControl.mod_58 != itemidOriginal) { src_items_rando(itemid); }&#xA;scr_item_create_text();" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oHornoad" x="60" y="160" name="inst_148309" locked="0" code="&#xA;facing = 1;&#xA;timer = 70;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oHornoad" x="60" y="160" name="inst_148309" locked="0" code="&#xA;facing = 1;&#xA;timer = 70;&#xA;&#xA;if(global.saxmode &amp;&amp; global.sax) instance_destroy();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oBackground" x="0" y="0" name="inst_148310" locked="0" code="&#xA;load_bgset(4);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="16" y="160" name="inst_148311" locked="0" code="" scaleX="3" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSlope2B" x="64" y="160" name="inst_148312" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

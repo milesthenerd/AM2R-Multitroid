@@ -109,6 +109,11 @@ if (ealpha &lt;= 0 &amp;&amp; fadeout) {
     room_goto(global.currentroom);
 }
 size = ealpha * 24;
+
+if(global.saxmode &amp;&amp; global.enemyNearby){
+    fadeout = 1;
+    active = 0;
+}
 </string>
           </argument>
         </arguments>

@@ -188,11 +188,31 @@ event_inherited();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>event_inherited();
+            <string>if(global.icemissiles &amp;&amp; !other.smissile){
+    PlaySoundMono(sndFreezeHit);
+    frz = instance_create(x, y, oEnemyFrozen);
+    frz.image_xscale = facing;
+    frz.sprite_index = frozenspr;
+    frz.image_index = image_index;
+    frz.mask_index = frozenspr;
+    frz.image_angle = image_angle;
+    frz.xVel = hspeed;
+    frz.yVel = vspeed;
+    frz.depth = 10;
+    frz.falling = freezefall;
+    frz.canbeX = 0;
+    instance_destroy();
+    with (other) event_user(0);
+    exit;
+}
+
+event_inherited();
 shaking = 30;
 direction = other.direction;
 speed = 2;
 if (state == 0) state = 1;
+
+
 </string>
           </argument>
         </arguments>

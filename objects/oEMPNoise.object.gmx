@@ -28,7 +28,6 @@
             <string>xoff = 0;
 yoff = 0;
 alarm[0] = 1;
-image_alpha = 1 - (0.5 * global.sensitivitymode);
 </string>
           </argument>
         </arguments>
@@ -84,10 +83,8 @@ alarm[0] = 5;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!global.sensitivitymode) {
-    xoff = irandom(128);
-    yoff = irandom(128);
-}
+            <string>xoff = floor(random(128));
+yoff = floor(random(128));
 image_alpha -= 0.1;
 if (image_alpha &lt;= 0) instance_destroy();
 with (oCharacter) chargebeam = 0;

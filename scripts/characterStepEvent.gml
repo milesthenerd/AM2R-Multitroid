@@ -2,6 +2,354 @@
 var jump_vel;
 if (global.enablecontrol) chStepControl();
 if (global.movingobj) chStepMovingCheck();
+
+if(global.playerhealth <= 0 && global.sax && oCharacter.sprite_index != sCoreXSAX) global.playerhealth = 1;
+
+if(global.saxmode && global.sax && global.playerhealth == 1 && !global.spectator && global.lobbyLocked){
+    if(!global.mosaic){
+        global.mosaic = true;
+        mosaicTime = 0;
+    }
+    
+    if(global.mosaic){
+        invincible = 1;
+        if(mosaicTime == 0){
+            sfx_play(sndXMorph1);
+            Mute_Loops();
+            image_speed = 0;
+            global.playerFreeze = 1;
+        } 
+        if(mosaicTime < 40){
+            sizeX = sizeX + 0.18;
+            sizeY = sizeY + 0.12;
+        }
+        if(mosaicTime == 40) sprite_index = sCoreXSAX;
+        if(mosaicTime >= 40 && mosaicTime < 80){
+            sizeX = sizeX - 0.18;
+            sizeY = sizeY - 0.12;
+        }
+        if(mosaicTime == 80){
+            global.mosaic = false;
+            global.spectator = true;
+            global.spectatorIndex = -1;
+            global.reformTimer = 1200;
+            invincible = 240;
+            mosaicTime = 0;
+        }
+        mosaicTime++;
+    }
+    
+    xVel = 0;
+    yVel = 0;
+    exit;
+}
+
+if (global.spectator) {
+    if(global.reform){
+        invincible = 1;
+        if(reformTime == 0){
+            sfx_play(sndXMorph1);
+            image_speed = 0;
+            global.playerFreeze = 1;
+        } 
+        if(reformTime < 40){
+            sizeX = sizeX + 0.18;
+            sizeY = sizeY + 0.12;
+        }
+        if(reformTime == 40){
+            var spr;
+            if(global.currentsuit == 0) spr = sMorphBall;
+            if(global.currentsuit == 1) spr = sVMorphBall;
+            if(global.currentsuit == 2) spr = sGMorphBall;
+            sprite_index = spr;
+        }
+        if(reformTime >= 40 && reformTime < 80){
+            sizeX = sizeX - 0.18;
+            sizeY = sizeY - 0.12;
+        }
+        if(reformTime == 80){
+            global.reform = false;
+            global.spectator = false;
+            global.playerhealth = 50;
+            invincible = 120;
+            reformTime = 0;
+        }
+        reformTime++;
+    
+        xVel = 0;
+        yVel = 0;
+        exit;
+    }
+    
+    if(invincible > 0) invincible--;
+    if(onfire > 0) onfire--;
+    canrun = 1;
+    
+    if(global.spectatorIndex == -1){
+        visible = true;
+        if(xVel == 0 && yVel == 0){
+            coreIdle++;
+        } else coreIdle = 0;
+        
+        if(coreIdle > 60){
+            timer_x++;
+            if(timer_x > 2 * pi/frequency_x) timer_x -= 2 * pi/frequency_x;
+            
+            timer_y++;
+            if(timer_y > 2 * pi/frequency_y) timer_y -= 2 * pi/frequency_y;     
+            
+            xx = sin(timer_x*frequency_x)*amplitude_x;
+            yy = sin(timer_y*frequency_y)*amplitude_y;
+            
+            moveTo(xx, yy);
+        }
+        
+        maxSpectatorLeftSpeed = 0;
+        maxSpectatorRightSpeed = 0;
+        maxSpectatorUpSpeed = 0;
+        maxSpectatorDownSpeed = 0;
+        state = BALL;
+        setCollisionBounds(-6, -11, 6, 0);
+        aspr1 = sBlank;
+        aspr2 = sBlank;
+        if(instance_exists(oMBTrail)){
+            with(oMBTrail) instance_destroy();
+        }
+        
+        if(!global.sax){
+            sprite_index = sMonitoad;
+            image_speed = 0.25;
+            maxSpectatorLeftSpeed = -4;
+            maxSpectatorRightSpeed = 4;
+            maxSpectatorUpSpeed = -4;
+            maxSpectatorDownSpeed = 4;
+        }
+        
+        if(global.sax){
+            sprite_index = sCoreXSAX;
+            image_speed = 0.16;
+            maxSpectatorLeftSpeed = -2.5;
+            maxSpectatorRightSpeed = 2.5;
+            maxSpectatorUpSpeed = -2.5;
+            maxSpectatorDownSpeed = 2.5;
+            if(invincible > 0){
+                maxSpectatorLeftSpeed = -4;
+                maxSpectatorRightSpeed = 4;
+                maxSpectatorUpSpeed = -4;
+                maxSpectatorDownSpeed = 4;
+            }
+        }
+        
+        if(kLeft > 0) xVel -= 0.1;
+        if(kRight > 0) xVel += 0.1;
+        if(kUp > 0) yVel -= 0.1;
+        if(kDown > 0) yVel += 0.1;
+        
+        if(xVel < maxSpectatorLeftSpeed) xVel = maxSpectatorLeftSpeed;
+        if(xVel > maxSpectatorRightSpeed) xVel = maxSpectatorRightSpeed;
+        if(yVel < maxSpectatorUpSpeed) yVel = maxSpectatorUpSpeed;
+        if(yVel > maxSpectatorDownSpeed) yVel = maxSpectatorDownSpeed;
+        
+        if(kLeft == 0 && kRight == 0){
+            if(xVel > 0){
+                xVel -= 0.1;
+            }
+            if(xVel < 0){
+                xVel += 0.1;
+            }
+        }
+        if(kUp == 0 && kDown == 0){
+            if(yVel > 0){
+                yVel -= 0.1;
+            }
+            if(yVel < 0){
+                yVel += 0.1;
+            }
+        }
+        
+        if(!global.enablecontrol){
+            xVel = 0;
+            yVel = 0;
+        }
+        
+        moveTo(xVel, yVel);
+    } else visible = false;
+    
+    if(global.beingAbsorbed){
+        if(absorbTime == 1){
+            targetAbsorbX = global.absorbRelativeX;
+            targetAbsorbY = global.absorbRelativeY;
+            
+            relativeSpriteHeight = global.absorbSpriteHeight;
+            relativeX = x - global.absorbRelativeX;
+            relativeY = y - (global.absorbRelativeY-relativeSpriteHeight);
+            
+            PlaySoundMono(sndAbsorbX);
+            with(instance_create(relativeX,relativeY-relativeSpriteHeight,oAbsorbX)) core = true;
+            
+            global.enablecontrol = 0;
+            speedmultiplier = 0;
+            speedmultiresettimer = 10000;
+            kLeft = 0;
+            kRight = 0;
+            kUp = 0;
+            kDown = 0;
+            kJump = 0;
+            kJumpPressed = 0;
+            kRun = 0;
+            kAim = 0;
+            kFire = 0;
+            kMissile = 0;
+            charge = 0;
+            Mute_Loops();
+            with(oFXTrail) {
+                if(sprite_index == sScrewSpark) visible = false;
+            }
+        }
+        if(absorbTime == 2) {
+            image_xscale = 1;
+            image_xscale = 1;
+            with (oCharacter) {
+                speedmultiplier = 0;
+                speedmultiresettimer = 10000;
+                sfx_stop(sndCoreXIdle);
+            }
+        }
+        
+        if(absorbTime > 2 && global.beingAbsorbed){
+            if(!global.absorbDone && !approximatelyZero(abs(x - targetAbsorbX)) && !approximatelyZero(abs(y - targetAbsorbY))){
+                //show_debug_message("targetAbsorbX " + string(targetAbsorbX));
+                //show_debug_message("targetAbsorbY " + string(targetAbsorbY));
+                x = round(lerp(x, targetAbsorbX, 0.1));
+                y = round(lerp(y, targetAbsorbY - relativeSpriteHeight, 0.1));
+                
+                //x = x + relativeX;
+                //y = (y-(relativeSpriteHeight/2)) + relativeY;
+                
+                //relativeX = round(lerp(relativeX, 0, 0.1));
+                //relativeY = round(lerp(relativeY, 0, 0.1));
+            }
+            
+            if(image_xscale > 0 && !global.absorbDone) {
+                image_xscale -= 0.0225;
+                image_yscale -= 0.0225;
+            }
+            
+            if(global.absorbDone){
+                image_xscale -= 0;
+                image_yscale -= 0;
+            }
+            
+            if(image_xscale <= 0 && !global.absorbDone) {
+                with (oCharacter) speedmultiresettimer = 0;
+                global.enablecontrol = 1; 
+                /*
+                with(instance_find(oFXTrail, instance_number(oFXTrail) - 1)) {
+                    if(sprite_index == sScrewSpark) {             
+                        visible = true;
+                        sprite_index = sScrewAttack;
+                        image_index = other.screwattackpickupframe;
+                        image_alpha = 1;
+                        image_angle = other.screwattackpickupangle;
+                        image_blend = c_white;
+                        image_xscale = 1;
+                        image_yscale = 1;
+                    }
+                }
+                */
+                //instance_destroy();
+                global.absorbDone = true;
+                absorbTime = 0;
+                global.playerhealth = -1;
+                if (global.playerhealth <= 0) with (oControl) event_user(1);
+            }
+        }
+        
+        absorbTime++;
+    }
+    
+    //show_debug_message("index = " + string(global.spectatorIndex));
+    
+    if(!global.sax){
+        if(kJump && kJumpPushedSteps == 0 && spectatorSwapTimer == 0){
+            if(instance_exists(oClient)){
+                if(ds_list_size(oClient.posData) > 0){
+                    global.spectatorIndex++;
+                    spectatorSwapTimer = 30;
+                    if(global.spectatorIndex > (ds_list_size(oClient.posData) - 1)) global.spectatorIndex = -1;
+                } else {
+                    global.spectatorIndex = -1;
+                }
+            }
+        }
+        
+        if(kFire && kFirePushedSteps == 0 && spectatorSwapTimer == 0) global.spectatorIndex = -1;
+        
+        if(global.spectatorIndex != -1){
+            if(instance_exists(oClient)){
+                if(ds_list_size(oClient.posData) > 0){
+                    for(var f=0; f<ds_list_size(oClient.posData); f++){
+                        var arrPos = oClient.posData[| f];
+                        var arrPosID = arrPos[0];
+                        var arrPosRoom = arrPos[4];
+                        if(f == global.spectatorIndex){
+                            if(global.ingame && room != arrPosRoom && room != rm_transition && (arrPosRoom == rm_transition || string_count("rm_a", room_get_name(arrPosRoom)) > 0)){
+                                if(instance_exists(oGotoRoom)){
+                                    gotoRoom = instance_nearest(x, y, oGotoRoom);
+                                    if (gotoRoom.direction == 0 || gotoRoom.direction == 180) {
+                                        global.offsety = y - gotoRoom.y;
+                                        global.offsetx = 0;
+                                    }
+                                    if (gotoRoom.direction == 90 || gotoRoom.direction == 270) {
+                                        global.offsetx = x - gotoRoom.x;
+                                        global.offsety = 0;
+                                    }
+                                    global.targetx = gotoRoom.targetx;
+                                    global.targety = gotoRoom.targety;
+                                    global.transitionx = gotoRoom.transitionx + global.offsetx;
+                                    global.transitiony = gotoRoom.transitiony + global.offsety;
+                                    global.camstartx = gotoRoom.camstartx;
+                                    global.camstarty = gotoRoom.camstarty;
+                                    oCamera.x = global.camstartx;
+                                    oCamera.y = global.camstarty;
+                                    room_change(arrPosRoom, 1);
+                                }
+                            }
+                            if(ds_list_size(oClient.roomListData) > 0){
+                                for(var i=0; i<ds_list_size(oClient.roomListData); i++){
+                                    var arrDraw = oClient.roomListData[| i];
+                                    var arrID = arrDraw[0];
+                                    var arrX = arrDraw[1];
+                                    var arrY = arrDraw[2];
+                                    if(arrPosID == arrID){
+                                        x = arrX;
+                                        y = arrY;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        if(global.sax) global.spectatorIndex = -1;
+    }
+    
+    if(global.sax){
+        if(global.spectator){
+            if(kJump && kJumpPushedSteps == 0 && global.reformTimer == 0 && !global.reform){
+                global.reform = true;
+                reformTime = 0;
+            }
+        }
+    }
+    
+    if(spectatorSwapTimer > 0) spectatorSwapTimer--;
+    
+    exit;
+}
+
 if (isCollisionBottom(1) || isCollisionPlatformBottom(1)) {
     collision_bottom = 1;
 } else collision_bottom = 0;
@@ -2233,6 +2581,28 @@ if (monster_drain > 0) {
             global.playerhealth -= global.mod_monstersdrainGS * 4;
     } //added
     
+    if(global.sax){
+        if (global.currentsuit == 0 && oControl.mod_monstersextreme == 0) global.playerhealth -= global.mod_monstersdrainPS * 2;
+        else if (global.currentsuit == 0 && oControl.mod_monstersextreme != 0) global.playerhealth -= global.mod_monstersdrainPS * 4;
+        if (global.currentsuit == 1 && oControl.mod_monstersextreme == 0) global.playerhealth -= global.mod_monstersdrainVS * 2;
+        else if (global.currentsuit == 1 && oControl.mod_monstersextreme != 0) global.playerhealth -= global.mod_monstersdrainVS * 4;
+        //if (global.currentsuit > 1) global.playerhealth -= global.mod_monstersdrainGS * oControl.mod_diffmult;
+        if (global.currentsuit == 2 && oControl.mod_monstersextreme == 0) 
+        {                                                      
+            if(global.item[5] == 0) 
+                global.playerhealth -= global.mod_monstersdrainVS * 2;
+            else                   
+                global.playerhealth -= global.mod_monstersdrainGS * 2;
+        }
+        else if (global.currentsuit == 2 && oControl.mod_monstersextreme != 0) 
+        {                                                      
+            if(global.item[5] == 0) 
+                global.playerhealth -= global.mod_monstersdrainVS * 4;
+            else                   
+                global.playerhealth -= global.mod_monstersdrainGS * 4;
+        } //added
+    }
+    
     
     if (global.playerhealth <= 0) with (oControl) event_user(1);
     if (monster_drainfx == 0) {
@@ -2251,6 +2621,25 @@ if (queen_drain > 0) {
         queen_drainfx = 1;
     }
 } else queen_drainfx = 0;
+if (pbomb_drain > 0) {
+    pbomb_drain -= 1;
+    if (global.currentsuit == 0) global.playerhealth -= 0.66 * oControl.mod_diffmult;
+    if (global.currentsuit == 1) global.playerhealth -= 0.50 * oControl.mod_diffmult;
+    //if (global.currentsuit > 1) global.playerhealth -= global.mod_monstersdrainGS * oControl.mod_diffmult;
+    if (global.currentsuit == 2) 
+    {                                                      
+        if(global.item[5] == 0) 
+            global.playerhealth -= 0.50 * oControl.mod_diffmult;
+        else                   
+            global.playerhealth -= 0.35 * oControl.mod_diffmult;
+    }
+    
+    if (global.playerhealth <= 0) with (oControl) event_user(1);
+    if (pbomb_drainfx == 0) {
+        sfx_loop(sndDrainLoop);
+        pbomb_drainfx = 1;
+    }
+} else pbomb_drainfx = 0;
 if (state != BALL && state != AIRBALL && state != SPIDERBALL && state != SUPERJUMP) setCollisionBounds(-6, -27, 6, 0);
 if (state == BALL) setCollisionBounds(-6, -11, 6, 0);
 if (state == SPIDERBALL || state == AIRBALL || state == WATERJET || state == KNOCKBACK1 || state == KNOCKBACK2 || (state == HURT || state == BRAKING || state == SJSTART || state == SJEND) && sjball == 1) setCollisionBounds(-6, -13, 6, 0);
@@ -2375,7 +2764,9 @@ if (inwater) {
 if (footstep == 0) {
     if (state == RUNNING) {
         if (abs(image_index) >= 4 && abs(image_index) < 4.9 || abs(image_index) >= 9 && abs(image_index) < 9.9) {
-            PlayFootstep(get_floor_material());
+            if(!global.sax){
+                PlayFootstep(get_floor_material());
+            } else PlayFootstepSAX(get_floor_material());
             if (inwater == 0 && waterfall == 0 && monster_drain == 0) {
                 footstep = 5;
             } else {
@@ -2409,7 +2800,7 @@ if ((oControl.hpalarm == 0) || (oControl.mod_lowhealthwarning == 0)) { sfx_stop(
 if (sfx_isplaying(sndSBallLoop) && (floor(sball) == 0)) sfx_stop(sndSBallLoop);
 if (sfx_isplaying(sndLavaLoop) && (floor(burning) == 0)) sfx_stop(sndLavaLoop);
 if (sfx_isplaying(sndPlantLoop) && (floor(plantdrainfx) == 0)) sfx_stop(sndPlantLoop);
-if (sfx_isplaying(sndDrainLoop) && (floor(monster_drainfx) == 0) && (floor(queen_drainfx) == 0)) sfx_stop(sndDrainLoop);
+if (sfx_isplaying(sndDrainLoop) && (floor(monster_drainfx) == 0) && (floor(queen_drainfx) == 0) && (floor(pbomb_drainfx) == 0)) sfx_stop(sndDrainLoop);
 if (dash > 0 && xVel == 0) dash = 0;
 if (dash == 0) speedboost = 0;
 if (justwalljumped > 0) justwalljumped -= 1;

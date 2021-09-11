@@ -36,6 +36,8 @@ hpush = 5;
 vpush = -3;
 center_x = 0;
 center_y = 0;
+myspr = sprite_index;
+frozenspr = sShielderShieldFrozen;
 </string>
           </argument>
         </arguments>
@@ -68,10 +70,10 @@ center_y = 0;
         offx = 0;
         offy = 0;
     }
-    if (flashing &gt; 0) flashing -= 1;
     center_x = x + lengthdir_x(20, image_angle);
     center_y = y + lengthdir_y(20, image_angle);
 }
+if (flashing &gt; 0) flashing -= 1;
 </string>
           </argument>
         </arguments>
@@ -294,10 +296,13 @@ if (myhealth &lt;= 80) image_index = 2;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index, -1, x + offx, y + offy, 1, 1, image_angle, -1, 1);
+            <string>if(frozen){
+    myspr = frozenspr;
+} else myspr = sShielderShield;
+draw_sprite_ext(myspr, -1, x + offx, y + offy, 1, 1, image_angle, -1, 1);
 if (flashing) {
     draw_set_blend_mode(bm_add);
-    repeat (2) draw_sprite_ext(sprite_index, -1, x + offx, y + offy, 1, 1, image_angle, -1, flashing / 5);
+    repeat (2) draw_sprite_ext(myspr, -1, x + offx, y + offy, 1, 1, image_angle, -1, flashing / 5);
     draw_set_blend_mode(bm_normal);
 }
 </string>

@@ -43,6 +43,9 @@ if (oControl.debug &gt; 0) {
         y = oMGamma.y + 16;
     }
 }
+sax = 0;
+myid = 0;
+icemissiles = global.icemissiles;
 </string>
           </argument>
         </arguments>
@@ -71,7 +74,7 @@ if (oControl.debug &gt; 0) {
 flame = instance_create(x, y, oMissileFlame);
 flame.image_angle = image_angle;
 if (smissile) flame.sprite_index = sSMissileFlame;
-if (global.icemissiles) flame.sprite_index = sIceMissileFlame;
+if (icemissiles) flame.sprite_index = sIceMissileFlame;
 </string>
           </argument>
         </arguments>
@@ -117,9 +120,15 @@ if (global.icemissiles) flame.sprite_index = sIceMissileFlame;
           <argument>
             <kind>1</kind>
             <string>if (instance_exists(oCharacter)) {
-    if ((direction == 0 || direction == 45 || direction == 315) &amp;&amp; oCharacter.xVel &gt; 0) x += oCharacter.xVel;
-    if ((direction == 180 || direction == 135 || direction == 225) &amp;&amp; oCharacter.xVel &lt; 0) x += oCharacter.xVel;
-    if (direction == 270 &amp;&amp; oCharacter.yVel &gt; 0) y += oCharacter.yVel;
+    if(myid == 0){
+        if ((direction == 0 || direction == 45 || direction == 315) &amp;&amp; oCharacter.xVel &gt; 0) x += oCharacter.xVel;
+        if ((direction == 180 || direction == 135 || direction == 225) &amp;&amp; oCharacter.xVel &lt; 0) x += oCharacter.xVel;
+        if (direction == 270 &amp;&amp; oCharacter.yVel &gt; 0) y += oCharacter.yVel;  
+    } else {
+        if ((direction == 0 || direction == 45 || direction == 315) &amp;&amp; velX &gt; 0) x += velX;
+        if ((direction == 180 || direction == 135 || direction == 225) &amp;&amp; velX &lt; 0) x += velX;
+        if (direction == 270 &amp;&amp; velY &gt; 0) y += velY;  
+    }
 }
 if (smissile) speed += 0.5;
 if (y &gt; global.waterlevel &amp;&amp; global.waterlevel != 0) {
@@ -131,7 +140,7 @@ if (y &gt; global.waterlevel &amp;&amp; global.waterlevel != 0) {
 }
 if(instance_exists(oClient)){
     if(ds_list_size(oClient.roomListData) &gt; 0){
-        if (x &gt; room_width + 200 || x &lt; -200 || y &gt; room_height + 200 || y &lt; -200){
+        if (x &gt; room_width + 100 || x &lt; -100 || y &gt; room_height + 100 || y &lt; -100){
             instance_destroy();
             trail.speed = speed;
             trail.alarm[0] = 30;
@@ -159,6 +168,40 @@ if (instance_exists(flame)) {
     flame.x = x;
     flame.y = y;
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="oMultiHitbox">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(myid != other.myid &amp;&amp; sax != other.sax &amp;&amp; !other.spectator){
+    global.checkID = other.myid;
+    global.checkX = other.x;
+    global.checkY = other.y;
+    global.checkBeam = false;
+    global.checkMissile = true;
+    global.checkDamage = damage;
+    global.checkFreeze = false;
+    if(icemissiles) global.checkFreeze = true;
+    if(sax != other.sax) with(oClient) event_user(3);
+    event_user(0);
+} 
 </string>
           </argument>
         </arguments>
@@ -379,7 +422,7 @@ rspark.image_speed = 0.5;
 rspark.depth = -120;
 rmsl = instance_create(x, y, oRMissile);
 if (smissile) rmsl.sprite_index = sSMissile;
-if (!smissile &amp;&amp; global.icemissiles) rmsl.sprite_index = sIceMissile;
+if (!smissile &amp;&amp; icemissiles) rmsl.sprite_index = sIceMissile;
 rmsl.direction = direction + 190 - random(20);
 if (direction != 90) {
     rmsl.speed = 2;
@@ -417,16 +460,18 @@ instance_destroy();
           <argument>
             <kind>1</kind>
             <string>expl = instance_create(round(x), round(y), oMissileExpl);
+expl.sax = sax;
+expl.myid = myid;
 if (smissile == 0) {
     expl.image_xscale = 0.6;
     expl.image_yscale = 0.6;
     expl.damage = 5;
     expl.smissile = 0;
-    if (!global.icemissiles) PlaySoundMono(sndMissileExpl);
+    if (!icemissiles) PlaySoundMono(sndMissileExpl);
     light = instance_create(x, y, oFadeLight32);
     light.fadespeed = 0.1;
     light.alarm[0] = 10;
-    if (global.icemissiles){
+    if (icemissiles){
         expl.sprite_index = sTesterIceSpark;
         expl.image_xscale = 1;
         expl.image_yscale = 1;

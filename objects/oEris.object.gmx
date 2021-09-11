@@ -507,6 +507,9 @@ if (state == 100) {
         
         global.event[261] = 1;
         dead = true;
+        if(instance_exists(oClient) &amp;&amp; oClient.connected){
+            with(oClient) event_user(8);
+        } 
         
         if(oControl.mod_fusion == 0) {
             with (oDoorA5) event_user(3);
@@ -565,6 +568,9 @@ if(global.event[261] &gt; 0 &amp;&amp; !dead){
     state = 100;
     statetime = -1;
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
     sfx_stop_loops();
 }
 </string>

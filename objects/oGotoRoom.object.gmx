@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if ((direction == 0 || direction == 180) &amp;&amp; oCharacter.y &lt;= y + 8 &amp;&amp; oCharacter.y &gt; y - height - 8 || (direction == 90 || direction == 270) &amp;&amp; oCharacter.x &gt;= x &amp;&amp; oCharacter.x &lt; x + height) {
+            <string>if ((direction == 0 || direction == 180) &amp;&amp; oCharacter.y &lt;= y + 8 &amp;&amp; oCharacter.y &gt; y - height - 8 || (direction == 90 || direction == 270) &amp;&amp; oCharacter.x &gt;= x &amp;&amp; oCharacter.x &lt; x + height &amp;&amp; global.spectatorIndex == -1) {
     if (direction == 0 &amp;&amp; oCharacter.x &gt; x - 4 &amp;&amp; oCharacter.x &lt; x + 16 || direction == 180 &amp;&amp; oCharacter.x &lt; x + 4 &amp;&amp; oCharacter.x &gt; x - 16 || direction == 90 &amp;&amp; oCharacter.y &lt; y + 4 &amp;&amp; oCharacter.y &gt; y - 16 || direction == 270 &amp;&amp; oCharacter.y &gt; y - 4 &amp;&amp; oCharacter.y &lt; y + 16) {
         global.targetx = targetx;
         global.targety = targety;

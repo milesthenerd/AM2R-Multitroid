@@ -53,6 +53,9 @@ text2 = get_text("Items", "HiJump_Text");
             <kind>1</kind>
             <string>event_inherited();
 if (active) global.hijump = 1;
+if(instance_exists(oClient) &amp;&amp; oClient.connected){
+    with(oClient) event_user(8);
+} 
 </string>
           </argument>
         </arguments>

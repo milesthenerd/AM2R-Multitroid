@@ -56,6 +56,8 @@ if (oControl.mod_insanitymode) {
 } else {
     mycolor = make_color_rgb(3, 187, 25);
 }
+
+started = false;
 </string>
           </argument>
         </arguments>
@@ -92,10 +94,12 @@ if (active) {
         sfx_play(sndMenuMove);
     }
     if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0) {
-        sfx_play(sndMenuSel);
         if (global.curropt == 0) {
-            global.newgame = 0;
-            room_change(15, 0);
+            if(instance_exists(op[0]) &amp;&amp; op[0].enabled){
+                sfx_play(sndMenuSel);
+                global.newgame = 0;
+                room_change(15, 0);
+            }
         }
         if (global.curropt == 1 || global.curropt == 2) event_user(1);
     }
@@ -127,6 +131,14 @@ if (fadeout) {
         }
         instance_destroy();
     }
+}
+
+if(started &amp;&amp; instance_exists(op[0])){
+    if(instance_exists(oClient)){
+        if(global.lobbyLocked || global.saxmode){
+            op[0].enabled = false;
+        } else op[0].enabled = true;
+    } else op[0].enabled = true;
 }
 </string>
           </argument>
@@ -181,12 +193,15 @@ active = 0;
 op[0] = instance_create(x - 4, y + 3, oNormalOptionR);
 op[0].optionid = 0;
 op[0].label = continuestr;
+if(instance_exists(oClient) &amp;&amp; instance_exists(op[0]) &amp;&amp; (global.lobbyLocked || global.saxmode)) op[0].enabled = false;
 op[1] = instance_create(x - 4, y + 3 + vsep, oNormalOptionR);
 op[1].optionid = 1;
 op[1].label = copystr;
 op[2] = instance_create(x - 4, y + 3 + vsep * 2, oNormalOptionR);
 op[2].optionid = 2;
 op[2].label = erasestr;
+
+started = true;
 </string>
           </argument>
         </arguments>

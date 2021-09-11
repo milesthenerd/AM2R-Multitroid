@@ -7,8 +7,8 @@
   <coltolerance>0</coltolerance>
   <sepmasks>0</sepmasks>
   <bboxmode>0</bboxmode>
-  <bbox_left>1</bbox_left>
-  <bbox_right>13</bbox_right>
+  <bbox_left>0</bbox_left>
+  <bbox_right>15</bbox_right>
   <bbox_top>0</bbox_top>
   <bbox_bottom>12</bbox_bottom>
   <HTile>0</HTile>
@@ -21,5 +21,8 @@
   <height>13</height>
   <frames>
     <frame index="0">images\sTPO2Frozen_0.png</frame>
+    <frame index="1">images\sTPO2Frozen_1.png</frame>
+    <frame index="2">images\sTPO2Frozen_2.png</frame>
+    <frame index="3">images\sTPO2Frozen_3.png</frame>
   </frames>
 </sprite>

@@ -250,9 +250,14 @@ if (global.currentweapon == 3) {
 draw_sprite(sGUIPBomb, 1, xoff + 1, 4);
 } else draw_sprite(sGUIPBomb, 0, xoff + 1, 4);
 }
+    if(global.saxmode){
+        draw_sprite(sPBombCooldownOverlay, 0, xoff + 2, 17);
+        var scaleMult = global.pbombCooldown / 600;
+        draw_sprite_ext(sPBombCooldownFull, 0, xoff + 2, 17, scaleMult, 1, 0, c_white, 1);
+    }
 }
 
-if(instance_exists(oClient)){
+if(instance_exists(oClient) && !global.saxmode){
     if(oClient.connected){
         if(ds_list_size(global.idList) > 1 && ds_list_size(global.idList) <= 6){
             for(var f=0; f<ds_list_size(global.idList); f++){
@@ -281,15 +286,100 @@ if (global.ophudshowmap == 0 && global.ophudshowmetrcount) {
 draw_background(bgGUIMetOnly, 296 + widescreen_space, 0);
 xoff = 296;
 }
+
+if(instance_exists(oClient) && global.saxmode){
+    draw_set_halign(fa_right);
+    draw_set_alpha(100/255);
+    draw_set_color(c_black);
+    var xoffNew = xoff - 25;
+    draw_rectangle(xoffNew + oControl.widescreen_space, 0, xoff - 1 + oControl.widescreen_space, 26, false);
+    draw_set_alpha(200/255);
+    draw_rectangle(xoffNew + 3 + oControl.widescreen_space, 3, xoff - 2 + oControl.widescreen_space, 23, false);
+    draw_set_alpha(1);
+    draw_set_color(c_white);
+    draw_set_halign(fa_left);
+    draw_sprite(global.scannerSprite, global.scannerIndex, xoffNew + 4 + oControl.widescreen_space, 4);
+    var lowestPosX = 1000;
+    var lowestPosY = 1000;
+    var enemyCount = 0;
+    for(var i=0; i<ds_list_size(oClient.posData); i++){
+        var arrData = oClient.posData[| i];
+        var ID = arrData[0];
+        var xDiff = oClient.posX - arrData[1];
+        var yDiff = oClient.posY - arrData[2];
+        var sax = arrData[3];
+        var spectator = arrData[5];
+        if((abs(xDiff) < lowestPosX || abs(yDiff) < lowestPosY) && sax != global.sax && ID != global.clientID){
+            if(spectator){
+                if(sax){
+                    lowestPosX = abs(xDiff);
+                    lowestPosY = abs(yDiff);   
+                }
+            } else {
+                lowestPosX = abs(xDiff);
+                lowestPosY = abs(yDiff);
+            }
+        }
+        if(sax != global.sax) enemyCount++;
+    }
+    
+    if(ds_list_size(oClient.posData) == 0 || enemyCount == 0){
+        global.scannerSprite = sScannerRange4;
+        global.enemyNearby = false;
+        global.inMusSAXRange = false;
+    }
+    
+    if(enemyCount > 0){
+        if((abs(lowestPosX) > 5 || abs(lowestPosY) > 5)){
+            global.inMusSAXRange = false;
+        }
+        if((abs(lowestPosX) <= 5 && abs(lowestPosY) <= 5)){
+            global.inMusSAXRange = true;
+        }
+        if((abs(lowestPosX) > 4 || abs(lowestPosY) > 4)){
+            global.enemyNearby = false;
+            global.scannerSprite = sScannerRange4;
+        }
+        if((abs(lowestPosX) <= 4 && abs(lowestPosY) <= 4)){
+            global.enemyNearby = false;
+            global.scannerSpeedMax = 5;
+            global.scannerSprite = sScannerRange3;
+        }
+        if((abs(lowestPosX) <= 3 && abs(lowestPosY) <= 3)){
+            global.enemyNearby = true;
+        }
+        if((abs(lowestPosX) <= 2 && abs(lowestPosY) <= 2)){
+            global.enemyNearby = true;
+            global.scannerSpeedMax = 4;
+            global.scannerSprite = sScannerRange2;
+        }
+        if((abs(lowestPosX) <= 1 && abs(lowestPosY) <= 1)){
+            global.enemyNearby = true;
+            global.scannerSpeedMax = 3;
+            global.scannerSprite = sScannerRange1;
+        }
+        if((abs(lowestPosX) == 0 && abs(lowestPosY) == 0)){
+            global.enemyNearby = true;
+            global.scannerSpeedMax = 2;
+            global.scannerSprite = sScannerRange1;
+        } 
+    }
+}
+
 if (global.ophudshowmetrcount) {
-if (global.ophudshowmetrcount == 1) {
-draw_background(bgGUIMetCountBG1, xoff + 4 + widescreen_space, 4);
-draw_text(xoff + 6 + widescreen_space, 21, to_string_lz(global.monstersarea));
-}
-if (global.ophudshowmetrcount == 2) {
-draw_background(bgGUIMetCountBG2, xoff + 4 + widescreen_space, 4);
-draw_text(xoff + 6 + widescreen_space, 21, to_string_lz(global.monstersleft));
-}
+    if(global.saxmode && global.sax){
+        draw_background(bgSamCount, xoff + 4 + widescreen_space, 4);
+        draw_text(xoff + 6 + widescreen_space, 21, to_string_lz(global.samCount));
+    } else {
+        if (global.ophudshowmetrcount == 1) {
+            draw_background(bgGUIMetCountBG1, xoff + 4 + widescreen_space, 4);
+            draw_text(xoff + 6 + widescreen_space, 21, to_string_lz(global.monstersarea));
+        }
+        if (global.ophudshowmetrcount == 2) {
+            draw_background(bgGUIMetCountBG2, xoff + 4 + widescreen_space, 4);
+            draw_text(xoff + 6 + widescreen_space, 21, to_string_lz(global.monstersleft));
+        }
+    }
 }
 if (global.ophudshowmap){ 
     draw_gui_map(276 + widescreen_space, 0);
@@ -298,8 +388,22 @@ if (global.ophudshowmap){
             var arrData = oClient.posData[| i];
             var xDiff = oClient.posX - arrData[1];
             var yDiff = oClient.posY - arrData[2];
-            if(abs(xDiff) <= 2 && abs(yDiff) <= 1){
-                draw_sprite_ext(oControl.MultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
+            var sax = arrData[3];
+            var spectator = arrData[5];
+            if(global.spectator){
+                if(!sax){
+                    if(spectator){
+                        if(abs(xDiff) <= 2 && abs(yDiff) <= 1) draw_sprite_ext(sSpectatorIcon, 0, (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
+                    } else {
+                        if(abs(xDiff) <= 2 && abs(yDiff) <= 1) draw_sprite_ext(sFusionIcon, 0, (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
+                    }
+                } else {
+                    if(abs(xDiff) <= 2 && abs(yDiff) <= 1) draw_sprite_ext(sMultitroidMapIconMiepee, 0, (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
+                }
+            } else {
+                if(abs(xDiff) <= 2 && abs(yDiff) <= 1 && sax == global.sax){
+                    draw_sprite_ext(oControl.MultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), ((0 + 12) - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha);
+                }
             }
         }
     }

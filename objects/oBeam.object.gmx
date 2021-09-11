@@ -34,6 +34,8 @@ time = 0;
 dohit = 1;
 smissile = 0; // Do not delete this. This was needed for beam attacks on Monsters. 
 // I am mimicking missiles here. The game will crash without this variable!!!
+sax = 0;
+myid = 0;
 </string>
           </argument>
         </arguments>
@@ -202,13 +204,61 @@ if (y &gt; global.waterlevel &amp;&amp; global.waterlevel != 0) {
 }
 if(instance_exists(oClient)){
     if(ds_list_size(oClient.roomListData) &gt; 0){
-        if (x &gt; room_width + 200 || x &lt; -200 || y &gt; room_height + 200 || y &lt; -200) instance_destroy();
+        if (x &gt; room_width + 100 || x &lt; -100 || y &gt; room_height + 100 || y &lt; -100) instance_destroy();
     } else {
         if (x &lt; view_xview[0] - 48 - (oControl.widescreen_space/2) || x &gt; view_xview[0] + view_wview[0] + 48 + (oControl.widescreen_space/2) || y &lt; view_yview[0] - 48 || y &gt; view_yview[0] + view_hview[0] + 48) instance_destroy();
     }
 } else {
     if (x &lt; view_xview[0] - 48 - (oControl.widescreen_space/2) || x &gt; view_xview[0] + view_wview[0] + 48 + (oControl.widescreen_space/2) || y &lt; view_yview[0] - 48 || y &gt; view_yview[0] + view_hview[0] + 48) instance_destroy();
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="oMultiHitbox">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(sax != other.sax &amp;&amp; !other.spectator){
+    if(pbeam){
+        event_user(0);
+        global.checkID = other.myid;
+        global.checkX = other.x;
+        global.checkY = other.y;
+        global.checkBeam = true;
+        global.checkMissile = false;
+        global.checkDamage = damage;
+        global.checkFreeze = false;
+        if(ibeam) global.checkFreeze = true;
+        if(sax != other.sax) with(oClient) event_user(3);
+    } else {
+        event_user(0);
+        global.checkID = other.myid;
+        global.checkX = other.x;
+        global.checkY = other.y;
+        global.checkBeam = true;
+        global.checkMissile = false;
+        global.checkDamage = damage;
+        global.checkFreeze = false;
+        if(ibeam) global.checkFreeze = true;
+        if(sax != other.sax) with(oClient) event_user(3);
+        instance_destroy();
+    }
+} 
 </string>
           </argument>
         </arguments>

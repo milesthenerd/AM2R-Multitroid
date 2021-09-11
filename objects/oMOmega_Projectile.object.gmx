@@ -129,7 +129,9 @@ damage = global.mod_omegadamageprojectile;
             <string>var combo;
 combo = global.difficulty &gt;= 2;
 if (fadeout == 0 &amp;&amp; (combo == 1 || other.invincible == 0) &amp;&amp; other.state != 40) {
-    damage_player_knockdown(damage, image_xscale, 90, 0, 3.5);
+    var damageToDeal = damage;
+    if (global.sax) damageToDeal = damageToDeal * 2;
+    damage_player_knockdown(damageToDeal, image_xscale, 90, 0, 3.5);
     fadeout = 1;
     speed = 0;
     sfx_play(sndGFTrooperHit);

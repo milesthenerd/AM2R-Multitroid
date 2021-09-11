@@ -736,6 +736,8 @@ height_back = height_target_back + sin(sin_timer + 10) * 2;
 sin_timer += 0.06;
 if (sin_timer &gt; 99999999) sin_timer = 0;
 statetime += 1;
+
+if(instance_exists(oClient) &amp;&amp; global.saxmode &amp;&amp; phase != 5) global.pbombCooldown = 0;
 </string>
           </argument>
         </arguments>

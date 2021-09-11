@@ -29,6 +29,7 @@
 itemid = 9;
 text1 = get_text("Items", "GravitySuit");
 text2 = get_text("Items", "GravitySuit_Text");
+if(global.sax &amp;&amp; global.saxmode) instance_destroy();
 </string>
           </argument>
         </arguments>
@@ -67,6 +68,9 @@ if (active) {
         alarm[4] = 1;
     }
 }
+if(instance_exists(oClient) &amp;&amp; oClient.connected){
+    with(oClient) event_user(8);
+} 
 </string>
           </argument>
         </arguments>

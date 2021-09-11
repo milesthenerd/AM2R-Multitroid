@@ -91,6 +91,10 @@ if (global.event[176] == 1 &amp;&amp; room == rm_a0h13) instance_destroy();
     sfx_play(sndBlockDestroy);
     instance_destroy();
 }
+
+if(global.spectator &amp;&amp; instance_exists(oCharacter) &amp;&amp; distance_to_object(oCharacter) &lt; 50){
+    event_user(0);
+}
 </string>
           </argument>
         </arguments>

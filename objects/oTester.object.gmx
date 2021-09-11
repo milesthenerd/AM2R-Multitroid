@@ -603,6 +603,9 @@ if (state == 100) {
         
         global.event[200] = 2;
         dead = true;
+        if(instance_exists(oClient) &amp;&amp; oClient.connected){
+            with(oClient) event_user(8);
+        } 
         mus_current_fadein();
         instance_destroy();
     }
@@ -648,6 +651,9 @@ if(global.event[200] &gt; 1 &amp;&amp; !dead){
     with (oTesterShield) event_user(1);
     visible = false;
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
 }
 </string>
           </argument>

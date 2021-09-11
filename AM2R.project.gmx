@@ -3,8 +3,8 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="243" name="datafiles">
-    <datafiles number="243" name="lang">
+  <datafiles number="366" name="datafiles">
+    <datafiles number="366" name="lang">
       <datafile>
         <name>czech.ini</name>
         <exists>-1</exists>
@@ -158,7 +158,706 @@
         </ConfigOptions>
         <filename>languages.txt</filename>
       </datafile>
-      <datafiles number="243" name="fonts">
+      <datafiles number="366" name="headers">
+        <datafile>
+          <name>castellano_a1_f24_b0_c3_d19_e21.png</name>
+          <exists>-1</exists>
+          <size>1668</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a1_f24_b0_c3_d19_e21.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a2_f31_b0_c3_d26_e28.png</name>
+          <exists>-1</exists>
+          <size>2607</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a2_f31_b0_c3_d26_e28.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a3_f30_b0_c3_d25_e27.png</name>
+          <exists>-1</exists>
+          <size>2266</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a3_f30_b0_c3_d25_e27.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a4_f19_b0_c3_d14_e16.png</name>
+          <exists>-1</exists>
+          <size>1080</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a4_f19_b0_c3_d14_e16.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a5_f32_b0_c3_d27_e29.png</name>
+          <exists>-1</exists>
+          <size>2767</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a5_f32_b0_c3_d27_e29.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1129</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>castellano_a8_f20_b0_c7_d15_e17.png</name>
+          <exists>-1</exists>
+          <size>811</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>castellano_a8_f20_b0_c7_d15_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a1_f26_b0_c3_d21_e23.png</name>
+          <exists>-1</exists>
+          <size>1838</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a1_f26_b0_c3_d21_e23.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a2_f22_b0_c3_d17_e19.png</name>
+          <exists>-1</exists>
+          <size>1337</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a2_f22_b0_c3_d17_e19.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a3_f28_b0_c3_d23_e25.png</name>
+          <exists>-1</exists>
+          <size>2056</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a3_f28_b0_c3_d23_e25.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a4_f19_b0_c3_d14_e16.png</name>
+          <exists>-1</exists>
+          <size>1075</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a4_f19_b0_c3_d14_e16.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a5_f28_b0_c3_d23_e25.png</name>
+          <exists>-1</exists>
+          <size>1990</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a5_f28_b0_c3_d23_e25.png</filename>
+        </datafile>
+        <datafile>
+          <name>deutsch_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1445</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>deutsch_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a1_f22_b0_c3_d17_e19.png</name>
+          <exists>-1</exists>
+          <size>1519</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a1_f22_b0_c3_d17_e19.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a2_f25_b0_c3_d20_e22.png</name>
+          <exists>-1</exists>
+          <size>1705</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a2_f25_b0_c3_d20_e22.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a3_f30_b0_c3_d25_e27.png</name>
+          <exists>-1</exists>
+          <size>2311</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a3_f30_b0_c3_d25_e27.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a4_f18_b0_c3_d13_e15.png</name>
+          <exists>-1</exists>
+          <size>986</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a4_f18_b0_c3_d13_e15.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a5_f32_b0_c3_d27_e29.png</name>
+          <exists>-1</exists>
+          <size>2461</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a5_f32_b0_c3_d27_e29.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1160</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>francais_a8_f20_b0_c7_d15_e17.png</name>
+          <exists>-1</exists>
+          <size>907</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>francais_a8_f20_b0_c7_d15_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a1_f26_b0_c3_d21_e23.png</name>
+          <exists>-1</exists>
+          <size>1950</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a1_f26_b0_c3_d21_e23.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a2_f26_b0_c3_d21_e23.png</name>
+          <exists>-1</exists>
+          <size>1817</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a2_f26_b0_c3_d21_e23.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a3_f32_b0_c3_d27_e29.png</name>
+          <exists>-1</exists>
+          <size>2458</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a3_f32_b0_c3_d27_e29.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a4_f19_b0_c3_d14_e16.png</name>
+          <exists>-1</exists>
+          <size>1080</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a4_f19_b0_c3_d14_e16.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a5_f33_b0_c3_d28_e30.png</name>
+          <exists>-1</exists>
+          <size>2736</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a5_f33_b0_c3_d28_e30.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1167</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>italiano_a8_f20_b0_c7_d15_e17.png</name>
+          <exists>-1</exists>
+          <size>858</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>italiano_a8_f20_b0_c7_d15_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a1_f16_b0_c3_d11_e13.png</name>
+          <exists>-1</exists>
+          <size>2444</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a1_f16_b0_c3_d11_e13.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a2_f16_b0_c3_d11_e13.png</name>
+          <exists>-1</exists>
+          <size>2673</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a2_f16_b0_c3_d11_e13.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a3_f16_b0_c3_d11_e13.png</name>
+          <exists>-1</exists>
+          <size>2722</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a3_f16_b0_c3_d11_e13.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a4_f15_b0_c3_d10_e12.png</name>
+          <exists>-1</exists>
+          <size>1822</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a4_f15_b0_c3_d10_e12.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a5_f18_b0_c3_d13_e15.png</name>
+          <exists>-1</exists>
+          <size>4153</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a5_f18_b0_c3_d13_e15.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>2232</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>japanese_a8_f20_b0_c3_d15_e17.png</name>
+          <exists>-1</exists>
+          <size>4048</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>japanese_a8_f20_b0_c3_d15_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a1_f23_b0_c3_d18_e20.png</name>
+          <exists>-1</exists>
+          <size>1730</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a1_f23_b0_c3_d18_e20.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a2_f24_b0_c3_d19_e21.png</name>
+          <exists>-1</exists>
+          <size>1585</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a2_f24_b0_c3_d19_e21.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a3_f22_b0_c3_d17_e19.png</name>
+          <exists>-1</exists>
+          <size>1440</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a3_f22_b0_c3_d17_e19.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a4_f17_b0_c3_d12_e14.png</name>
+          <exists>-1</exists>
+          <size>882</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a4_f17_b0_c3_d12_e14.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a5_f30_b0_c3_d25_e27.png</name>
+          <exists>-1</exists>
+          <size>2524</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a5_f30_b0_c3_d25_e27.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a7_f19_b0_c7_d9_e17.png</name>
+          <exists>-1</exists>
+          <size>1401</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a7_f19_b0_c7_d9_e17.png</filename>
+        </datafile>
+        <datafile>
+          <name>russian_a8_f19_b0_c3_d14_e16.png</name>
+          <exists>-1</exists>
+          <size>873</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>russian_a8_f19_b0_c3_d14_e16.png</filename>
+        </datafile>
+      </datafiles>
+      <datafiles number="366" name="fonts">
         <datafile>
           <name>04b09.ttf</name>
           <exists>-1</exists>
@@ -331,8 +1030,8 @@
       </ConfigOptions>
       <filename>readme.txt</filename>
     </datafile>
-    <datafiles number="243" name="mods">
-      <datafiles number="243" name="titles">
+    <datafiles number="366" name="mods">
+      <datafiles number="366" name="titles">
         <datafile>
           <name>config.ini</name>
           <exists>-1</exists>
@@ -368,8 +1067,8 @@
           <filename>titlebackground.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="243" name="palettes">
-        <datafiles number="243" name="monsters">
+      <datafiles number="366" name="palettes">
+        <datafiles number="366" name="monsters">
           <datafile>
             <name>alpha.png</name>
             <exists>-1</exists>
@@ -390,7 +1089,7 @@
           <datafile>
             <name>config.ini</name>
             <exists>-1</exists>
-            <size>138</size>
+            <size>135</size>
             <exportAction>2</exportAction>
             <exportDir></exportDir>
             <overwrite>0</overwrite>
@@ -541,7 +1240,7 @@
             <filename>zeta_blur.png</filename>
           </datafile>
         </datafiles>
-        <datafiles number="243" name="suits">
+        <datafiles number="366" name="suits">
           <datafile>
             <name>fusion_gravity.png</name>
             <exists>-1</exists>
@@ -644,7 +1343,7 @@
             </ConfigOptions>
             <filename>varia.png</filename>
           </datafile>
-          <datafiles number="243" name="MorphTrailColors">
+          <datafiles number="366" name="MorphTrailColors">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -748,7 +1447,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="243" name="SpaceJumpTrails">
+          <datafiles number="366" name="SpaceJumpTrails">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -852,7 +1551,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="243" name="SpiderBallGlow">
+          <datafiles number="366" name="SpiderBallGlow">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -956,6 +1655,898 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
+        </datafiles>
+        <datafiles number="366" name="multitroid">
+          <datafiles number="366" name="dark_player_icons">
+            <datafile>
+              <name>sDarkMultitroidPlayer_0.png</name>
+              <exists>-1</exists>
+              <size>159</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_0.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_1.png</name>
+              <exists>-1</exists>
+              <size>156</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_1.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_2.png</name>
+              <exists>-1</exists>
+              <size>160</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_2.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_3.png</name>
+              <exists>-1</exists>
+              <size>159</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_3.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_4.png</name>
+              <exists>-1</exists>
+              <size>160</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_4.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_5.png</name>
+              <exists>-1</exists>
+              <size>159</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_5.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_6.png</name>
+              <exists>-1</exists>
+              <size>160</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_6.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_7.png</name>
+              <exists>-1</exists>
+              <size>157</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_7.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_8.png</name>
+              <exists>-1</exists>
+              <size>274</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_8.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_9.png</name>
+              <exists>-1</exists>
+              <size>277</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_9.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_10.png</name>
+              <exists>-1</exists>
+              <size>279</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_10.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_11.png</name>
+              <exists>-1</exists>
+              <size>262</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_11.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_12.png</name>
+              <exists>-1</exists>
+              <size>276</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_12.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_13.png</name>
+              <exists>-1</exists>
+              <size>286</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_13.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_14.png</name>
+              <exists>-1</exists>
+              <size>256</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_14.png</filename>
+            </datafile>
+            <datafile>
+              <name>sDarkMultitroidPlayer_15.png</name>
+              <exists>-1</exists>
+              <size>291</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sDarkMultitroidPlayer_15.png</filename>
+            </datafile>
+          </datafiles>
+          <datafiles number="366" name="player_icons">
+            <datafile>
+              <name>sMultitroidPlayer_0.png</name>
+              <exists>-1</exists>
+              <size>295</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_0.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_1.png</name>
+              <exists>-1</exists>
+              <size>295</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_1.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_2.png</name>
+              <exists>-1</exists>
+              <size>290</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_2.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_3.png</name>
+              <exists>-1</exists>
+              <size>298</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_3.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_4.png</name>
+              <exists>-1</exists>
+              <size>305</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_4.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_5.png</name>
+              <exists>-1</exists>
+              <size>298</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_5.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_6.png</name>
+              <exists>-1</exists>
+              <size>306</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_6.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_7.png</name>
+              <exists>-1</exists>
+              <size>306</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_7.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_8.png</name>
+              <exists>-1</exists>
+              <size>300</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_8.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_9.png</name>
+              <exists>-1</exists>
+              <size>310</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_9.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_10.png</name>
+              <exists>-1</exists>
+              <size>298</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_10.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_11.png</name>
+              <exists>-1</exists>
+              <size>301</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_11.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_12.png</name>
+              <exists>-1</exists>
+              <size>310</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_12.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_13.png</name>
+              <exists>-1</exists>
+              <size>300</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_13.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_14.png</name>
+              <exists>-1</exists>
+              <size>294</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_14.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidPlayer_15.png</name>
+              <exists>-1</exists>
+              <size>309</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidPlayer_15.png</filename>
+            </datafile>
+          </datafiles>
+          <datafiles number="366" name="map_icons">
+            <datafile>
+              <name>sMultitroidMapIcon_0.png</name>
+              <exists>-1</exists>
+              <size>147</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_0.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_1.png</name>
+              <exists>-1</exists>
+              <size>146</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_1.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_2.png</name>
+              <exists>-1</exists>
+              <size>148</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_2.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_3.png</name>
+              <exists>-1</exists>
+              <size>148</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_3.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_4.png</name>
+              <exists>-1</exists>
+              <size>147</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_4.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_5.png</name>
+              <exists>-1</exists>
+              <size>147</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_5.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_6.png</name>
+              <exists>-1</exists>
+              <size>147</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_6.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_7.png</name>
+              <exists>-1</exists>
+              <size>146</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_7.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_8.png</name>
+              <exists>-1</exists>
+              <size>249</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_8.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_9.png</name>
+              <exists>-1</exists>
+              <size>261</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_9.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_10.png</name>
+              <exists>-1</exists>
+              <size>259</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_10.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_11.png</name>
+              <exists>-1</exists>
+              <size>246</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_11.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_12.png</name>
+              <exists>-1</exists>
+              <size>266</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_12.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_13.png</name>
+              <exists>-1</exists>
+              <size>265</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_13.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_14.png</name>
+              <exists>-1</exists>
+              <size>247</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_14.png</filename>
+            </datafile>
+            <datafile>
+              <name>sMultitroidMapIcon_15.png</name>
+              <exists>-1</exists>
+              <size>265</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sMultitroidMapIcon_15.png</filename>
+            </datafile>
+          </datafiles>
+          <datafile>
+            <name>baby_metroid.png</name>
+            <exists>-1</exists>
+            <size>361</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>baby_metroid.png</filename>
+          </datafile>
+          <datafile>
+            <name>spiderball.png</name>
+            <exists>-1</exists>
+            <size>2205</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>spiderball.png</filename>
+          </datafile>
+          <datafile>
+            <name>multitroid.png</name>
+            <exists>-1</exists>
+            <size>1128</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>multitroid.png</filename>
+          </datafile>
+          <datafile>
+            <name>multitroid_fusion.png</name>
+            <exists>-1</exists>
+            <size>2233</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>multitroid_fusion.png</filename>
+          </datafile>
         </datafiles>
       </datafiles>
     </datafiles>
@@ -1399,6 +2990,39 @@
       <sound>sound\sndSBEris</sound>
       <sound>sound\sndSkorpBlade</sound>
       <sound>sound\sndYumboDash</sound>
+    </sounds>
+    <sounds name="SAX Step">
+      <sound>sound\sndStepMetal1SAX</sound>
+      <sound>sound\sndStepMetal2SAX</sound>
+      <sound>sound\sndStepNormal0SAX</sound>
+      <sound>sound\sndStepNormal1SAX</sound>
+      <sound>sound\sndStepNormal2SAX</sound>
+      <sound>sound\sndStepRock0SAX</sound>
+      <sound>sound\sndStepRock1SAX</sound>
+      <sound>sound\sndStepRock2SAX</sound>
+      <sound>sound\sndStepSAX</sound>
+      <sound>sound\sndStepStone0SAX</sound>
+      <sound>sound\sndStepStone1SAX</sound>
+      <sound>sound\sndStepStone2SAX</sound>
+      <sound>sound\sndStepWet0SAX</sound>
+      <sound>sound\sndStepWet1SAX</sound>
+      <sound>sound\sndStepWet2SAX</sound>
+      <sound>sound\sndLandGrassSAX</sound>
+      <sound>sound\sndLandMetalSAX</sound>
+      <sound>sound\sndLandNormalSAX</sound>
+      <sound>sound\sndLandRockSAX</sound>
+      <sound>sound\sndLandSAX</sound>
+      <sound>sound\sndLandStoneSAX</sound>
+      <sound>sound\sndLandWetSAX</sound>
+      <sound>sound\sndStepGrass0SAX</sound>
+      <sound>sound\sndStepGrass1SAX</sound>
+      <sound>sound\sndStepGrass2SAX</sound>
+      <sound>sound\sndStepMetal0SAX</sound>
+    </sounds>
+    <sounds name="Crimzan SA-X Music">
+      <sound>sound\musSAXEnvironmentalAmbience</sound>
+      <sound>sound\musSAXAppear</sound>
+      <sound>sound\musSAXChase</sound>
     </sounds>
   </sounds>
   <sprites name="sprites">
@@ -3389,6 +5013,219 @@
       </sprites>
       <sprite>sprites\sShipGlow</sprite>
     </sprites>
+    <sprites name="Multitroid Assets">
+      <sprite>sprites\sMultitroidIcon</sprite>
+      <sprite>sprites\sPalMultitroidNew</sprite>
+      <sprite>sprites\sDarkMultitroidPlayer</sprite>
+      <sprite>sprites\sPalMultitroidFusion</sprite>
+      <sprite>sprites\sPalSpiderball</sprite>
+      <sprite>sprites\sPalMultitroidBaby</sprite>
+      <sprite>sprites\sMultitroidMapIcon</sprite>
+      <sprite>sprites\sIceMissile</sprite>
+      <sprite>sprites\sIceMissileFlame</sprite>
+      <sprite>sprites\sIceMissileTrail</sprite>
+      <sprite>sprites\sIMPickup</sprite>
+      <sprite>sprites\sGUIIceMissile</sprite>
+      <sprites name="Halzyn">
+        <sprite>sprites\sHalzynEyeFrozen</sprite>
+        <sprite>sprites\sHalzynEyeFrozen_lava</sprite>
+      </sprites>
+      <sprites name="Ramulken">
+        <sprite>sprites\sRamulkenEyeFrozen</sprite>
+      </sprites>
+      <sprites name="Hornoad">
+        <sprite>sprites\sHornoadAttackFrozen</sprite>
+        <sprite>sprites\sHornoadIdleFrozen</sprite>
+        <sprite>sprites\sHornoadJumpFrozen</sprite>
+        <sprite>sprites\sHornoadShakeFrozen</sprite>
+        <sprite>sprites\sHornoadTurnFrozen</sprite>
+      </sprites>
+      <sprites name="Gunzoo">
+        <sprite>sprites\sGunzooArmor2Frozen</sprite>
+        <sprite>sprites\sGunzooTurnFrozen</sprite>
+        <sprite>sprites\sGunzooArmor1Frozen</sprite>
+      </sprites>
+      <sprites name="Shirk">
+        <sprite>sprites\sShirkArmor1Frozen</sprite>
+        <sprite>sprites\sShirkArmor2Frozen</sprite>
+        <sprite>sprites\sShirkTurnArmor1Frozen</sprite>
+        <sprite>sprites\sShirkTurnArmor2Frozen</sprite>
+        <sprite>sprites\sShirkTurnFrozen</sprite>
+      </sprites>
+      <sprite>sprites\sMultitroidMapPlayerCountBox</sprite>
+      <sprite>sprites\sMiepee</sprite>
+      <sprite>sprites\sPalMultitroidColorNew</sprite>
+      <sprite>sprites\sMultitroidMapIconMiepee</sprite>
+      <sprite>sprites\sPalMultitroidFusionColor</sprite>
+      <sprite>sprites\sPalSpiderballColor</sprite>
+      <sprite>sprites\sPalMetroidBabyColor</sprite>
+      <sprites name="Omega Suit">
+        <sprite>sprites\sBittenL_fusion_omega</sprite>
+        <sprite>sprites\sBrakeL_fusion_omega</sprite>
+        <sprite>sprites\sBrakeR_fusion_omega</sprite>
+        <sprite>sprites\sClimbL_fusion_omega</sprite>
+        <sprite>sprites\sClimb_fusion_omega</sprite>
+        <sprite>sprites\sFront_fusion_omega</sprite>
+        <sprite>sprites\sGrip_fusion_omega</sprite>
+        <sprite>sprites\sGripAimDL_fusion_omega</sprite>
+        <sprite>sprites\sGripAimDR_fusion_omega</sprite>
+        <sprite>sprites\sGripAimDwnL_fusion_omega</sprite>
+        <sprite>sprites\sGripAimDwnR_fusion_omega</sprite>
+        <sprite>sprites\sGripAimL_fusion_omega</sprite>
+        <sprite>sprites\sGripAimR_fusion_omega</sprite>
+        <sprite>sprites\sGripAimUL_fusion_omega</sprite>
+        <sprite>sprites\sGripAimUR_fusion_omega</sprite>
+        <sprite>sprites\sGripAimUpL_fusion_omega</sprite>
+        <sprite>sprites\sGripAimUpR_fusion_omega</sprite>
+        <sprite>sprites\sGripL_fusion_omega</sprite>
+        <sprite>sprites\sHurtL_fusion_omega</sprite>
+        <sprite>sprites\sHurtR_fusion_omega</sprite>
+        <sprite>sprites\sIdleLeft_fusion_omega</sprite>
+        <sprite>sprites\sIdleRight_fusion_omega</sprite>
+        <sprite>sprites\sJAimDwnTL_fusion_omega</sprite>
+        <sprite>sprites\sJAimDwnTR_fusion_omega</sprite>
+        <sprite>sprites\sJumpLeft_fusion_omega</sprite>
+        <sprite>sprites\sJumpRight_fusion_omega</sprite>
+        <sprite>sprites\sKnockbackL_fusion_omega</sprite>
+        <sprite>sprites\sKnockbackR_fusion_omega</sprite>
+        <sprite>sprites\sKnockLandL_fusion_omega</sprite>
+        <sprite>sprites\sKnockLandR_fusion_omega</sprite>
+        <sprite>sprites\sMorph_fusion_omega</sprite>
+        <sprite>sprites\sRunAimDL_fusion_omega</sprite>
+        <sprite>sprites\sRunAimDR_fusion_omega</sprite>
+        <sprite>sprites\sRunAimL_fusion_omega</sprite>
+        <sprite>sprites\sRunAimR_fusion_omega</sprite>
+        <sprite>sprites\sRunAimUL_fusion_omega</sprite>
+        <sprite>sprites\sRunAimUR_fusion_omega</sprite>
+        <sprite>sprites\sRunLeft_fusion_omega</sprite>
+        <sprite>sprites\sRunRight_fusion_omega</sprite>
+        <sprite>sprites\sSJumpL_fusion_omega</sprite>
+        <sprite>sprites\sSJumpR_fusion_omega</sprite>
+        <sprite>sprites\sSJumpStartL_fusion_omega</sprite>
+        <sprite>sprites\sSJumpStart_fusion_omega</sprite>
+        <sprite>sprites\sSJumpUpL_fusion_omega</sprite>
+        <sprite>sprites\sSJumpUpR_fusion_omega</sprite>
+        <sprite>sprites\sSpacejump_fusion_omega</sprite>
+        <sprite>sprites\sStandAimDL_fusion_omega</sprite>
+        <sprite>sprites\sStandAimDR_fusion_omega</sprite>
+        <sprite>sprites\sStandAimUL_fusion_omega</sprite>
+        <sprite>sprites\sStandAimUp_fusion_omega</sprite>
+        <sprite>sprites\sStandAimUpL_fusion_omega</sprite>
+        <sprite>sprites\sStandAimUR_fusion_omega</sprite>
+        <sprite>sprites\sStandLeft_fusion_omega</sprite>
+        <sprite>sprites\sStandRight_fusion_omega</sprite>
+        <sprite>sprites\sUnmorph_fusion_omega</sprite>
+        <sprite>sprites\sWalkAimDL_fusion_omega</sprite>
+        <sprite>sprites\sWalkAimDR_fusion_omega</sprite>
+        <sprite>sprites\sWalkAimL_fusion_omega</sprite>
+        <sprite>sprites\sWalkAimR_fusion_omega</sprite>
+        <sprite>sprites\sWalkAimUL_fusion_omega</sprite>
+        <sprite>sprites\sWalkAimUR_fusion_omega</sprite>
+        <sprite>sprites\sWalkAimUp_fusion_omega</sprite>
+        <sprite>sprites\sWalkAimUpL_fusion_omega</sprite>
+        <sprite>sprites\sWalkLeft_fusion_omega</sprite>
+        <sprite>sprites\sWalkRight_fusion_omega</sprite>
+        <sprite>sprites\sWalljump_fusion_omega</sprite>
+        <sprite>sprites\sWalljumpL_fusion_omega</sprite>
+        <sprite>sprites\sFrontL_fusion_omega</sprite>
+        <sprite>sprites\sFrontR_fusion_omega</sprite>
+        <sprite>sprites\sGripTurnL_fusion_omega</sprite>
+        <sprite>sprites\sGripTurnR_fusion_omega</sprite>
+        <sprite>sprites\sJAimDwnL_fusion_omega</sprite>
+        <sprite>sprites\sJAimDwnR_fusion_omega</sprite>
+        <sprites name="Z Morphball">
+          <sprite>sprites\sAirMorphBall_fusion_omega</sprite>
+          <sprite>sprites\sMorphBall_fusion_omega</sprite>
+          <sprite>sprites\sMorphBallTurn_fusion_omega</sprite>
+          <sprite>sprites\sSpiderMorphBall_fusion_omega</sprite>
+        </sprites>
+        <sprites name="Z Torso">
+          <sprite>sprites\sAirTurn_fusion_omega</sprite>
+          <sprite>sprites\sCrouch_fusion_omega</sprite>
+          <sprite>sprites\sCrouchTurn_fusion_omega</sprite>
+          <sprite>sprites\sLand_fusion_omega</sprite>
+          <sprite>sprites\sTurn_fusion_omega</sprite>
+          <sprite>sprites\sVjump_fusion_omega</sprite>
+          <sprite>sprites\sAimDL_fusion_omega</sprite>
+          <sprite>sprites\sAimDLcr_fusion_omega</sprite>
+          <sprite>sprites\sAimDR_fusion_omega</sprite>
+          <sprite>sprites\sAimL_fusion_omega</sprite>
+          <sprite>sprites\sAimLcr_fusion_omega</sprite>
+          <sprite>sprites\sAimLst_fusion_omega</sprite>
+          <sprite>sprites\sAimR_fusion_omega</sprite>
+          <sprite>sprites\sAimRst_fusion_omega</sprite>
+          <sprite>sprites\sAimUL_fusion_omega</sprite>
+          <sprite>sprites\sAimUpL_fusion_omega</sprite>
+          <sprite>sprites\sAimUpR_fusion_omega</sprite>
+          <sprite>sprites\sAimUR_fusion_omega</sprite>
+          <sprite>sprites\sTAimDL_fusion_omega</sprite>
+          <sprite>sprites\sTAimDR_fusion_omega</sprite>
+          <sprite>sprites\sTAimL_fusion_omega</sprite>
+          <sprite>sprites\sTAimLst_fusion_omega</sprite>
+          <sprite>sprites\sTAimR_fusion_omega</sprite>
+          <sprite>sprites\sTAimRst_fusion_omega</sprite>
+          <sprite>sprites\sTAimUL_fusion_omega</sprite>
+          <sprite>sprites\sTAimUpL_fusion_omega</sprite>
+          <sprite>sprites\sTAimUpR_fusion_omega</sprite>
+          <sprite>sprites\sTAimUR_fusion_omega</sprite>
+        </sprites>
+        <sprite>sprites\sSpaceJumpTrail_fusion_omega</sprite>
+      </sprites>
+      <sprites name="Scanner">
+        <sprite>sprites\sScannerRange1</sprite>
+        <sprite>sprites\sScannerRange2</sprite>
+        <sprite>sprites\sScannerRange3</sprite>
+        <sprite>sprites\sScannerRange4</sprite>
+      </sprites>
+      <sprites name="Health Indicator">
+        <sprite>sprites\sRHealthBar</sprite>
+        <sprite>sprites\sRHealthTank</sprite>
+        <sprite>sprites\sHealthBarStretch</sprite>
+        <sprite>sprites\sHealthTank</sprite>
+        <sprite>sprites\sRHealthArrow</sprite>
+        <sprite>sprites\sGHealthArrow</sprite>
+      </sprites>
+      <sprites name="PBomb Cooldown Bar">
+        <sprite>sprites\sPBombCooldownFull</sprite>
+        <sprite>sprites\sPBombCooldownOverlay</sprite>
+      </sprites>
+      <sprites name="Frozen Player">
+        <sprite>sprites\sCrouchLeftFrozen_fusion</sprite>
+        <sprite>sprites\sCrouchRightFrozen_fusion</sprite>
+        <sprite>sprites\sMorphBallFrozen_fusion</sprite>
+        <sprite>sprites\sStandLeftFrozen_fusion</sprite>
+        <sprite>sprites\sStandRightFrozen_fusion</sprite>
+        <sprite>sprites\sCrouchLeftFrozen</sprite>
+        <sprite>sprites\sCrouchRightFrozen</sprite>
+        <sprite>sprites\sMorphBallFrozen</sprite>
+        <sprite>sprites\sStandLeftFrozen</sprite>
+        <sprite>sprites\sStandRightFrozen</sprite>
+        <sprite>sprites\sVGCrouchLeftFrozen</sprite>
+        <sprite>sprites\sVGCrouchRightFrozen</sprite>
+        <sprite>sprites\sVGMorphBallFrozen</sprite>
+        <sprite>sprites\sVGStandLeftFrozen</sprite>
+        <sprite>sprites\sVGStandRightFrozen</sprite>
+        <sprite>sprites\sNothingFrozen</sprite>
+      </sprites>
+      <sprites name="SA-X Idle">
+        <sprite>sprites\sIdleRightSAX</sprite>
+        <sprite>sprites\sIdleLeftSAX</sprite>
+        <sprite>sprites\sVIdleRightSAX</sprite>
+        <sprite>sprites\sVIdleLeftSAX</sprite>
+        <sprite>sprites\sGIdleRightSAX</sprite>
+        <sprite>sprites\sGIdleLeftSAX</sprite>
+      </sprites>
+      <sprites name="Monitoad">
+        <sprite>sprites\sMonitoad</sprite>
+      </sprites>
+      <sprites name="SA-X Core">
+        <sprite>sprites\sCoreXSAX</sprite>
+      </sprites>
+      <sprite>sprites\sCoreXGravity</sprite>
+      <sprite>sprites\sSpectatorIcon</sprite>
+      <sprite>sprites\sFusionIcon</sprite>
+      <sprite>sprites\sFedtogg</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bgScreenGuide</background>
@@ -3593,6 +5430,8 @@
       <background>background\bgDemoEnd</background>
       <background>background\bgDisclaimer</background>
       <background>background\bgGameOver</background>
+      <background>background\bgSAXGameOver</background>
+      <background>background\bgSamusGameOver</background>
     </backgrounds>
     <backgrounds name="A0">
       <background>background\bgA0Sky</background>
@@ -3716,6 +5555,8 @@
       <background>background\bgScoreScreenPlayerGlow1</background>
       <background>background\bgScoreScreenPlayerGlow2</background>
       <background>background\bgScoreScreenPlayerGlow3</background>
+      <background>background\bgScoreScreenPlayer_fusion_omega</background>
+      <background>background\bgScoreScreenPlayerGlow5</background>
     </backgrounds>
     <backgrounds name="Ending">
       <background>background\bgEnding1</background>
@@ -3786,6 +5627,7 @@
       <background>background\bgA0SkyNight_wide</background>
       <background>background\tlWidescreenBGs</background>
     </backgrounds>
+    <background>background\bgSamCount</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -4295,15 +6137,10 @@
         <script>scripts\sv6_add_seed.gml</script>
         <script>scripts\sv6_get_seed.gml</script>
       </scripts>
-      <scripts name="Shaders">
-        <script>scripts\pal_swap_init_system.gml</script>
-        <script>scripts\pal_swap_set.gml</script>
-      </scripts>
       <script>scripts\skorp_get_lure.gml</script>
       <script>scripts\save_modifiers.gml</script>
       <script>scripts\linux_keys.gml</script>
       <script>scripts\choose_axis_linux.gml</script>
-      <script>scripts\wrap.gml</script>
     </scripts>
     <scripts name="Wanderer">
       <script>scripts\add_trooper_log.gml</script>
@@ -4327,10 +6164,51 @@
       <script>scripts\mus_boss_fadein.gml</script>
       <script>scripts\set_widescreen.gml</script>
     </scripts>
+    <scripts name="Miles">
+      <script>scripts\update_variables.gml</script>
+      <script>scripts\create_buffer.gml</script>
+      <script>scripts\send_seed.gml</script>
+      <script>scripts\popup_text_ext.gml</script>
+      <script>scripts\draw_character_ext.gml</script>
+      <script>scripts\reset_dmap.gml</script>
+      <script>scripts\popup_seed.gml</script>
+      <script>scripts\shoot_beam_receive.gml</script>
+      <script>scripts\shoot_missile_receive.gml</script>
+      <script>scripts\receive_randmod_buffer.gml</script>
+      <script>scripts\PlayFootstepSAX.gml</script>
+    </scripts>
+    <scripts name="Misc">
+      <script>scripts\pal_swap_get_color_count.gml</script>
+      <script>scripts\pal_swap_set_depth.gml</script>
+      <script>scripts\wrap.gml</script>
+      <script>scripts\pal_swap_get_pal_count.gml</script>
+      <script>scripts\pal_swap_reset.gml</script>
+      <script>scripts\findIndex.gml</script>
+      <script>scripts\pal_swap_set.gml</script>
+      <script>scripts\pal_swap_init_system.gml</script>
+      <script>scripts\array_clone.gml</script>
+      <script>scripts\strict_init.gml</script>
+      <script>scripts\strict_compress.gml</script>
+      <script>scripts\strict_decompress.gml</script>
+      <script>scripts\strict_encode_verb.gml</script>
+      <script>scripts\pal_swap_draw_palette.gml</script>
+      <script>scripts\scrConsoleInit.gml</script>
+      <script>scripts\scrConsoleCommandRun.gml</script>
+      <script>scripts\scrConsoleCommandAdd.gml</script>
+      <script>scripts\scrConsoleMain.gml</script>
+      <script>scripts\scrConsoleCleanup.gml</script>
+      <script>scripts\scrConsoleHistoryUpdate.gml</script>
+      <script>scripts\scrConsolePrint.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shGameBoy.shader</shader>
-    <shader type="GLSLES">shaders\shPaletteSwap.shader</shader>
+    <shader type="GLSLES">shaders\shd_grayscale.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper_html_sprite.shader</shader>
+    <shader type="GLSLES">shaders\shd_pal_swapper_html_surface.shader</shader>
+    <shader type="GLSLES">shaders\shd_sepia.shader</shader>
+    <shader type="GLSLES">shaders\shd_thermal.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -4341,6 +6219,7 @@
     <font>fonts\fontMenuTinyDefault</font>
     <font>fonts\fontMenuSmall2Default</font>
     <font>fonts\fontSubScrDefault</font>
+    <font>fonts\font_displayname</font>
   </fonts>
   <objects name="objects">
     <objects name="Test">
@@ -5370,6 +7249,21 @@
       <object>objects\oShroomC</object>
       <object>objects\oAreaIntro</object>
       <object>objects\oA3_Missiles_Glow</object>
+    </objects>
+    <objects name="Miles">
+      <object>objects\oClient</object>
+      <object>objects\oNametag</object>
+      <object>objects\oOptionsMod</object>
+      <object>objects\oOptionLRMod</object>
+      <object>objects\oPopupTextSeed</object>
+      <object>objects\oMflashMulti</object>
+      <object>objects\oBombMulti</object>
+      <object>objects\oPBombMulti</object>
+      <object>objects\oSpeedControl</object>
+      <object>objects\oSBSparkMulti</object>
+      <object>objects\oMultiHitbox</object>
+      <object>objects\oCoreXGravity</object>
+      <object>objects\oDeathSequenceMulti</object>
     </objects>
   </objects>
   <timelines name="timelines">

@@ -27,7 +27,11 @@
             <kind>1</kind>
             <string>playerx = 350;
 playertgtx = -50;
-if (oControl.mod_fusion == 1) playertgtx = 5;
+mod_fusion = oControl.mod_fusion;
+icebeam = global.ibeam;
+saxmode = global.saxmode;
+sax = global.sax;
+if (mod_fusion == 1) playertgtx = 5;
 playery = 18;
 glow1x = -33;
 glow1y = 28;
@@ -63,21 +67,21 @@ state = 0;
 itemstaken = global.itemstaken;
 
 if (global.difficulty == 0) {
-    ending = 276;
+    ending = 278;
     unlock_gallery(0);
 }
 else {
     if (global.gametime &gt;= 864000) {
-        ending = 276;
+        ending = 278;
         unlock_gallery(0);
     }
     if (global.gametime &gt;= 432000 &amp;&amp; global.gametime &lt; 864000) {
-        ending = 277;
+        ending = 279;
         unlock_gallery(1);
         unlock_gallery(0);
     }
     if (global.gametime &lt; 432000) {
-        ending = 278;
+        ending = 280;
         unlock_gallery(2);
         unlock_gallery(1);
         unlock_gallery(0);
@@ -231,13 +235,17 @@ if(round((itemstaken / 88) * 100) &lt; 100) {
             <kind>1</kind>
             <string>if (state == 0) {
     draw_background(bgScoreScreenBG, bgx - (oControl.widescreen_space/2), bgy);
-    if (oControl.mod_fusion == 1) { 
-        draw_background(bgScoreScreenPlayer_fusion, playerx, playery); 
-        } else draw_background(bgScoreScreenPlayer, playerx, playery);
+    if (mod_fusion == 1) { 
+        if(saxmode &amp;&amp; !sax &amp;&amp; icebeam) {
+            draw_background(bgScoreScreenPlayer_fusion_omega, playerx, playery);
+        } else draw_background(bgScoreScreenPlayer_fusion, playerx, playery);
+    } else draw_background(bgScoreScreenPlayer, playerx, playery);
     draw_set_blend_mode(bm_add);
-    if (oControl.mod_fusion == 1)
+    if (mod_fusion == 1)
     {
-        draw_background_ext(bgScoreScreenPlayerGlow4, glow4x, glow4y, 1, 1, 0, -1, glow_alpha);
+        if(saxmode &amp;&amp; !sax &amp;&amp; icebeam) {
+            draw_background_ext(bgScoreScreenPlayerGlow5, glow4x, glow4y, 1, 1, 0, -1, glow_alpha);
+        } else draw_background_ext(bgScoreScreenPlayerGlow4, glow4x, glow4y, 1, 1, 0, -1, glow_alpha);
     }
     else
     {

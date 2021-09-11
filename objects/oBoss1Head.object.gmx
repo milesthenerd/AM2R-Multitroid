@@ -334,6 +334,9 @@ if (state == 100) {
         oMusicV2.bossbgm = sndJump;
         mus_current_fadein();
         dead = true;
+        if(instance_exists(oClient) &amp;&amp; oClient.connected){
+            with(oClient) event_user(8);
+        } 
     }
     if (statetime == 250) {
         repeat (10) {
@@ -375,6 +378,9 @@ if(global.event[51] &gt; 0 &amp;&amp; !dead){
     oMusicV2.bossbgm = sndJump;
     mus_current_fadein();
     dead = true;
+    if(instance_exists(oClient) &amp;&amp; oClient.connected){
+        with(oClient) event_user(8);
+    } 
 }
 </string>
           </argument>

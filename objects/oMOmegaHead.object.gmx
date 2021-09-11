@@ -131,7 +131,9 @@ if (other.x &lt; x) {
 } else pushdir = 1;
 if (other.invincible == 0 &amp;&amp; other.state != 40) {
     oMOmega.damagedealt += oMOmega.damage;
-    damage_player(oMOmega.damage, oMOmega.hpush, oMOmega.vpush, 0, 0);
+    var damageToDeal = oMOmega.damage;
+    if (global.sax) damageToDeal = damageToDeal * 2;
+    damage_player(damageToDeal, oMOmega.hpush, oMOmega.vpush, 0, 0);
 }
 </string>
           </argument>

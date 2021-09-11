@@ -12,7 +12,7 @@ if (plantdrain > 0) {
     draw_character_from_surface(x, y, c_white, 0.8 - fxtimer * 0.2);
     draw_set_blend_mode(bm_normal);
 }
-if (monster_drain > 0 || queen_drain > 0) {
+if (monster_drain > 0 || queen_drain > 0 || pbomb_drain > 0) {
     draw_character_from_surface(x, y, c_red, fxtimer * 0.2);
     draw_set_blend_mode(bm_add);
     draw_character_from_surface(x, y, c_white, 0.8 - fxtimer * 0.2);
@@ -41,10 +41,17 @@ if (state == SPIDERBALL || state == AIRBALL && sball == 1) {
     draw_set_blend_mode(bm_add);
     
     if (oControl.mod_fusion == 1) {
-        switch (global.currentsuit) {
-            case 0: draw_sprite_ext(sSpiderballFX_fusion, -1, x, y, 1, 1, 0, -1, 0.2 + fxtimer * 0.1); break;
-            case 1: draw_sprite_ext(sSpiderballFXVaria_fusion, -1, x, y, 1, 1, 0, -1, 0.2 + fxtimer * 0.1); break;
-            case 2: draw_sprite_ext(sSpiderballFXGravity_fusion, -1, x, y, 1, 1, 0, -1, 0.2 + fxtimer * 0.1); break;
+        var omegaSpider = false;
+        if(global.ibeam){
+            omegaSpider = true;
+            draw_sprite_ext(sSpiderballFX_fusion, -1, x, y, 1, 1, 0, -1, 0.2 + fxtimer * 0.1);
+        }
+        if(!omegaSpider){
+            switch (global.currentsuit) {
+                case 0: draw_sprite_ext(sSpiderballFX_fusion, -1, x, y, 1, 1, 0, -1, 0.2 + fxtimer * 0.1); break;
+                case 1: draw_sprite_ext(sSpiderballFXVaria_fusion, -1, x, y, 1, 1, 0, -1, 0.2 + fxtimer * 0.1); break;
+                case 2: draw_sprite_ext(sSpiderballFXGravity_fusion, -1, x, y, 1, 1, 0, -1, 0.2 + fxtimer * 0.1); break;
+            }
         }
     } 
     else {

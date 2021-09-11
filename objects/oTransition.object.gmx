@@ -28,7 +28,7 @@
             <string>fade = 0;
 moveplayer = 0;
 if (global.transitiontype &gt; 1) event_user(0);
-with (oCharacter) visible = true;
+if(global.spectatorIndex == -1) with (oCharacter) visible = true;
 if(oControl.mod_previous_room == rm_a0h35) global.waterlevel = 0;
 </string>
           </argument>
@@ -67,6 +67,15 @@ if (global.transitiontype == 1) {
         }
         moveplayer += 1;
     } else event_user(0);
+}
+
+if(global.spectatorIndex != -1){
+    with(oCharacter){
+        x = global.targetx;
+        y = global.targety;
+        oCamera.x = x;
+        oCamera.y = y;
+    }
 }
 
 //if (global.widescreen_enabled != oControl.widescreen) oControl.wAlpha = moveplayer/30;
@@ -117,7 +126,24 @@ if ((global.widescreen_enabled != oControl.widescreen) &amp;&amp; (oControl.wide
     //view_visible[2] = false;
 }
 
-room_goto(global.targetroom);
+if(!instance_exists(oClient) &amp;&amp; global.targetroom == rm_transition) global.targetroom = global.lastroom;
+if(instance_exists(oClient) &amp;&amp; ds_list_size(oClient.posData) == 0 &amp;&amp; global.targetroom == rm_transition) global.targetroom = global.lastroom;
+
+if(global.spectatorIndex != -1 &amp;&amp; global.targetroom == rm_transition){
+    if(instance_exists(oClient)){
+        if(ds_list_size(oClient.posData) &gt; 0){
+            for(var f=0; f&lt;ds_list_size(oClient.posData); f++){
+                var arrPos = oClient.posData[| f];
+                var arrPosRoom = arrPos[4];
+                if(f == global.spectatorIndex){
+                    global.targetroom = arrPosRoom;
+                }
+            }
+        }
+    }
+}
+
+if(global.targetroom != rm_transition) room_goto(global.targetroom);
 </string>
           </argument>
         </arguments>

@@ -108,6 +108,8 @@ monster_drain = 0;
 monster_drainfx = 0;
 queen_drain = 0;
 queen_drainfx = 0;
+pbomb_drain = 0;
+pbomb_drainfx = 0;
 // states:
 STANDING = 10;
 RUNNING = 11;
@@ -255,3 +257,7 @@ if (1) {
     alarm[3] = 300;
 } else alarm[3] = 1;
 empspark = -4;
+
+multiBall = 0;
+global.multiDamageCollision = false;
+

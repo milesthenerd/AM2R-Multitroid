@@ -840,9 +840,11 @@ else {
           <argument>
             <kind>1</kind>
             <string>if (myhealth &gt; 0) {
-    if (other.invincible == 0) damagedealt += damage;
-    if (false) damage_player(damage, hpush, vpush, 0, 0);//testing 2x damage
-    else damage_player(damage, hpush, vpush, 0, 0);
+    var damageToDeal = damage;
+    if (global.sax) damageToDeal = damageToDeal * 2;
+    if (other.invincible == 0) damagedealt += damageToDeal;
+    if (false) damage_player(damageToDeal, hpush, vpush, 0, 0);//testing 2x damage
+    else damage_player(damageToDeal, hpush, vpush, 0, 0);
     if (chasing &amp;&amp; hitandrun) {
         xVel = 0;
         yVel = 0;

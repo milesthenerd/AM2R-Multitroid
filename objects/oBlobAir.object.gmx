@@ -47,6 +47,8 @@ parent = -1;
 
 randomx = irandom(room_width);
 randomy = irandom(room_height);
+
+ispeed = image_speed;
 </string>
           </argument>
         </arguments>
@@ -72,6 +74,7 @@ randomy = irandom(room_height);
             <string>action_inherited();
 enemy_active_check(20);
 if (active == 1 &amp;&amp; frozen == 0) {
+    image_speed = ispeed;
     if(state == 0)
     {
         if(statetime &lt; 11)
@@ -116,7 +119,7 @@ if (state == 1) {
         targety = randomy;
         speed = min(12, speed);
     }
-}
+} else speed = 0;
 if (state == 100) enemy_death();
 if (y &gt; global.waterlevel &amp;&amp; global.waterlevel != 0) enemy_death();
 </string>

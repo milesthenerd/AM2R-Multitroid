@@ -71,7 +71,20 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.newgame == 1) {
+            <string>if(global.lobbyLocked &amp;&amp; global.lastroom != gameoverroom){
+    global.spectator = true;
+    global.spectatorIndex = -1;
+    if(global.sax){
+        global.spectator = false;
+        global.spectatorIndex = -1;
+    }
+    global.mosaic = false;
+    //if(global.sax) global.sax = 0;
+}
+global.beingAbsorbed = false;
+global.absorbDone = false;
+
+if (global.newgame == 1) {
     start_new_game();
 } else load_game(working_directory + "\multitroid\save" + string(global.saveslot + 1));
 </string>

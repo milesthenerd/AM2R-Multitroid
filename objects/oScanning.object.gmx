@@ -111,7 +111,7 @@ if (instance_number(object_index) &gt; 1) moreThanOne = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.ophudshowlogmsg) {
+            <string>if (global.ophudshowlogmsg &amp;&amp; !global.saxmode) {
     global.gotolog = lognumber;
     notif = instance_create(0, 0, oNotification);
     notif.text2 = get_text("ScanEvents", "NewLog_Text");
@@ -123,7 +123,7 @@ if (instance_number(object_index) &gt; 1) moreThanOne = true;
 if (mode == 0) {
     global.log[lognumber] = 1;
     global.newlog[lognumber] = 1;
-    if (global.ophudshowlogmsg) notif.text1 = get_text("ScanEvents", "NewLog");
+    if (global.ophudshowlogmsg &amp;&amp; !global.saxmode) notif.text1 = get_text("ScanEvents", "NewLog");
     
     // New header, only on regular scan
     switch lognumber {
@@ -174,7 +174,7 @@ if (mode == 0) {
 if (mode == 1) {
     global.log[lognumber] = 2;
     global.newlog[lognumber] = 1;
-    if (global.ophudshowlogmsg) notif.text1 = get_text("ScanEvents", "UpdateLog");
+    if (global.ophudshowlogmsg &amp;&amp; !global.saxmode) notif.text1 = get_text("ScanEvents", "UpdateLog");
 }
 
 /*if (instance_exists(oAreaIntro)) {
@@ -206,7 +206,7 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.ophudshowlogmsg) {
+            <string>if (global.ophudshowlogmsg &amp;&amp; !global.saxmode) {
     draw_background_ext(bgNotification, view_xview[0] + xoffset - 40 - (53*oControl.widescreen), view_yview[0] + yoffset - 4, 1, 1, 0, -1, image_alpha*0.7);
     draw_sprite_ext(sprite_index, -1, view_xview[0] + xoffset - (53*oControl.widescreen), view_yview[0] + yoffset, 1, 1, 0, -1, image_alpha);
     draw_set_font(fontGUI2);

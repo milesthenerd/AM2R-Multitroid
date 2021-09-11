@@ -207,11 +207,13 @@ if (turning &gt; 0) turning -= 1;
 if (myhealth &gt;= shell1hp) {
     deb = instance_create(x, y, oDebris);
     deb.sprite_index = sShirkArmor1;
+    if(frozen &gt; 0) deb.sprite_index = sShirkArmor1Frozen;
     deb.depth = -4;
 }
 if (myhealth &gt;= shell2hp) {
     deb = instance_create(x, y, oDebris);
     deb.sprite_index = sShirkArmor2;
+    if(frozen &gt; 0) deb.sprite_index = sShirkArmor2Frozen;
     deb.depth = -4;
 }
 </string>
@@ -239,6 +241,7 @@ if (myhealth &gt;= shell2hp) {
             <string>event_inherited();
 deb = instance_create(x, y, oDebris);
 deb.sprite_index = sShirkArmor2;
+if(frozen &gt; 0) deb.sprite_index = sShirkArmor2Frozen;
 deb.depth = -4;
 </string>
           </argument>
@@ -271,6 +274,7 @@ deb.depth = -4;
     repeat (8) instance_create(x, y, oDebris);
     deb = instance_create(x, y, oDebris);
     deb.sprite_index = sShirkArmor1;
+    if(frozen &gt; 0) deb.sprite_index = sShirkArmor1Frozen;
     deb.depth = -4;
 }
 if (myhealth &lt;= shell2hp &amp;&amp; prevhealth &gt; shell2hp) {
@@ -282,6 +286,7 @@ if (myhealth &lt;= shell2hp &amp;&amp; prevhealth &gt; shell2hp) {
     repeat (8) instance_create(x, y, oDebris);
     deb = instance_create(x, y, oDebris);
     deb.sprite_index = sShirkArmor2;
+    if(frozen &gt; 0) deb.sprite_index = sShirkArmor2Frozen;
     deb.depth = -4;
 }
 if (myhealth &lt;= 0 &amp;&amp; prevhealth &gt; 0) {

@@ -210,6 +210,7 @@ global.floormaterial = 1;</code>
     <instance objName="oCameraLimit" x="1184" y="160" name="inst_102807" locked="0" code="&#xA;areax = 240;&#xA;areay = -120;&#xA;lockx = 0;&#xA;locky = 120;&#xA;wall = 0;&#xA;smoothin = 15;&#xA;smoothout = 15;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oGotoRoom" x="0" y="608" name="inst_102808" locked="0" code="&#xA;targetroom = rm_a0h07;&#xA;targetx = 1264;&#xA;targety = 128;&#xA;height = 64;&#xA;direction = 180;&#xA;camstartx = 1264;&#xA;camstarty = 120;&#xA;transitionx = 316;&#xA;transitiony = 128;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oCameraWallL" x="960" y="544" name="inst_102809" locked="0" code="&#xA;areax = 160;&#xA;areay = -720;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="1232" y="80" name="inst_0B029596" locked="0" code="if(global.saxmode){&#xA;    if(!global.sax) instance_destroy();&#xA;} else instance_destroy();" scaleX="1" scaleY="5" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="tlRock1BG" x="1168" y="192" w="32" h="32" xo="32" yo="32" id="10011876" name="tile_10011876" depth="100" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

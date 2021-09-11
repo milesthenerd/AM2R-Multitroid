@@ -142,6 +142,11 @@ if (oControl.kMissile &amp;&amp; oControl.kSelectPushedSteps == 0 &amp;&amp; !mi
 }
 
 if (missilepressed &amp;&amp; !oControl.kMissile) { missilepressed = false; }
+
+if(global.saxmode &amp;&amp; global.enemyNearby){
+    fadeout = 1;
+    active = 0;
+}
 </string>
           </argument>
         </arguments>

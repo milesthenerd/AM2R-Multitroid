@@ -76,8 +76,8 @@ if (oControl.mod_gravity != 9) instance_create(152, 160, scr_itemsopen(oControl.
     <instance objName="oSlopeFL1" x="256" y="144" name="inst_135809" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="112" y="160" name="inst_135810" locked="0" code="" scaleX="6" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oGravityPodGlow" x="160" y="160" name="inst_135811" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oGravityPod" x="160" y="160" name="inst_135812" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oGravityPodTrigger" x="152" y="152" name="inst_135813" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oGravityPod" x="160" y="160" name="inst_135812" locked="0" code="if(global.sax &amp;&amp; global.saxmode) { closed = 1; xoff = 0; }&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oGravityPodTrigger" x="152" y="152" name="inst_135813" locked="0" code="if(global.sax &amp;&amp; global.saxmode) instance_destroy();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid4x1" x="320" y="64" name="inst_BF39513C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid4x1" x="320" y="144" name="inst_6C31DCBD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>

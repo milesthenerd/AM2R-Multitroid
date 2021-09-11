@@ -29,6 +29,7 @@
 itemid = 11;
 text1 = get_text("Items", "IceBeam");
 text2 = get_text("Items", "IceBeam_Text");
+if(global.saxmode) instance_destroy();
 </string>
           </argument>
         </arguments>
@@ -53,6 +54,9 @@ text2 = get_text("Items", "IceBeam_Text");
             <kind>1</kind>
             <string>event_inherited();
 if (active) global.ibeam = 1;
+if(instance_exists(oClient) &amp;&amp; oClient.connected){
+    with(oClient) event_user(8);
+} 
 </string>
           </argument>
         </arguments>

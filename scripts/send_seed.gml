@@ -2,9 +2,9 @@
 var str, currSeed;
 str = "Seed sent";
 currSeed = oClient.seed;
-if(oControl.mod_usemanualseed){
+if(global.multiCustomSeed != 0){
     str = "Manual seed sent";
-    currSeed = oControl.mod_seed;
+    currSeed = global.multiCustomSeed;
 }
 
 var size, type, alignment;

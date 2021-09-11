@@ -66,6 +66,7 @@ pbombsTimer = 10;
 teleportTimer = 180;
 disconnectTimer = 900;
 pingTimer = 90;
+currentItemsTimer = 120;
 resetTimer = -1;
 teleport = false;
 noName = false;
@@ -159,6 +160,7 @@ switch(preferredcolor){
         break;
 }
 
+/*
 switch(showName){
     case "disabled":
         showName = false;
@@ -167,6 +169,7 @@ switch(showName){
         showName = true;
         break;
 }
+*/
 
 var size, type, alignment;
 size = 1024;
@@ -182,6 +185,7 @@ global.prevX = 0;
 global.prevY = 0;
 global.prevSprite = 0;
 global.prevIndex = 0;
+global.prevInvincible = 0;
 
 global.roomPrev = room;
 
@@ -200,6 +204,10 @@ roomListData = ds_list_create();
 global.idList = ds_list_create();
 posData = ds_list_create();
 global.hatchlingList = ds_list_create();
+global.speedList = ds_list_create();
+global.screwList = ds_list_create();
+global.hitboxList = ds_list_create();
+global.otherPlayerItems = ds_list_create();
 ds_grid_clear(global.onlineSend, -1);
 ds_grid_clear(global.onlineReceived, -1);
 for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
@@ -224,9 +232,16 @@ time = 60;
 trail = 0;
 
 //global.icemissiles = 1;
-
-banned = false;
 kicked = false;
+banned = false;
+
+SJSTART = 29;
+SUPERJUMP = 30;
+SJEND = 31;
+HURT = 32;
+
+sizeX = 1;
+sizeY = 1;
 </string>
           </argument>
         </arguments>
@@ -264,11 +279,13 @@ kicked = false;
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 254);
     buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u8, global.sax);
     var bufferSize = buffer_tell(buffer);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 254);
     buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u8, global.sax);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
@@ -286,6 +303,10 @@ if(!noName){
     ds_list_destroy(global.idList);
     ds_list_destroy(posData);
     ds_list_destroy(global.hatchlingList);
+    ds_list_destroy(global.speedList);
+    ds_list_destroy(global.screwList);
+    ds_list_destroy(global.hitboxList);
+    ds_list_destroy(global.otherPlayerItems);
 }
 
 global.canConnect = false;
@@ -293,6 +314,12 @@ oControl.alarm[10] = 90;
 
 if(banned) popup_text("Banned from server");
 if(kicked) popup_text("Kicked from server");
+
+global.spectator = false;
+global.spectatorIndex = -1;
+global.saxmode = 0;
+global.sax = 0;
+global.moderator = false;
 </string>
           </argument>
         </arguments>
@@ -327,6 +354,8 @@ buffer_write(buffer, buffer_u8, global.clientID);
 buffer_write(buffer, buffer_s16, room);
 buffer_write(buffer, buffer_s16, posX);
 buffer_write(buffer, buffer_s16, posY);
+buffer_write(buffer, buffer_u8, global.sax);
+buffer_write(buffer, buffer_u8, global.spectator);
 var bufferSize = buffer_tell(buffer);
 buffer_seek(buffer, buffer_seek_start, 0);
 buffer_write(buffer, buffer_s32, bufferSize);
@@ -335,11 +364,9 @@ buffer_write(buffer, buffer_u8, global.clientID);
 buffer_write(buffer, buffer_s16, room);
 buffer_write(buffer, buffer_s16, posX);
 buffer_write(buffer, buffer_s16, posY);
+buffer_write(buffer, buffer_u8, global.sax);
+buffer_write(buffer, buffer_u8, global.spectator);
 var result = network_send_packet(socket, buffer, buffer_tell(buffer));
-
-if(ds_list_size(posData)){
-    
-}
 
 alarm[11] = 20;
 </string>
@@ -364,9 +391,10 @@ alarm[11] = 20;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(sameRoom){
+            <string>var mosaicEffect = false;
+if(sameRoom){
     if(instance_exists(oCharacter)){
-        if(oCharacter.x != global.prevX || oCharacter.y != global.prevY || global.roomPrev != room || global.prevSprite != oCharacter.sprite_index || global.prevIndex != oCharacter.image_index){
+        if(oCharacter.x != global.prevX || oCharacter.y != global.prevY || global.roomPrev != room || global.prevSprite != oCharacter.sprite_index || global.prevIndex != oCharacter.image_index || global.prevInvincible != oCharacter.invincible || global.mosaic){
             if(global.prevX != oCharacter.x){
                 global.prevX = oCharacter.x;
             }
@@ -379,6 +407,13 @@ alarm[11] = 20;
             if(global.prevIndex != oCharacter.image_index){
                 global.prevIndex = oCharacter.image_index;
             }
+            if(global.prevInvincible != oCharacter.invincible){
+                global.prevInvincible = oCharacter.invincible;
+            }
+            if(global.mosaic || global.reform){
+                mosaicEffect = true;
+            } else mosaicEffect = false;
+            
             buffer_delete(buffer);
             var size, type, alignment;
             size = 1024;
@@ -407,7 +442,17 @@ alarm[11] = 20;
             buffer_write(buffer, buffer_s8, oCharacter.fxtimer);
             buffer_write(buffer, buffer_s16, global.roomPrev);
             buffer_write(buffer, buffer_s8, oCharacter.state);
+            buffer_write(buffer, buffer_s8, global.sax);
             buffer_write(buffer, buffer_s8, oCharacter.speedboost);
+            buffer_write(buffer, buffer_s8, oCharacter.sjball);
+            buffer_write(buffer, buffer_s8, oCharacter.sjdir);
+            buffer_write(buffer, buffer_u8, oCharacter.charge);
+            buffer_write(buffer, buffer_s16, global.playerhealth);
+            buffer_write(buffer, buffer_u8, global.spectator);
+            buffer_write(buffer, buffer_u8, oCharacter.invincible);
+            buffer_write(buffer, buffer_u8, global.mosaic);
+            buffer_write(buffer, buffer_u8, global.reform);
+            buffer_write(buffer, buffer_u8, oCharacter.visible);
             var bufferSize = buffer_tell(buffer);
             buffer_seek(buffer, buffer_seek_start, 0);
             buffer_write(buffer, buffer_s32, bufferSize);
@@ -432,7 +477,17 @@ alarm[11] = 20;
             buffer_write(buffer, buffer_s8, oCharacter.fxtimer);
             buffer_write(buffer, buffer_s16, global.roomPrev);
             buffer_write(buffer, buffer_s8, oCharacter.state);
+            buffer_write(buffer, buffer_s8, global.sax);
             buffer_write(buffer, buffer_s8, oCharacter.speedboost);
+            buffer_write(buffer, buffer_s8, oCharacter.sjball);
+            buffer_write(buffer, buffer_s8, oCharacter.sjdir);
+            buffer_write(buffer, buffer_u8, oCharacter.charge);
+            buffer_write(buffer, buffer_s16, global.playerhealth);
+            buffer_write(buffer, buffer_u8, global.spectator);
+            buffer_write(buffer, buffer_u8, oCharacter.invincible);
+            buffer_write(buffer, buffer_u8, global.mosaic);
+            buffer_write(buffer, buffer_u8, global.reform);
+            buffer_write(buffer, buffer_u8, oCharacter.visible);
             var result = network_send_packet(socket, buffer, buffer_tell(buffer));
             if(global.roomPrev != room){
                 global.roomPrev = room;
@@ -440,7 +495,10 @@ alarm[11] = 20;
         }
     }
 }
-alarm[10] = 3;
+if(mosaicEffect){
+    alarm[10] = 1;
+} else alarm[10] = 2;
+
 </string>
           </argument>
         </arguments>
@@ -1074,7 +1132,12 @@ for(var i=0; i&lt;ds_grid_height(global.onlineList); i++){
         global.onlineSend[# 0, i] = global.onlineList[# 0, i];
         global.onlineSend[# 1, i] = global.onlineList[# 1, i];
         global.onlineSend[# 2, i] = global.onlineList[# 2, i];
-        show_debug_message(string(global.onlineList[# 0, i]) + " " + string(global.onlineList[# 1, i]) + " " + string(global.onlineList[# 2, i]));
+        //Update prev to current
+        update_variables("disablesame");
+        update_variables("replaceglobalvars");
+        update_variables("updateprev");
+        
+        //show_debug_message(string(global.onlineList[# 0, i]) + " " + string(global.onlineList[# 1, i]) + " " + string(global.onlineList[# 2, i]));
         canSend = true;
         alarm[0] = 600;
     }
@@ -1198,11 +1261,13 @@ if(itemCount != global.itemstaken){
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_u8, 1);
         buffer_write(buffer, buffer_string, name);
+        buffer_write(buffer, buffer_u8, global.sax);
         var bufferSize = buffer_tell(buffer);
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_s32, bufferSize);
         buffer_write(buffer, buffer_u8, 1);
         buffer_write(buffer, buffer_string, name);
+        buffer_write(buffer, buffer_u8, global.sax);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         instance_create(x, y, oNametag);
     } else {
@@ -1211,11 +1276,6 @@ if(itemCount != global.itemstaken){
     }
 }
 
-if(instance_exists(oCharacter)){
-    if(global.event[203] &lt; 9 &amp;&amp; string_lower(reactorsequence) == "disabled"){
-        global.event[203] = 9;
-    }
-}
 //Ensure Arachnus event syncs properly
 if(global.event[103] &gt; 0){
     global.event[103] = floor(global.event[103]);
@@ -1229,6 +1289,12 @@ if(global.event[303] &gt; 0){
 //Changes drill event to already be done
 if(global.event[172] != 3){
     global.event[172] = 3;
+}
+
+//Fix lavastate in NG+ and RG+
+if(global.gamemode &gt; 1 || global.saxmode){
+    if(global.gamemode == 1) global.gamemode = 2;
+    if(global.lavastate &lt; 7) global.lavastate = 7;
 }
 
 if(room == rm_death){
@@ -1287,16 +1353,11 @@ if(keyboard_check_pressed(vk_f3)){
 }
 
 if(keyboard_check_pressed(vk_f4)){
-    showName = -showName;
-    switch(showName){
-    case 0:
-        oControl.showname = "disabled";
-        popup_text("Nametags disabled");
-        break;
-    case 1:
+    if(oControl.showname == "disabled"){
         oControl.showname = "enabled";
-        popup_text("Nametags enabled");
-        break;
+    }
+    if(oControl.showname == "enabled"){
+        oControl.showname = "disabled";
     }
 }
 
@@ -1362,6 +1423,13 @@ if(time == 0 &amp;&amp; connected &amp;&amp; instance_exists(self)){ //why do i 
             var findID = ds_list_find_index(checkListID, arr[0]);
             if(findID &lt; 0){
                 ds_list_delete(posData, i);
+            }
+        }
+        for(var i=0; i&lt;ds_list_size(global.otherPlayerItems); i++){
+            var arr = global.otherPlayerItems[| i];
+            var findID = ds_list_find_index(checkListID, arr[0]);
+            if(findID &lt; 0){
+                ds_list_delete(global.otherPlayerItems, i);
             }
         }
         ds_list_destroy(checkListID);
@@ -1702,7 +1770,7 @@ if(disconnectTimer &lt;= 0){
 }
 
 if(pingTimer &lt;= 0){
-    pingTimer = 90;
+    pingTimer = 5;
     buffer_delete(buffer);
     var size, type, alignment;
     size = 1024;
@@ -1712,11 +1780,13 @@ if(pingTimer &lt;= 0){
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 103);
     buffer_write(buffer, buffer_u32, current_time);
+    buffer_write(buffer, buffer_u16, global.ping);
     var bufferSize = buffer_tell(buffer);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 103);
     buffer_write(buffer, buffer_u32, current_time);
+    buffer_write(buffer, buffer_u16, global.ping);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
@@ -1736,7 +1806,45 @@ if(resetTimer == 0){
     buffer_write(buffer, buffer_u8, 20);
     buffer_write(buffer, buffer_u8, global.clientID);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
-    show_debug_message("it sent why doesn't this work pls");
+}
+
+if(currentItemsTimer == 0 &amp;&amp; connected){
+    currentItemsTimer = 120;
+    buffer_delete(buffer);
+    var size, type, alignment;
+    size = 1024;
+    type = buffer_grow;
+    alignment = 1;
+    buffer = buffer_create(size, type, alignment);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_u8, 104);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u8, global.spacejump);
+    buffer_write(buffer, buffer_u8, global.screwattack);
+    buffer_write(buffer, buffer_u8, global.spiderball);
+    buffer_write(buffer, buffer_u8, global.speedbooster);
+    buffer_write(buffer, buffer_u8, global.bomb);
+    buffer_write(buffer, buffer_u8, global.ibeam);
+    buffer_write(buffer, buffer_u8, global.wbeam);
+    buffer_write(buffer, buffer_u8, global.pbeam);
+    buffer_write(buffer, buffer_u8, global.sbeam);
+    buffer_write(buffer, buffer_u8, global.cbeam);
+    var bufferSize = buffer_tell(buffer);
+    buffer_seek(buffer, buffer_seek_start, 0);
+    buffer_write(buffer, buffer_s32, bufferSize);
+    buffer_write(buffer, buffer_u8, 104);
+    buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u8, global.spacejump);
+    buffer_write(buffer, buffer_u8, global.screwattack);
+    buffer_write(buffer, buffer_u8, global.spiderball);
+    buffer_write(buffer, buffer_u8, global.speedbooster);
+    buffer_write(buffer, buffer_u8, global.bomb);
+    buffer_write(buffer, buffer_u8, global.ibeam);
+    buffer_write(buffer, buffer_u8, global.wbeam);
+    buffer_write(buffer, buffer_u8, global.pbeam);
+    buffer_write(buffer, buffer_u8, global.sbeam);
+    buffer_write(buffer, buffer_u8, global.cbeam);
+    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
 time--;
@@ -1752,6 +1860,7 @@ smissilesTimer--;
 pbombsTimer--;
 disconnectTimer--;
 pingTimer--;
+currentItemsTimer--;
 
 if(resetTimer &gt; -1){
     resetTimer--;
@@ -1764,6 +1873,7 @@ if(instance_exists(self)){
             var arrID = arrList[0];
             var arrX = arrList[1];
             var arrY = arrList[2];
+            var arrName = arrList[15];
             var findHatchlingID = ds_list_find_index(global.hatchlingList, arrID);
             if(instance_exists(oHatchling)){
                 if(findHatchlingID == -1){
@@ -1773,6 +1883,7 @@ if(instance_exists(self)){
                         targetx = arrX;
                         targety = arrY;
                         myid = arrID;
+                        name = arrName;
                     }
                 }
             } else {
@@ -1791,31 +1902,147 @@ if(instance_exists(self)){
 switch(syncedDifficulty){
     case 0:
         //Easy
-        if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
-        if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
-        if(oControl.mod_diffmult != 1) oControl.mod_diffmult = 1;
+        if(global.saxmode &amp;&amp; !global.sax){
+            if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+            if(oControl.mod_fusion != 1) oControl.mod_fusion = 1;
+            if(oControl.mod_diffmult != 1) oControl.mod_diffmult = 1;
+        } else {
+            if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+            if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
+            if(oControl.mod_diffmult != 1) oControl.mod_diffmult = 1;
+        }
         break;
     case 1:
         //Normal
-        if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
-        if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
-        if(oControl.mod_diffmult != 1) oControl.mod_diffmult = 1;
+        if(global.saxmode &amp;&amp; !global.sax){
+            if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+            if(oControl.mod_fusion != 1) oControl.mod_fusion = 1;
+            if(oControl.mod_diffmult != 1) oControl.mod_diffmult = 1;
+        } else {
+            if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+            if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
+            if(oControl.mod_diffmult != 1) oControl.mod_diffmult = 1;
+        }
         break;        
     case 2:
         //Hard
-        if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
-        if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
-        if(oControl.mod_diffmult != 2) oControl.mod_diffmult = 2;
+        if(global.saxmode &amp;&amp; !global.sax){
+            if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+            if(oControl.mod_fusion != 1) oControl.mod_fusion = 1;
+            if(oControl.mod_diffmult != 2) oControl.mod_diffmult = 2;
+        } else {
+            if(global.difficulty != syncedDifficulty) global.difficulty = syncedDifficulty;
+            if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
+            if(oControl.mod_diffmult != 2) oControl.mod_diffmult = 2;
+        }
         break;
     case 3:
         //Fusion
-        if(global.difficulty != 2) global.difficulty = 2;
-        if(oControl.mod_fusion != 1) oControl.mod_fusion = 1;
-        if(oControl.mod_diffmult != 4) oControl.mod_diffmult = 4;
+        if(global.saxmode &amp;&amp; !global.sax){
+            if(global.difficulty != 2) global.difficulty = 2;
+            if(oControl.mod_fusion != 1) oControl.mod_fusion = 1;
+            if(oControl.mod_diffmult != 4) oControl.mod_diffmult = 4;
+        } else if(global.saxmode &amp;&amp; global.sax){
+            if(global.difficulty != 2) global.difficulty = 2;
+            if(oControl.mod_fusion != 0) oControl.mod_fusion = 0;
+            if(oControl.mod_diffmult != 4) oControl.mod_diffmult = 4;
+        } else {
+            if(global.difficulty != 2) global.difficulty = 2;
+            if(oControl.mod_fusion != 1) oControl.mod_fusion = 1;
+            if(oControl.mod_diffmult != 4) oControl.mod_diffmult = 4;
+        }
         break;
 }
 
 if(oControl.mod_monstersextremecheck != elm) oControl.mod_monstersextremecheck = elm;
+
+if((!global.ingame || !global.opshowhud) &amp;&amp; global.saxmode){
+    var lowestPosX = 1000;
+    var lowestPosY = 1000;
+    var enemyCount = 0;
+    for(var i=0; i&lt;ds_list_size(oClient.posData); i++){
+        var arrData = oClient.posData[| i];
+        var ID = arrData[0];
+        var xDiff = oClient.posX - arrData[1];
+        var yDiff = oClient.posY - arrData[2];
+        var sax = arrData[3];
+        var spectator = arrData[5];
+        if((abs(xDiff) &lt; lowestPosX || abs(yDiff) &lt; lowestPosY) &amp;&amp; sax != global.sax &amp;&amp; ID != global.clientID){
+            if(spectator){
+                if(sax){
+                    lowestPosX = abs(xDiff);
+                    lowestPosY = abs(yDiff);   
+                }
+            } else {
+                lowestPosX = abs(xDiff);
+                lowestPosY = abs(yDiff);
+            }
+        }
+        if(sax != global.sax) enemyCount++;
+    }
+    
+    if(ds_list_size(oClient.posData) == 0 || enemyCount == 0){
+        global.scannerSprite = sScannerRange4;
+        global.enemyNearby = false;
+        global.inMusSAXRange = false;
+    }
+    
+    if(enemyCount &gt; 0){
+        if((abs(lowestPosX) &gt; 5 || abs(lowestPosY) &gt; 5)){
+            global.inMusSAXRange = false;
+        }
+        if((abs(lowestPosX) &lt;= 5 &amp;&amp; abs(lowestPosY) &lt;= 5)){
+            global.inMusSAXRange = true;
+        }
+        if((abs(lowestPosX) &gt; 4 || abs(lowestPosY) &gt; 4)){
+            global.enemyNearby = false;
+            global.scannerSprite = sScannerRange4;
+        }
+        if((abs(lowestPosX) &lt;= 4 &amp;&amp; abs(lowestPosY) &lt;= 4)){
+            global.enemyNearby = false;
+            global.scannerSpeedMax = 5;
+            global.scannerSprite = sScannerRange3;
+        }
+        if((abs(lowestPosX) &lt;= 3 &amp;&amp; abs(lowestPosY) &lt;= 3)){
+            global.enemyNearby = true;
+        }
+        if((abs(lowestPosX) &lt;= 2 &amp;&amp; abs(lowestPosY) &lt;= 2)){
+            global.enemyNearby = true;
+            global.scannerSpeedMax = 4;
+            global.scannerSprite = sScannerRange2;
+        }
+        if((abs(lowestPosX) &lt;= 1 &amp;&amp; abs(lowestPosY) &lt;= 1)){
+            global.enemyNearby = true;
+            global.scannerSpeedMax = 3;
+            global.scannerSprite = sScannerRange1;
+        }
+        if((abs(lowestPosX) == 0 &amp;&amp; abs(lowestPosY) == 0)){
+            global.enemyNearby = true;
+            global.scannerSpeedMax = 2;
+            global.scannerSprite = sScannerRange1;
+        }        
+    }
+}
+
+if(connected &amp;&amp; room == rm_a1h01 &amp;&amp; global.event[51] == 0 &amp;&amp; global.log[21] &gt; 0 &amp;&amp; global.sax &amp;&amp; global.saxmode){
+    var playerInBossRoom = false;
+    if(ds_list_size(oClient.posData) &gt; 0){
+        for(var i=0; i&lt;ds_list_size(oClient.posData); i++){
+            var arrMapIcon = oClient.posData[| i];
+            var sax = arrMapIcon[3];
+            var playerRoom = arrMapIcon[4];
+            if(sax != global.sax &amp;&amp; playerRoom == rm_a1h01){
+                playerInBossRoom = true;
+            }
+        }
+    }
+    
+    if(playerInBossRoom){
+        global.targetx = 1200;
+        global.targety = 160;
+        room_change(rm_a0h08, 1);
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -1922,7 +2149,19 @@ switch(type_event){
                 var clientFXTimer = buffer_read(_buffer, buffer_s8);
                 var clientRoomPrev = buffer_read(_buffer, buffer_s16);
                 var clientState = buffer_read(_buffer, buffer_u8);
+                var clientSAX = buffer_read(_buffer, buffer_u8);
+                var clientSpeedboost = buffer_read(_buffer, buffer_u8);
+                var clientSJBall = buffer_read(_buffer, buffer_u8);
+                var clientSJDir = buffer_read(_buffer, buffer_u8);
+                var clientSpeedCharge = buffer_read(_buffer, buffer_u8);
+                var clientPlayerHealth = buffer_read(_buffer, buffer_s16);
                 var findsocket = ds_list_find_index(roomList, clientID);
+                var clientSpectator = buffer_read(_buffer, buffer_u8);
+                var clientInvincible = buffer_read(_buffer, buffer_u8);
+                var clientMosaic = buffer_read(_buffer, buffer_u8);
+                var clientReform = buffer_read(_buffer, buffer_u8);
+                var clientVisible = buffer_read(_buffer, buffer_u8);
+                
                 if(global.clientID != clientID){
                     if(findsocket &lt; 0){
                         if(clientRoom == room || clientRoom == rm_options || clientRoom == itemroom || clientRoom == subscreenroom || clientRoom == maproom || clientRoom == rm_subscreen){
@@ -1948,6 +2187,17 @@ switch(type_event){
                             arr[17] = clientFXTimer;
                             arr[18] = clientRoomPrev;
                             arr[19] = clientState;
+                            arr[20] = clientSAX;
+                            arr[21] = clientSpeedboost;
+                            arr[22] = clientSJBall;
+                            arr[23] = clientSJDir;
+                            arr[24] = clientSpeedCharge;
+                            arr[25] = clientPlayerHealth;
+                            arr[26] = clientSpectator;
+                            arr[27] = clientInvincible;
+                            arr[28] = clientMosaic;
+                            arr[29] = clientReform;
+                            arr[30] = clientVisible;
                             ds_list_add(roomListData, arr);
                         }
                     } else {
@@ -1972,6 +2222,17 @@ switch(type_event){
                         arr[17] = clientFXTimer;
                         arr[18] = clientRoomPrev;
                         arr[19] = clientState;
+                        arr[20] = clientSAX;
+                        arr[21] = clientSpeedboost;
+                        arr[22] = clientSJBall;
+                        arr[23] = clientSJDir;
+                        arr[24] = clientSpeedCharge;
+                        arr[25] = clientPlayerHealth;
+                        arr[26] = clientSpectator;
+                        arr[27] = clientInvincible;
+                        arr[28] = clientMosaic;
+                        arr[29] = clientReform;
+                        arr[30] = clientVisible;
                         var indexValue = ds_list_find_value(roomList, findsocket);
                         for(var i=0; i&lt;ds_list_size(roomListData); i++){
                                 var arrList = roomListData[| i];
@@ -1998,6 +2259,8 @@ switch(type_event){
                 var clientRoom = buffer_read(_buffer, buffer_s16);
                 var clientMapX = buffer_read(_buffer, buffer_s16);
                 var clientMapY = buffer_read(_buffer, buffer_s16);
+                var sax = buffer_read(_buffer, buffer_u8);
+                var spectator = buffer_read(_buffer, buffer_u8);
                 var findsocket = ds_list_find_index(roomList, clientID);
                 
                 /*
@@ -2050,6 +2313,9 @@ switch(type_event){
                             arrPosData[0] = clientID;
                             arrPosData[1] = clientMapX;
                             arrPosData[2] = clientMapY;
+                            arrPosData[3] = sax;
+                            arrPosData[4] = clientRoom;
+                            arrPosData[5] = spectator;
                             for(var v=0; v&lt;ds_list_size(posData); v++){
                                 var arr = posData[| v];
                                 ds_list_add(checkList, arr[0]);
@@ -2068,6 +2334,9 @@ switch(type_event){
                             arrPosData[0] = clientID;
                             arrPosData[1] = clientMapX;
                             arrPosData[2] = clientMapY;
+                            arrPosData[3] = sax;
+                            arrPosData[4] = clientRoom;
+                            arrPosData[5] = spectator;
                             ds_list_add(posData, arrPosData);
                             if(instance_exists(oMapCursor) &amp;&amp; surface_exists(oSS_Control.s_map)){
                                 surface_free(oSS_Control.s_map);
@@ -2077,7 +2346,7 @@ switch(type_event){
                 }
                 ds_list_destroy(checkList);
                 
-                if(clientRoom == rm_a4b01 &amp;&amp; room != rm_a4b01 &amp;&amp; global.event[203] &gt; 0 &amp;&amp; global.event[203] &lt; 9 &amp;&amp; !teleport &amp;&amp; string_lower(reactorsequence) == "synced"){
+                if(clientRoom == rm_a4b01 &amp;&amp; room != rm_a4b01 &amp;&amp; global.event[203] &gt; 0 &amp;&amp; global.event[203] &lt; 9 &amp;&amp; !teleport){
                     if(room == rm_a4b02 || room == rm_a4b03 || room == rm_a4b04 || room == rm_a4b05 || room == rm_a4b06 || room == rm_a4b07 || room == rm_a4b08 || room == rm_a4b09 || room == rm_a4b10 || room == rm_a4b11 || room == rm_a4b12 || room == rm_a4b13 || room == rm_a4b14 || room == rm_a4b15 || room == rm_a4b16 || room == rm_a4b17 || room == rm_a4b18 || room == rm_a4b19){
                         teleport = true;
                         global.targetx = 624;
@@ -2117,6 +2386,150 @@ switch(type_event){
             case 107:
                 disconnectTimer = -10;
                 break;
+            case 108:
+                var clientID = buffer_read(_buffer, buffer_u8);
+                var team = buffer_read(_buffer, buffer_u8);
+                var spacejump = buffer_read(_buffer, buffer_u8);
+                var screwattack = buffer_read(_buffer, buffer_u8);
+                var spiderball = buffer_read(_buffer, buffer_u8);
+                var speedbooster = buffer_read(_buffer, buffer_u8);
+                var bomb = buffer_read(_buffer, buffer_u8);
+                var ibeam = buffer_read(_buffer, buffer_u8);
+                var wbeam = buffer_read(_buffer, buffer_u8);
+                var pbeam = buffer_read(_buffer, buffer_u8);
+                var sbeam = buffer_read(_buffer, buffer_u8);
+                var cbeam = buffer_read(_buffer, buffer_u8);
+                var otherItemArr;
+                otherItemArr[0] = clientID;
+                otherItemArr[1] = team;
+                otherItemArr[2] = spacejump;
+                otherItemArr[3] = screwattack;
+                otherItemArr[4] = spiderball;
+                otherItemArr[5] = speedbooster;
+                otherItemArr[6] = bomb;
+                otherItemArr[7] = ibeam;
+                otherItemArr[8] = wbeam;
+                otherItemArr[9] = pbeam;
+                otherItemArr[10] = sbeam;
+                otherItemArr[11] = cbeam;
+                if(ds_list_size(global.otherPlayerItems) == 0){
+                    ds_list_add(global.otherPlayerItems, otherItemArr);
+                } else {
+                    var IDCheck = 0;
+                    for(var i=0; i&lt;ds_list_size(global.otherPlayerItems); i++){
+                        var tempArr = global.otherPlayerItems[| i];
+                        var ID = tempArr[0];
+                        if(ID == clientID){
+                            IDCheck = 1;
+                            global.otherPlayerItems[| i] = otherItemArr;
+                        }
+                    }
+                    
+                    if(!IDCheck){
+                        ds_list_add(global.otherPlayerItems, otherItemArr);
+                    }
+                }
+                break;
+            case 109:
+                global.showHealthIndicatorsTimer = 15 * 60;
+                break;
+            case 110:
+                var checkBeam = buffer_read(_buffer, buffer_u8);
+                var checkMissile = buffer_read(_buffer, buffer_u8);
+                var checkDamage = buffer_read(_buffer, buffer_u8);
+                var checkFreeze = buffer_read(_buffer, buffer_u8); 
+                if(checkMissile &amp;&amp; global.playerFreeze &gt; 151) break;
+                if(instance_exists(oCharacter) &amp;&amp; oCharacter.invincible == 0){
+                    with(oCharacter){
+                        damageDir = -1;
+                        knockbackY = -3;
+                        global.multiDamageCollision = true;
+                        if(checkBeam){
+                            otherOBJ = oBeam; 
+                            global.ignoreKnockback = true;
+                        }
+                        if(checkMissile) otherOBJ = oMissile;
+                        if(checkMissile &amp;&amp; global.playerFreeze &gt; 0 &amp;&amp; global.playerFreeze &lt;= 151 &amp;&amp; !global.frozenNormally) global.playerFreeze = 1;
+                        if(global.frozenNormally) show_debug_message("normal freeze");
+                        if(checkFreeze &amp;&amp; global.playerFreeze == 0 &amp;&amp; !global.frozenNormally){
+                            if(checkBeam &amp;&amp; !(global.currentsuit == 2 &amp;&amp; global.item[5] == 1) &amp;&amp; global.playerFreeze == 0 &amp;&amp; invincible == 0 &amp;&amp; canbehit &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR){
+                                global.playerFreeze = 156; damageDir = 0; knockbackY = 0; global.frozenByRollback = true;
+                                with(oControl){
+                                    kLeft = 0;
+                                    kRight = 0;
+                                    kUp = 0;
+                                    kDown = 0;
+                                }
+                            } 
+                            if(checkMissile &amp;&amp; (checkDamage == 10 || checkDamage == 20) &amp;&amp; !(global.currentsuit == 2 &amp;&amp; global.item[5] == 1) &amp;&amp; global.playerFreeze == 0 &amp;&amp; invincible == 0 &amp;&amp; canbehit &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR){
+                                global.playerFreeze = 156; damageDir = 0; knockbackY = 0; global.frozenByRollback = true;
+                                with(oControl){
+                                    kLeft = 0;
+                                    kRight = 0;
+                                    kUp = 0;
+                                    kDown = 0;
+                                }
+                            } 
+                        }
+                        if(checkDamage == 100) checkDamage = 50;
+                        //if(global.item[5] &amp;&amp; checkBeam &amp;&amp; checkFreeze &amp;&amp; global.currentsuit == 2) checkDamage = checkDamage * 8;
+                        if(!canbehit || state == IDLE || state == SAVING &amp;&amp; state == SAVINGFX || state == SAVINGSHIPFX || state == SAVINGSHIP || state == ELEVATOR || state == GFELEVATOR) checkDamage = 0;
+                        if(!global.frozenNormally &amp;&amp; canbehit &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR) damage_player(checkDamage, 5 * damageDir, knockbackY, 0, 0);
+                    }
+                }
+                break;
+            case 111:
+                var newTeam = buffer_read(_buffer, buffer_u8);
+                if(newTeam == 1) global.sax = 0;
+                if(newTeam == 2) global.sax = 1;
+                if(global.sax){
+                    popup_text("SAX enabled");
+                } else {
+                    popup_text("SAX disabled");
+                }
+                break;
+            case 112:
+                var saxmode = buffer_read(_buffer, buffer_u8);
+                var newTeam = buffer_read(_buffer, buffer_u8);
+                global.saxmode = saxmode;
+                if(newTeam == 1) global.sax = 0;
+                if(newTeam == 2) global.sax = 1;
+                break;
+            case 113:
+                var saxmode = buffer_read(_buffer, buffer_u8);
+                var lobbyLocked = buffer_read(_buffer, buffer_u8);
+                var samCount = buffer_read(_buffer, buffer_u8);
+                global.saxmode = saxmode;
+                if(!lobbyLocked){
+                    if(global.spectator){
+                        global.spectator = false;
+                        global.spectatorIndex = -1;
+                    }
+                }
+                global.lobbyLocked = lobbyLocked;
+                global.samCount = samCount;
+                break;
+            case 114:
+                var lobbyLocked = buffer_read(_buffer, buffer_u8);
+                if(lobbyLocked){
+                    global.spectator = true;
+                    global.spectatorIndex = -1;
+                    global.mosaic = false;
+                }
+                global.lobbyLocked = lobbyLocked;
+                break;
+            case 115:
+                var getGravity = buffer_read(_buffer, buffer_u8);
+                if(getGravity &amp;&amp; global.saxmode &amp;&amp; global.sax &amp;&amp; !global.item[9] &amp;&amp; instance_number(oCoreXGravity) == 0 &amp;&amp; string_count("rm_a", room_get_name(room))){
+                    instance_create(irandom_range(0, room_width), -100, oCoreXGravity);
+                }
+                break;
+            case 116:
+                var receivedPasswordHash = buffer_read(_buffer, buffer_string);
+                if(sha1_string_unicode(oControl.password) == receivedPasswordHash){
+                    global.moderator = true;
+                } else global.moderator = false;
+                break;
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
                 show_debug_message(string(msgid) + " " + string(global.clientID));
@@ -2141,12 +2554,14 @@ switch(type_event){
                 buffer_write(buffer, buffer_u8, 200);
                 buffer_write(buffer, buffer_u8, global.clientID);
                 buffer_write(buffer, buffer_u8, preferredcolor);
+                buffer_write(buffer, buffer_u8, global.sax);
                 var bufferSize = buffer_tell(buffer);
                 buffer_seek(buffer, buffer_seek_start, 0);
                 buffer_write(buffer, buffer_s32, bufferSize);
                 buffer_write(buffer, buffer_u8, 200);
                 buffer_write(buffer, buffer_u8, global.clientID);
                 buffer_write(buffer, buffer_u8, preferredcolor);
+                buffer_write(buffer, buffer_u8, global.sax);
                 var result = network_send_packet(socket, buffer, buffer_tell(buffer));
                 break;
             case 1:
@@ -2412,8 +2827,10 @@ switch(type_event){
                                     }
                                     
                                     if(i == 5){
-                                        global.currentsuit = 1;
-                                        global.currentsuitPrev = global.currentsuit;
+                                        if(global.currentsuit != 2){
+                                            global.currentsuit = 1;
+                                            global.currentsuitPrev = global.currentsuit;
+                                        }
                                         popup_text(get_text("Items", "VariaSuit") + " " + get_text("GlobalOptions", "Enabled"));
                                         if(sfx_isplaying(sndSpinJump)){
                                             sfx_stop(sndSpinJump);
@@ -2582,6 +2999,7 @@ switch(type_event){
                                 if(global.event[i] != eventArr[f, 0]){
                                     global.event[i] = eventArr[f, 0];
                                 }
+                                if(eventArr[f, 1] == 250) popup_text("EMP Activated");
                                 if(eventArr[f, 1] == 308){
                                     if(eventArr[f, 0] == 1 &amp;&amp; clientID != global.clientID){
                                         if(instance_exists(oCharacter)){
@@ -2804,6 +3222,7 @@ switch(type_event){
                 var sprX = buffer_read(_buffer, buffer_s16);
                 var sprY = buffer_read(_buffer, buffer_s16);
                 var charge = buffer_read(_buffer, buffer_u8);
+                var sax = buffer_read(_buffer, buffer_u8);
                 if(ds_list_size(roomListData) &gt; 0 &amp;&amp; clientID != global.clientID){ 
                     for(var i=0; i&lt;ds_list_size(roomListData); i++){
                         var arrDraw = roomListData[| i];
@@ -2811,7 +3230,7 @@ switch(type_event){
                         if(clientID == arrID){
                             if(instance_exists(oCharacter)){
                                 with(oCharacter){
-                                    shoot_beam_receive(sprX, sprY, dir, charge);
+                                    shoot_beam_receive(sprX, sprY, dir, charge, sax, clientID);
                                 }
                             }
                         }
@@ -2822,13 +3241,16 @@ switch(type_event){
                 var clientID = buffer_read(_buffer, buffer_u8);
                 var bombX = buffer_read(_buffer, buffer_s16);
                 var bombY = buffer_read(_buffer, buffer_s16);
+                var sax = buffer_read(_buffer, buffer_u8);
                 if(ds_list_size(roomListData) &gt; 0 &amp;&amp; clientID != global.clientID){ 
                     for(var i=0; i&lt;ds_list_size(roomListData); i++){
                         var arrDraw = roomListData[| i];
                         var arrID = arrDraw[0];
                         if(clientID == arrID){
                             if(instance_exists(oCharacter)){
-                                instance_create(bombX, bombY, oBombMulti);
+                                bomb = instance_create(bombX, bombY, oBombMulti);
+                                bomb.sax = sax;
+                                bomb.myid = clientID;
                                 sfx_play(sndBombSet);
                             }
                         }
@@ -2841,6 +3263,10 @@ switch(type_event){
                 var dir = buffer_read(_buffer, buffer_s16);
                 var missileX = buffer_read(_buffer, buffer_s16);
                 var missileY = buffer_read(_buffer, buffer_s16);
+                var sax = buffer_read(_buffer, buffer_u8);
+                var velX = buffer_read(_buffer, buffer_s8);
+                var velY = buffer_read(_buffer, buffer_s8);
+                var icemissiles = buffer_read(_buffer, buffer_u8);
                 if(ds_list_size(roomListData) &gt; 0 &amp;&amp; clientID != global.clientID){ 
                     for(var i=0; i&lt;ds_list_size(roomListData); i++){
                         var arrDraw = roomListData[| i];
@@ -2848,8 +3274,7 @@ switch(type_event){
                         if(clientID == arrID){
                             if(instance_exists(oCharacter)){
                                 with(oCharacter){
-                                    shoot_missile_receive(dir, currentWeapon, missileX, missileY);
-                                    show_debug_message("x = " + string(missileX) + " y = " + string(missileY));
+                                    shoot_missile_receive(dir, currentWeapon, missileX, missileY, sax, clientID, velX, velY, icemissiles);
                                 }
                             }
                         }
@@ -2860,13 +3285,17 @@ switch(type_event){
                 var clientID = buffer_read(_buffer, buffer_u8);
                 var pbombX = buffer_read(_buffer, buffer_s16);
                 var pbombY = buffer_read(_buffer, buffer_s16);
+                var sax = buffer_read(_buffer, buffer_u8);
                 if(ds_list_size(roomListData) &gt; 0 &amp;&amp; clientID != global.clientID){ 
                     for(var i=0; i&lt;ds_list_size(roomListData); i++){
                         var arrDraw = roomListData[| i];
                         var arrID = arrDraw[0];
                         if(clientID == arrID){
                             if(instance_exists(oCharacter)){
-                                instance_create(pbombX, pbombY, oPBombMulti);
+                                pbomb = instance_create(pbombX, pbombY, oPBombMulti);
+                                pbomb.sax = sax;
+                                pbomb.myid = clientID;
+                                sfx_play(sndPBombSet);
                             }
                         }
                     }
@@ -3127,6 +3556,34 @@ switch(type_event){
                     popup_text(str);
                 }
                 if(instance_exists(oOptionsMod) &amp;&amp; oOptionsMod.elm != elm) oOptionsMod.elm = elm;
+                break;
+            case 31:
+                var otherAbsorbRelativeX = buffer_read(_buffer, buffer_s16);
+                var otherAbsorbRelativeY = buffer_read(_buffer, buffer_s16);
+                var otherAbsorbSpriteHeight = buffer_read(_buffer, buffer_u8);
+                global.absorbRelativeX = otherAbsorbRelativeX;
+                global.absorbRelativeY = otherAbsorbRelativeY;
+                global.absorbSpriteHeight = otherAbsorbSpriteHeight;
+                global.beingAbsorbed = true;
+                break;
+            case 32:
+                var mapposx = buffer_read(_buffer, buffer_s16);
+                var mapposy = buffer_read(_buffer, buffer_s16);
+                global.mapmarker = 1;
+                global.mapmarkerx = mapposx;
+                global.mapmarkery = mapposy;
+                global.playerMapPosTimer = 600;
+                break;
+            case 33:
+                var mirror = buffer_read(_buffer, buffer_s8);
+                var sentRoom = buffer_read(_buffer, buffer_s16);
+                var playerX = buffer_read(_buffer, buffer_s16);
+                var playerY = buffer_read(_buffer, buffer_s16);
+                var sax = buffer_read(_buffer, buffer_s8);
+                if(room == sentRoom &amp;&amp; !sax){
+                    seq = instance_create(playerX, playerY, oDeathSequenceMulti);
+                    seq.facing = mirror;
+                } 
                 break;
             case 50:
                 var resend = false;
@@ -3686,6 +4143,331 @@ switch(type_event){
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="19">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 36);
+buffer_write(buffer, buffer_s8, oCharacter.mirror);
+buffer_write(buffer, buffer_s16, room);
+buffer_write(buffer, buffer_s16, global.currX);
+buffer_write(buffer, buffer_s16, global.currY);
+buffer_write(buffer, buffer_s8, global.sax);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 36);
+buffer_write(buffer, buffer_s8, oCharacter.mirror);
+buffer_write(buffer, buffer_s16, room);
+buffer_write(buffer, buffer_s16, global.currX);
+buffer_write(buffer, buffer_s16, global.currY);
+buffer_write(buffer, buffer_s8, global.sax);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="18">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(!global.saxmode || global.spectator) exit;
+buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 35);
+buffer_write(buffer, buffer_s16, global.mapposx);
+buffer_write(buffer, buffer_s16, global.mapposy);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 35);
+buffer_write(buffer, buffer_s16, global.mapposx);
+buffer_write(buffer, buffer_s16, global.mapposy);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="17">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 34);
+buffer_write(buffer, buffer_u8, global.saxmode);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 34);
+buffer_write(buffer, buffer_u8, global.saxmode);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="16">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 33);
+buffer_write(buffer, buffer_u8, global.lobbyLocked);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 33);
+buffer_write(buffer, buffer_u8, global.lobbyLocked);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="15">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//Reset server packet
+buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 32);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 32);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="14">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 31);
+buffer_write(buffer, buffer_u8, global.otherAbsorbID);
+buffer_write(buffer, buffer_s16, global.otherAbsorbRelativeX);
+buffer_write(buffer, buffer_s16, global.otherAbsorbRelativeY);
+buffer_write(buffer, buffer_u8, global.otherAbsorbSpriteHeight);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 31);
+buffer_write(buffer, buffer_u8, global.otherAbsorbID);
+buffer_write(buffer, buffer_s16, global.otherAbsorbRelativeX);
+buffer_write(buffer, buffer_s16, global.otherAbsorbRelativeY);
+buffer_write(buffer, buffer_u8, global.otherAbsorbSpriteHeight);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 106);
+buffer_write(buffer, buffer_u8, global.checkID);
+buffer_write(buffer, buffer_s16, global.checkX);
+buffer_write(buffer, buffer_s16, global.checkY);
+buffer_write(buffer, buffer_u8, global.checkBeam);
+buffer_write(buffer, buffer_u8, global.checkMissile);
+buffer_write(buffer, buffer_u8, global.checkDamage);
+buffer_write(buffer, buffer_u8, global.checkFreeze);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 106);
+buffer_write(buffer, buffer_u8, global.checkID);
+buffer_write(buffer, buffer_s16, global.checkX);
+buffer_write(buffer, buffer_s16, global.checkY);
+buffer_write(buffer, buffer_u8, global.checkBeam);
+buffer_write(buffer, buffer_u8, global.checkMissile);
+buffer_write(buffer, buffer_u8, global.checkDamage);
+buffer_write(buffer, buffer_u8, global.checkFreeze);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="12">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(global.spectator) exit;
+buffer_delete(buffer);
+var size, type, alignment;
+size = 1024;
+type = buffer_grow;
+alignment = 1;
+buffer = buffer_create(size, type, alignment);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_u8, 105);
+buffer_write(buffer, buffer_u8, global.otherID);
+var bufferSize = buffer_tell(buffer);
+buffer_seek(buffer, buffer_seek_start, 0);
+buffer_write(buffer, buffer_s32, bufferSize);
+buffer_write(buffer, buffer_u8, 105);
+buffer_write(buffer, buffer_u8, global.otherID);
+var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="11">
       <action>
         <libid>1</libid>
@@ -3833,11 +4615,13 @@ if(room == rm_score){
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_u8, 254);
     buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u8, global.sax);
     var bufferSize = buffer_tell(buffer);
     buffer_seek(buffer, buffer_seek_start, 0);
     buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 254);
     buffer_write(buffer, buffer_u8, global.clientID);
+    buffer_write(buffer, buffer_u8, global.sax);
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
@@ -3855,6 +4639,10 @@ if(!noName){
     ds_list_destroy(global.idList);
     ds_list_destroy(posData);
     ds_list_destroy(global.hatchlingList);
+    ds_list_destroy(global.speedList);
+    ds_list_destroy(global.screwList);
+    ds_list_destroy(global.hitboxList);
+    ds_list_destroy(global.otherPlayerItems);
 }
 </string>
           </argument>
@@ -3879,8 +4667,8 @@ if(!noName){
           <argument>
             <kind>1</kind>
             <string>if(ds_list_size(roomListData) &gt; 0){ 
-    for(var i=0; i&lt;ds_list_size(roomListData); i++){
-        var arrDraw = roomListData[| i];
+    for(var b=0; b&lt;ds_list_size(roomListData); b++){
+        var arrDraw = roomListData[| b];
         var arrID = arrDraw[0];
         var arrX = arrDraw[1];
         var arrY = arrDraw[2];
@@ -3901,7 +4689,44 @@ if(!noName){
         var arrFXTimer = arrDraw[17];
         var arrRoomPrev = arrDraw[18];
         var arrState = arrDraw[19];
-        if((arrRoom == room || arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen) &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
+        var arrSAX = arrDraw[20];
+        var arrSpeedboost = arrDraw[21];
+        var arrSJBall = arrDraw[22];
+        var arrSJDir = arrDraw[23];
+        var arrSpeedCharge = arrDraw[24];
+        var arrSpectator = arrDraw[26];
+        var arrInvincible = arrDraw[27];
+        var arrMosaic = arrDraw[28];
+        var arrReform = arrDraw[29];
+        var arrVisible = arrDraw[30];
+        /*
+        2 = spacejump;
+        3 = screwattack;
+        4 = spiderball;
+        5 = speedbooster;
+        */
+        var spacejump = global.spacejump;
+        var screwattack = global.screwattack;
+        var spiderball = global.spiderball;
+        var speedbooster = global.speedbooster;
+        global.otherSAX = arrSAX;
+        global.otherMosaic = arrMosaic;
+        global.otherReform = arrReform;
+        for(var i=0; i&lt;ds_list_size(global.otherPlayerItems); i++){
+            var tempArr = global.otherPlayerItems[| i];
+            var ID = tempArr[0];
+            if(ID == arrID){
+                spacejump = tempArr[2];
+                screwattack = tempArr[3];
+                spiderball = tempArr[4];
+                speedbooster = tempArr[5];
+            }
+        }
+        var canDraw = true;
+        if(!arrVisible &amp;&amp; !arrSAX){
+            canDraw = false;
+        }
+        if((arrRoom == room || arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen) &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition &amp;&amp; canDraw){
             if(arrSprite == sSpiderMorphBall || arrSprite == sGSpiderMorphBall || arrSprite == sVSpiderMorphBall || arrSprite == sSpiderMorphBall_fusion || arrSprite == sSpiderMorphBall_fusion_gravity || arrSprite == sSpiderMorphBall_fusion_varia){
                 draw_set_blend_mode(bm_add);
                 draw_set_alpha(arrFXTimer * 0.1);
@@ -3928,6 +4753,9 @@ if(!noName){
                         case sSpiderballFXGravity_fusion:
                             draw_sprite_ext(sSpiderballFXGravity_fusion, -1, arrX, arrY, 1, 1, 0, -1, 0.2 + arrFXTimer * 0.1);
                             break;
+                        case sSpiderMorphBall_fusion_omega:
+                            draw_sprite_ext(sSpiderballFX_fusion, -1, arrX, arrY, 1, 1, 0, -1, 0.2 + arrFXTimer * 0.1);
+                            break;
                     }
                 }
                 if(global.shaders_compiled){
@@ -3940,6 +4768,30 @@ if(!noName){
             if(arrRoom != room){
                 if(arrRoomPrev == room){
                     draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
+                    if(arrSpeedboost == 1 || arrSpeedCharge &gt; 0 || arrState == SJSTART || arrState == SUPERJUMP || arrState == SJEND){
+                        if (arrFXTimer == 0 || arrFXTimer == 1) {
+                            draw_set_blend_mode(bm_add);
+                            draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, 1.1 + arrFXTimer * 0.2, arrArmmsl, arrImage, arrID);
+                            draw_set_blend_mode(bm_normal);
+                        }
+                        if (arrFXTimer == 2 || arrFXTimer == 3) {
+                            draw_set_blend_mode(bm_add);
+                            draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_yellow, alpha, arrArmmsl, arrImage, arrID);
+                            draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_white, alpha, arrArmmsl, arrImage, arrID);
+                            draw_set_blend_mode(bm_normal);
+                        }
+                        if (arrFXTimer == 4 || arrFXTimer == 5) {
+                            draw_set_blend_mode(bm_add);
+                            draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_red, alpha, arrArmmsl, arrImage, arrID);
+                            draw_set_blend_mode(bm_normal);
+                        }
+                    }
+                    if(arrInvincible &gt; 0){
+                        draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_blue, arrFXTimer * 0.2, arrArmmsl, arrImage, arrID);
+                        draw_set_blend_mode(bm_add);
+                        draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_white, 0.8 - arrFXTimer * 0.2, arrArmmsl, arrImage, arrID);
+                        draw_set_blend_mode(bm_normal);
+                    }
                     var sprHeight = sprite_get_height(sIdleRight);
                     if(arrSprite != sTurn &amp;&amp; arrSprite != sVTurn &amp;&amp; arrSprite != sGTurn &amp;&amp; arrSprite != sTurn_fusion &amp;&amp; arrSprite != sTurn_fusion_varia &amp;&amp; arrSprite != sTurn_fusion_gravity) sprHeight = sprite_get_height(arrSprite);
                     if(string_count("AimUp", sprite_get_name(arrSprite)) &gt; 0) sprHeight = sprite_get_height(sIdleRight);
@@ -3949,6 +4801,30 @@ if(!noName){
                 }
             } else {
                 draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, alpha, arrArmmsl, arrImage, arrID);
+                if(arrSpeedboost == 1 || arrSpeedCharge &gt; 0 || arrState == SJSTART || arrState == SUPERJUMP || arrState == SJEND){
+                    if (arrFXTimer == 0 || arrFXTimer == 1) {
+                        draw_set_blend_mode(bm_add);
+                        draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrBlend, 1.1 + arrFXTimer * 0.2, arrArmmsl, arrImage, arrID);
+                        draw_set_blend_mode(bm_normal);
+                    }
+                    if (arrFXTimer == 2 || arrFXTimer == 3) {
+                        draw_set_blend_mode(bm_add);
+                        draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_yellow, alpha, arrArmmsl, arrImage, arrID);
+                        draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_white, alpha, arrArmmsl, arrImage, arrID);
+                        draw_set_blend_mode(bm_normal);
+                    }
+                    if (arrFXTimer == 4 || arrFXTimer == 5) {
+                        draw_set_blend_mode(bm_add);
+                        draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_red, alpha, arrArmmsl, arrImage, arrID);
+                        draw_set_blend_mode(bm_normal);
+                    }
+                }
+                if(arrInvincible &gt; 0){
+                    draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_blue, arrFXTimer * 0.2, arrArmmsl, arrImage, arrID);
+                    draw_set_blend_mode(bm_add);
+                    draw_character_ext(arrSprite, arrX, arrY, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, c_white, 0.8 - arrFXTimer * 0.2, arrArmmsl, arrImage, arrID);
+                    draw_set_blend_mode(bm_normal);
+                }
                 var sprHeight = sprite_get_height(sIdleRight);
                 if(arrSprite != sTurn &amp;&amp; arrSprite != sVTurn &amp;&amp; arrSprite != sGTurn &amp;&amp; arrSprite != sTurn_fusion &amp;&amp; arrSprite != sTurn_fusion_varia &amp;&amp; arrSprite != sTurn_fusion_gravity) sprHeight = sprite_get_height(arrSprite);
                 if(string_count("AimUp", sprite_get_name(arrSprite)) &gt; 0) sprHeight = sprite_get_height(sIdleRight);
@@ -3957,7 +4833,73 @@ if(!noName){
                 if(string_lower(arrName) == "meep" &amp;&amp; string_count("JumpLeft", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("JumpRight", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Ball", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Walljump", sprite_get_name(arrSprite)) == 0 &amp;&amp; string_count("Spacejump", sprite_get_name(arrSprite)) == 0) draw_sprite_ext(sMiepee, 2, arrX, arrY - sprHeight, 1 * arrMirror, 1, direction, c_white, 1);
             } 
         }
+        
+        if(arrRoom == room &amp;&amp; room != rm_transition){
+            if((string_count("SJump", sprite_get_name(arrSprite)) &gt; 0 || arrSpeedboost &gt; 0 || arrSJBall &gt; 0) &amp;&amp; arrState != HURT){
+                var findID = ds_list_find_index(global.speedList, arrID);
+                if(findID &lt; 0){
+                    ds_list_add(global.speedList, arrID);
+                    speedbooster = instance_create(x, y, oSpeedBoost);
+                    speedbooster.myid = arrID;
+                    speedbooster.sax = arrSAX;
+                    speedbooster.mirror = arrMirror;
+                    speedbooster.sjball = arrSJBall;
+                }
+            } else {
+                var findID = ds_list_find_index(global.speedList, arrID);
+                if(findID &gt;= 0){
+                    ds_list_delete(global.speedList, findID);
+                }
+            }
+        } else {
+            var findID = ds_list_find_index(global.speedList, arrID);
+            if(findID &gt;= 0){
+                ds_list_delete(global.speedList, findID);
+            }
+        }
+        
+        if(arrRoom == room &amp;&amp; room != rm_transition){
+            if((string_count("JumpLeft", sprite_get_name(arrSprite)) &gt; 0 || string_count("JumpRight", sprite_get_name(arrSprite)) &gt; 0 || string_count("Spacejump", sprite_get_name(arrSprite)) &gt; 0) &amp;&amp; screwattack){
+                var findID = ds_list_find_index(global.screwList, arrID);
+                if(findID &lt; 0){
+                    ds_list_add(global.screwList, arrID);
+                    screwattack = instance_create(x, y, oScrewAttack);
+                    screwattack.myid = arrID;
+                    screwattack.sax = arrSAX;
+                    screwattack.mirror = arrMirror;
+                }
+            } else {
+                var findID = ds_list_find_index(global.screwList, arrID);
+                if(findID &gt;= 0){
+                    ds_list_delete(global.screwList, findID);
+                }
+            }
+        } else {
+            var findID = ds_list_find_index(global.screwList, arrID);
+            if(findID &gt;= 0){
+                ds_list_delete(global.screwList, findID);
+            }
+        }
+        
+        if(arrRoom == room &amp;&amp; room != rm_transition){
+            var findID = ds_list_find_index(global.hitboxList, arrID);
+            if(findID &lt; 0){
+                ds_list_add(global.hitboxList, arrID);
+                hitbox = instance_create(x, y, oMultiHitbox);
+                hitbox.myid = arrID;
+                hitbox.sax = arrSAX;
+            }
+        } else {
+            var findID = ds_list_find_index(global.hitboxList, arrID);
+            if(findID &gt;= 0){
+                ds_list_delete(global.hitboxList, findID);
+            }
+        }
     }
+} else {
+    if(ds_list_size(global.speedList) &gt; 0) ds_list_clear(global.speedList);
+    if(ds_list_size(global.screwList) &gt; 0) ds_list_clear(global.screwList);
+    if(ds_list_size(global.hitboxList) &gt; 0) ds_list_clear(global.hitboxList);
 }
 
 if(instance_exists(oMapCursor)){
@@ -3967,8 +4909,22 @@ if(instance_exists(oMapCursor)){
             var arrID = arrMapIcon[0];
             var arrX = arrMapIcon[1];
             var arrY = arrMapIcon[2];
-            if(arrX != 3 &amp;&amp; arrY != 3){
-                draw_sprite_ext(oControl.MultitroidMapIcon, (arrID - 1), (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
+            var sax = arrMapIcon[3];
+            var spectator = arrMapIcon[5];
+            if(global.spectator){
+                if(!sax){
+                    if(spectator){
+                        if(arrX != 3 &amp;&amp; arrY != 3) draw_sprite_ext(sSpectatorIcon, 0, (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
+                    } else {
+                        if(arrX != 3 &amp;&amp; arrY != 3) draw_sprite_ext(sFusionIcon, 0, (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
+                    }
+                } else {
+                    if(arrX != 3 &amp;&amp; arrY != 3) draw_sprite_ext(sMultitroidMapIconMiepee, 0, (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
+                }
+            } else {
+                if(arrX != 3 &amp;&amp; arrY != 3 &amp;&amp; sax == global.sax){
+                    draw_sprite_ext(oControl.MultitroidMapIcon, (arrID - 1), (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
+                }
             }
         }
     }
@@ -3995,14 +4951,6 @@ if(instance_exists(oMapCursor)){
     }
 }
 
-/*
-if(ID == global.clientID){
-                draw_sprite(oControl.MultitroidIcon, (ID - 1), ((view_xview[0] - oControl.widescreen_space/2) + 2 + _x), (view_yview[0] + 44) + 13 + _y);
-            } else {
-                draw_sprite(oControl.MultitroidIconDark, (ID - 1), (240 + _x) + oControl.widescreen_space, 5 + _y);
-            }
-            draw_sprite(oControl.MultitroidIcon, clamp(global.clientID - 1, 0, 16), 240 + oControl.widescreen_space, 5);
-*/
 
 </string>
           </argument>

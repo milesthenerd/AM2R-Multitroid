@@ -150,6 +150,10 @@ global.tiptext = tip[global.curropt];
             } else {
                 save_gameoptions();
                 global.curropt = 4; // used to be 3, menu shifted
+                if(global.lobbyLocked){
+                    global.spectator = true;
+                    global.spectatorIndex = -1;
+                }
                 room_change(titleroom, 0); //room_goto(titleroom);
             }
         }

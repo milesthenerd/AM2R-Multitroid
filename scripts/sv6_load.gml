@@ -86,6 +86,11 @@ if (header != "[AM2R SaveData V7.0]") {
     global.ingame = 1;
     global.newgame = 0;
     //room_change(global.start_room, 3);
+    if(global.saxmode && global.sax){
+        global.start_room = rm_a8h02;
+        global.save_x = 144;
+        global.save_y = 176;
+    }
     room_change(global.start_room, 1);
     
     

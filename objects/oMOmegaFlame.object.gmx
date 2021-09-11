@@ -130,7 +130,9 @@ pushdir = 0;
     pushdir = 1;
 } else pushdir = -1;
 if (cooldown == 0 &amp;&amp; image_index &lt; 10) {
-    damage_player(damage, hpush, vpush, 0, 0);
+    var damageToDeal = damage;
+    if (global.sax) damageToDeal = damageToDeal * 2;
+    damage_player(damageToDeal, hpush, vpush, 0, 0);
     oCharacter.onfire = 90;
     cooldown = 15;
 }

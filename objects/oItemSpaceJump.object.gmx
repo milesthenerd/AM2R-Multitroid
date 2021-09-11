@@ -54,6 +54,9 @@ text2 = get_text("Items", "SpaceJump_Text");
             <string>event_inherited();
 with (oCharacter) sfx_stop(spinjump_sound);
 if (active) global.spacejump = 1;
+if(instance_exists(oClient) &amp;&amp; oClient.connected){
+    with(oClient) event_user(8);
+} 
 </string>
           </argument>
         </arguments>

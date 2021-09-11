@@ -43,6 +43,7 @@ if(instance_exists(oClient)){
         buffer_write(pbombBuffer, buffer_u8, global.clientID);
         buffer_write(pbombBuffer, buffer_s16, x);
         buffer_write(pbombBuffer, buffer_s16, y);
+        buffer_write(pbombBuffer, buffer_u8, global.sax);
         var bufferSize = buffer_tell(pbombBuffer);
         buffer_seek(pbombBuffer, buffer_seek_start, 0);
         buffer_write(pbombBuffer, buffer_s32, bufferSize);
@@ -50,6 +51,7 @@ if(instance_exists(oClient)){
         buffer_write(pbombBuffer, buffer_u8, global.clientID);
         buffer_write(pbombBuffer, buffer_s16, x);
         buffer_write(pbombBuffer, buffer_s16, y);
+        buffer_write(pbombBuffer, buffer_u8, global.sax);
         var result = network_send_packet(oClient.socket, pbombBuffer, buffer_tell(pbombBuffer));
         buffer_delete(pbombBuffer);
     }

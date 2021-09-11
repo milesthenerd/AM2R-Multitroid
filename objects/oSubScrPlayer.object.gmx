@@ -92,20 +92,27 @@ if(oControl.mod_fusion == 0)
 }
 else if(oControl.mod_fusion == 1)
 {
-    if (global.currentsuit == 0) {
-        draw_sprite_ext(sSubScrPlayer, 6, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
+    var omegaSubScr = false;
+    if(global.ibeam){
+        omegaSubScr = true;
+        draw_sprite_ext(sSubScrPlayer, 11, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
     }
-    if (global.currentsuit == 1 &amp;&amp; oControl.msr_fusionsuit == 0) {
-        draw_sprite_ext(sSubScrPlayer, 7, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
-    }
-    if (global.currentsuit == 2 &amp;&amp; oControl.msr_fusionsuit == 0) {
-        draw_sprite_ext(sSubScrPlayer, 8, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
-    }
-    if (global.currentsuit == 1 &amp;&amp; oControl.msr_fusionsuit == 1) {
-        draw_sprite_ext(sSubScrPlayer, 9, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
-    }
-    if (global.currentsuit == 2 &amp;&amp; oControl.msr_fusionsuit == 1) {
-        draw_sprite_ext(sSubScrPlayer, 10, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
+    if(!omegaSubScr){
+        if (global.currentsuit == 0) {
+            draw_sprite_ext(sSubScrPlayer, 6, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
+        }
+        if (global.currentsuit == 1 &amp;&amp; oControl.msr_fusionsuit == 0) {
+            draw_sprite_ext(sSubScrPlayer, 7, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
+        }
+        if (global.currentsuit == 2 &amp;&amp; oControl.msr_fusionsuit == 0) {
+            draw_sprite_ext(sSubScrPlayer, 8, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
+        }
+        if (global.currentsuit == 1 &amp;&amp; oControl.msr_fusionsuit == 1) {
+            draw_sprite_ext(sSubScrPlayer, 9, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
+        }
+        if (global.currentsuit == 2 &amp;&amp; oControl.msr_fusionsuit == 1) {
+            draw_sprite_ext(sSubScrPlayer, 10, x, y, 1, 1, 0, -1, oSubscreenMenu.ealpha);
+        }
     }
 }
 

@@ -73,7 +73,7 @@ empspr = sAutoadDisabled;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (state == 2 &amp;&amp; isCollisionBottom(1)) {
+            <string>if (state == 2 &amp;&amp; isCollisionBottom(1) &amp;&amp; frozen == 0) {
     if (oCharacter.y - 20 &gt; y) yVel = -3;
     if (oCharacter.y - 20 &lt; y) yVel = -5;
     if (oCharacter.x &gt; x) xVel = 2;

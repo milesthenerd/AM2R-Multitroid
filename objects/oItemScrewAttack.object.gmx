@@ -54,6 +54,9 @@ text2 = get_text("Items", "ScrewAttack_Text");
             <string>event_inherited();
 if (active) global.screwattack = 1;
 with (oCharacter) sfx_stop(spinjump_sound);
+if(instance_exists(oClient) &amp;&amp; oClient.connected){
+    with(oClient) event_user(8);
+} 
 </string>
           </argument>
         </arguments>

@@ -55,6 +55,9 @@ btn1_name = "Fire";
             <kind>1</kind>
             <string>event_inherited();
 if (active) global.cbeam = 1;
+if(instance_exists(oClient) &amp;&amp; oClient.connected){
+    with(oClient) event_user(8);
+} 
 </string>
           </argument>
         </arguments>

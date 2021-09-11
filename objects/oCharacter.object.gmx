@@ -33,6 +33,31 @@ activation_code = false;
 
 // DEBUG
 //instance_create(x, y-90, oAreaIntro);
+
+lastSpriteIndex = sprite_index;
+
+spectatorSwapTimer = 0;
+
+coreIdle = 0;
+frequency_x = 0.1 + random_range(-0.05, 0.05);
+amplitude_x = 0.5 + random_range(-0.1, 0.1);
+timer_x = irandom(100);
+frequency_y = 0.1 + random_range(-0.05, 0.05);
+amplitude_y = 0.5 + random_range(-0.1, 0.1);
+timer_y = irandom(100);
+xx = 0;
+yy = 0;
+absorbTime = 0;
+mosaicTime = 0;
+reformTime = 0;
+
+xscale = 1;
+yscale = 1;
+
+sizeX = 1;
+sizeY = 1;
+
+if(room == rm_a8h02) oMusicV2.currentbgm = musArea8;
 </string>
           </argument>
         </arguments>
@@ -272,7 +297,7 @@ if(activation_code) {
     if (global.objdeactivate) instance_deactivate_object(oSolid);
     instance_activate_object(oMovingSolid);
     if (global.objdeactivate) instance_deactivate_object(oEnemy);
-    instance_deactivate_object(oGotoRoom);
+    if (!global.spectator) instance_deactivate_object(oGotoRoom);
     instance_activate_region(view_xview[0] - 200, view_yview[0] - 200, view_wview[0] + 400, view_hview[0] + 400, 1);
     instance_activate_region(x - 64, y - 64, 128, 128, 1);
     instance_activate_object(oGravitt);
@@ -343,6 +368,139 @@ if (instance_exists(empspark)) {
         empspark.y = y + aspr2y;
     }
 }
+
+if(lastSpriteIndex != sprite_index){
+    //show_debug_message(sprite_get_name(sprite_index));
+    lastSpriteIndex = sprite_index;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="oMissile">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///SA-X Missile Interactions
+if(other.sax != global.sax &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR){
+    if(other.smissile) other.damage = 50;
+    event_user(2);
+    if(!global.spectator) global.showHealthIndicatorsTimer = 15 * 60;
+    global.otherID = other.myid;
+    if(instance_exists(oClient)){
+        with(oClient) event_user(2);
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="oBeam">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///SA-X Beam Interactions
+if(other.sax != global.sax &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR){
+    if(global.playerFreeze &gt; 0) other.damage = other.damage / 2;
+    event_user(2);
+    if(!global.spectator) global.showHealthIndicatorsTimer = 15 * 60;
+    global.otherID = other.myid;
+    if(instance_exists(oClient)){
+        with(oClient) event_user(2);
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="oMissileExpl">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///SA-X Missile Interactions
+if(other.sax != global.sax &amp;&amp; global.playerFreeze == 0 &amp;&amp; invincible == 0 &amp;&amp; canbehit &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR){
+    if(other.smissile) other.damage = 50;
+    event_user(2);
+    if(!global.spectator) global.showHealthIndicatorsTimer = 15 * 60;
+    global.otherID = other.myid;
+    if(instance_exists(oClient)){
+        with(oClient) event_user(2);
+    }
+}
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="oPBombExpl">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///SA-X Power Bomb Interactions
+if(other.sax != global.sax &amp;&amp; invincible == 0 &amp;&amp; canbehit &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR){
+    pbomb_drain = 2;
+    if(!global.spectator) global.showHealthIndicatorsTimer = 15 * 60;
+    global.otherID = other.myid;
+    if(instance_exists(oClient)){
+        with(oClient) event_user(2);
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -390,6 +548,236 @@ if (instance_exists(empspark)) {
     }
     fixedy = 20;
 }
+
+// SA-X Bomb Interactions
+if(other.sax != global.sax){
+    if(global.playerFreeze &gt; 0) other.damage = other.damage / 2;
+    other.damage = 8;
+    event_user(3);
+    if(!global.spectator) global.showHealthIndicatorsTimer = 15 * 60;
+    global.otherID = other.myid;
+    if(instance_exists(oClient)){
+        with(oClient) event_user(2);
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="oSpeedBoost">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///SA-X Speedbooster Interactions
+if(other.sax != global.sax &amp;&amp; other.myid != global.clientID){
+    event_user(4);
+    if(!global.spectator) global.showHealthIndicatorsTimer = 15 * 60;
+    global.otherID = other.myid;
+    if(instance_exists(oClient)){
+        with(oClient) event_user(2);
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="oScrewAttack">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///SA-X Screwattack Interactions
+if(other.sax != global.sax &amp;&amp; other.myid != global.clientID){
+    event_user(5);
+    if(!global.spectator) global.showHealthIndicatorsTimer = 15 * 60;
+    global.otherID = other.myid;
+    if(instance_exists(oClient)){
+        with(oClient) event_user(2);
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="15">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// SA-X Screwattack Damage
+if(global.spectator) exit;
+otherOBJ = other.object_index;
+global.multiDamageCollision = true;
+var combo = 0;
+var screwDamage = 25;
+if(global.playerFreeze &gt; 0) screwDamage = screwDamage / 2;
+damage_player(screwDamage, 20 * other.mirror * -1, -3, 0, combo);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="14">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// SA-X Speedboost Damage
+if(global.spectator) exit;
+otherOBJ = other.object_index;
+global.multiDamageCollision = true;
+var combo = 0;
+var speedDamage = 45;
+if(global.playerFreeze &gt; 0) speedDamage = speedDamage / 2;
+damage_player(speedDamage, 20 * other.mirror * -1, -3, 0, combo);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// SA-X Bomb Damage
+if(global.spectator) exit;
+otherOBJ = other.object_index;
+global.multiDamageCollision = true;
+var combo = 0;
+damageDir = -1;
+if(other.direction &gt; 90 &amp;&amp; other.direction &lt; 270) damageDir = 1;
+damage_player(other.damage, 5 * damageDir, -3, 0, combo);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="12">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// SA-X Projectile Damage
+if(global.spectator) exit;
+if(invincible == 0){
+    damageDir = -1;
+    knockbackY = -3;
+    otherOBJ = other.object_index;
+    var combo = 0;
+    if(!(global.item[5] &amp;&amp; global.currentsuit == 2) &amp;&amp; other.ibeam &amp;&amp; otherOBJ == oBeam){
+        other.damage = other.damage * 0.8;
+    }
+    global.multiDamageCollision = true;
+    if(other.direction &gt; 90 &amp;&amp; other.direction &lt; 270) damageDir = 1;
+    if(otherOBJ == oMissile &amp;&amp; global.playerFreeze &gt; 151){
+        with (other) event_user(0);
+        exit;
+    }
+    if(otherOBJ == oMissile &amp;&amp; global.playerFreeze &gt; 0 &amp;&amp; global.playerFreeze &lt;= 151 &amp;&amp; !global.frozenByRollback) global.playerFreeze = 1;
+    if(global.frozenByRollback) show_debug_message("rollback freeze");
+    if(global.playerFreeze == 0 &amp;&amp; !global.frozenByRollback){
+        if(otherOBJ == oBeam &amp;&amp; other.ibeam &amp;&amp; !(global.currentsuit == 2 &amp;&amp; global.item[5] == 1) &amp;&amp; global.playerFreeze == 0 &amp;&amp; invincible == 0 &amp;&amp; canbehit &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR){
+            global.playerFreeze = 156; damageDir = 0; knockbackY = 0; global.frozenNormally = true;
+            with(oControl){
+                kLeft = 0;
+                kRight = 0;
+                kUp = 0;
+                kDown = 0;
+            }
+        } 
+        if(otherOBJ == oMissile &amp;&amp; other.icemissiles &amp;&amp; !other.smissile &amp;&amp; !(global.currentsuit == 2 &amp;&amp; global.item[5] == 1) &amp;&amp; global.playerFreeze == 0 &amp;&amp; invincible == 0 &amp;&amp; canbehit &amp;&amp; state != IDLE &amp;&amp; state != SAVING &amp;&amp; state != SAVINGFX &amp;&amp; state != SAVINGSHIPFX &amp;&amp; state != SAVINGSHIP &amp;&amp; state != ELEVATOR &amp;&amp; state != GFELEVATOR){
+            global.playerFreeze = 156; damageDir = 0; knockbackY = 0; global.frozenNormally = true;
+            with(oControl){
+                kLeft = 0;
+                kRight = 0;
+                kUp = 0;
+                kDown = 0;
+            }
+        } 
+    }
+    if(otherOBJ == oBeam) global.ignoreKnockback = true;
+    if(!global.frozenByRollback) damage_player(other.damage, 5 * damageDir, knockbackY, 0, combo);
+}
+
+with (other) event_user(0);
+if (other.pbeam == 0 &amp;&amp; otherOBJ != oMissileExpl) with (other) instance_destroy();
 </string>
           </argument>
         </arguments>
@@ -510,14 +898,15 @@ if (state == SUPERJUMP &amp;&amp; sjdir == 0) {
     image_index = 1;
 }
 if (state == HURT) {
-    if (sjball == 0) {
+    if (sjball == 0 || multiBall == 0) {
         state = JUMPING;
         vjump = 1;
     }
-    if (sjball == 1) state = AIRBALL;
+    if (sjball == 1 || multiBall == 2) state = AIRBALL;
     statetime = 20;
     if (aimlock == 0) canturn = 1;
     sjball = 0;
+    multiBall = 0;
     cmhurt = 20;
 }
 if (state == IDLE &amp;&amp; facing != 0) {

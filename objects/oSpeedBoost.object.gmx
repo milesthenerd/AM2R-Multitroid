@@ -26,6 +26,12 @@
           <argument>
             <kind>1</kind>
             <string>alarm[0] = 1;
+myid = 0;
+sax = global.sax;
+mirror = 0;
+fxtimer = 0;
+sjball = 0;
+SUPERJUMP = 30;
 </string>
           </argument>
         </arguments>
@@ -48,7 +54,182 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>action_kill_object();
+            <string>if(myid == 0) action_kill_object();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(myid != 0){
+    if(instance_exists(oClient)){
+        var findID = ds_list_find_index(global.speedList, myid);
+        if(findID &gt;= 0){
+            if(ds_list_size(oClient.roomListData) &gt; 0){
+                for(var i=0; i&lt;ds_list_size(oClient.roomListData); i++){
+                    var arrDraw = oClient.roomListData[| i];
+                    var arrID = arrDraw[0];
+                    var arrX = arrDraw[1];
+                    var arrY = arrDraw[2];
+                    var arrSprite = arrDraw[3];
+                    mirror = arrDraw[12];
+                    var arrState = arrDraw[19];
+                    var arrSpeedboost = arrDraw[21];
+                    sjball = arrDraw[22];
+                    sjdir = arrDraw[23];
+                    if(arrID == myid){
+                        x = arrX;
+                        y = arrY;
+                        
+                        if (mirror == 1) {
+                            if (arrState == 29) {
+                                if (sjball == 0) image_yscale = 1;
+                                if (sjball == 1) image_yscale = 0.4;
+                            }
+                            if (arrState == 30) {
+                                if (sjball == 1) {
+                                    image_xscale = 1;
+                                    image_yscale = 0.5;
+                                }
+                            }
+                            if (arrState == 15) {
+                                image_xscale = 1.8;
+                                image_yscale = 0.2;
+                            }
+                            if (arrState == 24) {
+                                image_yscale = 0.4;
+                                image_xscale = 2;
+                            }
+                            /*
+                            if ((arrState == 11 || arrState == 23)) {
+                                image_yscale = 0.8;
+                                if (arrState == 23) image_yscale = 0.4;
+                                mysb2 = instance_create(x - 12, y + 2, oSpeedBoost);
+                                mysb2.image_xscale = 0.1;
+                                mysb2.image_yscale = 0.1;
+                            }
+                            */
+                        } // if (facing == RIGHT)
+                        if (mirror == -1) {
+                            if (arrState == 29) {
+                                    if (sjball == 0) image_yscale = 1;
+                                    if (sjball == 1) image_yscale = 0.4;
+                                }
+                            if (arrState == 30) {
+                                if (sjball == 1) {
+                                    image_xscale = 1;
+                                    image_yscale = 0.5;
+                                }
+                            }
+                            if (arrState == 15) {
+                                image_xscale = 1.8;
+                                image_yscale = 0.2;
+                            }
+                            if (arrState == 24) {
+                                image_yscale = 0.4;
+                                image_xscale = 2;
+                            }
+                            /*
+                            if ((arrState == 11 || arrState == 23)) {
+                                x = x - 8;
+                                y = y - 2;
+                                image_yscale = 0.8;
+                                if (arrState == 23) image_yscale = 0.4;
+                                image_xscale = 0.1;
+                                image_yscale = 0.1;
+                            }
+                            */
+                        } // if (facing == LEFT)
+                        
+                        if(arrSpeedboost &gt; 0 &amp;&amp; (fxtimer == 0 || fxtimer == 2 || fxtimer == 4)){
+                            myspark = instance_create(x, y - random(36), oSBSparkMulti);
+                            myspark.myid = myid;
+                        }
+                        
+                        with(oSBSparkMulti){
+                            if(myid == other.myid){
+                                if(follow){
+                                    if (other.mirror &gt; 0) {
+                                        x = other.x + xoffset;
+                                    } else {
+                                        x = other.x - xoffset;
+                                        image_xscale = -1;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (arrState == SUPERJUMP &amp;&amp; fxtimer == 0 &amp;&amp; sjball == 0) {
+                            if (sjdir == 0) {
+                                myspark = instance_create(x, y - 32, oFXAnimSpark);
+                                myspark.image_angle = 90;
+                                myspark.additive = 1;
+                            }
+                            if (sjdir == 1) myspark = instance_create(x + 12, y - 12, oFXAnimSpark);
+                            if (sjdir == 3) {
+                                myspark = instance_create(x + 12, y - 16, oFXAnimSpark);
+                                myspark.image_angle = 20;
+                            }
+                            if (sjdir == 2) myspark = instance_create(x - 12, y - 12, oFXAnimSpark);
+                            if (sjdir == 4) {
+                                myspark = instance_create(x - 12, y - 16, oFXAnimSpark);
+                                myspark.image_angle = 340;
+                            }
+                            myspark.image_speed = 1;
+                            myspark.additive = 1;
+                            if (mirror == -1 &amp;&amp; sjdir != 0) myspark.image_xscale = -1;
+                        }
+                        
+                        if (arrState == SUPERJUMP &amp;&amp; fxtimer == 0 &amp;&amp; sjball == 1) {
+                            if (sjdir == 0) {
+                                myspark = instance_create(x, y - 15, oFXAnimSpark);
+                                myspark.image_angle = 90;
+                                myspark.additive = 1;
+                            }
+                            if (sjdir == 1) myspark = instance_create(x + 10, y - 6, oFXAnimSpark);
+                            if (sjdir == 3) {
+                                myspark = instance_create(x + 10, y - 8, oFXAnimSpark);
+                                myspark.image_angle = 20;
+                            }
+                            if (sjdir == 2) myspark = instance_create(x - 10, y - 6, oFXAnimSpark);
+                            if (sjdir == 4) {
+                                myspark = instance_create(x - 10, y - 8, oFXAnimSpark);
+                                myspark.image_angle = 340;
+                            }
+                            myspark.image_speed = 1;
+                            myspark.additive = 1;
+                            if (mirror == -1 &amp;&amp; sjdir != 0) myspark.image_xscale = -1;
+                        }
+                    }
+                }
+            }
+        } else {
+            instance_destroy();
+        }
+    } else {
+        instance_destroy();
+    }
+}
+fxtimer++;
+if(fxtimer &gt; 4){
+    fxtimer = 0;
+}
 </string>
           </argument>
         </arguments>

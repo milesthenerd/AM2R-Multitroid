@@ -76,29 +76,53 @@
             var arrFXTimer = arrDraw[17];
             var arrRoomPrev = arrDraw[18];
             var arrState = arrDraw[19];
-            if((arrRoom == room || arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen) &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
-                var showName = true;
-                switch(oControl.showname){
-                    case "disabled":
-                        showName = false;
-                        break;
-                    case "enabled":
-                        showName = true;
-                        break;
-                }
-                if(showName){
-                    var text;
-                    if(arrRoom == room){
-                        text = arrName;
-                    } else {
-                        if(arrRoom == itemroom){
-                            text = arrName + ": collecting item"
-                        } else {
-                            text = arrName + ": paused";
-                        }
+            var arrSAX = arrDraw[20];
+            var arrHealth = arrDraw[25];
+            var arrSpectator = arrDraw[26];
+            var tunnel = false;
+            
+            if(string_count("MorphBall", sprite_get_name(arrSprite)) &gt; 0){
+                with(oMultiHitbox){
+                    if(myid == arrID){
+                        if(position_meeting(arrX, arrY + 1, oSolid) &amp;&amp; position_meeting(arrX, arrY - 17, oSolid)) tunnel = true;
                     }
-                    if(arrRoom != room){
-                        if(arrRoomPrev == room){
+                }
+            }
+            
+            if((arrRoom == room || arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen) &amp;&amp; instance_exists(oCharacter) &amp;&amp; room != rm_transition){
+                if(arrSAX == global.sax){
+                    var showName = true;
+                    switch(oControl.showname){
+                        case "disabled":
+                            showName = false;
+                            break;
+                        case "enabled":
+                            showName = true;
+                            break;
+                    }
+                    if(showName){
+                        var text;
+                        if(arrRoom == room){
+                            text = arrName;
+                        } else {
+                            if(arrRoom == itemroom){
+                                text = arrName + ": collecting item"
+                            } else {
+                                text = arrName + ": paused";
+                            }
+                        }
+                        if(arrSpectator) text = "";
+                        if(arrRoom != room){
+                            if(arrRoomPrev == room){
+                                var offset = 52;
+                                if(string_lower(arrName) == "meep") offset = 54;
+                                if(string_lower(arrName) == "omegadruid") offset = 62;
+                                draw_set_font(fontGUI2);
+                                draw_set_halign(fa_center);
+                                draw_cool_text(arrX, arrY - offset, text, c_black, c_white, c_white, 1);
+                                draw_set_halign(fa_left);
+                            }
+                        } else {
                             var offset = 52;
                             if(string_lower(arrName) == "meep") offset = 54;
                             if(string_lower(arrName) == "omegadruid") offset = 62;
@@ -107,18 +131,78 @@
                             draw_cool_text(arrX, arrY - offset, text, c_black, c_white, c_white, 1);
                             draw_set_halign(fa_left);
                         }
-                    } else {
-                        var offset = 52;
-                        if(string_lower(arrName) == "meep") offset = 54;
-                        if(string_lower(arrName) == "omegadruid") offset = 62;
-                        draw_set_font(fontGUI2);
+                    }
+                } else {
+                    if(global.showHealthIndicators &amp;&amp; !tunnel){
+                        var offsetY = 42;
+                        if(string_count("MorphBall", sprite_get_name(arrSprite)) &gt; 0) offsetY = 21;
+                        var offsetX = 7;
                         draw_set_halign(fa_center);
-                        draw_cool_text(arrX, arrY - offset, text, c_black, c_white, c_white, 1);
+                        draw_sprite(sRHealthArrow, 0, arrX - 1, arrY - offsetY);
+                        var healthString = string(arrHealth);
+                        var barHealthString = string_copy(healthString, string_length(healthString) - 1, string_length(healthString));
+                        var barHealth = real(barHealthString);
+                        var tankHealth = arrHealth - barHealth;
+                        var fullTanks = tankHealth / 100;
+                        var tank = 0;
+                        for(var f=0; f&lt;10; f++){
+                            tank++;
+                            var _x = 3 * floor(f / 2);
+                            var _y = 3 * (f % 2);
+                            var tankSprite = sHealthTank;
+                            if(tank &lt;= fullTanks) tankSprite = sRHealthTank;
+                            draw_sprite(tankSprite, 0, (arrX - offsetX) + _x, arrY - (offsetY + 7) + _y);
+                        }
+                        draw_sprite(sRHealthBar, 0, (arrX - offsetX), arrY - (offsetY + 10));
+                        draw_set_halign(fa_right);
+                        var stretchMult = abs(15 - round(barHealth / 6.6)) * -1;
+                        if(barHealth == 99) stretchMult = 0;
+                        draw_sprite_ext(sHealthBarStretch, 0, (arrX - offsetX) + 14, arrY - (offsetY + 10), stretchMult, 1, 0, c_white, 1);
                         draw_set_halign(fa_left);
                     }
                 }
             }
         }
+    }
+    
+    if(global.showHealthIndicators &amp;&amp; instance_exists(oCharacter)){
+        var offsetY = 42;
+        if(string_count("MorphBall", sprite_get_name(oCharacter.sprite_index)) &gt; 0) offsetY = 21;
+        var offsetX = 7;
+        draw_set_halign(fa_center);
+        draw_sprite(sGHealthArrow, 0, oCharacter.x - 2, oCharacter.y - offsetY);
+        draw_set_halign(fa_left);
+    }
+}
+
+if(!global.sax &amp;&amp; global.spectator &amp;&amp; global.ingame){
+    var text = "Jump to swap players";
+    draw_set_font(fontGUI2);
+    draw_set_halign(fa_center);
+    draw_cool_text(view_xview[0] + 160, view_yview[0] + 200, text, c_black, c_white, c_white, image_alpha);
+    draw_set_halign(fa_left);
+    
+    var text = "Fire to stop spectating";
+    draw_set_font(fontGUI2);
+    draw_set_halign(fa_center);
+    draw_cool_text(view_xview[0] + 160, view_yview[0] + 220, text, c_black, c_white, c_white, image_alpha);
+    draw_set_halign(fa_left);
+}
+
+if(global.sax &amp;&amp; global.spectator &amp;&amp; global.ingame){
+    if(global.reformTimer &gt; 0){
+        var timerStr = string(global.reformTimer / 60);
+        var text = "Reform in " + timerStr + " seconds";
+        draw_set_font(fontGUI2);
+        draw_set_halign(fa_center);
+        draw_cool_text(view_xview[0] + 160, view_yview[0] + 220, text, c_black, c_white, c_white, image_alpha);
+        draw_set_halign(fa_left);
+    } else {
+        var text = "Jump to reform!";
+        draw_set_font(fontGUI2);
+        draw_set_halign(fa_center);
+        draw_cool_text(view_xview[0] + 160, view_yview[0] + 220, text, c_black, c_white, c_white, image_alpha);
+        draw_set_halign(fa_left);
     }
 }
 

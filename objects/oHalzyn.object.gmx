@@ -50,6 +50,8 @@ limit_l = x - 80;
 limit_r = x + 80;
 glow = 0;
 eyeSprite = sHalzynEye;
+shield1.fxtimer = 0;
+shield2.fxtimer = 0;
 </string>
           </argument>
         </arguments>
@@ -234,6 +236,11 @@ if (state == 100) {
     }
     enemy_death();
 }
+
+if (instance_exists(shield1) &amp;&amp; instance_exists(shield2)) {
+    shield1.fxtimer = fxtimer;
+    shield2.fxtimer = fxtimer;
+}
 </string>
           </argument>
         </arguments>
@@ -291,8 +298,33 @@ frz.spr2xs = -1;
             <string>//draw_self();
 draw_sprite(sprite_index, image_index, round(x), round(y));
 event_inherited();
+
 with(shield1) draw_self();
 with(shield2) draw_self();
+
+if(frozen &gt; 0 &amp;&amp; frozen &lt; freezetime * 0.2){
+    with(shield1){
+        draw_set_blend_mode(bm_add);
+        draw_sprite_ext(sprite_index, -1, x, y, image_xscale, 1, image_angle, -1, 1 - fxtimer * 0.25);
+        draw_set_blend_mode(bm_normal);
+    }
+    with(shield2){
+        draw_set_blend_mode(bm_add);
+        draw_sprite_ext(sprite_index, -1, x, y, image_xscale, 1, image_angle, -1, 1 - fxtimer * 0.25);
+        draw_set_blend_mode(bm_normal);
+    }
+}
+
+if(frozen &gt; 0){
+    if(instance_exists(oLavaSurface)){
+        eyeSprite = sHalzynEyeFrozen_lava;
+    } else eyeSprite = sHalzynEyeFrozen;
+} else {
+    if(instance_exists(oLavaSurface)){
+        eyeSprite = sHalzynEye_lava;
+    } else eyeSprite = sHalzynEye;
+}
+
 if(instance_exists(oCharacter) &amp;&amp; collision_line(x, y, oCharacter.x-1, oCharacter.y-16, oSolid, false, true) == noone) {
     draw_sprite(eyeSprite, floor((point_direction(x, y, oCharacter.x-1, oCharacter.y-16)+22.5)/45), round(x), round(y));
 }

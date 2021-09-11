@@ -37,13 +37,18 @@ num_censorip = tempnumcounter++;
 num_ip = tempnumcounter++;
 num_port = tempnumcounter++;
 num_name = tempnumcounter++;
-num_sequence = tempnumcounter++;
 num_color = tempnumcounter++;
 num_palette = tempnumcounter++;
+num_selfpalette = tempnumcounter++;
 num_showname = tempnumcounter++;
+num_moderator = tempnumcounter++;
 num_difficulty = tempnumcounter++;
 num_elm = tempnumcounter++;
 num_seedgen = tempnumcounter++;
+num_customseed = tempnumcounter++;
+num_reset = tempnumcounter++;
+num_locklobby = tempnumcounter++;
+num_saxmode = tempnumcounter++;
 num_connection = tempnumcounter++;
 
 lastitem = tempnumcounter; // This value will be one number higher than the last number in the list above.
@@ -53,6 +58,7 @@ name = oControl.name;
 port = string(oControl.port);
 showname = 1;
 sequence = 1;
+password = oControl.password;
 
 menuDifficulty = global.difficulty;
 
@@ -110,13 +116,18 @@ tip[num_censorip] = "Toggle whether your IP address is censored"
 tip[num_ip] = "Set the IP address of the server";
 tip[num_port] = "Set the port of the server";
 tip[num_name] = "Set your display name";
-tip[num_sequence] = "Toggle whether the reactor sequence is synced";
 tip[num_color] = "Pick your preferred player color";
-tip[num_palette] = "Choose Default/Color/Custom Palette";
+tip[num_palette] = "Choose palette setting";
+tip[num_selfpalette] = "Toggle use of the palette on yourself";
 tip[num_showname] = "Enable/disable showing player names";
+tip[num_moderator] = "Set the moderator password";
 tip[num_difficulty] = "Choose the shared Multitroid difficulty";
 tip[num_elm] = "Choose the shared ELM difficulty";
 tip[num_seedgen] = "Generate a random seed for Multitroid";
+tip[num_customseed] = "Enter a custom seed";
+tip[num_reset] = "Reset the server";
+tip[num_locklobby] = "Lock the lobby";
+tip[num_saxmode] = "Toggle SA-X Mode";
 tip[num_connection] = "Connect/disconnect to the server";
 
 
@@ -257,7 +268,7 @@ if (active) {
             {
                 oControl.palette--;
                 if(oControl.palette &lt; 0){
-                    oControl.palette = 2;
+                    oControl.palette = 3;
                 }
                 sfx_play(sndMenuMove);
                 event_user(2);
@@ -295,7 +306,7 @@ if (active) {
             if (global.curropt == num_palette)
             {
                 oControl.palette++;
-                if(oControl.palette &gt; 2){
+                if(oControl.palette &gt; 3){
                     oControl.palette = 0;
                 }
                 sfx_play(sndMenuMove);
@@ -321,8 +332,8 @@ if (active) {
      
     if (oControl.kLeft &gt; 0 &amp;&amp; oControl.kLeftPushedSteps == 0 || oControl.kRight &gt; 0 &amp;&amp; oControl.kRightPushedSteps == 0 &amp;&amp; global.curropt &lt; lastitem &amp;&amp; oControl.kDown == 0 &amp;&amp; oControl.kUp == 0) {
         if (global.curropt == num_censorip) oControl.censorip = !oControl.censorip;
-        if (global.curropt == num_sequence) sequence = !sequence;
         if (global.curropt == num_showname) showname = !showname;
+        if (global.curropt == num_selfpalette) oControl.useselfpalette = !oControl.useselfpalette;
         //if (global.shaders_compiled) {
             //if (global.curropt == num_MSRfusion) oControl.msr_fusionsuit = !oControl.msr_fusionsuit;
         //}
@@ -332,6 +343,16 @@ if (active) {
             oClient.elm = !oClient.elm;
             elm = !elm;
             with(oClient) event_user(1);
+        }
+        
+        if (global.curropt == num_locklobby &amp;&amp; instance_exists(oClient)){
+            global.lobbyLocked = !global.lobbyLocked;
+            with(oClient) event_user(6);
+        }
+        
+        if (global.curropt == num_saxmode &amp;&amp; instance_exists(oClient)){
+            global.saxmode = !global.saxmode;
+            with(oClient) event_user(7);
         }
         
         sfx_play(sndMenuMove);
@@ -392,6 +413,36 @@ if (active) {
             editing = !editing;
             op[num_name].editing = editing;
         }
+        if (global.curropt == num_moderator &amp;&amp; os_type != os_android) {
+            editing = !editing;
+            op[num_moderator].editing = editing;
+            if(editing){
+                keyboard_string = password;
+            }
+            sfx_play(sndMenuSel);
+            event_user(2);
+        } else if(global.curropt == num_moderator &amp;&amp; os_type == os_android){
+            if(!editing){
+                msg = get_integer_async("Type in your moderator password.", password);
+            }
+            editing = !editing;
+            op[num_moderator].editing = editing;
+        }
+        if (global.curropt == num_customseed &amp;&amp; os_type != os_android) {
+            editing = !editing;
+            op[num_customseed].editing = editing;
+            if(editing){
+                keyboard_string = string(global.multiCustomSeed);
+            }
+            sfx_play(sndMenuSel);
+            event_user(2);
+        } else if(global.curropt == num_customseed &amp;&amp; os_type == os_android){
+            if(!editing){
+                msg = get_integer_async("Type in your custom seed.", global.multiCustomSeed);
+            }
+            editing = !editing;
+            op[num_customseed].editing = editing;
+        }
     } // if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0)
     
     if (oControl.kMenu1 &amp;&amp; oControl.kMenu1PushedSteps == 0){
@@ -416,6 +467,12 @@ if (active) {
                 oClient.seed = random_get_seed();
                 random_set_seed(oClient.seed);
                 send_seed();
+            }
+            sfx_play(sndMenuSel);
+        }
+        if (global.curropt == num_reset) {
+            if(instance_exists(oClient)){
+                with(oClient) event_user(5);
             }
             sfx_play(sndMenuSel);
         }
@@ -458,6 +515,31 @@ if (active) {
         name = keyboard_string;
         op[num_name].optext = name;
     }
+    
+    if(editing &amp;&amp; global.curropt == num_moderator &amp;&amp; os_type != os_android){
+        var keyboardLength = string_length(keyboard_string);
+        if(keyboardLength &gt; 15){
+            keyboard_string = string_copy(keyboard_string, 1, 15);
+        }
+        password = keyboard_string;
+        op[num_moderator].optext = password;
+    }
+    
+    if(editing &amp;&amp; global.curropt == num_customseed &amp;&amp; os_type != os_android){
+        var keyboardLength = string_length(keyboard_string);
+        //show_debug_message(keyboard_lastchar);
+        if(keyboard_lastchar != "0" &amp;&amp; keyboard_lastchar != "1" &amp;&amp; keyboard_lastchar != "2" &amp;&amp; keyboard_lastchar != "3" &amp;&amp; keyboard_lastchar != "4" &amp;&amp; keyboard_lastchar != "5" &amp;&amp; keyboard_lastchar != "6" &amp;&amp; keyboard_lastchar != "7" &amp;&amp; keyboard_lastchar != "8" &amp;&amp; keyboard_lastchar != "9" &amp;&amp; keyboard_lastchar != "" &amp;&amp; keyboard_lastchar != -1){
+            if(keyboard_lastkey != vk_backspace) keyboard_string = string_copy(keyboard_string, 1, string_length(keyboard_string) - 1);
+            keyboard_lastchar = "";
+        }
+        if(keyboardLength &gt; 10){
+            keyboard_string = string_copy(keyboard_string, 1, 10);
+        }
+        //show_debug_message(keyboard_lastchar);
+        //show_debug_message(keyboard_string);
+        global.multiCustomSeed = real(keyboard_string);
+        op[num_customseed].optext = string(global.multiCustomSeed);
+    }
 } // if (active)
 if (targety != y) y += (targety - y) / 10;
 timer -= 1;
@@ -472,6 +554,50 @@ if(instance_exists(oClient) &amp;&amp; instance_exists(self) &amp;&amp; instance
 }
 
 if(!done){
+    if(global.moderator){
+        op[num_difficulty].enabled = 1;
+        canedit[num_difficulty] = 1;
+        
+        op[num_seedgen].enabled = 1;
+        canedit[num_seedgen] = 1;
+        
+        op[num_elm].enabled = 1;
+        canedit[num_elm] = 1;
+        
+        op[num_reset].enabled = 1;
+        canedit[num_reset] = 1;
+        
+        op[num_customseed].enabled = 1;
+        canedit[num_customseed] = 1;
+        
+        op[num_locklobby].enabled = 1;
+        canedit[num_locklobby] = 1;
+        
+        op[num_saxmode].enabled = 1;
+        canedit[num_saxmode] = 1;
+    } else {
+        op[num_difficulty].enabled = 0;
+        canedit[num_difficulty] = 0;
+        
+        op[num_seedgen].enabled = 0;
+        canedit[num_seedgen] = 0;
+        
+        op[num_elm].enabled = 0;
+        canedit[num_elm] = 0;
+        
+        op[num_reset].enabled = 0;
+        canedit[num_reset] = 0;
+        
+        op[num_customseed].enabled = 0;
+        canedit[num_customseed] = 0;
+        
+        op[num_locklobby].enabled = 0;
+        canedit[num_locklobby] = 0;
+        
+        op[num_saxmode].enabled = 0;
+        canedit[num_saxmode] = 0;
+    }
+    
     /*
     if(!instance_exists(oClient)){
         op[num_difficulty].enabled = 0;
@@ -485,9 +611,7 @@ if(!done){
             canedit[num_difficulty] = 0;
         }
     }
-    */
     
-    /*
     if(!instance_exists(oClient)){
         op[num_seedgen].enabled = 0;
         canedit[num_seedgen] = 0;
@@ -500,9 +624,7 @@ if(!done){
             canedit[num_seedgen] = 0;
         }
     }
-    */
     
-    /*
     if(!instance_exists(oClient)){
         op[num_elm].enabled = 0;
         canedit[num_elm] = 0;
@@ -538,6 +660,24 @@ if(!done){
             break;
         case 1:
             op[num_elm].optext = "Enabled";
+            break;
+    }
+    
+    switch(global.lobbyLocked){
+        case 0:
+            op[num_locklobby].optext = "Open";
+            break;
+        case 1:
+            op[num_locklobby].optext = "Locked";
+            break;
+    }
+    
+    switch(global.saxmode){
+        case 0:
+            op[num_saxmode].optext = "Disabled";
+            break;
+        case 1:
+            op[num_saxmode].optext = "Enabled";
             break;
     }
     
@@ -624,6 +764,32 @@ if(ID == msg &amp;&amp; global.curropt == num_name){
     editing = !editing;
     op[num_name].editing = editing;
 }
+
+if(ID == msg &amp;&amp; global.curropt == num_moderator){
+    if(ds_map_find_value(async_load, "status")){
+        var input = ds_map_find_value(async_load, "result");
+        if(is_string(input)){
+            password = input;
+            op[num_moderator].optext = password;
+            event_user(2);
+        }
+    }
+    editing = !editing;
+    op[num_moderator].editing = editing;
+}
+
+if(ID == msg &amp;&amp; global.curropt == num_customseed){
+    if(ds_map_find_value(async_load, "status")){
+        var input = ds_map_find_value(async_load, "result");
+        if(is_real(input)){
+            global.multiCustomSeed = input;
+            op[num_customseed].optext = string(global.multiCustomSeed);
+            event_user(2);
+        }
+    }
+    editing = !editing;
+    op[num_customseed].editing = editing;
+}
 </string>
           </argument>
         </arguments>
@@ -656,6 +822,8 @@ if(oControl.censorip){
 
 op[num_port].optext = port;
 op[num_name].optext = name;
+op[num_moderator].optext = password;
+op[num_customseed].optext = string(global.multiCustomSeed);
 
 
 switch(oControl.preferredcolor){
@@ -709,17 +877,6 @@ switch(oControl.preferredcolor){
         break;
     case 17:
         op[num_color].optext = "Random";
-        break;
-}
-
-switch(sequence){
-    case 0:
-        op[num_sequence].optext = "disabled";
-        oControl.reactorsequence = "disabled";
-        break;
-    case 1:
-        op[num_sequence].optext = "synced";
-        oControl.reactorsequence = "synced";
         break;
 }
 
@@ -816,7 +973,20 @@ switch(oControl.palette){
     case 2:
         op[num_palette].optext = "Custom";
         break;
+    case 3:
+        op[num_palette].optext = "Disabled";
+        break;
 }
+
+switch(oControl.useselfpalette){
+    case 0:
+        op[num_selfpalette].optext = "Disabled";
+        break;
+    case 1:
+        op[num_selfpalette].optext = "Enabled";
+        break;
+}
+
 
 switch(oControl.censorip){
     case 0:
@@ -824,6 +994,24 @@ switch(oControl.censorip){
         break;
     case 1:
         op[num_censorip].optext = "Enabled";
+        break;
+}
+
+switch(global.lobbyLocked){
+    case 0:
+        op[num_locklobby].optext = "Open";
+        break;
+    case 1:
+        op[num_locklobby].optext = "Locked";
+        break;
+}
+
+switch(global.saxmode){
+    case 0:
+        op[num_saxmode].optext = "Disabled";
+        break;
+    case 1:
+        op[num_saxmode].optext = "Enabled";
         break;
 }
 
@@ -836,11 +1024,14 @@ ini_write_string("ModSettings", "preferredcolor", color);
 ini_write_string("ModSettings", "showname", _showname);
 ini_write_real("ModSettings", "palette", oControl.palette);
 ini_write_real("ModSettings", "censorip", oControl.censorip);
+ini_write_real("ModSettings", "selfpalette", oControl.useselfpalette);
+ini_write_string("ModSettings", "moderatorpass", password);
 ini_close();
 
 oControl.ipaddress = ip;
 oControl.name = name;
 oControl.port = real(port);
+oControl.password = password;
 </string>
           </argument>
         </arguments>
@@ -916,10 +1107,6 @@ op[num_name] = instance_create(x, y + sep * tempcount++, oOptionLRMod);
 op[num_name].label = "Display name";
 op[num_name].optionid = num_name;
 
-op[num_sequence] = instance_create(x, y + sep * tempcount++, oOptionLR);
-op[num_sequence].label = "Reactor sequence";
-op[num_sequence].optionid = num_sequence;
-
 op[num_color] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_color].label = "Preferred color";
 op[num_color].optionid = num_color;
@@ -936,9 +1123,21 @@ if(!global.shaders_compiled){
     canedit[num_palette] = 0;
 }
 
+op[num_selfpalette] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_selfpalette].label = "Self palette";
+op[num_selfpalette].optionid = num_selfpalette;
+if(!global.shaders_compiled){
+    op[num_selfpalette].enabled = 0;
+    canedit[num_selfpalette] = 0;
+}
+
 op[num_showname] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_showname].label = "Show names";
 op[num_showname].optionid = num_showname;
+
+op[num_moderator] = instance_create(x, y + sep * tempcount++, oOptionLRMod);
+op[num_moderator].label = "Moderator Password";
+op[num_moderator].optionid = num_moderator;
 
 op[num_difficulty] = instance_create(x, y + sep * tempcount++, oOptionLR);
 op[num_difficulty].label = "Difficulty";
@@ -956,10 +1155,38 @@ canedit[num_elm] = 0;
 
 op[num_seedgen] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_seedgen].optionid = num_seedgen;
-op[num_seedgen].label = "Generate seed";
+op[num_seedgen].label = "Send seed";
 
 op[num_seedgen].enabled = 0;
 canedit[num_seedgen] = 0;
+
+op[num_customseed] = instance_create(x, y + sep * tempcount++, oOptionLRMod);
+op[num_customseed].optionid = num_customseed;
+op[num_customseed].label = "Custom seed";
+
+op[num_customseed].enabled = 0;
+canedit[num_customseed] = 0;
+
+op[num_reset] = instance_create(x, y + sep * tempcount++, oPauseOption);
+op[num_reset].optionid = num_reset;
+op[num_reset].label = "Reset server";
+
+op[num_reset].enabled = 0;
+canedit[num_reset] = 0;
+
+op[num_locklobby] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_locklobby].optionid = num_locklobby;
+op[num_locklobby].label = "Lock lobby";
+
+op[num_locklobby].enabled = 0;
+canedit[num_locklobby] = 0;
+
+op[num_saxmode] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_saxmode].optionid = num_saxmode;
+op[num_saxmode].label = "SA-X Mode";
+
+op[num_saxmode].enabled = 0;
+canedit[num_saxmode] = 0;
 
 op[num_connection] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_connection].optionid = num_connection;

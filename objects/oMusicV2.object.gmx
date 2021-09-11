@@ -29,6 +29,16 @@
 previousbgm = 254;
 bossbgm = sndJump;
 sound_id = 0;
+playingSAX = false;
+prevPlayingSAX = playingSAX;
+sameRoomSAX = false;
+prevSameRoomSAX = sameRoomSAX;
+fadeoutTimer = 2000;
+prevSameRoomSAXTimer = 0;
+stopSAXMusTimer = 0;
+chasedBySAX = false;
+prevChasedBySAX = chasedBySAX;
+runningFromSAX = false;
 
 useMultistageMusic = 0;
 
@@ -80,9 +90,7 @@ if (file_exists("musQueenbreak.ogg") and file_exists("musQueen2.ogg") and file_e
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (file_exists("musItemAmb2.ogg")) {
-    if(oMusicV2.currentbgm != musItemAmb2 &amp;&amp; oMusicV2.bossbgm == sndJump) mus_stop_muted();
-} else if (oMusicV2.bossbgm == sndJump) mus_stop_muted();
+            <string>if (oMusicV2.bossbgm == sndJump) mus_stop_muted();
 </string>
           </argument>
         </arguments>
@@ -382,6 +390,200 @@ else
 if (!sfx_isplaying(musFanfare)) {
     mus_current_fadein();
 } else alarm[0] = 5;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>sameRoomSAX = false;
+
+if(audio_is_playing(musFanfare)) exit;
+if(global.spectator) exit;
+
+if(instance_exists(oClient)){
+    if(ds_list_size(oClient.roomListData) &gt; 0){
+        for(var i=0; i&lt;ds_list_size(oClient.roomListData); i++){
+            var arrDraw = oClient.roomListData[| i];
+            var arrRoom = arrDraw[14];
+            var arrRoomPrev = arrDraw[18];
+            var arrSAX = arrDraw[20];
+            if((arrSAX &amp;&amp; !global.sax) &amp;&amp; room != rm_transition &amp;&amp; ((arrRoom == room || (arrRoom == global.lastroom &amp;&amp; (room == rm_options || room == itemroom || room == subscreenroom || room == maproom || room == rm_subscreen))) || ((arrRoomPrev == room || (arrRoomPrev == global.lastroom &amp;&amp; (room == rm_options || room == itemroom || room == subscreenroom || room == maproom || room == rm_subscreen))) &amp;&amp; (arrRoom == rm_options || arrRoom == itemroom || arrRoom == subscreenroom || arrRoom == maproom || arrRoom == rm_subscreen)))){
+                sameRoomSAX = true;
+            }
+        }
+    }
+}
+
+if(global.showHealthIndicators &amp;&amp; global.saxmode){
+    chasedBySAX = true;
+} else chasedBySAX = false;
+
+if(!global.spectator &amp;&amp; global.saxmode &amp;&amp; !global.sax &amp;&amp; (global.showHealthIndicators || global.enemyNearby || global.escapeTimer &gt; 0 || global.inMusSAXRange || sameRoomSAX || chasedBySAX)){
+    //show_debug_message(string(global.enemyNearby));
+    //show_debug_message(string(global.escapeTimer));
+    //show_debug_message(string(global.inMusSAXRange));
+    //show_debug_message(string(sameRoomSAX));
+    //show_debug_message(string(chasedBySAX));
+    playingSAX = true;
+} else playingSAX = false;
+
+if(prevPlayingSAX != playingSAX){
+    if(!prevPlayingSAX &amp;&amp; playingSAX &amp;&amp; runningFromSAX &amp;&amp; !chasedBySAX){
+        if (audio_is_playing(oMusicV2.previousbgm)) audio_sound_gain(oMusicV2.previousbgm, 0, fadeoutTimer);
+        if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, 0, fadeoutTimer);
+        if (!audio_is_playing(musSAXEnvironmentalAmbience)) audio_play_sound(musSAXEnvironmentalAmbience, 1, true);
+        audio_sound_gain(musSAXEnvironmentalAmbience, 0, 0);
+        audio_sound_gain(musSAXEnvironmentalAmbience, global.opmusicvolume / 100, fadeoutTimer);
+        //show_debug_message("does this run");
+    }
+    if(prevPlayingSAX &amp;&amp; !playingSAX &amp;&amp; !chasedBySAX){
+        if (audio_is_playing(musSAXEnvironmentalAmbience)) audio_sound_gain(musSAXEnvironmentalAmbience, 0, fadeoutTimer);
+        if (!audio_is_playing(oMusicV2.currentbgm)) audio_play_sound(oMusicV2.currentbgm, 1, true);
+        if (audio_sound_get_gain(oMusicV2.currentbgm) == 0 || audio_sound_get_gain(oMusicV2.currentbgm) == 0.00){
+            audio_sound_gain(oMusicV2.currentbgm, 0, 0);
+            audio_sound_gain(oMusicV2.currentbgm, global.opmusicvolume / 100, fadeoutTimer);
+        }
+        //show_debug_message("no longer in range");
+    }
+    prevPlayingSAX = playingSAX;
+}
+
+if(prevSameRoomSAX != sameRoomSAX){
+    if(playingSAX){
+        if(!prevSameRoomSAX &amp;&amp; sameRoomSAX &amp;&amp; !chasedBySAX){
+            if (audio_is_playing(oMusicV2.previousbgm)) audio_sound_gain(oMusicV2.previousbgm, 0, 0);
+            if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, 0, 0);
+            if (audio_is_playing(musSAXEnvironmentalAmbience)) audio_sound_gain(musSAXEnvironmentalAmbience, 0, fadeoutTimer);
+            if (!audio_is_playing(musSAXAppear)) audio_play_sound(musSAXAppear, 1, true);
+            audio_sound_gain(musSAXAppear, 0, 0);
+            audio_sound_gain(musSAXAppear, global.opmusicvolume / 100, 0);
+            mus_stop_all();
+            //show_debug_message("same room");
+        }
+        if(prevSameRoomSAX &amp;&amp; !sameRoomSAX &amp;&amp; !chasedBySAX){
+            if (audio_is_playing(musSAXAppear)) audio_sound_gain(musSAXAppear, 0, fadeoutTimer);
+            if (!audio_is_playing(musSAXEnvironmentalAmbience)) audio_play_sound(musSAXEnvironmentalAmbience, 1, true);
+            audio_sound_gain(musSAXEnvironmentalAmbience, 0, 0);
+            audio_sound_gain(musSAXEnvironmentalAmbience, global.opmusicvolume / 100, fadeoutTimer);
+            //show_debug_message("left the same room");
+            runningFromSAX = true;
+            //prevSameRoomSAXTimer = 15 * 60;
+        }
+    }
+    prevSameRoomSAX = sameRoomSAX;
+}
+
+if(sameRoomSAX){
+    if (audio_is_playing(oMusicV2.previousbgm)) audio_sound_gain(oMusicV2.previousbgm, 0, 0);
+    if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, 0, 0);
+}
+
+if(prevChasedBySAX != chasedBySAX){
+    if(!prevChasedBySAX &amp;&amp; chasedBySAX){
+        if(audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, 0, 0);
+        if(audio_is_playing(musSAXEnvironmentalAmbience)) audio_sound_gain(musSAXEnvironmentalAmbience, 0, 0);
+        if(audio_is_playing(musSAXAppear)) audio_sound_gain(musSAXAppear, 0, 0);
+        if(audio_is_playing(musSAXChase)) audio_stop_sound(musSAXChase);
+        if(!audio_is_playing(musSAXChase)) audio_play_sound(musSAXChase, 1, true);
+        audio_sound_gain(musSAXChase, 0, 0);
+        audio_sound_gain(musSAXChase, global.opmusicvolume / 100, 0);
+    }
+    if(prevChasedBySAX &amp;&amp; !chasedBySAX){
+        audio_sound_gain(musSAXChase, 0, fadeoutTimer);
+        if(playingSAX){
+            if(sameRoomSAX){
+                if (audio_is_playing(oMusicV2.previousbgm)) audio_sound_gain(oMusicV2.previousbgm, 0, 0);
+                if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, 0, 0);
+                if (audio_is_playing(musSAXEnvironmentalAmbience)) audio_sound_gain(musSAXEnvironmentalAmbience, 0, fadeoutTimer);
+                if (!audio_is_playing(musSAXAppear)) audio_play_sound(musSAXAppear, 1, true);
+                audio_sound_gain(musSAXAppear, 0, 0);
+                audio_sound_gain(musSAXAppear, global.opmusicvolume / 100, 0);
+                //show_debug_message("sameRoomSAX");
+            } else {
+                if (audio_is_playing(oMusicV2.previousbgm)) audio_sound_gain(oMusicV2.previousbgm, 0, 0);
+                if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, 0, 0);
+                if (audio_is_playing(musSAXAppear)) audio_sound_gain(musSAXAppear, 0, fadeoutTimer);
+                if (!audio_is_playing(musSAXEnvironmentalAmbience)) audio_play_sound(musSAXEnvironmentalAmbience, 1, true);
+                audio_sound_gain(musSAXEnvironmentalAmbience, 0, 0);
+                audio_sound_gain(musSAXEnvironmentalAmbience, global.opmusicvolume / 100, fadeoutTimer);
+                //show_debug_message("runningFromSAX");
+            }
+        } else {
+            audio_stop_sound(musSAXEnvironmentalAmbience);
+            audio_stop_sound(musSAXAppear);
+            audio_stop_sound(musSAXChase);
+            if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, global.opmusicvolume / 100, fadeoutTimer);
+        }
+    }
+    prevChasedBySAX = chasedBySAX;
+}
+
+if(global.inMusSAXRangePrev != global.inMusSAXRange){
+    if(global.inMusSAXRangePrev &amp;&amp; !global.inMusSAXRange){
+        //show_debug_message(string(global.inMusSAXRangePrev) + " " + string(global.inMusSAXRange));
+        if(audio_is_playing(musSAXEnvironmentalAmbience)) audio_sound_gain(musSAXEnvironmentalAmbience, 0, fadeoutTimer);
+        if(audio_is_playing(musSAXAppear)) audio_sound_gain(musSAXAppear, 0, fadeoutTimer);
+        stopSAXMusTimer = 120;
+        if(runningFromSAX) runningFromSAX = false;
+    }
+    global.inMusSAXRangePrev = global.inMusSAXRange;
+}
+
+if(((audio_is_playing(musSAXEnvironmentalAmbience) &amp;&amp; audio_sound_get_gain(musSAXEnvironmentalAmbience) &gt; 0) || (audio_is_playing(musSAXAppear) &amp;&amp; audio_sound_get_gain(musSAXAppear) &gt; 0) || audio_is_playing(musSAXChase)) &amp;&amp; playingSAX){
+    //show_debug_message("gain is fading currentbgm");
+    //show_debug_message(string(audio_is_playing(musSAXEnvironmentalAmbience)) + " " + string(audio_sound_get_gain(musSAXEnvironmentalAmbience)));
+    //show_debug_message(string(audio_is_playing(musSAXAppear)) + " " + string(audio_sound_get_gain(musSAXAppear)));
+    //show_debug_message(string(audio_is_playing(musSAXChase)) + " " + string(audio_sound_get_gain(musSAXChase)));
+    if (audio_is_playing(oMusicV2.previousbgm)) audio_sound_gain(oMusicV2.previousbgm, 0, fadeoutTimer);
+    if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, 0, fadeoutTimer);
+}
+
+/*
+if(prevSameRoomSAXTimer &gt; 0){
+    if(prevSameRoomSAXTimer == 1){
+        if(audio_is_playing(musSAXEnvironmentalAmbience)) audio_sound_gain(musSAXEnvironmentalAmbience, 0, fadeoutTimer);
+        if(audio_is_playing(musSAXAppear)) audio_sound_gain(musSAXAppear, 0, fadeoutTimer);
+        stopSAXMusTimer = 120;
+        if(audio_is_playing(oMusicV2.currentbgm) &amp;&amp; (audio_sound_get_gain(oMusicV2.currentbgm) == 0 || audio_sound_get_gain(oMusicV2.currentbgm) == 0.00)) audio_sound_gain(oMusicV2.currentbgm, global.opmusicvolume / 100, fadeoutTimer);
+    }
+    prevSameRoomSAXTimer--;
+}
+*/
+
+if(stopSAXMusTimer &gt; 0){
+    //show_debug_message("stop mus timer = " + string(stopSAXMusTimer));
+    if(stopSAXMusTimer == 1){
+        if(audio_is_playing(musSAXEnvironmentalAmbience)) audio_stop_sound(musSAXEnvironmentalAmbience);
+        if(audio_is_playing(musSAXAppear)) audio_stop_sound(musSAXAppear);
+        if(audio_is_playing(musSAXChase)) audio_stop_sound(musSAXChase);
+        if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, global.opmusicvolume / 100, fadeoutTimer);
+    }
+    stopSAXMusTimer--;
+}
+
+if(audio_is_playing(musSAXChase) &amp;&amp; audio_sound_get_gain(musSAXChase) == 0){
+    audio_stop_sound(musSAXChase);
+    if (audio_is_playing(oMusicV2.currentbgm)) audio_sound_gain(oMusicV2.currentbgm, global.opmusicvolume / 100, fadeoutTimer);
+}
+
+//if(global.inMusSAXRange &amp;&amp; stopSAXMusTimer == 0 &amp;&amp; prevSameRoomSAXTimer &gt; 1 &amp;&amp; prevSameRoomSAXTimer &lt; 3) prevSameRoomSAXTimer = 3;
 </string>
           </argument>
         </arguments>

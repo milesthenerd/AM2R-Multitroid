@@ -111,6 +111,7 @@ if (CollisionLeft == -4) CollisionLeft = collision_line(x - 9, y - 6, x - 9, y +
 CollisionBottom = collision_line(x - 8, y + 7, x + 8, y + 7, oSolid, true, true);
 if (CollisionBottom == -4) CollisionBottom = collision_line(x - 8, y + 7, x + 8, y + 7, oEnemySolid, true, true);
 if (active == 1 &amp;&amp; frozen == 0) {
+    if(image_speed == 0) image_speed = 0.25;
     if (state == 0) {
         accelx = 0.02;
         accely = 0.02;
@@ -343,7 +344,7 @@ speed = 2;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>with (other) plantdrain = 2;
+            <string>if(frozen == 0) with (other) plantdrain = 2;
 </string>
           </argument>
         </arguments>

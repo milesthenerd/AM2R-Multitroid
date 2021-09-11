@@ -134,6 +134,7 @@ global.floormaterial = 3;</code>
     <instance objName="oSolid1" x="320" y="880" name="inst_F853D08C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="336" y="880" name="inst_1829C249" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="352" y="880" name="inst_A795B0B0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="32" y="560" name="inst_42C9AABC" locked="0" code="if(global.saxmode){&#xA;    if(!global.sax) instance_destroy();&#xA;} else instance_destroy();" scaleX="1" scaleY="5" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="tlBrick1BG" x="272" y="128" w="48" h="32" xo="0" yo="96" id="10021256" name="tile_10021256" depth="100" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
