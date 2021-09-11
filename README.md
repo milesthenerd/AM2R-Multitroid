@@ -16,8 +16,7 @@ There is a Multitroid Settings menu under Options that allows you to change what
 The server can be found here: https://github.com/lassiterm/AM2R-Server
 
 ## To-do List
- - The only remaining plan is to add a special game mode :)
- - If you have any suggestions, feel free to @milesthenerd in the AM2R Discord Server.
+ - Nothing!
 
 ## What is this?
 The source code for the AM2R Community Updates 1.5.x branch, free of copyrighted assets and trademarks.
