@@ -319,7 +319,7 @@ global.fontVersion = font_add_sprite_ext(sVersionFont, "V.0123456789", true, 1);
 
 global.am2r_version = "V1.5.2"; // no longer dynamic, not worth the effort to maintain - mostly because of Android oddities.
 
-global.multitroid_version = "V1.4";
+global.multitroid_version = "V1.4.1";
 
 // Android
 global.gamestarted = 0;
@@ -507,6 +507,9 @@ MultitroidBabyPaletteCustom = sPalMultitroidBaby;
 MultitroidIconCustom = sMultitroidIcon;
 MultitroidIconDarkCustom = sDarkMultitroidPlayer;
 MultitroidMapIconCustom = sMultitroidMapIcon;
+MultitroidSpectatorIcon = sSpectatorIcon;
+MultitroidFusionIcon = sFusionIcon;
+MultitroidSAXIcon = sMultitroidMapIconMiepee;
 
 MultitroidPalette = MultitroidPaletteDefault;
 MultitroidPaletteFusion = MultitroidPaletteFusionDefault;
@@ -586,6 +589,8 @@ global.multiCustomSeed = 0;
 global.playerMapPosTimer = 0;
 
 global.samCount = 0;
+
+global.damageMult = 0;
 
 reset_map();
 load_character_vars();

@@ -125,9 +125,9 @@ if (directory_exists(program_directory)) {
 
 
 // ***Suit palettes***
-oControl.PowerPalette = -1;
-oControl.VariaPalette = -1;
-oControl.GravityPalette = -1;
+oControl.PowerPalette = sPowerPalette;
+oControl.VariaPalette = sVariaPalette;
+oControl.GravityPalette = sGravityPalette;
 
 if (file_exists("mods/palettes/suits/power.png")) oControl.PowerPalette = sprite_add("mods/palettes/suits/power.png", 1, false, false, 0, 0);
 if (file_exists("mods/palettes/suits/varia.png")) oControl.VariaPalette = sprite_add("mods/palettes/suits/varia.png", 1, false, false, 0, 0);
@@ -293,6 +293,9 @@ if (file_exists("mods/palettes/multitroid/multitroid.png")) oControl.MultitroidP
 if (file_exists("mods/palettes/multitroid/multitroid_fusion.png")) oControl.MultitroidPaletteFusionCustom = sprite_add("mods/palettes/multitroid/multitroid_fusion.png", 1, false, false, 0, 0);
 if (file_exists("mods/palettes/multitroid/spiderball.png")) oControl.SpiderballPaletteCustom = sprite_add("mods/palettes/multitroid/spiderball.png", 1, false, false, 0, 0);
 if (file_exists("mods/palettes/multitroid/baby_metroid.png")) oControl.MultitroidBabyPaletteCustom = sprite_add("mods/palettes/multitroid/baby_metroid.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/map_icons/sSpectatorIcon.png")) oControl.MultitroidSpectatorIcon = sprite_add("mods/palettes/multitroid/map_icons/sSpectatorIcon.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/map_icons/sFusionIcon.png")) oControl.MultitroidFusionIcon = sprite_add("mods/palettes/multitroid/map_icons/sFusionIcon.png", 1, false, false, 0, 0);
+if (file_exists("mods/palettes/multitroid/map_icons/sSAXIcon.png")) oControl.MultitroidSAXIcon = sprite_add("mods/palettes/multitroid/map_icons/sSAXIcon.png", 1, false, false, 0, 0);
 
 icon_sprite = 0;
 icon_merge = 1;

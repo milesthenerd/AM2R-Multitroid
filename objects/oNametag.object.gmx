@@ -133,7 +133,7 @@
                         }
                     }
                 } else {
-                    if(global.showHealthIndicators &amp;&amp; !tunnel){
+                    if(global.showHealthIndicators &amp;&amp; !tunnel &amp;&amp; !arrSpectator){
                         var offsetY = 42;
                         if(string_count("MorphBall", sprite_get_name(arrSprite)) &gt; 0) offsetY = 21;
                         var offsetX = 7;

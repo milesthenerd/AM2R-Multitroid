@@ -3,8 +3,8 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="366" name="datafiles">
-    <datafiles number="366" name="lang">
+  <datafiles number="369" name="datafiles">
+    <datafiles number="369" name="lang">
       <datafile>
         <name>czech.ini</name>
         <exists>-1</exists>
@@ -158,7 +158,7 @@
         </ConfigOptions>
         <filename>languages.txt</filename>
       </datafile>
-      <datafiles number="366" name="headers">
+      <datafiles number="369" name="headers">
         <datafile>
           <name>castellano_a1_f24_b0_c3_d19_e21.png</name>
           <exists>-1</exists>
@@ -857,7 +857,7 @@
           <filename>russian_a8_f19_b0_c3_d14_e16.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="366" name="fonts">
+      <datafiles number="369" name="fonts">
         <datafile>
           <name>04b09.ttf</name>
           <exists>-1</exists>
@@ -1030,8 +1030,8 @@
       </ConfigOptions>
       <filename>readme.txt</filename>
     </datafile>
-    <datafiles number="366" name="mods">
-      <datafiles number="366" name="titles">
+    <datafiles number="369" name="mods">
+      <datafiles number="369" name="titles">
         <datafile>
           <name>config.ini</name>
           <exists>-1</exists>
@@ -1067,8 +1067,8 @@
           <filename>titlebackground.png</filename>
         </datafile>
       </datafiles>
-      <datafiles number="366" name="palettes">
-        <datafiles number="366" name="monsters">
+      <datafiles number="369" name="palettes">
+        <datafiles number="369" name="monsters">
           <datafile>
             <name>alpha.png</name>
             <exists>-1</exists>
@@ -1240,7 +1240,7 @@
             <filename>zeta_blur.png</filename>
           </datafile>
         </datafiles>
-        <datafiles number="366" name="suits">
+        <datafiles number="369" name="suits">
           <datafile>
             <name>fusion_gravity.png</name>
             <exists>-1</exists>
@@ -1343,7 +1343,7 @@
             </ConfigOptions>
             <filename>varia.png</filename>
           </datafile>
-          <datafiles number="366" name="MorphTrailColors">
+          <datafiles number="369" name="MorphTrailColors">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1447,7 +1447,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="366" name="SpaceJumpTrails">
+          <datafiles number="369" name="SpaceJumpTrails">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1551,7 +1551,7 @@
               <filename>varia.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="366" name="SpiderBallGlow">
+          <datafiles number="369" name="SpiderBallGlow">
             <datafile>
               <name>fusion_gravity.png</name>
               <exists>-1</exists>
@@ -1656,8 +1656,8 @@
             </datafile>
           </datafiles>
         </datafiles>
-        <datafiles number="366" name="multitroid">
-          <datafiles number="366" name="dark_player_icons">
+        <datafiles number="369" name="multitroid">
+          <datafiles number="369" name="dark_player_icons">
             <datafile>
               <name>sDarkMultitroidPlayer_0.png</name>
               <exists>-1</exists>
@@ -1931,7 +1931,7 @@
               <filename>sDarkMultitroidPlayer_15.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="366" name="player_icons">
+          <datafiles number="369" name="player_icons">
             <datafile>
               <name>sMultitroidPlayer_0.png</name>
               <exists>-1</exists>
@@ -2205,7 +2205,7 @@
               <filename>sMultitroidPlayer_15.png</filename>
             </datafile>
           </datafiles>
-          <datafiles number="366" name="map_icons">
+          <datafiles number="369" name="map_icons">
             <datafile>
               <name>sMultitroidMapIcon_0.png</name>
               <exists>-1</exists>
@@ -2477,6 +2477,57 @@
                 </Config>
               </ConfigOptions>
               <filename>sMultitroidMapIcon_15.png</filename>
+            </datafile>
+            <datafile>
+              <name>sFusionIcon.png</name>
+              <exists>-1</exists>
+              <size>150</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sFusionIcon.png</filename>
+            </datafile>
+            <datafile>
+              <name>sSpectatorIcon.png</name>
+              <exists>-1</exists>
+              <size>153</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sSpectatorIcon.png</filename>
+            </datafile>
+            <datafile>
+              <name>sSAXIcon.png</name>
+              <exists>-1</exists>
+              <size>148</size>
+              <exportAction>2</exportAction>
+              <exportDir></exportDir>
+              <overwrite>0</overwrite>
+              <freeData>-1</freeData>
+              <removeEnd>0</removeEnd>
+              <store>0</store>
+              <ConfigOptions>
+                <Config name="Default">
+                  <CopyToMask>9223372036854775807</CopyToMask>
+                </Config>
+              </ConfigOptions>
+              <filename>sSAXIcon.png</filename>
             </datafile>
           </datafiles>
           <datafile>
@@ -5225,6 +5276,11 @@
       <sprite>sprites\sSpectatorIcon</sprite>
       <sprite>sprites\sFusionIcon</sprite>
       <sprite>sprites\sFedtogg</sprite>
+    </sprites>
+    <sprites name="Default Palettes">
+      <sprite>sprites\sPowerPalette</sprite>
+      <sprite>sprites\sVariaPalette</sprite>
+      <sprite>sprites\sGravityPalette</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">

@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>if(global.spectator) instance_destroy();
 posx = x + 8;
 state = 0;
 statetime = 0;

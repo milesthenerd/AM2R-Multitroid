@@ -3,7 +3,13 @@ var jump_vel;
 if (global.enablecontrol) chStepControl();
 if (global.movingobj) chStepMovingCheck();
 
-if(global.playerhealth <= 0 && global.sax && oCharacter.sprite_index != sCoreXSAX) global.playerhealth = 1;
+if (global.saxmode && !global.lobbyLocked){
+    xVel = 0;
+    yVel = 0;
+    exit;
+}
+
+if(global.playerhealth <= 0 && global.sax && global.saxmode && oCharacter.sprite_index != sCoreXSAX) global.playerhealth = 1;
 
 if(global.saxmode && global.sax && global.playerhealth == 1 && !global.spectator && global.lobbyLocked){
     if(!global.mosaic){

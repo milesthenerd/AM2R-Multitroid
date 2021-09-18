@@ -381,7 +381,7 @@ if (global.timeofday == 2) {
     <instance objName="oA7Crystal6" x="480" y="1088" name="inst_100967" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oA7Crystal7" x="432" y="1088" name="inst_100968" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oA7Crystal7" x="416" y="1056" name="inst_100969" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oSolid1" x="4432" y="992" name="inst_100970" locked="0" code="&#xA;if (global.event[304] == 0) instance_destroy();&#xA;" scaleX="1" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="oSolid1" x="4432" y="992" name="inst_100970" locked="0" code="&#xA;if (global.event[304] == 0 || instance_exists(oClient)) instance_destroy();&#xA;" scaleX="1" scaleY="4" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="tlSurfaceBGNight" x="3584" y="1136" w="32" h="48" xo="64" yo="64" id="10000000" name="tile_10000000" depth="120" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_speed = 0.5;
+            <string>image_speed = 0.25;
 image_index = 0;
 fade = 0;
 moveplayer = 0;

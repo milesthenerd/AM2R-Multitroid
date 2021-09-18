@@ -152,7 +152,7 @@ else oMusicV2.currentbgm = musArea2A;</code>
     <instance objName="oBlockShoot" x="288" y="112" name="inst_110202" locked="0" code="&#xA;link_tile(tlPipes1, 16, 96);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oBlockShoot" x="320" y="144" name="inst_110203" locked="0" code="&#xA;link_tile(tlPipes1, 96, 0);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oGotoRoom" x="0" y="208" name="inst_110204" locked="0" code="targetroom = rm_a2a04;&#xA;targetx = 304;&#xA;targety = 208;&#xA;height = 80;&#xA;direction = 180;&#xA;camstartx = 304;&#xA;camstarty = 120;&#xA;transitionx = 316;&#xA;transitiony = 208;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oDoor" x="24" y="144" name="inst_110205" locked="0" code="&#xA;lock = 1;&#xA;event = 104;&#xA;//if (global.item[0] == 0) lock = 4;&#xA;&#xA;if(global.saxmode &amp;&amp; global.sax &amp;&amp; global.event[103] == 0){&#xA;    lock = 4;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oDoor" x="24" y="144" name="inst_110205" locked="0" code="lock = 1;&#xA;event = 104;&#xA;//if (global.item[0] == 0) lock = 4;&#xA;&#xA;if(global.saxmode &amp;&amp; global.sax &amp;&amp; global.event[103] == 0){&#xA;    lock = 4;&#xA;}" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="tlPipes3" x="472" y="16" w="48" h="16" xo="32" yo="80" id="10151419" name="inst_CB38DF8F" depth="100" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

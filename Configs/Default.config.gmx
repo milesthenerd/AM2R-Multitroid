@@ -25,7 +25,7 @@
     <option_android_build_version>2</option_android_build_version>
     <option_android_color_depth>1</option_android_color_depth>
     <option_android_compile_sdk_version>28</option_android_compile_sdk_version>
-    <option_android_display_name>Multitroid 1.4</option_android_display_name>
+    <option_android_display_name>Multitroid 1.4.1</option_android_display_name>
     <option_android_facebook_app_display_name></option_android_facebook_app_display_name>
     <option_android_facebook_appid></option_android_facebook_appid>
     <option_android_facebook_enable>0</option_android_facebook_enable>
@@ -220,7 +220,7 @@
     <option_changeresolution>false</option_changeresolution>
     <option_closeesc>true</option_closeesc>
     <option_colordepth>0</option_colordepth>
-    <option_display_name>AM2R Multitroid 1.4</option_display_name>
+    <option_display_name>AM2R Multitroid 1.4.1</option_display_name>
     <option_displayerrors>True</option_displayerrors>
     <option_ecma>0</option_ecma>
     <option_facebook_app_display_name></option_facebook_app_display_name>
@@ -362,7 +362,7 @@
     <option_ios_texture_page>1024</option_ios_texture_page>
     <option_ios_use_test_ads>false</option_ios_use_test_ads>
     <option_lastchanged></option_lastchanged>
-    <option_linux_display_name>AM2R Multitroid 1.4</option_linux_display_name>
+    <option_linux_display_name>AM2R Multitroid 1.4.1</option_linux_display_name>
     <option_linux_enable_steam>0</option_linux_enable_steam>
     <option_linux_fullscreen>0</option_linux_fullscreen>
     <option_linux_homepage>https://www.reddit.com/r/AM2R/</option_linux_homepage>

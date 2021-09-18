@@ -1312,6 +1312,10 @@ if(room == rm_a4b01 &amp;&amp; global.event[203] == 9 &amp;&amp; instance_exists
     }
 }
 
+if(global.event[203] == 9 &amp;&amp; sfx_isplaying(sndA4AlarmLoop)){
+    sfx_stop(sndA4AlarmLoop);
+}
+
 if(!instance_exists(oQueen) &amp;&amp; global.event[303] == 0){
     if(!queenHealthResetQueued){
         queenHealthResetQueued = true;
@@ -2499,6 +2503,9 @@ switch(type_event){
                 var saxmode = buffer_read(_buffer, buffer_u8);
                 var lobbyLocked = buffer_read(_buffer, buffer_u8);
                 var samCount = buffer_read(_buffer, buffer_u8);
+                var damageMultStr = buffer_read(_buffer, buffer_string);
+                var damageMult = real(damageMultStr);
+                global.damageMult = damageMult;
                 global.saxmode = saxmode;
                 if(!lobbyLocked){
                     if(global.spectator){
@@ -4160,29 +4167,29 @@ switch(type_event){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>buffer_delete(buffer);
-var size, type, alignment;
+            <string>var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 36);
-buffer_write(buffer, buffer_s8, oCharacter.mirror);
-buffer_write(buffer, buffer_s16, room);
-buffer_write(buffer, buffer_s16, global.currX);
-buffer_write(buffer, buffer_s16, global.currY);
-buffer_write(buffer, buffer_s8, global.sax);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 36);
-buffer_write(buffer, buffer_s8, oCharacter.mirror);
-buffer_write(buffer, buffer_s16, room);
-buffer_write(buffer, buffer_s16, global.currX);
-buffer_write(buffer, buffer_s16, global.currY);
-buffer_write(buffer, buffer_s8, global.sax);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer11 = buffer_create(size, type, alignment);
+buffer_seek(buffer11, buffer_seek_start, 0);
+buffer_write(buffer11, buffer_u8, 36);
+buffer_write(buffer11, buffer_s8, oCharacter.mirror);
+buffer_write(buffer11, buffer_s16, room);
+buffer_write(buffer11, buffer_s16, global.currX);
+buffer_write(buffer11, buffer_s16, global.currY);
+buffer_write(buffer11, buffer_s8, global.sax);
+var bufferSize = buffer_tell(buffer11);
+buffer_seek(buffer11, buffer_seek_start, 0);
+buffer_write(buffer11, buffer_s32, bufferSize);
+buffer_write(buffer11, buffer_u8, 36);
+buffer_write(buffer11, buffer_s8, oCharacter.mirror);
+buffer_write(buffer11, buffer_s16, room);
+buffer_write(buffer11, buffer_s16, global.currX);
+buffer_write(buffer11, buffer_s16, global.currY);
+buffer_write(buffer11, buffer_s8, global.sax);
+var result = network_send_packet(socket, buffer11, buffer_tell(buffer11));
+buffer_delete(buffer11);
 </string>
           </argument>
         </arguments>
@@ -4206,23 +4213,23 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
           <argument>
             <kind>1</kind>
             <string>if(!global.saxmode || global.spectator) exit;
-buffer_delete(buffer);
 var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 35);
-buffer_write(buffer, buffer_s16, global.mapposx);
-buffer_write(buffer, buffer_s16, global.mapposy);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 35);
-buffer_write(buffer, buffer_s16, global.mapposx);
-buffer_write(buffer, buffer_s16, global.mapposy);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer10 = buffer_create(size, type, alignment);
+buffer_seek(buffer10, buffer_seek_start, 0);
+buffer_write(buffer10, buffer_u8, 35);
+buffer_write(buffer10, buffer_s16, global.mapposx);
+buffer_write(buffer10, buffer_s16, global.mapposy);
+var bufferSize = buffer_tell(buffer10);
+buffer_seek(buffer10, buffer_seek_start, 0);
+buffer_write(buffer10, buffer_s32, bufferSize);
+buffer_write(buffer10, buffer_u8, 35);
+buffer_write(buffer10, buffer_s16, global.mapposx);
+buffer_write(buffer10, buffer_s16, global.mapposy);
+var result = network_send_packet(socket, buffer10, buffer_tell(buffer10));
+buffer_delete(buffer10);
 </string>
           </argument>
         </arguments>
@@ -4245,21 +4252,21 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>buffer_delete(buffer);
-var size, type, alignment;
+            <string>var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 34);
-buffer_write(buffer, buffer_u8, global.saxmode);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 34);
-buffer_write(buffer, buffer_u8, global.saxmode);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer9 = buffer_create(size, type, alignment);
+buffer_seek(buffer9, buffer_seek_start, 0);
+buffer_write(buffer9, buffer_u8, 34);
+buffer_write(buffer9, buffer_u8, global.saxmode);
+var bufferSize = buffer_tell(buffer9);
+buffer_seek(buffer9, buffer_seek_start, 0);
+buffer_write(buffer9, buffer_s32, bufferSize);
+buffer_write(buffer9, buffer_u8, 34);
+buffer_write(buffer9, buffer_u8, global.saxmode);
+var result = network_send_packet(socket, buffer9, buffer_tell(buffer9));
+buffer_delete(buffer9);
 </string>
           </argument>
         </arguments>
@@ -4282,21 +4289,21 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>buffer_delete(buffer);
-var size, type, alignment;
+            <string>var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 33);
-buffer_write(buffer, buffer_u8, global.lobbyLocked);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 33);
-buffer_write(buffer, buffer_u8, global.lobbyLocked);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer8 = buffer_create(size, type, alignment);
+buffer_seek(buffer8, buffer_seek_start, 0);
+buffer_write(buffer8, buffer_u8, 33);
+buffer_write(buffer8, buffer_u8, global.lobbyLocked);
+var bufferSize = buffer_tell(buffer8);
+buffer_seek(buffer8, buffer_seek_start, 0);
+buffer_write(buffer8, buffer_s32, bufferSize);
+buffer_write(buffer8, buffer_u8, 33);
+buffer_write(buffer8, buffer_u8, global.lobbyLocked);
+var result = network_send_packet(socket, buffer8, buffer_tell(buffer8));
+buffer_delete(buffer8);
 </string>
           </argument>
         </arguments>
@@ -4320,19 +4327,19 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
           <argument>
             <kind>1</kind>
             <string>//Reset server packet
-buffer_delete(buffer);
 var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 32);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 32);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer7 = buffer_create(size, type, alignment);
+buffer_seek(buffer7, buffer_seek_start, 0);
+buffer_write(buffer7, buffer_u8, 32);
+var bufferSize = buffer_tell(buffer7);
+buffer_seek(buffer7, buffer_seek_start, 0);
+buffer_write(buffer7, buffer_s32, bufferSize);
+buffer_write(buffer7, buffer_u8, 32);
+var result = network_send_packet(socket, buffer7, buffer_tell(buffer7));
+buffer_delete(buffer7);
 </string>
           </argument>
         </arguments>
@@ -4355,27 +4362,27 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>buffer_delete(buffer);
-var size, type, alignment;
+            <string>var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 31);
-buffer_write(buffer, buffer_u8, global.otherAbsorbID);
-buffer_write(buffer, buffer_s16, global.otherAbsorbRelativeX);
-buffer_write(buffer, buffer_s16, global.otherAbsorbRelativeY);
-buffer_write(buffer, buffer_u8, global.otherAbsorbSpriteHeight);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 31);
-buffer_write(buffer, buffer_u8, global.otherAbsorbID);
-buffer_write(buffer, buffer_s16, global.otherAbsorbRelativeX);
-buffer_write(buffer, buffer_s16, global.otherAbsorbRelativeY);
-buffer_write(buffer, buffer_u8, global.otherAbsorbSpriteHeight);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer6 = buffer_create(size, type, alignment);
+buffer_seek(buffer6, buffer_seek_start, 0);
+buffer_write(buffer6, buffer_u8, 31);
+buffer_write(buffer6, buffer_u8, global.otherAbsorbID);
+buffer_write(buffer6, buffer_s16, global.otherAbsorbRelativeX);
+buffer_write(buffer6, buffer_s16, global.otherAbsorbRelativeY);
+buffer_write(buffer6, buffer_u8, global.otherAbsorbSpriteHeight);
+var bufferSize = buffer_tell(buffer6);
+buffer_seek(buffer6, buffer_seek_start, 0);
+buffer_write(buffer6, buffer_s32, bufferSize);
+buffer_write(buffer6, buffer_u8, 31);
+buffer_write(buffer6, buffer_u8, global.otherAbsorbID);
+buffer_write(buffer6, buffer_s16, global.otherAbsorbRelativeX);
+buffer_write(buffer6, buffer_s16, global.otherAbsorbRelativeY);
+buffer_write(buffer6, buffer_u8, global.otherAbsorbSpriteHeight);
+var result = network_send_packet(socket, buffer6, buffer_tell(buffer6));
+buffer_delete(buffer6);
 </string>
           </argument>
         </arguments>
@@ -4398,33 +4405,33 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>buffer_delete(buffer);
-var size, type, alignment;
+            <string>var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 106);
-buffer_write(buffer, buffer_u8, global.checkID);
-buffer_write(buffer, buffer_s16, global.checkX);
-buffer_write(buffer, buffer_s16, global.checkY);
-buffer_write(buffer, buffer_u8, global.checkBeam);
-buffer_write(buffer, buffer_u8, global.checkMissile);
-buffer_write(buffer, buffer_u8, global.checkDamage);
-buffer_write(buffer, buffer_u8, global.checkFreeze);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 106);
-buffer_write(buffer, buffer_u8, global.checkID);
-buffer_write(buffer, buffer_s16, global.checkX);
-buffer_write(buffer, buffer_s16, global.checkY);
-buffer_write(buffer, buffer_u8, global.checkBeam);
-buffer_write(buffer, buffer_u8, global.checkMissile);
-buffer_write(buffer, buffer_u8, global.checkDamage);
-buffer_write(buffer, buffer_u8, global.checkFreeze);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer5 = buffer_create(size, type, alignment);
+buffer_seek(buffer5, buffer_seek_start, 0);
+buffer_write(buffer5, buffer_u8, 106);
+buffer_write(buffer5, buffer_u8, global.checkID);
+buffer_write(buffer5, buffer_s16, global.checkX);
+buffer_write(buffer5, buffer_s16, global.checkY);
+buffer_write(buffer5, buffer_u8, global.checkBeam);
+buffer_write(buffer5, buffer_u8, global.checkMissile);
+buffer_write(buffer5, buffer_u8, global.checkDamage);
+buffer_write(buffer5, buffer_u8, global.checkFreeze);
+var bufferSize = buffer_tell(buffer5);
+buffer_seek(buffer5, buffer_seek_start, 0);
+buffer_write(buffer5, buffer_s32, bufferSize);
+buffer_write(buffer5, buffer_u8, 106);
+buffer_write(buffer5, buffer_u8, global.checkID);
+buffer_write(buffer5, buffer_s16, global.checkX);
+buffer_write(buffer5, buffer_s16, global.checkY);
+buffer_write(buffer5, buffer_u8, global.checkBeam);
+buffer_write(buffer5, buffer_u8, global.checkMissile);
+buffer_write(buffer5, buffer_u8, global.checkDamage);
+buffer_write(buffer5, buffer_u8, global.checkFreeze);
+var result = network_send_packet(socket, buffer5, buffer_tell(buffer5));
+buffer_delete(buffer5);
 </string>
           </argument>
         </arguments>
@@ -4448,21 +4455,21 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
           <argument>
             <kind>1</kind>
             <string>if(global.spectator) exit;
-buffer_delete(buffer);
 var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 105);
-buffer_write(buffer, buffer_u8, global.otherID);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 105);
-buffer_write(buffer, buffer_u8, global.otherID);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer4 = buffer_create(size, type, alignment);
+buffer_seek(buffer4, buffer_seek_start, 0);
+buffer_write(buffer4, buffer_u8, 105);
+buffer_write(buffer4, buffer_u8, global.otherID);
+var bufferSize = buffer_tell(buffer4);
+buffer_seek(buffer4, buffer_seek_start, 0);
+buffer_write(buffer4, buffer_s32, bufferSize);
+buffer_write(buffer4, buffer_u8, 105);
+buffer_write(buffer4, buffer_u8, global.otherID);
+var result = network_send_packet(socket, buffer4, buffer_tell(buffer4));
+buffer_delete(buffer4);
 </string>
           </argument>
         </arguments>
@@ -4485,21 +4492,21 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>buffer_delete(buffer);
-var size, type, alignment;
+            <string>var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 30);
-buffer_write(buffer, buffer_u8, elm);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 30);
-buffer_write(buffer, buffer_u8, elm);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer3 = buffer_create(size, type, alignment);
+buffer_seek(buffer3, buffer_seek_start, 0);
+buffer_write(buffer3, buffer_u8, 30);
+buffer_write(buffer3, buffer_u8, elm);
+var bufferSize = buffer_tell(buffer3);
+buffer_seek(buffer3, buffer_seek_start, 0);
+buffer_write(buffer3, buffer_s32, bufferSize);
+buffer_write(buffer3, buffer_u8, 30);
+buffer_write(buffer3, buffer_u8, elm);
+var result = network_send_packet(socket, buffer3, buffer_tell(buffer3));
+buffer_delete(buffer3);
 </string>
           </argument>
         </arguments>
@@ -4522,21 +4529,21 @@ var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>buffer_delete(buffer);
-var size, type, alignment;
+            <string>var size, type, alignment;
 size = 1024;
 type = buffer_grow;
 alignment = 1;
-buffer = buffer_create(size, type, alignment);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_u8, 29);
-buffer_write(buffer, buffer_u8, syncedDifficulty);
-var bufferSize = buffer_tell(buffer);
-buffer_seek(buffer, buffer_seek_start, 0);
-buffer_write(buffer, buffer_s32, bufferSize);
-buffer_write(buffer, buffer_u8, 29);
-buffer_write(buffer, buffer_u8, syncedDifficulty);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+buffer2 = buffer_create(size, type, alignment);
+buffer_seek(buffer2, buffer_seek_start, 0);
+buffer_write(buffer2, buffer_u8, 29);
+buffer_write(buffer2, buffer_u8, syncedDifficulty);
+var bufferSize = buffer_tell(buffer2);
+buffer_seek(buffer2, buffer_seek_start, 0);
+buffer_write(buffer2, buffer_s32, bufferSize);
+buffer_write(buffer2, buffer_u8, 29);
+buffer_write(buffer2, buffer_u8, syncedDifficulty);
+var result = network_send_packet(socket, buffer2, buffer_tell(buffer2));
+buffer_delete(buffer2);
 </string>
           </argument>
         </arguments>
@@ -4922,7 +4929,7 @@ if(instance_exists(oMapCursor)){
                     if(arrX != 3 &amp;&amp; arrY != 3) draw_sprite_ext(sMultitroidMapIconMiepee, 0, (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
                 }
             } else {
-                if(arrX != 3 &amp;&amp; arrY != 3 &amp;&amp; sax == global.sax){
+                if(arrX != 3 &amp;&amp; arrY != 3 &amp;&amp; sax == global.sax &amp;&amp; !spectator){
                     draw_sprite_ext(oControl.MultitroidMapIcon, (arrID - 1), (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha);
                 }
             }

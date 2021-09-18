@@ -155,6 +155,8 @@ if (statetime &gt; 520) {
 //This dictates the credit scrolling speed
 if (statetime == 700) vspeed = -0.34;
 statetime += 1;
+
+if(audio_is_playing(oMusicV2.currentbgm)) audio_stop_sound(oMusicV2.currentbgm);
 </string>
           </argument>
         </arguments>

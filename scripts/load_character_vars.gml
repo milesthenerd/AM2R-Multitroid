@@ -61,7 +61,7 @@ global.item[1] = 1;
 reset_logs_list();
 reset_hints();
 
-if(global.sax){
+if(global.sax && global.saxmode){
     //Upgrades
     global.item[0] = 1;
     global.item[1] = 1;

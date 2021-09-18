@@ -74,6 +74,9 @@ GRABBEDQUEENBELLY = 55;
 LOCKEDBALL = 60;
 DEFEATED = 100;
 
+screwattackpickupframe = irandom(4);
+screwattackpickupangle = irandom(359);
+
 absorb = false;
 absorbDone = false;
 time = 0;

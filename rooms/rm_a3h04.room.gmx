@@ -301,7 +301,7 @@ instance_create(64, 1648, scr_itemsopen(oControl.mod_211));</code>
     <instance objName="oBlockSand" x="2640" y="1472" name="inst_113943" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="48" y="1648" name="inst_113944" locked="0" code="" scaleX="15" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oCameraLimit" x="2544" y="1136" name="inst_113945" locked="0" code="&#xA;areax = 64;&#xA;areay = -80;&#xA;lockx = 2720;&#xA;locky = 1080;&#xA;wall = 0;&#xA;smoothin = 120;&#xA;smoothout = 40;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oDoor" x="1304" y="1328" name="inst_113946" locked="0" code="&#xA;lock = 1;&#xA;event = 151;&#xA;&#xA;if(global.saxmode &amp;&amp; global.sax){&#xA;    lock = 4;&#xA;}&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oDoor" x="1304" y="1328" name="inst_113946" locked="0" code="lock = 1;&#xA;event = 151;&#xA;&#xA;if(global.saxmode &amp;&amp; global.sax){&#xA;    lock = 4;&#xA;}" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSolid1" x="2576" y="1136" name="inst_113947" locked="0" code="" scaleX="1" scaleY="2" colour="4294967295" rotation="0"/>
     <instance objName="oBlockSand" x="1376" y="1360" name="inst_113948" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oBlockSand" x="1408" y="1328" name="inst_113949" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
