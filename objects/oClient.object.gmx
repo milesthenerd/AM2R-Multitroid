@@ -242,6 +242,10 @@ HURT = 32;
 
 sizeX = 1;
 sizeY = 1;
+
+global.receiving = false;
+
+beginReceiveTimer = 300;
 </string>
           </argument>
         </arguments>
@@ -314,6 +318,11 @@ oControl.alarm[10] = 90;
 
 if(banned) popup_text("Banned from server");
 if(kicked) popup_text("Kicked from server");
+
+if(global.sax &amp;&amp; global.saxmode){
+    global.sax = 0;
+    load_character_vars();
+}
 
 global.spectator = false;
 global.spectatorIndex = -1;
@@ -1260,13 +1269,13 @@ if(itemCount != global.itemstaken){
         buffer = buffer_create(size, type, alignment);
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_u8, 1);
-        buffer_write(buffer, buffer_string, name);
+        buffer_write(buffer, buffer_string, name + "," + global.multitroid_version);
         buffer_write(buffer, buffer_u8, global.sax);
         var bufferSize = buffer_tell(buffer);
         buffer_seek(buffer, buffer_seek_start, 0);
         buffer_write(buffer, buffer_s32, bufferSize);
         buffer_write(buffer, buffer_u8, 1);
-        buffer_write(buffer, buffer_string, name);
+        buffer_write(buffer, buffer_string, name + "," + global.multitroid_version);
         buffer_write(buffer, buffer_u8, global.sax);
         var result = network_send_packet(socket, buffer, buffer_tell(buffer));
         instance_create(x, y, oNametag);
@@ -1851,6 +1860,20 @@ if(currentItemsTimer == 0 &amp;&amp; connected){
     var result = network_send_packet(socket, buffer, buffer_tell(buffer));
 }
 
+if(beginReceiveTimer == 0 &amp;&amp; connected){
+    alarm[0] = 5;
+    alarm[2] = 5;
+    alarm[3] = 5;
+    alarm[4] = 5;
+    alarm[5] = 5;
+    alarm[6] = 5;
+    alarm[7] = 5;
+    alarm[8] = 5;
+    alarm[9] = 5;
+    alarm[10] = 3;
+    alarm[11] = 20;
+}
+
 time--;
 maxpbombsTimer--;
 maxhealthTimer--;
@@ -1865,10 +1888,13 @@ pbombsTimer--;
 disconnectTimer--;
 pingTimer--;
 currentItemsTimer--;
+if(global.receiving) beginReceiveTimer--;
 
 if(resetTimer &gt; -1){
     resetTimer--;
 }
+
+if(beginReceiveTimer &lt; -1) beginReceiveTimer = -1;
 
 if(instance_exists(self)){
     if(ds_list_size(roomListData) &gt; 0){
@@ -2486,11 +2512,6 @@ switch(type_event){
                 var newTeam = buffer_read(_buffer, buffer_u8);
                 if(newTeam == 1) global.sax = 0;
                 if(newTeam == 2) global.sax = 1;
-                if(global.sax){
-                    popup_text("SAX enabled");
-                } else {
-                    popup_text("SAX disabled");
-                }
                 break;
             case 112:
                 var saxmode = buffer_read(_buffer, buffer_u8);
@@ -2505,8 +2526,10 @@ switch(type_event){
                 var samCount = buffer_read(_buffer, buffer_u8);
                 var damageMultStr = buffer_read(_buffer, buffer_string);
                 var damageMult = real(damageMultStr);
+                var experimental = buffer_read(_buffer, buffer_u8);
                 global.damageMult = damageMult;
                 global.saxmode = saxmode;
+                global.experimental = experimental;
                 if(!lobbyLocked){
                     if(global.spectator){
                         global.spectator = false;
@@ -2540,17 +2563,7 @@ switch(type_event){
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
                 show_debug_message(string(msgid) + " " + string(global.clientID));
-                alarm[0] = 5;
-                alarm[2] = 5;
-                alarm[3] = 5;
-                alarm[4] = 5;
-                alarm[5] = 5;
-                alarm[6] = 5;
-                alarm[7] = 5;
-                alarm[8] = 5;
-                alarm[9] = 5;
-                alarm[10] = 3;
-                alarm[11] = 20;
+                global.receiving = true;
                 buffer_delete(buffer);
                 var size, type, alignment;
                 size = 1024;

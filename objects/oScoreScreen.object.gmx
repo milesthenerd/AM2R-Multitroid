@@ -176,7 +176,10 @@ if (state == 2) {
     }
     if (statetime == 60) sfx_play(sndTLM);
     if (statetime == 600) fadeout = 1;
-    if (statetime == 900) event_user(0);
+    if (statetime == 900){
+        mus_fadeout(musCredits);
+        event_user(0);
+    }
     if (fadeout) {
         if (ralpha &lt; 1) ralpha += 0.01;
     }

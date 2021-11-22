@@ -25,8 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.spectator) instance_destroy();
-posx = x + 8;
+            <string>posx = x + 8;
 state = 0;
 statetime = 0;
 door_open = 0;
@@ -84,6 +83,7 @@ alarm[0] = 1;
           <argument>
             <kind>1</kind>
             <string>//if (instance_id == inst_133698) exit;
+if(global.spectator) instance_destroy();
 
 if (state == 1) {
     if (statetime == 0) {
@@ -119,6 +119,7 @@ if (state == 1) {
         global.offsety = 0;
         oCharacter.x = 0;//
         oCharacter.y = 0;//
+        if(global.saxmode) global.warpPipeCooldown = 360;
         room_change(targetroom, 0);
         Mute_Loops();
     }
@@ -196,16 +197,18 @@ statetime += 1;
           <argument>
             <kind>1</kind>
             <string>//if (instance_id == inst_133698) { exit; }
-
-if (other.state == 23 &amp;&amp; other.xVel == 0 &amp;&amp; state == 0) {
-    with (other) {
-        state = 60;
+if(global.warpPipeCooldown == 0){
+    if (other.state == 23 &amp;&amp; other.xVel == 0 &amp;&amp; state == 0) {
+        with (other) {
+            state = 60;
+            statetime = 0;
+        }
+        state = 1;
         statetime = 0;
+        sfx_play(sndMorphBallSlot);
     }
-    state = 1;
-    statetime = 0;
-    sfx_play(sndMorphBallSlot);
 }
+
 </string>
           </argument>
         </arguments>

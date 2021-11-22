@@ -736,10 +736,10 @@ damage_player(other.damage, 5 * damageDir, -3, 0, combo);
             <kind>1</kind>
             <string>/// SA-X Projectile Damage
 if(global.spectator) exit;
+otherOBJ = other.object_index;
 if(invincible == 0){
     damageDir = -1;
     knockbackY = -3;
-    otherOBJ = other.object_index;
     var combo = 0;
     if(!(global.item[5] &amp;&amp; global.currentsuit == 2) &amp;&amp; other.ibeam &amp;&amp; otherOBJ == oBeam){
         other.damage = other.damage * 0.8;

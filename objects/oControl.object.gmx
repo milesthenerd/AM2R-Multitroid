@@ -319,7 +319,7 @@ global.fontVersion = font_add_sprite_ext(sVersionFont, "V.0123456789", true, 1);
 
 global.am2r_version = "V1.5.2"; // no longer dynamic, not worth the effort to maintain - mostly because of Android oddities.
 
-global.multitroid_version = "V1.4.1";
+global.multitroid_version = "V1.4.2";
 
 // Android
 global.gamestarted = 0;
@@ -591,6 +591,12 @@ global.playerMapPosTimer = 0;
 global.samCount = 0;
 
 global.damageMult = 0;
+
+global.warpPipeCooldown = 0;
+
+global.experimental = false;
+
+global.saveStationCooldown = 0;
 
 reset_map();
 load_character_vars();
@@ -1227,6 +1233,10 @@ if(global.scannerSpeed &lt;= 0){
     }
 }
 
+if(global.showHealthIndicatorsTimer == 1){
+    if(global.experimental) global.saveStationCooldown = 60 * 30;
+}
+
 if(global.showHealthIndicatorsTimer &gt; 0){
     global.showHealthIndicatorsTimer--;
     global.showHealthIndicators = true;
@@ -1270,6 +1280,12 @@ if(!global.spectator) global.reformTimer = 1200;
 if(global.playerMapPosTimer == 1) global.mapmarker = 0;
 
 if(global.playerMapPosTimer &gt; 0) global.playerMapPosTimer--;
+
+if(global.warpPipeCooldown &gt; 0) global.warpPipeCooldown--;
+
+if(global.saveStationCooldown &gt; 0) global.saveStationCooldown--;
+
+if(!instance_exists(oClient)) global.experimental = false;
 </string>
           </argument>
         </arguments>
@@ -1513,9 +1529,10 @@ if (global.mapmarker) {
           <argument>
             <kind>1</kind>
             <string>/// Player death transition
-if(global.playerhealth &lt;= 0 &amp;&amp; global.saxmode &amp;&amp; global.sax &amp;&amp; oCharacter.sprite_index != sCoreXSAX) global.playerhealth = 1;
-
-if(global.playerhealth &gt; 0) exit;
+if(global.playerhealth &lt;= 0 &amp;&amp; global.saxmode &amp;&amp; global.sax &amp;&amp; oCharacter.sprite_index != sCoreXSAX){
+    global.playerhealth = 1;
+    exit;
+}
 
 if(instance_exists(oClient) &amp;&amp; oClient.connected){
     global.currX = oCharacter.x;
@@ -1539,7 +1556,7 @@ global.ingame = 0;
 global.darkness = 0;
 global.gotolog = -1;
 global.transitiontype = 3;
-if(global.saxmode &amp;&amp; !global.sax &amp;&amp; global.showHealthIndicators) global.spectatorOption = true;
+if(global.saxmode &amp;&amp; !global.sax) global.spectatorOption = true;
 if(global.spectatorOption &amp;&amp; global.lobbyLocked){
     global.spectator = true;
     global.spectatorIndex = -1;
@@ -2133,7 +2150,7 @@ if(global.icemissiles){
     popup_text("Ice Missiles disabled");
 }
 */
-global.spectator = !global.spectator;
+//global.spectator = !global.spectator;
 </string>
           </argument>
         </arguments>

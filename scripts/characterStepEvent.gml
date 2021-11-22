@@ -6,6 +6,7 @@ if (global.movingobj) chStepMovingCheck();
 if (global.saxmode && !global.lobbyLocked){
     xVel = 0;
     yVel = 0;
+    chStepSetSprite();
     exit;
 }
 
@@ -299,7 +300,7 @@ if (global.spectator) {
                         var arrPosID = arrPos[0];
                         var arrPosRoom = arrPos[4];
                         if(f == global.spectatorIndex){
-                            if(global.ingame && room != arrPosRoom && room != rm_transition && (arrPosRoom == rm_transition || string_count("rm_a", room_get_name(arrPosRoom)) > 0)){
+                            if(global.ingame && room != arrPosRoom && room != rm_transition && arrPosRoom != titleroom && arrPosRoom != gameoverroom && arrPosRoom != rm_credits && arrPosRoom != rm_gallery && arrPosRoom != rm_options && arrPosRoom != optionsroom && arrPosRoom != quitroom && arrPosRoom != subscreenroom && arrPosRoom != itemroom && arrPosRoom != maproom && arrPosRoom != introroom && arrPosRoom != gameintroroom && arrPosRoom != rm_loading && arrPosRoom != rm_subscreen && arrPosRoom != rm_death && arrPosRoom != rm_controller && arrPosRoom != rm_score && (arrPosRoom == rm_transition || string_count("rm_a", room_get_name(arrPosRoom)) > 0)){
                                 if(instance_exists(oGotoRoom)){
                                     gotoRoom = instance_nearest(x, y, oGotoRoom);
                                     if (gotoRoom.direction == 0 || gotoRoom.direction == 180) {

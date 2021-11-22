@@ -1,13 +1,22 @@
 /// damage_player(damage, knockback_x, knockback_y, ignore_armor, ignore_invincibility)
 if(global.spectator) exit;
+var experimentalExtraSAXDamageMultiplier = 1;
+if(global.experimental) experimentalExtraSAXDamageMultiplier = 1.25;
 var damage_taken = 0;
-if (global.currentsuit == 0 || argument3 == 1) damage_taken = argument0 * oControl.mod_diffmult;
+if (global.currentsuit == 0 || argument3 == 1){
+    if(!global.multiDamageCollision){
+        damage_taken = argument0 * oControl.mod_diffmult;
+    } else {
+        damage_taken = argument0 * experimentalExtraSAXDamageMultiplier * oControl.mod_diffmult; //PvP Damage
+        damage_taken = damage_taken + (damage_taken * global.damageMult); //PvP Damage
+    }
+} 
 if (argument3 == 0) {
     if (global.currentsuit == 1){
         if(!global.multiDamageCollision){
             damage_taken = ceil(argument0 * 0.5) * oControl.mod_diffmult; 
         } else {
-            damage_taken = ceil(argument0 * 0.75) * oControl.mod_diffmult; //PvP Damage
+            damage_taken = ceil(argument0 * 0.75) * experimentalExtraSAXDamageMultiplier * oControl.mod_diffmult; //PvP Damage
             damage_taken = damage_taken + (damage_taken * global.damageMult); //PvP Damage
         } 
         
@@ -21,10 +30,10 @@ if (argument3 == 0) {
             }
         } else {
             if(global.item[5] == 0){
-                damage_taken = ceil(argument0 * 0.75) * oControl.mod_diffmult; //PvP Damage
+                damage_taken = ceil(argument0 * 0.75) * experimentalExtraSAXDamageMultiplier * oControl.mod_diffmult; //PvP Damage
                 damage_taken = damage_taken + (damage_taken * global.damageMult); //PvP Damage
             } else {                    
-                damage_taken = ceil(argument0 * 0.6) * oControl.mod_diffmult; //PvP Damage
+                damage_taken = ceil(argument0 * 0.6) * experimentalExtraSAXDamageMultiplier * oControl.mod_diffmult; //PvP Damage
                 damage_taken = damage_taken + (damage_taken * global.damageMult); //PvP Damage
             }
         }

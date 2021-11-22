@@ -92,7 +92,7 @@ if (enabled == 1 &amp;&amp; image_index &lt; sprite_get_number(sprite_index) - 1
 if (enabled == 0 &amp;&amp; image_index &gt; 0.2) image_index -= 0.2;
 //
 if (saveenabled == 1 &amp;&amp; cansave == 1 &amp;&amp; (oCharacter.state == 10 || oCharacter.state == 12) &amp;&amp; (oCharacter.statetime &gt;= 10 || oControl.kUp)) {
-    if (oControl.mod_insanitymode == 1 || global.enemyNearby) { exit; }
+    if (oControl.mod_insanitymode == 1 || (global.enemyNearby &amp;&amp; global.saxmode) || global.saveStationCooldown &gt; 0) { exit; }
     global.savexpos = x + 16;
     saveenabled = 0;
     with (oCharacter) {

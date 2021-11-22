@@ -46,7 +46,7 @@ repeat (beams) {
     beam.chargebeam = 0;
     if (global.wbeam) {
         beam.damage *= 1.5;
-        if(global.saxmode){
+        if(global.saxmode && !global.experimental){
             nofire += 23;
         } else nofire += 2;
     }
