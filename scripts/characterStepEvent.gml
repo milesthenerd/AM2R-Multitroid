@@ -268,6 +268,7 @@ if (global.spectator) {
                 global.absorbDone = true;
                 absorbTime = 0;
                 global.playerhealth = -1;
+                global.spectator = false;
                 if (global.playerhealth <= 0) with (oControl) event_user(1);
             }
         }

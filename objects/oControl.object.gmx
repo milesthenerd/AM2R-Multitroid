@@ -1529,10 +1529,9 @@ if (global.mapmarker) {
           <argument>
             <kind>1</kind>
             <string>/// Player death transition
-if(global.playerhealth &lt;= 0 &amp;&amp; global.saxmode &amp;&amp; global.sax &amp;&amp; oCharacter.sprite_index != sCoreXSAX){
-    global.playerhealth = 1;
-    exit;
-}
+if(global.playerhealth &lt;= 0 &amp;&amp; global.saxmode &amp;&amp; global.sax &amp;&amp; oCharacter.sprite_index != sCoreXSAX) global.playerhealth = 1;
+
+if(global.playerhealth &gt;= 0) exit;
 
 if(instance_exists(oClient) &amp;&amp; oClient.connected){
     global.currX = oCharacter.x;
