@@ -34,6 +34,23 @@ if (os_type == os_linux) {
     lin = "/assets";
 }
 
+// Suit Palettes, MonsterPalettesFusionOnly and Metroid Pallettes definition
+oControl.PowerPalette = -1;
+oControl.VariaPalette = -1;
+oControl.GravityPalette = -1;
+
+oControl.MonsterPalettesFusionOnly = 1;
+
+oControl.AlphaPalette = -1;
+oControl.GammaPalette = -1;
+oControl.ZetaPalette = -1;
+oControl.OmegaPalette = -1;
+oControl.QueenPalette = -1;
+oControl.ZetaBlur = -1;
+oControl.QueenDead = -1;
+oControl.QueenBloodDrop = -1;
+oControl.QueenBloodParticle = -1;
+
 if(os_type == os_android) exit; // "Safety Check" on Android
 
 //Area Headers
