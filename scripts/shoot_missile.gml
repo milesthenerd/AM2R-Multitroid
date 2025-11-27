@@ -89,7 +89,7 @@ if(instance_exists(oClient) && instance_exists(oCharacter) && missileX != 0 && m
         buffer_write(missileBuffer, buffer_s8, oCharacter.xVel);
         buffer_write(missileBuffer, buffer_s8, oCharacter.yVel);
         buffer_write(missileBuffer, buffer_u8, global.icemissiles);
-        var result = network_send_packet(oClient.socket, missileBuffer, buffer_tell(missileBuffer));
+        var result = udp_send_unreliable(oClient.socket, oClient.server_ip, oClient.server_port, missileBuffer, buffer_tell(missileBuffer));
         buffer_delete(missileBuffer);
     }
 }

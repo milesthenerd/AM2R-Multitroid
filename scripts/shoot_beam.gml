@@ -272,7 +272,7 @@ if(instance_exists(oClient)){
         buffer_write(beamBuffer, buffer_s16, beamY);
         buffer_write(beamBuffer, buffer_u8, chargebeam);
         buffer_write(beamBuffer, buffer_u8, global.sax);
-        var result = network_send_packet(oClient.socket, beamBuffer, buffer_tell(beamBuffer));
+        var result = udp_send_unreliable(oClient.socket, oClient.server_ip, oClient.server_port, beamBuffer, buffer_tell(beamBuffer));
         buffer_delete(beamBuffer);
     }
 }

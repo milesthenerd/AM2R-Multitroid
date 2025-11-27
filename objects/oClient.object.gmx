@@ -74,8 +74,6 @@ syncedDifficulty = 1;
 elm = 0;
 state = undefined;
 seed = undefined;
-var type;
-type = network_socket_tcp;
 
 syncedDifficulty = global.difficulty;
 elm = oControl.mod_monstersextremecheck;
@@ -87,7 +85,15 @@ port = ini_read_real("ModSettings", "port", 64198);
 reactorsequence = string_lower(ini_read_string("ModSettings", "reactorsequence", "synced"));
 preferredcolor = string_lower(ini_read_string("ModSettings", "preferredcolor", "random"));
 showName = string_lower(ini_read_string("ModSettings", "showname", "enabled"));
+// NAT traversal settings
+var nat_enabled_str = ini_read_string("ModSettings", "use_nat_traversal", "disabled");
+use_nat_traversal = (nat_enabled_str == "enabled");
+mediation_server_ip = ini_read_string("ModSettings", "mediation_server_ip", "127.0.0.1");
+mediation_server_port = ini_read_real("ModSettings", "mediation_server_port", 6510);
 ini_close();
+
+// Initialize NAT constants
+nat_constants();
 
 var nameLength = string_length(name);
 if(nameLength &gt; 15){
@@ -103,8 +109,46 @@ if(string_length(name) == 0){
     instance_destroy();
 }
 
-socket = network_create_socket(type);
-isConnected = network_connect(socket, ipaddress, port);
+// Use UDP socket instead of TCP - proxy handles TCP connection
+// Use a specific local port so we can report it to the mediation server
+var local_udp_port = irandom_range(49152, 65535);
+socket = network_create_socket_ext(network_socket_udp, local_udp_port);
+server_ip = ipaddress;
+server_port = port;
+
+// Initialize NAT traversal if enabled
+if (use_nat_traversal) {
+    nat_init_client();
+    nat_local_port = local_udp_port;  // Store our actual local port for NAT detection
+    nat_connect_mediation();
+    isConnected = -1;  // Will be set to 1 when NAT connection completes
+    nat_keepalive_timer = 0;
+    NAT_KEEPALIVE_INTERVAL = 150;  // Send keepalive every 5 seconds (150 steps at 30fps)
+} else {
+    // UDP doesn't have a "connect" - we just start sending
+    isConnected = 1;  // Assume connected, will be confirmed by server response
+}
+
+// Fragment reassembly data structures
+fragment_buffers = ds_map_create();  // fragment_id -&gt; ds_map of fragments
+fragment_timestamps = ds_map_create();  // fragment_id -&gt; creation time
+FRAGMENT_TIMEOUT = 5000;  // 5 seconds - discard incomplete fragments after this
+UDP_MAX_FRAGMENT_SIZE = 1400;
+
+// Reliable UDP with ACK
+received_sequences = ds_map_create();  // Track received sequence numbers to detect duplicates
+SEQUENCE_CACHE_SIZE = 1000;  // How many sequence numbers to remember
+next_sequence_number = 0;  // For client-side reliable sends
+pending_acks = ds_map_create();  // Track our sent reliable packets waiting for ACK
+
+// Adaptive RTT tracking for retransmit timeout
+smoothed_rtt = 100;  // Initial estimate: 100ms
+rtt_variance = 50;   // Initial variance
+BASE_RETRANSMIT_TIMEOUT = 200;  // Minimum timeout
+MAX_RETRANSMIT_TIMEOUT = 3000;  // Maximum timeout (3 seconds)
+MAX_RETRANSMITS = 5;
+
+show_debug_message("Client: Using UDP to connect to proxy at " + server_ip + ":" + string(server_port));
 
 switch(preferredcolor){
     case "green":
@@ -290,7 +334,9 @@ beginReceiveTimer = 300;
     buffer_write(buffer, buffer_u8, 254);
     buffer_write(buffer, buffer_u8, global.clientID);
     buffer_write(buffer, buffer_u8, global.sax);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
+} else {
+    popup_text("Failed to connect");
 }
 
 if(!noName){
@@ -318,6 +364,43 @@ oControl.alarm[10] = 90;
 
 if(banned) popup_text("Banned from server");
 if(kicked) popup_text("Kicked from server");
+
+// Clean up NAT traversal resources
+if (use_nat_traversal) {
+    nat_cleanup();
+}
+
+// Clean up fragment reassembly buffers
+var frag_id = ds_map_find_first(fragment_buffers);
+while (!is_undefined(frag_id)) {
+    var frag_map = ds_map_find_value(fragment_buffers, frag_id);
+    var frag_idx = ds_map_find_first(frag_map);
+    while (!is_undefined(frag_idx)) {
+        var frag_buffer = ds_map_find_value(frag_map, frag_idx);
+        if (is_real(frag_buffer) &amp;&amp; buffer_exists(frag_buffer)) {
+            buffer_delete(frag_buffer);
+        }
+        frag_idx = ds_map_find_next(frag_map, frag_idx);
+    }
+    ds_map_destroy(frag_map);
+    frag_id = ds_map_find_next(fragment_buffers, frag_id);
+}
+ds_map_destroy(fragment_buffers);
+ds_map_destroy(fragment_timestamps);
+ds_map_destroy(received_sequences);
+
+// Clean up pending ACKs
+if (!is_undefined(pending_acks)) {
+    var seq_num = ds_map_find_first(pending_acks);
+    while (!is_undefined(seq_num)) {
+        var ack_data = ds_map_find_value(pending_acks, seq_num);
+        var pkt_buffer = ds_map_find_value(ack_data, "buffer");
+        buffer_delete(pkt_buffer);
+        ds_map_destroy(ack_data);
+        seq_num = ds_map_find_next(pending_acks, seq_num);
+    }
+    ds_map_destroy(pending_acks);
+}
 
 if(global.sax &amp;&amp; global.saxmode){
     global.sax = 0;
@@ -375,7 +458,7 @@ buffer_write(buffer, buffer_s16, posX);
 buffer_write(buffer, buffer_s16, posY);
 buffer_write(buffer, buffer_u8, global.sax);
 buffer_write(buffer, buffer_u8, global.spectator);
-var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 
 alarm[11] = 20;
 </string>
@@ -497,7 +580,7 @@ if(sameRoom){
             buffer_write(buffer, buffer_u8, global.mosaic);
             buffer_write(buffer, buffer_u8, global.reform);
             buffer_write(buffer, buffer_u8, oCharacter.visible);
-            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+            var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
             if(global.roomPrev != room){
                 global.roomPrev = room;
             }
@@ -547,7 +630,7 @@ if(mosaicEffect){
     buffer_write(buffer, buffer_u8, 12);
     buffer_write(buffer, buffer_u8, global.maxsmissiles);
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
     maxsmissilesChanged = true;
 }
 
@@ -598,7 +681,7 @@ if(maxsmissilesChanged){
     buffer_write(buffer, buffer_u8, 11);
     buffer_write(buffer, buffer_u16, global.maxmissiles);
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
     maxmissilesChanged = true;
 }
 
@@ -649,7 +732,7 @@ if(maxmissilesChanged){
     buffer_write(buffer, buffer_u8, 10);
     buffer_write(buffer, buffer_u8, global.itemstaken);
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
     itemstakenChanged = true;
 }
 
@@ -738,7 +821,7 @@ if(mapChanged){
     }
     
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(!mapChanged){
@@ -805,7 +888,7 @@ if(eventChanged){
     buffer_write(buffer, buffer_u8, 8);
     buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineEvent)));
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(!eventChanged){
@@ -866,7 +949,7 @@ if(metdeadChanged){
     buffer_write(buffer, buffer_u8, 7);
     buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineMetdead)));
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(!metdeadChanged){
@@ -927,7 +1010,7 @@ if(itemChanged){
     buffer_write(buffer, buffer_u8, 6);
     buffer_write(buffer, buffer_string, strict_compress(ds_list_write(global.onlineItem)));
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(!itemChanged){
@@ -977,7 +1060,7 @@ if(itemChanged){
     buffer_write(buffer, buffer_u8, 4);
     buffer_write(buffer, buffer_s8, global.monstersleft);
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
     metroidCountChanged = true;
 }
 
@@ -998,7 +1081,7 @@ if(global.monstersareaPrev != global.monstersarea){
     buffer_write(buffer, buffer_u8, 5);
     buffer_write(buffer, buffer_s8, global.monstersarea);
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
     metroidCountChanged = true;
 }
 
@@ -1171,7 +1254,7 @@ if(canSend){
     buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(global.onlineSend)));
     buffer_write(buffer, buffer_u8, global.clientID);
     buffer_write(buffer, buffer_u32, global.packetID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
     show_debug_message("packetID = " + string(global.packetID));
     global.packetID++;
     ds_grid_clear(global.onlineSend, -1);
@@ -1220,7 +1303,7 @@ if(instance_exists(oQueen) &amp;&amp; instance_exists(oQueenHead) &amp;&amp; !is
         buffer_write(buffer, buffer_u8, global.clientID);
         buffer_write(buffer, buffer_s8, oQueen.phase);
         buffer_write(buffer, buffer_s8, oQueen.state);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
     }
 }
 
@@ -1257,7 +1340,91 @@ if(itemCount != global.itemstaken){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(!connected){
+            <string>// Handle NAT traversal hole punching and keepalive
+if (use_nat_traversal) {
+    nat_step_hole_punching();
+
+    // Send keepalive to mediation server to prevent timeout
+    nat_keepalive_timer++;
+    if (nat_keepalive_timer &gt;= NAT_KEEPALIVE_INTERVAL) {
+        nat_keepalive_timer = 0;
+        if (mediation_connected &amp;&amp; mediation_socket != -1) {
+            var params = ds_map_create();
+            nat_send_tcp_message(mediation_socket, MSG_KEEP_ALIVE, params);
+            ds_map_destroy(params);
+        }
+    }
+}
+
+// Handle retransmissions for client-side reliable sends
+var current = current_time;
+
+// Calculate adaptive retransmit timeout: RTO = smoothed_rtt + (4 * rtt_variance)
+var retransmit_timeout = clamp(smoothed_rtt + (4 * rtt_variance), BASE_RETRANSMIT_TIMEOUT, MAX_RETRANSMIT_TIMEOUT);
+
+if (!is_undefined(pending_acks)) {
+    var seq_num = ds_map_find_first(pending_acks);
+    while (!is_undefined(seq_num)) {
+        var next_seq = ds_map_find_next(pending_acks, seq_num);
+        var ack_data = ds_map_find_value(pending_acks, seq_num);
+        var send_time = ds_map_find_value(ack_data, "send_time");
+        var retransmits = ds_map_find_value(ack_data, "retransmits");
+        
+        if (current - send_time &gt; retransmit_timeout) {
+            if (retransmits &lt; MAX_RETRANSMITS) {
+                var pkt_buffer = ds_map_find_value(ack_data, "buffer");
+                var pkt_size = ds_map_find_value(ack_data, "size");
+                var pkt_ip = ds_map_find_value(ack_data, "ip");
+                var pkt_port = ds_map_find_value(ack_data, "port");
+                
+                network_send_udp(socket, pkt_ip, pkt_port, pkt_buffer, pkt_size);
+                ds_map_replace(ack_data, "send_time", current);
+                ds_map_replace(ack_data, "retransmits", retransmits + 1);
+            } else {
+                var pkt_buffer = ds_map_find_value(ack_data, "buffer");
+                buffer_delete(pkt_buffer);
+                ds_map_destroy(ack_data);
+                ds_map_delete(pending_acks, seq_num);
+            }
+        }
+        seq_num = next_seq;
+    }
+}
+
+// Clean up old incomplete fragments to prevent memory leaks
+var frag_id = ds_map_find_first(fragment_timestamps);
+while (!is_undefined(frag_id)) {
+    var next_id = ds_map_find_next(fragment_timestamps, frag_id);
+    var timestamp = ds_map_find_value(fragment_timestamps, frag_id);
+    
+    // If fragment is older than timeout, clean it up
+    if (current - timestamp &gt; FRAGMENT_TIMEOUT) {
+        show_debug_message("Client: Fragment timeout for ID " + string(frag_id) + " - cleaning up incomplete fragments");
+        
+        // Clean up the fragment buffers
+        if (ds_map_exists(fragment_buffers, frag_id)) {
+            var frag_map = ds_map_find_value(fragment_buffers, frag_id);
+            var total = ds_map_find_value(frag_map, "total");
+            
+            // Delete any stored fragment buffers
+            for (var i = 0; i &lt; total; i++) {
+                if (ds_map_exists(frag_map, i)) {
+                    var frag_buf = ds_map_find_value(frag_map, i);
+                    buffer_delete(frag_buf);
+                }
+            }
+            
+            ds_map_destroy(frag_map);
+            ds_map_delete(fragment_buffers, frag_id);
+        }
+        
+        ds_map_delete(fragment_timestamps, frag_id);
+    }
+    
+    frag_id = next_id;
+}
+
+if(!connected){
     if(isConnected &gt;= 0){
         connected = true;
         popup_text("Connected");
@@ -1277,9 +1444,11 @@ if(itemCount != global.itemstaken){
         buffer_write(buffer, buffer_u8, 1);
         buffer_write(buffer, buffer_string, name + "," + global.multitroid_version);
         buffer_write(buffer, buffer_u8, global.sax);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         instance_create(x, y, oNametag);
-    } else {
+    } else if (!use_nat_traversal) {
+        // Only fail immediately if not using NAT traversal
+        // With NAT, isConnected starts at -1 and will be set to 1 when connection completes
         instance_destroy();
         popup_text("Failed to connect");
     }
@@ -1468,7 +1637,7 @@ if(maxpbombsTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 13);
         buffer_write(buffer, buffer_u8, global.maxpbombs);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         maxpbombsChanged = true;
     }
     
@@ -1500,7 +1669,7 @@ if(maxhealthTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 14);
         buffer_write(buffer, buffer_u16, global.maxhealth);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         maxhealthChanged = true;
     }
     
@@ -1532,7 +1701,7 @@ if(etanksTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 15);
         buffer_write(buffer, buffer_u8, global.etanks);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         etanksChanged = true;
     }
     
@@ -1564,7 +1733,7 @@ if(mtanksTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 16);
         buffer_write(buffer, buffer_u8, global.mtanks);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         mtanksChanged = true;
     }
     
@@ -1596,7 +1765,7 @@ if(stanksTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 17);
         buffer_write(buffer, buffer_u8, global.stanks);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         stanksChanged = true;
     }
     
@@ -1628,7 +1797,7 @@ if(ptanksTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 18);
         buffer_write(buffer, buffer_u8, global.ptanks);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         ptanksChanged = true;
     }
     
@@ -1660,7 +1829,7 @@ if(healthTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 25);
         buffer_write(buffer, buffer_s16, global.playerhealth);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         healthTimer = true;
     }
     
@@ -1692,7 +1861,7 @@ if(missilesTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 26);
         buffer_write(buffer, buffer_s16, global.missiles);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         missilesTimer = true;
     }
     
@@ -1724,7 +1893,7 @@ if(smissilesTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 27);
         buffer_write(buffer, buffer_s16, global.smissiles);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         smissilesTimer = true;
     }
     
@@ -1756,7 +1925,7 @@ if(pbombsTimer == 0 &amp;&amp; connected){
         buffer_write(buffer, buffer_u8, 28);
         buffer_write(buffer, buffer_s16, global.pbombs);
         buffer_write(buffer, buffer_u8, global.clientID);
-        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+        var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
         pbombsTimer = true;
     }
     
@@ -1800,7 +1969,7 @@ if(pingTimer &lt;= 0){
     buffer_write(buffer, buffer_u8, 103);
     buffer_write(buffer, buffer_u32, current_time);
     buffer_write(buffer, buffer_u16, global.ping);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(resetTimer == 0){
@@ -1818,7 +1987,7 @@ if(resetTimer == 0){
     buffer_write(buffer, buffer_s32, bufferSize);
     buffer_write(buffer, buffer_u8, 20);
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(currentItemsTimer == 0 &amp;&amp; connected){
@@ -1857,10 +2026,11 @@ if(currentItemsTimer == 0 &amp;&amp; connected){
     buffer_write(buffer, buffer_u8, global.pbeam);
     buffer_write(buffer, buffer_u8, global.sbeam);
     buffer_write(buffer, buffer_u8, global.cbeam);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(beginReceiveTimer == 0 &amp;&amp; connected){
+    show_debug_message("Starting all alarms - position sync will now begin");
     alarm[0] = 5;
     alarm[2] = 5;
     alarm[3] = 5;
@@ -2099,12 +2269,224 @@ if(connected &amp;&amp; room == rm_a1h01 &amp;&amp; global.event[51] == 0 &amp;&
 if(!global.acceptPacket) exit;
 
 var type_event = ds_map_find_value(async_load, "type");
+var event_socket = ds_map_find_value(async_load, "id");
+
+// Handle NAT mediation server TCP messages
+if (use_nat_traversal &amp;&amp; event_socket == mediation_socket &amp;&amp; type_event == network_type_data) {
+    var _buffer = ds_map_find_value(async_load, "buffer");
+    buffer_seek(_buffer, buffer_seek_start, 0);
+    var data = buffer_read(_buffer, buffer_text);
+
+    // Append to TCP buffer (messages may be fragmented)
+    nat_tcp_buffer += data;
+
+    // Try to parse complete JSON messages
+    var brace_count = 0;
+    var start_index = 0;
+    var i = 1;
+    while (i &lt;= string_length(nat_tcp_buffer)) {
+        var ch = string_char_at(nat_tcp_buffer, i);
+        if (ch == "{") {
+            if (brace_count == 0) start_index = i;
+            brace_count++;
+        } else if (ch == "}") {
+            brace_count--;
+            if (brace_count == 0 &amp;&amp; start_index &gt; 0) {
+                var json_str = string_copy(nat_tcp_buffer, start_index, i - start_index + 1);
+                var msg = json_parse_nat_message(json_str);
+                if (msg != noone) {
+                    nat_handle_tcp_message(msg);
+                    ds_map_destroy(msg);
+                }
+                nat_tcp_buffer = string_delete(nat_tcp_buffer, 1, i);
+                i = 0;
+            }
+        }
+        i++;
+    }
+    exit;
+}
+
+// Handle NAT connection established event
+if (use_nat_traversal &amp;&amp; event_socket == mediation_socket &amp;&amp; type_event == network_type_connect) {
+    show_debug_message("NAT: TCP connected to mediation server");
+    exit;
+}
 
 switch(type_event){
     case network_type_data:
         var _buffer = ds_map_find_value(async_load, "buffer");
         var bufferSize = buffer_get_size(_buffer);
         buffer_seek(_buffer, buffer_seek_start, 0);
+        var needs_cleanup = false;
+
+        // Debug: Log ALL incoming UDP packets
+        var recv_socket = ds_map_find_value(async_load, "id");
+        var recv_ip = ds_map_find_value(async_load, "ip");
+        var recv_port = ds_map_find_value(async_load, "port");
+        show_debug_message("Client: Received UDP on socket " + string(recv_socket) + " from " + recv_ip + ":" + string(recv_port) + ", size=" + string(bufferSize));
+
+        // Check for NAT hole punch packets during hole punching phase
+        if (use_nat_traversal) {
+            var sender_ip = ds_map_find_value(async_load, "ip");
+            var sender_port = ds_map_find_value(async_load, "port");
+            var receiving_socket = ds_map_find_value(async_load, "id");
+
+            // Debug: Log all incoming UDP when using NAT
+            if (nat_state == NAT_STATE_CONNECTED) {
+                show_debug_message("NAT: Received UDP after connection: from " + sender_ip + ":" + string(sender_port) + " on socket " + string(receiving_socket));
+            }
+
+            if (nat_state == NAT_STATE_PUNCHING) {
+                if (nat_handle_udp_message(_buffer, sender_ip, sender_port, receiving_socket)) {
+                    exit;  // Was a NAT message, don't process further
+                }
+            }
+            buffer_seek(_buffer, buffer_seek_start, 0);  // Reset for normal processing
+        }
+
+        // Check if this is an ACK packet from server (starts with 255 marker)
+        if (bufferSize &gt;= 5) {
+            if (buffer_peek(_buffer, 0, buffer_u8) == 255) {
+                buffer_seek(_buffer, buffer_seek_start, 0);
+                buffer_read(_buffer, buffer_u8);
+                var acked_seq = buffer_read(_buffer, buffer_u32);
+                
+                if (ds_map_exists(pending_acks, acked_seq)) {
+                    var ack_data = ds_map_find_value(pending_acks, acked_seq);
+                    
+                    // Measure RTT and update smoothed estimates (RFC 6298)
+                    var send_time = ds_map_find_value(ack_data, "send_time");
+                    var measured_rtt = current_time - send_time;
+                    
+                    // First measurement
+                    if (smoothed_rtt == 100) {
+                        smoothed_rtt = measured_rtt;
+                        rtt_variance = measured_rtt / 2;
+                    } else {
+                        // Update using exponential weighted moving average
+                        var alpha = 0.125;  // Weight for new sample
+                        var beta = 0.25;    // Weight for variance
+                        
+                        rtt_variance = (1 - beta) * rtt_variance + beta * abs(smoothed_rtt - measured_rtt);
+                        smoothed_rtt = (1 - alpha) * smoothed_rtt + alpha * measured_rtt;
+                    }
+                    
+                    var ack_buffer = ds_map_find_value(ack_data, "buffer");
+                    buffer_delete(ack_buffer);
+                    ds_map_destroy(ack_data);
+                    ds_map_delete(pending_acks, acked_seq);
+                }
+                exit;
+            }
+        }
+        
+        // Check if this is a reliable packet (starts with 254 marker)
+        if (bufferSize &gt;= 5 &amp;&amp; buffer_peek(_buffer, 0, buffer_u8) == 254) {
+            // Reliable packet format: [0xFE][seq_num (u32)][original_packet]
+            buffer_seek(_buffer, buffer_seek_start, 0);
+            buffer_read(_buffer, buffer_u8);  // Skip marker
+            var seq_num = buffer_read(_buffer, buffer_u32);
+            
+            // Send ACK back to server
+            var ack_buffer = buffer_create(5, buffer_fixed, 1);
+            buffer_write(ack_buffer, buffer_u8, 255);  // ACK marker
+            buffer_write(ack_buffer, buffer_u32, seq_num);
+            network_send_udp(socket, server_ip, server_port, ack_buffer, 5);
+            buffer_delete(ack_buffer);
+            
+            // Check if we've already processed this sequence number (duplicate)
+            if (ds_map_exists(received_sequences, seq_num)) {
+                exit;  // Duplicate packet, ignore
+            }
+            
+            // Mark as received and trim cache if needed
+            ds_map_add(received_sequences, seq_num, current_time);
+            if (ds_map_size(received_sequences) &gt; SEQUENCE_CACHE_SIZE) {
+                // Remove oldest entry
+                var oldest_seq = ds_map_find_first(received_sequences);
+                ds_map_delete(received_sequences, oldest_seq);
+            }
+            
+            // Extract original packet (skip the 5-byte reliable header)
+            var original_size = bufferSize - 5;
+            var original_buffer = buffer_create(original_size, buffer_fixed, 1);
+            buffer_copy(_buffer, 5, original_size, original_buffer, 0);
+            _buffer = original_buffer;
+            bufferSize = original_size;
+            buffer_seek(_buffer, buffer_seek_start, 0);
+            needs_cleanup = true;
+        }
+        
+        // Check if this is a fragmented packet (no size prefix, starts with fragment header)
+        var first_bytes = buffer_peek(_buffer, 0, buffer_u16);
+        var has_size_prefix = (bufferSize &gt; 4 &amp;&amp; buffer_peek(_buffer, 0, buffer_s32) + 4 == bufferSize);
+        var UDP_MAX_FRAGMENT_SIZE = 1200;  // Must match server setting
+        
+        if (!has_size_prefix &amp;&amp; bufferSize &gt;= 4) {
+            // This might be a fragment - check fragment header
+            var fragment_id = buffer_read(_buffer, buffer_u16);
+            var fragment_index = buffer_read(_buffer, buffer_u8);
+            var total_fragments = buffer_read(_buffer, buffer_u8);
+            
+            // If total_fragments looks reasonable (1-255), treat as fragment
+            if (total_fragments &gt; 0 &amp;&amp; total_fragments &lt; 256 &amp;&amp; fragment_index &lt; total_fragments) {
+                // Get or create fragment map for this packet
+                var frag_map;
+                if (ds_map_exists(fragment_buffers, fragment_id)) {
+                    frag_map = ds_map_find_value(fragment_buffers, fragment_id);
+                } else {
+                    frag_map = ds_map_create();
+                    ds_map_add(fragment_buffers, fragment_id, frag_map);
+                    ds_map_add(frag_map, "total", total_fragments);
+                    ds_map_add(frag_map, "received", 0);
+                    ds_map_add(fragment_timestamps, fragment_id, current_time);
+                }
+                
+                // Store this fragment
+                var fragment_data_size = bufferSize - 4;
+                var fragment_buffer = buffer_create(fragment_data_size, buffer_fixed, 1);
+                buffer_copy(_buffer, 4, fragment_data_size, fragment_buffer, 0);
+                ds_map_add(frag_map, fragment_index, fragment_buffer);
+                ds_map_replace(frag_map, "received", ds_map_find_value(frag_map, "received") + 1);
+                
+                // Check if we have all fragments
+                if (ds_map_find_value(frag_map, "received") == total_fragments) {
+                    // Reassemble the complete packet
+                    var max_payload = UDP_MAX_FRAGMENT_SIZE - 4;
+                    var total_size = 0;
+                    for (var i = 0; i &lt; total_fragments; i++) {
+                        var frag_buf = ds_map_find_value(frag_map, i);
+                        total_size += buffer_get_size(frag_buf);
+                    }
+                    
+                    // Reassemble without adding size prefix - it's already in the fragment data
+                    var reassembled = buffer_create(total_size, buffer_fixed, 1);
+                    var write_pos = 0;
+                    for (var i = 0; i &lt; total_fragments; i++) {
+                        var frag_buf = ds_map_find_value(frag_map, i);
+                        var frag_size = buffer_get_size(frag_buf);
+                        buffer_copy(frag_buf, 0, frag_size, reassembled, write_pos);
+                        write_pos += frag_size;
+                        buffer_delete(frag_buf);
+                    }
+                    
+                    ds_map_destroy(frag_map);
+                    ds_map_delete(fragment_buffers, fragment_id);
+                    ds_map_delete(fragment_timestamps, fragment_id);
+                    
+                    // Now process the reassembled packet as normal
+                    _buffer = reassembled;
+                    bufferSize = total_size;
+                    buffer_seek(_buffer, buffer_seek_start, 0);
+                } else {
+                    // Waiting for more fragments
+                    exit;
+                }
+            }
+        }
+        
+        // Normal packet processing (original code)
         var bufferSizePacket = buffer_read(_buffer, buffer_s32);
         //show_debug_message(string(bufferSize) + " " + string(bufferSizePacket));
         if(!is_real(bufferSizePacket)) exit;
@@ -2563,6 +2945,7 @@ switch(type_event){
             case 0:
                 global.clientID = buffer_read(_buffer, buffer_u8);
                 show_debug_message(string(msgid) + " " + string(global.clientID));
+                popup_text("Received ID " + string(global.clientID));
                 global.receiving = true;
                 buffer_delete(buffer);
                 var size, type, alignment;
@@ -2582,7 +2965,7 @@ switch(type_event){
                 buffer_write(buffer, buffer_u8, global.clientID);
                 buffer_write(buffer, buffer_u8, preferredcolor);
                 buffer_write(buffer, buffer_u8, global.sax);
-                var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
                 break;
             case 1:
                 ds_grid_read(global.onlineReceived, strict_decompress(buffer_read(_buffer, buffer_string)));
@@ -3364,7 +3747,7 @@ switch(type_event){
                             buffer_write(buffer, buffer_u8, global.smissiles);
                             buffer_write(buffer, buffer_u8, global.pbombs);
                             buffer_write(buffer, buffer_u8, global.clientID);
-                            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                            var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
                         }
                     } else {
                         global.playerhealthPrev = playerhealth;
@@ -3418,7 +3801,7 @@ switch(type_event){
                             buffer_write(buffer, buffer_u8, global.smissiles);
                             buffer_write(buffer, buffer_u8, global.pbombs);
                             buffer_write(buffer, buffer_u8, global.clientID);
-                            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                            var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
                         }
                     } else {
                         global.missilesPrev = missiles;
@@ -3472,7 +3855,7 @@ switch(type_event){
                             buffer_write(buffer, buffer_u8, global.smissiles);
                             buffer_write(buffer, buffer_u8, global.pbombs);
                             buffer_write(buffer, buffer_u8, global.clientID);
-                            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                            var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
                         }
                     } else {
                         global.smissilesPrev = smissiles;
@@ -3526,7 +3909,7 @@ switch(type_event){
                             buffer_write(buffer, buffer_u8, global.smissiles);
                             buffer_write(buffer, buffer_u8, global.pbombs);
                             buffer_write(buffer, buffer_u8, global.clientID);
-                            var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                            var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
                         }
                     } else {
                         global.pbombsPrev = pbombs;
@@ -3844,7 +4227,7 @@ switch(type_event){
                     for(var i=0; i&lt;array_length_1d(global.item); i++){
                         buffer_write(itemBuffer, buffer_u8, global.item[i]);
                     }
-                    network_send_packet(socket, itemBuffer, buffer_tell(itemBuffer));
+                    network_send_udp(socket, server_ip, server_port, itemBuffer, buffer_tell(itemBuffer));
                     buffer_delete(itemBuffer);
                 }
                 break;
@@ -3949,7 +4332,7 @@ switch(type_event){
                     for(var i=0; i&lt;array_length_1d(global.event); i++){
                         buffer_write(eventBuffer, buffer_u8, global.event[i]);
                     }
-                    network_send_packet(socket, eventBuffer, buffer_tell(eventBuffer));
+                    network_send_udp(socket, server_ip, server_port, eventBuffer, buffer_tell(eventBuffer));
                     buffer_delete(eventBuffer);
                 }
                 break;
@@ -4101,7 +4484,7 @@ switch(type_event){
                     for(var i=0; i&lt;array_length_1d(global.metdead); i++){
                         buffer_write(metdeadBuffer, buffer_u8, global.metdead[i]);
                     }
-                    network_send_packet(socket, metdeadBuffer, buffer_tell(metdeadBuffer));
+                    network_send_udp(socket, server_ip, server_port, metdeadBuffer, buffer_tell(metdeadBuffer));
                     buffer_delete(metdeadBuffer);
                 }
                 break;
@@ -4144,7 +4527,7 @@ switch(type_event){
                             buffer_write(dmapBuffer, buffer_u8, global.dmap[i, j]);
                         }
                     }
-                    network_send_packet(socket, dmapBuffer, buffer_tell(dmapBuffer));
+                    network_send_udp(socket, server_ip, server_port, dmapBuffer, buffer_tell(dmapBuffer));
                     buffer_delete(dmapBuffer);
                 }
                 
@@ -4201,7 +4584,7 @@ buffer_write(buffer11, buffer_s16, room);
 buffer_write(buffer11, buffer_s16, global.currX);
 buffer_write(buffer11, buffer_s16, global.currY);
 buffer_write(buffer11, buffer_s8, global.sax);
-var result = network_send_packet(socket, buffer11, buffer_tell(buffer11));
+var result = network_send_udp(socket, server_ip, server_port, buffer11, buffer_tell(buffer11));
 buffer_delete(buffer11);
 </string>
           </argument>
@@ -4241,7 +4624,7 @@ buffer_write(buffer10, buffer_s32, bufferSize);
 buffer_write(buffer10, buffer_u8, 35);
 buffer_write(buffer10, buffer_s16, global.mapposx);
 buffer_write(buffer10, buffer_s16, global.mapposy);
-var result = network_send_packet(socket, buffer10, buffer_tell(buffer10));
+var result = network_send_udp(socket, server_ip, server_port, buffer10, buffer_tell(buffer10));
 buffer_delete(buffer10);
 </string>
           </argument>
@@ -4278,7 +4661,7 @@ buffer_seek(buffer9, buffer_seek_start, 0);
 buffer_write(buffer9, buffer_s32, bufferSize);
 buffer_write(buffer9, buffer_u8, 34);
 buffer_write(buffer9, buffer_u8, global.saxmode);
-var result = network_send_packet(socket, buffer9, buffer_tell(buffer9));
+var result = network_send_udp(socket, server_ip, server_port, buffer9, buffer_tell(buffer9));
 buffer_delete(buffer9);
 </string>
           </argument>
@@ -4315,7 +4698,7 @@ buffer_seek(buffer8, buffer_seek_start, 0);
 buffer_write(buffer8, buffer_s32, bufferSize);
 buffer_write(buffer8, buffer_u8, 33);
 buffer_write(buffer8, buffer_u8, global.lobbyLocked);
-var result = network_send_packet(socket, buffer8, buffer_tell(buffer8));
+var result = network_send_udp(socket, server_ip, server_port, buffer8, buffer_tell(buffer8));
 buffer_delete(buffer8);
 </string>
           </argument>
@@ -4351,7 +4734,7 @@ var bufferSize = buffer_tell(buffer7);
 buffer_seek(buffer7, buffer_seek_start, 0);
 buffer_write(buffer7, buffer_s32, bufferSize);
 buffer_write(buffer7, buffer_u8, 32);
-var result = network_send_packet(socket, buffer7, buffer_tell(buffer7));
+var result = network_send_udp(socket, server_ip, server_port, buffer7, buffer_tell(buffer7));
 buffer_delete(buffer7);
 </string>
           </argument>
@@ -4394,7 +4777,7 @@ buffer_write(buffer6, buffer_u8, global.otherAbsorbID);
 buffer_write(buffer6, buffer_s16, global.otherAbsorbRelativeX);
 buffer_write(buffer6, buffer_s16, global.otherAbsorbRelativeY);
 buffer_write(buffer6, buffer_u8, global.otherAbsorbSpriteHeight);
-var result = network_send_packet(socket, buffer6, buffer_tell(buffer6));
+var result = network_send_udp(socket, server_ip, server_port, buffer6, buffer_tell(buffer6));
 buffer_delete(buffer6);
 </string>
           </argument>
@@ -4443,7 +4826,7 @@ buffer_write(buffer5, buffer_u8, global.checkBeam);
 buffer_write(buffer5, buffer_u8, global.checkMissile);
 buffer_write(buffer5, buffer_u8, global.checkDamage);
 buffer_write(buffer5, buffer_u8, global.checkFreeze);
-var result = network_send_packet(socket, buffer5, buffer_tell(buffer5));
+var result = network_send_udp(socket, server_ip, server_port, buffer5, buffer_tell(buffer5));
 buffer_delete(buffer5);
 </string>
           </argument>
@@ -4481,7 +4864,7 @@ buffer_seek(buffer4, buffer_seek_start, 0);
 buffer_write(buffer4, buffer_s32, bufferSize);
 buffer_write(buffer4, buffer_u8, 105);
 buffer_write(buffer4, buffer_u8, global.otherID);
-var result = network_send_packet(socket, buffer4, buffer_tell(buffer4));
+var result = network_send_udp(socket, server_ip, server_port, buffer4, buffer_tell(buffer4));
 buffer_delete(buffer4);
 </string>
           </argument>
@@ -4518,7 +4901,7 @@ buffer_seek(buffer3, buffer_seek_start, 0);
 buffer_write(buffer3, buffer_s32, bufferSize);
 buffer_write(buffer3, buffer_u8, 30);
 buffer_write(buffer3, buffer_u8, elm);
-var result = network_send_packet(socket, buffer3, buffer_tell(buffer3));
+var result = network_send_udp(socket, server_ip, server_port, buffer3, buffer_tell(buffer3));
 buffer_delete(buffer3);
 </string>
           </argument>
@@ -4555,7 +4938,7 @@ buffer_seek(buffer2, buffer_seek_start, 0);
 buffer_write(buffer2, buffer_s32, bufferSize);
 buffer_write(buffer2, buffer_u8, 29);
 buffer_write(buffer2, buffer_u8, syncedDifficulty);
-var result = network_send_packet(socket, buffer2, buffer_tell(buffer2));
+var result = network_send_udp(socket, server_ip, server_port, buffer2, buffer_tell(buffer2));
 buffer_delete(buffer2);
 </string>
           </argument>
@@ -4596,7 +4979,7 @@ buffer_delete(buffer2);
     buffer_write(buffer, buffer_u8, 19);
     buffer_write(buffer, buffer_s32, global.gametime);
     buffer_write(buffer, buffer_u8, global.clientID);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(room == rm_score){
@@ -4642,7 +5025,7 @@ if(room == rm_score){
     buffer_write(buffer, buffer_u8, 254);
     buffer_write(buffer, buffer_u8, global.clientID);
     buffer_write(buffer, buffer_u8, global.sax);
-    var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+    var result = network_send_udp(socket, server_ip, server_port, buffer, buffer_tell(buffer));
 }
 
 if(!noName){

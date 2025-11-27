@@ -407,6 +407,9 @@ if(!(file_exists(working_directory + "\multitroid\mod_settings.ini"))){
     ini_write_real("ModSettings", "censorip", 0);
     ini_write_real("ModSettings", "selfpalette", 0);
     ini_write_string("ModSettings", "moderatorpass", "123456789");
+    ini_write_string("ModSettings", "use_nat_traversal", "enabled");
+    ini_write_string("ModSettings", "mediation_server_ip", "150.136.166.80");
+    ini_write_real("ModSettings", "mediation_server_port", 7000);
     ini_close();
 }
 ini_open(working_directory + "\multitroid\mod_settings.ini");
@@ -420,6 +423,9 @@ palette = ini_read_real("ModSettings", "palette", 0);
 censorip = ini_read_real("ModSettings", "censorip", 0);
 useselfpalette = ini_read_real("ModSettings", "selfpalette", 0);
 password = ini_read_string("ModSettings", "moderatorpass", "123456789");
+use_nat_server = ini_read_string("ModSettings", "use_nat_traversal", "disabled");
+nat_server = ini_read_string("ModSettings", "mediation_server_ip", "150.136.166.80");
+nat_server_port = ini_read_real("ModSettings", "mediation_server_port", 7000);
 ini_close();
 
 var nameLength = string_length(name);

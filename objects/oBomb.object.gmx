@@ -51,7 +51,7 @@ if(instance_exists(oClient)){
         buffer_write(bombBuffer, buffer_s16, x);
         buffer_write(bombBuffer, buffer_s16, y);
         buffer_write(bombBuffer, buffer_u8, global.sax);
-        var result = network_send_packet(oClient.socket, bombBuffer, buffer_tell(bombBuffer));
+        var result = udp_send_unreliable(oClient.socket, oClient.server_ip, oClient.server_port, bombBuffer, buffer_tell(bombBuffer));
         buffer_delete(bombBuffer);
     }
 }

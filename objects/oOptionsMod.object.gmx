@@ -49,6 +49,9 @@ num_customseed = tempnumcounter++;
 num_reset = tempnumcounter++;
 num_locklobby = tempnumcounter++;
 num_saxmode = tempnumcounter++;
+num_natenabled = tempnumcounter++;
+num_natserver = tempnumcounter++;
+num_natport = tempnumcounter++;
 num_connection = tempnumcounter++;
 
 lastitem = tempnumcounter; // This value will be one number higher than the last number in the list above.
@@ -58,7 +61,10 @@ name = oControl.name;
 port = string(oControl.port);
 showname = 1;
 sequence = 1;
+use_nat_server = 1;
 password = oControl.password;
+nat_server = oControl.nat_server;
+nat_server_port = string(oControl.nat_server_port);
 
 menuDifficulty = global.difficulty;
 
@@ -89,6 +95,15 @@ switch(oControl.showname){
         break;
     case "disabled":
         showname = 0;
+        break;
+}
+
+switch(oControl.use_nat_server){
+    case "enabled":
+        use_nat_server = 1;
+        break;
+    case "disabled":
+        use_nat_server = 0;
         break;
 }
 
@@ -128,8 +143,10 @@ tip[num_customseed] = "Enter a custom seed";
 tip[num_reset] = "Reset the server";
 tip[num_locklobby] = "Lock the lobby";
 tip[num_saxmode] = "Toggle SA-X Mode";
+tip[num_natenabled] = "Enable/disable nat traversal";
+tip[num_natserver] = "Set the IP address of the NAT server";
+tip[num_natport] = "Set the port of the NAT server";
 tip[num_connection] = "Connect/disconnect to the server";
-
 
 tip[lastitem] = get_text("GlobalOptions", "ExitMain_Tip");
 global.tiptext = tip[global.curropt];
@@ -334,6 +351,7 @@ if (active) {
         if (global.curropt == num_censorip) oControl.censorip = !oControl.censorip;
         if (global.curropt == num_showname) showname = !showname;
         if (global.curropt == num_selfpalette) oControl.useselfpalette = !oControl.useselfpalette;
+        if (global.curropt == num_natenabled) use_nat_server = !use_nat_server;
         //if (global.shaders_compiled) {
             //if (global.curropt == num_MSRfusion) oControl.msr_fusionsuit = !oControl.msr_fusionsuit;
         //}
@@ -383,6 +401,21 @@ if (active) {
             editing = !editing;
             op[num_ip].editing = editing;
         }
+        if (global.curropt == num_natserver &amp;&amp; os_type != os_android) {
+            editing = !editing;
+            op[num_natserver].editing = editing;
+            if(editing){
+                keyboard_string = nat_server;
+            }
+            sfx_play(sndMenuSel);
+            event_user(2);
+        } else if(global.curropt == num_natserver &amp;&amp; os_type == os_android){
+            if(!editing){
+                msg = get_string_async("Type in the NAT Server IP to connect to.", nat_server);
+            }
+            editing = !editing;
+            op[num_natserver].editing = editing;
+        }
         if (global.curropt == num_port &amp;&amp; os_type != os_android) {
             editing = !editing;
             op[num_port].editing = editing;
@@ -397,6 +430,21 @@ if (active) {
             }
             editing = !editing;
             op[num_port].editing = editing;
+        } 
+        if (global.curropt == num_natport &amp;&amp; os_type != os_android) {
+            editing = !editing;
+            op[num_natport].editing = editing;
+            if(editing){
+                keyboard_string = nat_server_port;
+            }
+            sfx_play(sndMenuSel);
+            event_user(2);
+        } else if(global.curropt = num_natport &amp;&amp; os_type == os_android){
+            if(!editing){
+                msg = get_integer_async("Type in the NAT server port.", real(nat_server_port));
+            }
+            editing = !editing;
+            op[num_natport].editing = editing;
         } 
         if (global.curropt == num_name &amp;&amp; os_type != os_android) {
             editing = !editing;
@@ -502,9 +550,19 @@ if (active) {
         op[num_ip].optext = ip;
     }
     
+    if(editing &amp;&amp; global.curropt == num_natserver &amp;&amp; os_type != os_android){
+        nat_server = keyboard_string;
+        op[num_natserver].optext = nat_server;
+    }
+    
     if(editing &amp;&amp; global.curropt == num_port &amp;&amp; os_type != os_android){
         port = keyboard_string;
         op[num_port].optext = port;
+    }
+    
+    if(editing &amp;&amp; global.curropt == num_natport &amp;&amp; os_type != os_android){
+        nat_server_port = keyboard_string;
+        op[num_natport].optext = nat_server_port;
     }
     
     if(editing &amp;&amp; global.curropt == num_name &amp;&amp; os_type != os_android){
@@ -681,12 +739,27 @@ if(!done){
             break;
     }
     
+    switch(use_nat_server){
+        case 0:
+            op[num_natenabled].optext = "Disabled";
+            break;
+        case 1:
+            op[num_natenabled].optext = "Enabled";
+            break;
+    }
+    
     if(oControl.censorip &amp;&amp; !op[num_ip].editing){
         op[num_ip].optext = "";
         init = 1;
     }
     
     if(op[num_ip].editing){
+        if(keyboard_check(vk_control) &amp;&amp; keyboard_check_pressed(ord('V'))){
+            keyboard_string = clipboard_get_text();
+        }
+    }
+    
+    if(op[num_natserver].editing){
         if(keyboard_check(vk_control) &amp;&amp; keyboard_check_pressed(ord('V'))){
             keyboard_string = clipboard_get_text();
         }
@@ -821,6 +894,8 @@ if(oControl.censorip){
 } else op[num_ip].optext = ip;
 
 op[num_port].optext = port;
+op[num_natserver].optext = nat_server;
+op[num_natport].optext = nat_server_port;
 op[num_name].optext = name;
 op[num_moderator].optext = password;
 op[num_customseed].optext = string(global.multiCustomSeed);
@@ -888,6 +963,17 @@ switch(showname){
     case 1:
         op[num_showname].optext = "enabled";
         oControl.showname = "enabled";
+        break;
+}
+
+switch(use_nat_server){
+    case 0:
+        op[num_natenabled].optext = "enabled";
+        oControl.use_nat_server = "disabled";
+        break;
+    case 1:
+        op[num_natenabled].optext = "enabled";
+        oControl.use_nat_server = "enabled";
         break;
 }
 
@@ -1026,12 +1112,17 @@ ini_write_real("ModSettings", "palette", oControl.palette);
 ini_write_real("ModSettings", "censorip", oControl.censorip);
 ini_write_real("ModSettings", "selfpalette", oControl.useselfpalette);
 ini_write_string("ModSettings", "moderatorpass", password);
+ini_write_string("ModSettings", "use_nat_traversal", oControl.use_nat_server);
+ini_write_string("ModSettings", "mediation_server_ip", nat_server);
+ini_write_real("ModSettings", "mediation_server_port", real(nat_server_port));
 ini_close();
 
 oControl.ipaddress = ip;
 oControl.name = name;
 oControl.port = real(port);
 oControl.password = password;
+oControl.nat_server = nat_server;
+oControl.nat_server_port = real(nat_server_port);
 </string>
           </argument>
         </arguments>
@@ -1187,6 +1278,18 @@ op[num_saxmode].label = "SA-X Mode";
 
 op[num_saxmode].enabled = 0;
 canedit[num_saxmode] = 0;
+
+op[num_natenabled] = instance_create(x, y + sep * tempcount++, oOptionLR);
+op[num_natenabled].optionid = num_natenabled;
+op[num_natenabled].label = "NAT Traversal";
+
+op[num_natserver] = instance_create(x, y + sep * tempcount++, oOptionLRMod);
+op[num_natserver].optionid = num_natserver;
+op[num_natserver].label = "NAT Server";
+
+op[num_natport] = instance_create(x, y + sep * tempcount++, oOptionLRMod);
+op[num_natport].optionid = num_natport;
+op[num_natport].label = "NAT Server Port";
 
 op[num_connection] = instance_create(x, y + sep * tempcount++, oPauseOption);
 op[num_connection].optionid = num_connection;

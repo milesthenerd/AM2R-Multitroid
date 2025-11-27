@@ -5687,6 +5687,29 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
+    <script>scripts\popup_text_ext.gml</script>
+    <script>scripts\send_seed.gml</script>
+    <script>scripts\popup_seed.gml</script>
+    <script>scripts\json_encode_nat_message.gml</script>
+    <script>scripts\json_parse_nat_message.gml</script>
+    <script>scripts\udp_send_reliable.gml</script>
+    <script>scripts\udp_send_unreliable.gml</script>
+    <script>scripts\udp_send.gml</script>
+    <script>scripts\udp_client_cleanup.gml</script>
+    <script>scripts\udp_client_cleanup_old_fragments.gml</script>
+    <script>scripts\shoot_missile_receive.gml</script>
+    <scripts name="NAT Traversal">
+      <script>scripts\nat_constants.gml</script>
+      <script>scripts\nat_init_client.gml</script>
+      <script>scripts\nat_connect_mediation.gml</script>
+      <script>scripts\nat_send_tcp_message.gml</script>
+      <script>scripts\nat_handle_tcp_message.gml</script>
+      <script>scripts\nat_send_hole_punch.gml</script>
+      <script>scripts\nat_step_hole_punching.gml</script>
+      <script>scripts\nat_handle_udp_message.gml</script>
+      <script>scripts\nat_request_connection.gml</script>
+      <script>scripts\nat_cleanup.gml</script>
+    </scripts>
     <scripts name="Player">
       <script>scripts\characterCreateEvent.gml</script>
       <script>scripts\characterStepEvent.gml</script>
@@ -5741,6 +5764,7 @@
       <script>scripts\damage_player_push.gml</script>
       <script>scripts\damage_player_knockdown.gml</script>
       <script>scripts\shoot_beam.gml</script>
+      <script>scripts\shoot_beam_receive.gml</script>
       <script>scripts\shoot_missile.gml</script>
       <script>scripts\link_tile.gml</script>
       <script>scripts\link_surface_tile.gml</script>
@@ -5927,6 +5951,7 @@
       <script>scripts\Mute_Loops.gml</script>
       <script>scripts\Unmute_Loops.gml</script>
       <script>scripts\PlayFootstep.gml</script>
+      <script>scripts\PlayFootstepSAX.gml</script>
       <script>scripts\PlayLandingSound.gml</script>
       <script>scripts\SetSoundAmb.gml</script>
       <script>scripts\SetAmb_Player.gml</script>
@@ -6223,15 +6248,8 @@
     <scripts name="Miles">
       <script>scripts\update_variables.gml</script>
       <script>scripts\create_buffer.gml</script>
-      <script>scripts\send_seed.gml</script>
-      <script>scripts\popup_text_ext.gml</script>
       <script>scripts\draw_character_ext.gml</script>
       <script>scripts\reset_dmap.gml</script>
-      <script>scripts\popup_seed.gml</script>
-      <script>scripts\shoot_beam_receive.gml</script>
-      <script>scripts\shoot_missile_receive.gml</script>
-      <script>scripts\receive_randmod_buffer.gml</script>
-      <script>scripts\PlayFootstepSAX.gml</script>
     </scripts>
     <scripts name="Misc">
       <script>scripts\pal_swap_get_color_count.gml</script>

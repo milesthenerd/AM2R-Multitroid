@@ -22,5 +22,5 @@ buffer_write(seedBuffer, buffer_s32, bufferSize);
 buffer_write(seedBuffer, buffer_u8, 3);
 buffer_write(seedBuffer, buffer_f64, currSeed);
 buffer_write(seedBuffer, buffer_u8, global.clientID);
-var result = network_send_packet(oClient.socket, seedBuffer, buffer_tell(seedBuffer));
+var result = udp_send_reliable(oClient.socket, oClient.server_ip, oClient.server_port, seedBuffer, buffer_tell(seedBuffer));
 popup_text(str);

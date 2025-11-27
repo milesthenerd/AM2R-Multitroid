@@ -603,7 +603,7 @@ switch(argument0){
                         buffer_write(buffer, buffer_u8, global.smissiles);
                         buffer_write(buffer, buffer_u8, global.pbombs);
                         buffer_write(buffer, buffer_u8, global.clientID);
-                        var result = network_send_packet(socket, buffer, buffer_tell(buffer));
+                        var result = udp_send_reliable(socket, oClient.server_ip, oClient.server_port, buffer, buffer_tell(buffer));
                     }
                 } else {
                     global.onlineList[# 1, i] = global.onlineReceived[# 1, i];
