@@ -220,7 +220,7 @@
     <option_changeresolution>false</option_changeresolution>
     <option_closeesc>true</option_closeesc>
     <option_colordepth>0</option_colordepth>
-    <option_display_name>AM2R Multitroid 1.4.2</option_display_name>
+    <option_display_name>AM2R Multitroid 1.5</option_display_name>
     <option_displayerrors>True</option_displayerrors>
     <option_ecma>0</option_ecma>
     <option_facebook_app_display_name></option_facebook_app_display_name>
@@ -702,10 +702,10 @@
     <option_xbone_require_xbox_live>True</option_xbone_require_xbox_live>
     <option_xbone_revision_version>0</option_xbone_revision_version>
     <option_xbone_scale>-1</option_xbone_scale>
-    <option_xbone_service_config_id></option_xbone_service_config_id>
+    <option_xbone_service_config_id>1234ABCD-1234-1234-1234-123456789ABC</option_xbone_service_config_id>
     <option_xbone_splash_screen_colour>#FFFFFF</option_xbone_splash_screen_colour>
     <option_xbone_texture_page>1024</option_xbone_texture_page>
-    <option_xbone_title_id></option_xbone_title_id>
+    <option_xbone_title_id>1234ABCD</option_xbone_title_id>
   </Options>
   <ConfigConstants/>
 </Config>
